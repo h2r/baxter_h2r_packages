@@ -1,0 +1,8 @@
+prefix=/home/brawner/workspace/baxter_hackathon/baxter_kinect_calibration/build/devel
+
+Name: baxter_kinect_calibration
+Description: Description of baxter_kinect_calibration
+Version: 0.2.0
+Cflags: 
+Libs: -L/home/brawner/workspace/baxter_hackathon/baxter_kinect_calibration/build/devel/lib 
+Requires: cv_bridge image_geometry image_transport pcl_ros roscpp tf visualization_msgs

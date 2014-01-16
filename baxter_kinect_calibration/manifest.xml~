@@ -1,0 +1,25 @@
+<package>
+  <description brief="baxter_kinect_calibration">
+
+     baxter_kinect_calibration
+
+  </description>
+  <author>brawner</author>
+  <license>BSD</license>
+  <review status="unreviewed" notes=""/>
+  <url>http://ros.org/wiki/baxter_kinect_calibration</url>
+  <depend package="roscpp"/>
+  <depend package="rospy"/>
+  <depend package="tf"/>
+  <depend package="cv_bridge"/>
+  <depend package="image_geometry"/>
+  <depend package="image_transport"/>
+  <depend package="opencv2"/>
+  <depend package="pcl_ros"/>
+  <depend package="pcl_conversions"/>
+  <depend package="visualization_msgs"/>
+
+  <buildtool_depend>catkin</buildtool_depend>
+</package>
+
+

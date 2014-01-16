@@ -1,0 +1,7 @@
+set(_CATKIN_CURRENT_PACKAGE "baxter_kinect_calibration")
+set(baxter_kinect_calibration_MAINTAINER "Michael Ferguson <mike@vanadiumlabs.com>")
+set(baxter_kinect_calibration_DEPRECATED "")
+set(baxter_kinect_calibration_VERSION "0.2.0")
+set(baxter_kinect_calibration_BUILD_DEPENDS "cv_bridge" "eigen" "image_geometry" "image_transport" "opencv2" "libpc-all>" "pcl_msgs" "pcl_conversions" "pcl_ros" "roscpp" "tf" "visualization_msgs")
+set(baxter_kinect_calibration_RUN_DEPENDS "cv_bridge" "eigen" "image_geometry" "image_transport" "opencv2" "pcl_conversions" "pcl_ros" "roscpp" "tf" "visualization_msgs")
+set(baxter_kinect_calibration_BUILDTOOL_DEPENDS "catkin")

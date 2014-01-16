@@ -6,7 +6,7 @@
 #include <tf/transform_listener.h>
 #include <tf/transform_broadcaster.h>
 
-#include <pcl/point_types.h>
+#include <pcl_conversions/pcl_conversions.h>
 #include <pcl_ros/point_cloud.h>
 #include <pcl_ros/transforms.h>
 #include <pcl/registration/registration.h>
@@ -106,14 +106,14 @@ public:
     : nh_("~"), it_(nh_), calibrated(false)
   {
     // Load parameters from the server.
-    nh_.param<std::string>("fixed_frame", fixed_frame, "/base_link");
-    nh_.param<std::string>("camera_frame", camera_frame, "/camera_link");
+    nh_.param<std::string>("fixed_frame", fixed_frame, "/world");
+    nh_.param<std::string>("camera_frame", camera_frame, "/camera_rgb_optical_frame");
     nh_.param<std::string>("target_frame", target_frame, "/calibration_pattern");
-    nh_.param<std::string>("tip_frame", tip_frame, "/gripper_link");
+    nh_.param<std::string>("tip_frame", tip_frame, "/left_gripper");
     
-    nh_.param<int>("checkerboard_width", checkerboard_width, 6);
-    nh_.param<int>("checkerboard_height", checkerboard_height, 7);
-    nh_.param<double>("checkerboard_grid", checkerboard_grid, 0.027);
+    nh_.param<int>("checkerboard_width", checkerboard_width, 5);
+    nh_.param<int>("checkerboard_height", checkerboard_height, 4);
+    nh_.param<double>("checkerboard_grid", checkerboard_grid, 0.0245);
     
     // Set pattern detector sizes
     pattern_detector_.setPattern(cv::Size(checkerboard_width, checkerboard_height), checkerboard_grid, CHESSBOARD);
@@ -152,18 +152,18 @@ public:
     pattern_detector_.setCameraMatrices(cam_model_.intrinsicMatrix(), cam_model_.distortionCoeffs());
     
     calibrated = true;
-    image_sub_ = nh_.subscribe("/camera/rgb/image_mono", 1, &CalibrateKinectCheckerboard::imageCallback, this);
+    image_sub_ = nh_.subscribe("/camera/rgb/image_raw", 1, &CalibrateKinectCheckerboard::imageCallback, this);
     
     ROS_INFO("[calibrate] Got image info!");
   }
   
-  void pointcloudCallback(const pcl::PointCloud<pcl::PointXYZRGB>::ConstPtr& msg)
-  {
-    sensor_msgs::ImagePtr image_msg(new sensor_msgs::Image);
-    pcl::toROSMsg (*msg, *image_msg);
+  //void pointcloudCallback(const sensor_msgs::PointCloud2<pcl::PointXYZRGB>::ConstPtr& msg)
+  //{
+  //  sensor_msgs::ImagePtr image_msg(new sensor_msgs::Image);
+  //  pcl::toROSMsg (*msg, *image_msg);
   
-    imageCallback(image_msg);
-  }
+ //   imageCallback(image_msg);
+ // }
   
   void imageCallback(const sensor_msgs::ImageConstPtr& image_msg)
   {

@@ -1,8 +1,8 @@
 cmake_minimum_required(VERSION 2.8.3)
-project(turtlebot_kinect_arm_calibration)
+project(baxter_kinect_calibration)
 
 # setup
-find_package(catkin REQUIRED cv_bridge eigen image_geometry image_transport pcl pcl_ros roscpp tf visualization_msgs)
+find_package(catkin REQUIRED cv_bridge eigen image_geometry image_transport pcl_conversions pcl_ros roscpp tf visualization_msgs)
 find_package(Boost REQUIRED system filesystem)
 find_package(PCL REQUIRED)
 find_package(OpenCV REQUIRED)

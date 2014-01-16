@@ -53,3 +53,5 @@ class PatternDetector
     float square_size;
     object_pts_t ideal_points;
 };
+
+#endif
