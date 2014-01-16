@@ -239,6 +239,41 @@ clean: CMakeFiles/actionlib_msgs_generate_messages_py.dir/clean
 .PHONY : clean
 
 #=============================================================================
+# Target rules for target CMakeFiles/auto_calibrate.dir
+
+# All Build rule for target.
+CMakeFiles/auto_calibrate.dir/all:
+	$(MAKE) -f CMakeFiles/auto_calibrate.dir/build.make CMakeFiles/auto_calibrate.dir/depend
+	$(MAKE) -f CMakeFiles/auto_calibrate.dir/build.make CMakeFiles/auto_calibrate.dir/build
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/brawner/workspace/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles  1 2
+	@echo "Built target auto_calibrate"
+.PHONY : CMakeFiles/auto_calibrate.dir/all
+
+# Include target in all.
+all: CMakeFiles/auto_calibrate.dir/all
+.PHONY : all
+
+# Build rule for subdir invocation for target.
+CMakeFiles/auto_calibrate.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/brawner/workspace/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 2
+	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/auto_calibrate.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/brawner/workspace/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 0
+.PHONY : CMakeFiles/auto_calibrate.dir/rule
+
+# Convenience name for target.
+auto_calibrate: CMakeFiles/auto_calibrate.dir/rule
+.PHONY : auto_calibrate
+
+# clean rule for target.
+CMakeFiles/auto_calibrate.dir/clean:
+	$(MAKE) -f CMakeFiles/auto_calibrate.dir/build.make CMakeFiles/auto_calibrate.dir/clean
+.PHONY : CMakeFiles/auto_calibrate.dir/clean
+
+# clean rule for target.
+clean: CMakeFiles/auto_calibrate.dir/clean
+.PHONY : clean
+
+#=============================================================================
 # Target rules for target CMakeFiles/bond_generate_messages_cpp.dir
 
 # All Build rule for target.
@@ -338,7 +373,7 @@ clean: CMakeFiles/bond_generate_messages_py.dir/clean
 CMakeFiles/calibrate_kinect_checkerboard.dir/all:
 	$(MAKE) -f CMakeFiles/calibrate_kinect_checkerboard.dir/build.make CMakeFiles/calibrate_kinect_checkerboard.dir/depend
 	$(MAKE) -f CMakeFiles/calibrate_kinect_checkerboard.dir/build.make CMakeFiles/calibrate_kinect_checkerboard.dir/build
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/brawner/workspace/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles  1 2
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/brawner/workspace/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles  3 4
 	@echo "Built target calibrate_kinect_checkerboard"
 .PHONY : CMakeFiles/calibrate_kinect_checkerboard.dir/all
 
@@ -404,7 +439,7 @@ clean: CMakeFiles/clean_test_results.dir/clean
 CMakeFiles/doxygen.dir/all:
 	$(MAKE) -f CMakeFiles/doxygen.dir/build.make CMakeFiles/doxygen.dir/depend
 	$(MAKE) -f CMakeFiles/doxygen.dir/build.make CMakeFiles/doxygen.dir/build
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/brawner/workspace/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles  3
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/brawner/workspace/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles  5
 	@echo "Built target doxygen"
 .PHONY : CMakeFiles/doxygen.dir/all
 
@@ -1660,7 +1695,7 @@ gtest/preinstall:
 gtest/CMakeFiles/gtest.dir/all:
 	$(MAKE) -f gtest/CMakeFiles/gtest.dir/build.make gtest/CMakeFiles/gtest.dir/depend
 	$(MAKE) -f gtest/CMakeFiles/gtest.dir/build.make gtest/CMakeFiles/gtest.dir/build
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/brawner/workspace/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles  4
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/brawner/workspace/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles  6
 	@echo "Built target gtest"
 .PHONY : gtest/CMakeFiles/gtest.dir/all
 
@@ -1691,7 +1726,7 @@ clean: gtest/CMakeFiles/gtest.dir/clean
 gtest/CMakeFiles/gtest_main.dir/all: gtest/CMakeFiles/gtest.dir/all
 	$(MAKE) -f gtest/CMakeFiles/gtest_main.dir/build.make gtest/CMakeFiles/gtest_main.dir/depend
 	$(MAKE) -f gtest/CMakeFiles/gtest_main.dir/build.make gtest/CMakeFiles/gtest_main.dir/build
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/brawner/workspace/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles  5
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/brawner/workspace/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles  7
 	@echo "Built target gtest_main"
 .PHONY : gtest/CMakeFiles/gtest_main.dir/all
 

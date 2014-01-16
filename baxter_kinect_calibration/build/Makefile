@@ -228,6 +228,19 @@ actionlib_msgs_generate_messages_py/fast:
 .PHONY : actionlib_msgs_generate_messages_py/fast
 
 #=============================================================================
+# Target rules for targets named auto_calibrate
+
+# Build rule for target.
+auto_calibrate: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 auto_calibrate
+.PHONY : auto_calibrate
+
+# fast build rule for target.
+auto_calibrate/fast:
+	$(MAKE) -f CMakeFiles/auto_calibrate.dir/build.make CMakeFiles/auto_calibrate.dir/build
+.PHONY : auto_calibrate/fast
+
+#=============================================================================
 # Target rules for targets named bond_generate_messages_cpp
 
 # Build rule for target.
@@ -838,6 +851,30 @@ gtest_main/fast:
 	$(MAKE) -f gtest/CMakeFiles/gtest_main.dir/build.make gtest/CMakeFiles/gtest_main.dir/build
 .PHONY : gtest_main/fast
 
+src/calibrate_kinect_arm_checkerboard.o: src/calibrate_kinect_arm_checkerboard.cpp.o
+.PHONY : src/calibrate_kinect_arm_checkerboard.o
+
+# target to build an object file
+src/calibrate_kinect_arm_checkerboard.cpp.o:
+	$(MAKE) -f CMakeFiles/auto_calibrate.dir/build.make CMakeFiles/auto_calibrate.dir/src/calibrate_kinect_arm_checkerboard.cpp.o
+.PHONY : src/calibrate_kinect_arm_checkerboard.cpp.o
+
+src/calibrate_kinect_arm_checkerboard.i: src/calibrate_kinect_arm_checkerboard.cpp.i
+.PHONY : src/calibrate_kinect_arm_checkerboard.i
+
+# target to preprocess a source file
+src/calibrate_kinect_arm_checkerboard.cpp.i:
+	$(MAKE) -f CMakeFiles/auto_calibrate.dir/build.make CMakeFiles/auto_calibrate.dir/src/calibrate_kinect_arm_checkerboard.cpp.i
+.PHONY : src/calibrate_kinect_arm_checkerboard.cpp.i
+
+src/calibrate_kinect_arm_checkerboard.s: src/calibrate_kinect_arm_checkerboard.cpp.s
+.PHONY : src/calibrate_kinect_arm_checkerboard.s
+
+# target to generate assembly for a file
+src/calibrate_kinect_arm_checkerboard.cpp.s:
+	$(MAKE) -f CMakeFiles/auto_calibrate.dir/build.make CMakeFiles/auto_calibrate.dir/src/calibrate_kinect_arm_checkerboard.cpp.s
+.PHONY : src/calibrate_kinect_arm_checkerboard.cpp.s
+
 src/calibrate_kinect_checkerboard.o: src/calibrate_kinect_checkerboard.cpp.o
 .PHONY : src/calibrate_kinect_checkerboard.o
 
@@ -867,6 +904,7 @@ src/detect_calibration_pattern.o: src/detect_calibration_pattern.cpp.o
 
 # target to build an object file
 src/detect_calibration_pattern.cpp.o:
+	$(MAKE) -f CMakeFiles/auto_calibrate.dir/build.make CMakeFiles/auto_calibrate.dir/src/detect_calibration_pattern.cpp.o
 	$(MAKE) -f CMakeFiles/calibrate_kinect_checkerboard.dir/build.make CMakeFiles/calibrate_kinect_checkerboard.dir/src/detect_calibration_pattern.cpp.o
 .PHONY : src/detect_calibration_pattern.cpp.o
 
@@ -875,6 +913,7 @@ src/detect_calibration_pattern.i: src/detect_calibration_pattern.cpp.i
 
 # target to preprocess a source file
 src/detect_calibration_pattern.cpp.i:
+	$(MAKE) -f CMakeFiles/auto_calibrate.dir/build.make CMakeFiles/auto_calibrate.dir/src/detect_calibration_pattern.cpp.i
 	$(MAKE) -f CMakeFiles/calibrate_kinect_checkerboard.dir/build.make CMakeFiles/calibrate_kinect_checkerboard.dir/src/detect_calibration_pattern.cpp.i
 .PHONY : src/detect_calibration_pattern.cpp.i
 
@@ -883,6 +922,7 @@ src/detect_calibration_pattern.s: src/detect_calibration_pattern.cpp.s
 
 # target to generate assembly for a file
 src/detect_calibration_pattern.cpp.s:
+	$(MAKE) -f CMakeFiles/auto_calibrate.dir/build.make CMakeFiles/auto_calibrate.dir/src/detect_calibration_pattern.cpp.s
 	$(MAKE) -f CMakeFiles/calibrate_kinect_checkerboard.dir/build.make CMakeFiles/calibrate_kinect_checkerboard.dir/src/detect_calibration_pattern.cpp.s
 .PHONY : src/detect_calibration_pattern.cpp.s
 
@@ -898,6 +938,7 @@ help:
 	@echo "... actionlib_msgs_generate_messages_cpp"
 	@echo "... actionlib_msgs_generate_messages_lisp"
 	@echo "... actionlib_msgs_generate_messages_py"
+	@echo "... auto_calibrate"
 	@echo "... bond_generate_messages_cpp"
 	@echo "... bond_generate_messages_lisp"
 	@echo "... bond_generate_messages_py"
@@ -952,6 +993,9 @@ help:
 	@echo "... visualization_msgs_generate_messages_py"
 	@echo "... gtest"
 	@echo "... gtest_main"
+	@echo "... src/calibrate_kinect_arm_checkerboard.o"
+	@echo "... src/calibrate_kinect_arm_checkerboard.i"
+	@echo "... src/calibrate_kinect_arm_checkerboard.s"
 	@echo "... src/calibrate_kinect_checkerboard.o"
 	@echo "... src/calibrate_kinect_checkerboard.i"
 	@echo "... src/calibrate_kinect_checkerboard.s"

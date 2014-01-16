@@ -106,8 +106,8 @@ public:
     : nh_("~"), it_(nh_), calibrated(false)
   {
     // Load parameters from the server.
-    nh_.param<std::string>("fixed_frame", fixed_frame, "/world");
-    nh_.param<std::string>("camera_frame", camera_frame, "/kinect");
+    	nh_.param<std::string>("fixed_frame", fixed_frame, "/world");
+    nh_.param<std::string>("camera_frame", camera_frame, "/camera_rgb_optical_frame");
     nh_.param<std::string>("target_frame", target_frame, "/calibration_pattern");
     nh_.param<std::string>("tip_frame", tip_frame, "/left_gripper");
     
@@ -291,13 +291,24 @@ public:
 
     // Output       
     tf::Transform transform = tfFromEigen(t), trans_full, camera_transform_unstamped;
-    tf::StampedTransform camera_transform;
+    tf::StampedTransform kinect_transform;
   
     cout << "Resulting transform (camera frame -> fixed frame): " << endl << t << endl << endl;
     
     try
     {
-      tf_listener_.lookupTransform(frame_id, camera_frame, ros::Time(0), camera_transform);
+      tf_listener_.lookupTransform(frame_id, camera_frame, ros::Time(0), kinect_transform);
+    }
+    catch (tf::TransformException& ex)
+    {
+      ROS_WARN("[calibrate] TF exception:\n%s", ex.what());
+      return false;
+    }
+
+    tf::StampedTransform arm_camera_transform;
+    try
+    {
+      tf_listener_.lookupTransform(frame_id, camera_frame, ros::Time(0), arm_camera_transform);
     }
     catch (tf::TransformException& ex)
     {

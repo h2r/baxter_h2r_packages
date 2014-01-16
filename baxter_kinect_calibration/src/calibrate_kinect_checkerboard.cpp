@@ -106,7 +106,7 @@ public:
     : nh_("~"), it_(nh_), calibrated(false)
   {
     // Load parameters from the server.
-    nh_.param<std::string>("fixed_frame", fixed_frame, "/world");
+    	nh_.param<std::string>("fixed_frame", fixed_frame, "/world");
     nh_.param<std::string>("camera_frame", camera_frame, "/camera_rgb_optical_frame");
     nh_.param<std::string>("target_frame", target_frame, "/calibration_pattern");
     nh_.param<std::string>("tip_frame", tip_frame, "/left_gripper");

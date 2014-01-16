@@ -60,25 +60,28 @@ class CalibrateKinectCheckerboard
     ros::Publisher physical_pub_;
   
     // Image and camera info subscribers;
-    ros::Subscriber image_sub_; 
-    ros::Subscriber info_sub_;
-
+    ros::Subscriber kinectImage_sub_; 
+    ros::Subscriber armImage_sub_; 
+    ros::Subscriber kinectInfo_sub_;
+    ros::Subscriber armInfo_sub_;
+    
     // Structures for interacting with ROS messages
     cv_bridge::CvImagePtr input_bridge_;
     cv_bridge::CvImagePtr output_bridge_;
     tf::TransformListener tf_listener_;
     tf::TransformBroadcaster tf_broadcaster_;
-    image_geometry::PinholeCameraModel cam_model_;
+    image_geometry::PinholeCameraModel kinectCamModel_;
+    image_geometry::PinholeCameraModel armCamModel_;
     
     // Calibration objects
-    PatternDetector pattern_detector_;
-    
+    PatternDetector kinectPatternDetector_;
+    PatternDetector armPatternDetector_;
     // The optimized transform
     Eigen::Transform<float, 3, Eigen::Affine> transform_;
     
     // Visualization for markers
     pcl::PointCloud<pcl::PointXYZ> detector_points_;
-    pcl::PointCloud<pcl::PointXYZ> ideal_points_;
+    //pcl::PointCloud<pcl::PointXYZ> ideal_points_;
     pcl::PointCloud<pcl::PointXYZ> image_points_;
     pcl::PointCloud<pcl::PointXYZ> physical_points_;
     
@@ -89,7 +92,8 @@ class CalibrateKinectCheckerboard
     
     // Parameters
     std::string fixed_frame;
-    std::string camera_frame;
+    std::string kinect_frame;
+    std::string arm_camera_frame;
     std::string target_frame;
     std::string tip_frame;
     std::string touch_frame;
@@ -97,32 +101,42 @@ class CalibrateKinectCheckerboard
     int checkerboard_width;
     int checkerboard_height;
     double checkerboard_grid;
-    
+     
+    tf::Transform kinectTransform;
+    tf::Transform armCameraTransform;
+    std::string kinectFrameID;
+    std::string armCameraFrameID;
+
+    bool haveKinectInfo;
+    bool haveArmCameraInfo;
+    bool haveArmImage;
     // Gripper tip position
-    geometry_msgs::PointStamped gripper_tip;
+    //geometry_msgs::PointStamped gripper_tip;
 
 public:
   CalibrateKinectCheckerboard()
     : nh_("~"), it_(nh_), calibrated(false)
   {
     // Load parameters from the server.
-    nh_.param<std::string>("fixed_frame", fixed_frame, "/base_link");
-    nh_.param<std::string>("camera_frame", camera_frame, "/camera_link");
+    nh_.param<std::string>("fixed_frame", fixed_frame, "/world");
+    nh_.param<std::string>("kinect_frame", kinect_frame, "/camera_rgb_optical_frame");
+    nh_.param<std::string>("arm_camera_frame", arm_camera_frame, "/left_hand_camera");
     nh_.param<std::string>("target_frame", target_frame, "/calibration_pattern");
-    nh_.param<std::string>("tip_frame", tip_frame, "/gripper_link");
+    nh_.param<std::string>("tip_frame", tip_frame, "/left_gripper");
     
     nh_.param<int>("checkerboard_width", checkerboard_width, 5);
     nh_.param<int>("checkerboard_height", checkerboard_height, 4);
     nh_.param<double>("checkerboard_grid", checkerboard_grid, 0.0245);
     
     // Set pattern detector sizes
-    pattern_detector_.setPattern(cv::Size(checkerboard_width, checkerboard_height), checkerboard_grid, CHESSBOARD);
-    
+    kinectPatternDetector_.setPattern(cv::Size(checkerboard_width, checkerboard_height), checkerboard_grid, CHESSBOARD);
+    armPatternDetector_.setPattern(cv::Size(checkerboard_width, checkerboard_height), checkerboard_grid, CHESSBOARD);
     transform_.translation().setZero();
     transform_.matrix().topLeftCorner<3, 3>() = Quaternionf().setIdentity().toRotationMatrix();
     
     // Create subscriptions
-    info_sub_ = nh_.subscribe("/camera/rgb/camera_info", 1, &CalibrateKinectCheckerboard::infoCallback, this);
+    kinectInfo_sub_ = nh_.subscribe("/camera/rgb/camera_info", 1, &CalibrateKinectCheckerboard::kinectInfoCallback, this);
+    armInfo_sub_ = nh_.subscribe("/cameras/left_hand_camera/camera_info", 1, &CalibrateKinectCheckerboard::armInfoCallback, this);
     
     // Also publishers
     pub_ = it_.advertise("calibration_pattern_out", 1);
@@ -130,44 +144,47 @@ public:
     physical_pub_ = nh_.advertise<pcl::PointCloud<pcl::PointXYZ> >("physical_points_cloud", 1);
     
     // Create ideal points
-    ideal_points_.push_back( pcl::PointXYZ(0, 0, 0) );
-    ideal_points_.push_back( pcl::PointXYZ((checkerboard_width-1)*checkerboard_grid, 0, 0) );
-    ideal_points_.push_back( pcl::PointXYZ(0, (checkerboard_height-1)*checkerboard_grid, 0) );
-    ideal_points_.push_back( pcl::PointXYZ((checkerboard_width-1)*checkerboard_grid, (checkerboard_height-1)*checkerboard_grid, 0) );
+    //ideal_points_.push_back( pcl::PointXYZ(0, 0, 0) );
+    //ideal_points_.push_back( pcl::PointXYZ((checkerboard_width-1)*checkerboard_grid, 0, 0) );
+    //ideal_points_.push_back( pcl::PointXYZ(0, (checkerboard_height-1)*checkerboard_grid, 0) );
+    //ideal_points_.push_back( pcl::PointXYZ((checkerboard_width-1)*checkerboard_grid, (checkerboard_height-1)*checkerboard_grid, 0) );
     
     // Create proper gripper tip point
-    nh_.param<double>("gripper_tip_x", gripper_tip.point.x, 0.0);
-    nh_.param<double>("gripper_tip_y", gripper_tip.point.y, 0.0);
-    nh_.param<double>("gripper_tip_z", gripper_tip.point.z, 0.0);
-    gripper_tip.header.frame_id = tip_frame;
-    
+    //nh_.param<double>("gripper_tip_x", gripper_tip.point.x, 0.0);
+    //nh_.param<double>("gripper_tip_y", gripper_tip.point.y, 0.0);
+    //nh_.param<double>("gripper_tip_z", gripper_tip.point.z, 0.0);
+    //gripper_tip.header.frame_id = tip_frame;
+
+    this->haveArmImage = false;
+    this->haveKinectInfo = false;
+    this->haveArmCameraInfo = false;
     ROS_INFO("[calibrate] Initialized.");
   }
 
   void kinectInfoCallback(const sensor_msgs::CameraInfoConstPtr& info_msg)
   {
-    if (calibrated)
+    if (this->haveKinectInfo) 
+    {
       return;
-    cam_model_.fromCameraInfo(info_msg);
-    pattern_detector_.setCameraMatrices(cam_model_.intrinsicMatrix(), cam_model_.distortionCoeffs());
-    
-    calibrated = true;
-    image_sub_ = nh_.subscribe("/camera/rgb/image_raw", 1, &CalibrateKinectCheckerboard::imageCallback, this);
-    
-    ROS_INFO("[calibrate] Got image info!");
+    }
+    kinectCamModel_.fromCameraInfo(info_msg);
+    kinectPatternDetector_.setCameraMatrices(kinectCamModel_.intrinsicMatrix(), kinectCamModel_.distortionCoeffs());
+    kinectImage_sub_ = nh_.subscribe("/camera/rgb/image_raw", 1, &CalibrateKinectCheckerboard::kinectImageCallback, this);
+    this->haveKinectInfo = true;
+    ROS_INFO("[calibrate] Got kinect image info!");
   }
 
   void armInfoCallback(const sensor_msgs::CameraInfoConstPtr& info_msg)
   {
-    if (calibrated)
+    if (this->haveArmCameraInfo)
+    {
       return;
-    cam_model_.fromCameraInfo(info_msg);
-    pattern_detector_.setCameraMatrices(cam_model_.intrinsicMatrix(), cam_model_.distortionCoeffs());
-    
-    calibrated = true;
-    image_sub_ = nh_.subscribe("/camera/rgb/image_mono", 1, &CalibrateKinectCheckerboard::imageCallback, this);
-    
-    ROS_INFO("[calibrate] Got image info!");
+    }
+    armCamModel_.fromCameraInfo(info_msg);
+    armPatternDetector_.setCameraMatrices(armCamModel_.intrinsicMatrix(), armCamModel_.distortionCoeffs());
+    armImage_sub_ = nh_.subscribe("/cameras/left_hand_camera/image", 1, &CalibrateKinectCheckerboard::armImageCallback, this);
+    this->haveArmCameraInfo = true;
+    ROS_INFO("[calibrate] Got arm image info!");
   }
   
   void kinectImageCallback(const sensor_msgs::ImageConstPtr& image_msg)
@@ -186,25 +203,32 @@ public:
     Eigen::Vector3f translation;
     Eigen::Quaternionf orientation;
     
-    if (!pattern_detector_.detectPattern(input_bridge_->image, translation, orientation, output_bridge_->image))
+    if (!kinectPatternDetector_.detectPattern(input_bridge_->image, translation, orientation, output_bridge_->image))
     {
-      ROS_INFO("[calibrate] Couldn't detect checkerboard, make sure it's visible in the image.");
+      ROS_INFO("[calibrate] Couldn't detect checkerboard in kinect camera, make sure it's visible in the image.");
       return;
     }
     
-    tf::Transform target_transform;
+
     try
     {
       ros::Time acquisition_time = image_msg->header.stamp;
       ros::Duration timeout(1.0 / 30.0);
                                    
-      target_transform.setOrigin( tf::Vector3(translation.x(), translation.y(), translation.z()) );
-      target_transform.setRotation( tf::Quaternion(orientation.x(), orientation.y(), orientation.z(), orientation.w()) );
+      kinectTransform.setOrigin( tf::Vector3(translation.x(), translation.y(), translation.z()) );
+       kinectTransform.setRotation( tf::Quaternion(orientation.x(), orientation.y(), orientation.z(), orientation.w()) );
+       tf_broadcaster_.sendTransform(tf::StampedTransform(kinectTransform, image_msg->header.stamp, image_msg->header.frame_id, target_frame));
     }
     catch (tf::TransformException& ex)
     {
       ROS_WARN("[calibrate] TF exception:\n%s", ex.what());
       return;
+    }
+    this->kinectFrameID = image_msg->header.frame_id;
+    if (this->haveArmImage)
+    {
+       calibrate();
+
     }
   }
   
@@ -224,137 +248,100 @@ public:
     Eigen::Vector3f translation;
     Eigen::Quaternionf orientation;
     
-    if (!pattern_detector_.detectPattern(input_bridge_->image, translation, orientation, output_bridge_->image))
+    if (!armPatternDetector_.detectPattern(input_bridge_->image, translation, orientation, output_bridge_->image))
     {
-      ROS_INFO("[calibrate] Couldn't detect checkerboard, make sure it's visible in the image.");
+      ROS_INFO("[calibrate] Couldn't detect checkerboard in arm camera, make sure it's visible in the image.");
       return;
     }
     
-    tf::Transform target_transform;
-    tf::StampedTransform base_transform;
     try
     {
       ros::Time acquisition_time = image_msg->header.stamp;
       ros::Duration timeout(1.0 / 30.0);
                                    
-      target_transform.setOrigin( tf::Vector3(translation.x(), translation.y(), translation.z()) );
-      target_transform.setRotation( tf::Quaternion(orientation.x(), orientation.y(), orientation.z(), orientation.w()) );
-      tf_broadcaster_.sendTransform(tf::StampedTransform(target_transform, image_msg->header.stamp, image_msg->header.frame_id, target_frame));
+      armCameraTransform.setOrigin( tf::Vector3(translation.x(), translation.y(), translation.z()) );
+      armCameraTransform.setRotation( tf::Quaternion(orientation.x(), orientation.y(), orientation.z(), orientation.w()) );
+      tf_broadcaster_.sendTransform(tf::StampedTransform(armCameraTransform, image_msg->header.stamp, image_msg->header.frame_id, target_frame));
     }
     catch (tf::TransformException& ex)
     {
       ROS_WARN("[calibrate] TF exception:\n%s", ex.what());
       return;
     }
-    publishCloud(ideal_points_, target_transform, image_msg->header.frame_id);
+    this->armCameraFrameID = image_msg->header.frame_id;
+    this->haveArmImage = true;
+    //publishCloud(ideal_points_, target_transform, image_msg->header.frame_id);
     
-    overlayPoints(ideal_points_, target_transform, output_bridge_);
+    //overlayPoints(ideal_points_, target_transform, output_bridge_);
     
     // Publish calibration image
-    pub_.publish(output_bridge_->toImageMsg());
+    //pub_.publish(output_bridge_->toImageMsg());
     
-    pcl_ros::transformPointCloud(ideal_points_, image_points_, target_transform);
+    //pcl_ros::transformPointCloud(ideal_points_, image_points_, target_transform);
     
-    cout << "Got an image callback!" << endl;
+    //cout << "Got an image callback!" << endl;
     
-    calibrate(image_msg->header.frame_id);
+    //calibrate(image_msg->header.frame_id);
     
-    ros::shutdown();
-  }
-
-  void publishCloud(pcl::PointCloud<pcl::PointXYZ> detector_points, tf::Transform &transform, const std::string frame_id)
-  {
-    // Display to rviz
-    pcl::PointCloud<pcl::PointXYZ> transformed_detector_points;
-    
-    pcl_ros::transformPointCloud(detector_points, transformed_detector_points, transform);
-    
-    transformed_detector_points.header.frame_id = frame_id;
-    detector_pub_.publish(transformed_detector_points);
+    //ros::shutdown();
   }
   
-  void overlayPoints(pcl::PointCloud<pcl::PointXYZ> detector_points, tf::Transform &transform, cv_bridge::CvImagePtr& image)
-  {  
-    // Overlay calibration points on the image
-    pcl::PointCloud<pcl::PointXYZ> transformed_detector_points;
-    
-    pcl_ros::transformPointCloud(detector_points, transformed_detector_points, transform);
-    
-    int font_face = cv::FONT_HERSHEY_SCRIPT_SIMPLEX;
-    double font_scale = 1;
-    int thickness = 2;
-    int radius = 5;
-   
-    for (unsigned int i=0; i < transformed_detector_points.size(); i++)
-    {
-      pcl::PointXYZ pt = transformed_detector_points[i];
-      cv::Point3d pt_cv(pt.x, pt.y, pt.z);
-      cv::Point2d uv;
-      uv = cam_model_.project3dToPixel(pt_cv);
-
-      cv::circle(image->image, uv, radius, CV_RGB(255,0,0), -1);
-      cv::Size text_size;
-      int baseline = 0;
-      std::stringstream out;
-      out << i+1;
-      
-      text_size = cv::getTextSize(out.str(), font_face, font_scale, thickness, &baseline);
-                            
-      cv::Point origin = cvPoint(uv.x - text_size.width / 2,
-                               uv.y - radius - baseline/* - thickness*/);
-      cv::putText(image->image, out.str(), origin, font_face, font_scale, CV_RGB(255,0,0), thickness);
-    }
-  }
   
-  bool calibrate(const std::string frame_id)
+  bool calibrate()
   {
-    physical_points_.empty();
-    physical_points_.header.frame_id = fixed_frame;
-    cout << "Is the checkerboard correct? " << endl;
-    cout << "Move edge of gripper to point 1 in image and press Enter. " << endl;
-    cin.ignore();
-    addPhysicalPoint();
-    cout << "Move edge of gripper to point 2 in image and press Enter. " << endl;
-    cin.ignore();
-    addPhysicalPoint();
-    cout << "Move edge of gripper to point 3 in image and press Enter. " << endl;
-    cin.ignore();
-    addPhysicalPoint();
-    cout << "Move edge of gripper to point 4 in image and press Enter. " << endl;
-    cin.ignore();
-    addPhysicalPoint();
     
     Eigen::Matrix4f t;
     
-    physical_pub_.publish(physical_points_);
-    
-    pcl::registration::TransformationEstimationSVD<pcl::PointXYZ, pcl::PointXYZ> svd_estimator;
-    svd_estimator.estimateRigidTransformation( physical_points_, image_points_, t );
-
     // Output       
-    tf::Transform transform = tfFromEigen(t), trans_full, camera_transform_unstamped;
-    tf::StampedTransform camera_transform;
-  
-    cout << "Resulting transform (camera frame -> fixed frame): " << endl << t << endl << endl;
+    tf::Transform transform = tfFromEigen(t), trans_full, arm_transform_unstamped, kinect_transform_unstamped, arm_camera_transform_unstamped;
     
+  
+    
+    tf::StampedTransform arm_transform;
+
     try
     {
-      tf_listener_.lookupTransform(frame_id, camera_frame, ros::Time(0), camera_transform);
+      tf_listener_.lookupTransform(arm_camera_frame, fixed_frame, ros::Time(0), arm_transform);
     }
     catch (tf::TransformException& ex)
     {
       ROS_WARN("[calibrate] TF exception:\n%s", ex.what());
       return false;
     }
-
-    camera_transform_unstamped = camera_transform;
-    trans_full = camera_transform_unstamped.inverse()*transform;
+    //cout << "Resulting transform (arm camera frame -> world frame): " << endl << arm_transform << endl << endl;
+    /*
+    tf::StampedTransform arm_camera_transform;
+    try
+    {
+      tf_listener_.lookupTransform(arm_camera_frame, target_frame, ros::Time(0), arm_camera_transform);
+    }
+    catch (tf::TransformException& ex)
+    {
+      ROS_WARN("[calibrate] TF exception:\n%s", ex.what());
+      return false;
+    }
+    cout << "Resulting transform (arm camera frame -> target frame): " << endl << arm_camera_transform << endl << endl;
+    
+    tf::StampedTransform kinect_transform;
+    try
+    {
+      tf_listener_.lookupTransform(target_frame, kinect_frame, ros::Time(0), kinect_transform);
+    }
+    catch (tf::TransformException& ex)
+    {
+      ROS_WARN("[calibrate] TF exception:\n%s", ex.what());
+      return false;
+    }
+    cout << "Resulting transform (target frame -> kinect frame): " << endl << kinect_transform << endl << endl;
+    */
+    arm_transform_unstamped = arm_transform;
+    trans_full = arm_transform_unstamped * this->armCameraTransform * this->kinectTransform.inverse();
     
     Eigen::Matrix4f t_full = EigenFromTF(trans_full);
     Eigen::Matrix4f t_full_inv = (Eigen::Transform<float,3,Affine>(t_full).inverse()).matrix();
     
-    cout << "Resulting transform (fixed frame -> camera frame): " << endl << t_full << endl << endl;
-    printStaticTransform(t_full_inv, fixed_frame, camera_frame);
+    cout << "Resulting transform (world frame -> kinect frame): " << endl << t_full << endl << endl;
+    printStaticTransform(t_full_inv, fixed_frame, kinect_frame);
 
     return true;
   }
@@ -396,33 +383,6 @@ public:
           "\t<property name=\"turtlebot_calib_cam_ry\" value=\"" << yaw << "\" />\n" <<
           "\t<property name=\"turtlebot_kinect_frame_name\" value=\"" << fixed_frame_urdf << "\" />\n" <<
           "</robot>" << endl << endl;
-  }
-  
-  void addPhysicalPoint()
-  {
-    geometry_msgs::PointStamped pt_out;
-    
-    try
-    {
-      tf_listener_.transformPoint(fixed_frame, gripper_tip, pt_out);
-    }
-    catch (tf::TransformException& ex)
-    {
-      ROS_WARN("[calibrate] TF exception:\n%s", ex.what());
-      return;
-    }
-    
-    physical_points_.push_back(pcl::PointXYZ(pt_out.point.x, pt_out.point.y, pt_out.point.z));
-  }
-
-  void convertIdealPointstoPointcloud()
-  {
-    detector_points_.points.resize(pattern_detector_.ideal_points.size());
-    for (unsigned int i=0; i < pattern_detector_.ideal_points.size(); i++)
-    {
-      cv::Point3f pt = pattern_detector_.ideal_points[i];
-      detector_points_[i].x = pt.x; detector_points_[i].y = pt.y; detector_points_[i].z = pt.z; 
-    }
   }
   
 };

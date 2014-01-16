@@ -4,6 +4,7 @@
 /home/brawner/workspace/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles/actionlib_msgs_generate_messages_cpp.dir
 /home/brawner/workspace/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles/actionlib_msgs_generate_messages_lisp.dir
 /home/brawner/workspace/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles/actionlib_msgs_generate_messages_py.dir
+/home/brawner/workspace/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles/auto_calibrate.dir
 /home/brawner/workspace/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles/bond_generate_messages_cpp.dir
 /home/brawner/workspace/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles/bond_generate_messages_lisp.dir
 /home/brawner/workspace/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles/bond_generate_messages_py.dir

@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 2.8.3)
-project(turtlebot_kinect_arm_calibration)
+project(baxter_kinect_calibration)
 
 # setup
 find_package(catkin REQUIRED cv_bridge eigen image_geometry image_transport pcl_conversions pcl_ros roscpp tf visualization_msgs)
@@ -21,6 +21,9 @@ include_directories(include
 
 # node
 add_executable(calibrate_kinect_checkerboard src/calibrate_kinect_checkerboard.cpp
+                                             src/detect_calibration_pattern.cpp)
+
+add_executable(auto_calibrate src/calibrate_kinect_arm_checkerboard.cpp
                                              src/detect_calibration_pattern.cpp)
 target_link_libraries(calibrate_kinect_checkerboard ${Boost_LIBRARIES}
                                                     ${catkin_LIBRARIES}

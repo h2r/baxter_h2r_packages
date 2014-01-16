@@ -22,7 +22,15 @@ include_directories(include
 # node
 add_executable(calibrate_kinect_checkerboard src/calibrate_kinect_checkerboard.cpp
                                              src/detect_calibration_pattern.cpp)
+
+add_executable(auto_calibrate src/calibrate_kinect_arm_checkerboard.cpp
+                                             src/detect_calibration_pattern.cpp)
 target_link_libraries(calibrate_kinect_checkerboard ${Boost_LIBRARIES}
+                                                    ${catkin_LIBRARIES}
+                                                    ${PCL_LIBRARIES}
+                                                    ${OpenCV_LIBRARIES})
+
+target_link_libraries(auto_calibrate ${Boost_LIBRARIES}
                                                     ${catkin_LIBRARIES}
                                                     ${PCL_LIBRARIES}
                                                     ${OpenCV_LIBRARIES})

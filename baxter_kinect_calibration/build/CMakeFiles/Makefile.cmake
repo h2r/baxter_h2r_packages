@@ -240,6 +240,7 @@ SET(CMAKE_DEPEND_INFO_FILES
   "CMakeFiles/actionlib_msgs_generate_messages_cpp.dir/DependInfo.cmake"
   "CMakeFiles/actionlib_msgs_generate_messages_lisp.dir/DependInfo.cmake"
   "CMakeFiles/actionlib_msgs_generate_messages_py.dir/DependInfo.cmake"
+  "CMakeFiles/auto_calibrate.dir/DependInfo.cmake"
   "CMakeFiles/bond_generate_messages_cpp.dir/DependInfo.cmake"
   "CMakeFiles/bond_generate_messages_lisp.dir/DependInfo.cmake"
   "CMakeFiles/bond_generate_messages_py.dir/DependInfo.cmake"
