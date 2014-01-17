@@ -1,0 +1,107 @@
+<project name="javax.speech" default="jar" basedir=".">
+	<description>
+This file builds the JSR 113.jar.
+    </description>
+
+	<!-- allow the user to override setting in an own properties file. -->
+	<property file="personal-props/ant.properties" />
+	<property file="config-props/ant.properties" />
+
+	<!-- directory structure -->
+	<property name="src" value="src" />
+	<property name="build" value="classes" />
+    <property name="preverify" value="preverify" />
+	<property name="dist" value="dist" />
+	<property name="apidoc" value="doc/api" />
+	
+    <!-- distribution files -->
+	<property name="dist.jsr113.jar" value="${dist}/jsr113.jar" />
+    <property name="dist.zip" value="${dist}/jsr-113-${version}.zip" />
+	
+	<path id="midp.lib">
+		<pathelement location="${midp.home}/lib/${cldcapi.jar}"/>
+        <pathelement location="${midp.home}/lib/${midpapi.jar}"/>
+	</path>
+	
+	<property name="debug" value="on"/>
+	<property name="optimize" value="off"/>
+
+    <fileset dir="." id="dist.files.additional">
+        <include name="AUTHORS"/>
+        <include name="COPYING"/>
+        <include name="INSTALL"/>
+        <include name="README"/>
+        <include name="ChangeLog"/>
+    </fileset>
+  
+	<target name="-init">
+		<mkdir dir="${build}" />
+		<mkdir dir="${dist}" />
+		<available file="${midp.home}" property="midp.available"/>
+		<fail unless="midp.available">
+You need at to specify midp.home to compile this project.
+The current value is ${midp.home}.
+		</fail>
+	</target>
+
+	<target name="clean" description="Remove all compiled and distribution files">
+		<delete dir="${build}" />
+		<delete file="${dist.jsr113.jar}" />
+	</target>
+
+	<target name="compile" depends="-init" description="Compile the JAVA sources">
+		<echo message="compiling with debug=${debug}, optimize=${optimize}" />
+		<javac bootclasspathref="midp.lib" destdir="${build}" 
+			source="1.2" target="1.1"
+			optimize="${optimize}" debug="${debug}" deprecation="on"
+		  	encoding="iso-8859-1">
+			<src path="${src}" />
+			<compilerarg value="-Xlint:unchecked" />
+		</javac>
+	</target>
+
+	<target name="rebuild" depends="clean,compile"/>
+
+    <target name="preverify" depends="compile">
+      <mkdir dir="preverify"/>
+      <pathconvert property="midp.path" refid="midp.lib"/>
+      <exec executable="${midp.home}/bin/preverify">
+        <arg value="-classpath"/>
+        <arg value="${midp.path}"/>
+        <arg value="-d"/>
+        <arg value="${preverify}"/>
+        <arg value="${build}"/>
+      	<arg value="-cldc1.0" />
+      </exec>
+    </target>
+
+	<target name="jar" depends="preverify" 
+	  description="Pack all compiled files into jar files">
+		<jar jarfile="${dist.jsr113.jar}" compress="false">
+			<fileset dir="${preverify}">
+				<include name="**/*.class" />
+			</fileset>
+			<manifest>
+				<attribute name="Built-By" value="${user.name}" />
+				<section name="common">
+					<attribute name="Implementation-Vendor"
+					  value="JVoiceXML group" />
+					<attribute name="Implementation-Title"
+					  value="JSR 113" />
+                  <attribute name="Specification-Version"
+                    value="2.0.6" />
+                  <attribute name="Implementation-Version"
+                    value="${version}" />
+				</section>
+			</manifest>
+		</jar>
+	</target>
+
+    <target name="distribution" description="Build the distribution files"
+        depends="jar">
+        <zip basedir="${dist}" destfile="${dist.zip}" compress="true">
+        	<include name="${dist.jsr113.jar}"/>
+            <fileset refid="dist.files.additional"/>
+        </zip>
+    </target>
+</project>

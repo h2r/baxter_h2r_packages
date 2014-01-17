@@ -1,0 +1,18 @@
+http://jsapi.sourceforge.net
+
+This is JSAPI 0.3, a base layer for JSAPI2 development.
+
+Follow the description in INSTALL to install JSAPI.
+
+JSAPI comes without any warranty. Read COPYING for more details.
+Licenses of used libraries can be obtained from the related web site.
+Read INSTALL for more details.
+
+If you have any questions have a look at our web site.
+
+Notice:
+This is an implementation of a draft 
+specification developed under the Java Community 
+Process (JCP) and is made available for testing and 
+evaluation purposes only. The code is not compatible 
+with any specification of the JCP.

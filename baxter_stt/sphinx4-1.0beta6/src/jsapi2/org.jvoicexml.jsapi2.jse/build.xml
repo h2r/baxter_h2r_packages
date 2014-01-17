@@ -1,0 +1,66 @@
+<project name="org.jvoicexml.jsapi2.jse" default="jar" basedir=".">
+  <description>
+This file builds the JSAPI base layer for JSE.
+    </description>
+
+  <property name="base-project" value ="../org.jvoicexml.jsapi2" />
+  
+  <!-- allow the user to override setting in an own propertiesfile. -->
+  <property file="${base-project}/personal-props/ant.properties" />
+  <property file="${base-project}/config-props/ant.properties" />
+
+  <!-- directory structure -->
+  <property name="src" value="src" />
+  <property name="build" value="classes" />
+  <property name="apidoc" value="doc/api" />
+  <property name="dist" value="${base-project}/dist" />
+  
+  <!-- distribution files -->
+  <property name="component" value="org.jvoicexml.jsapi2.jse" />
+  <property name="dist.jar" value="${dist}/${component}.jar" />
+
+  <target name="-init">
+    <mkdir dir="${build}" />
+    <mkdir dir="${dist}" />
+  </target>
+
+  <path id="classpath">
+    <pathelement location="${base-project}/dist/jsr113.jar"/>
+    <pathelement location="${base-project}/dist/org.jvoicexml.jsapi2.jar"/>
+  </path>
+
+  <target name="clean" description="Remove all compiled and distribution files">
+    <delete dir="${build}" />
+    <delete file="${dist.jar}" />
+  </target>
+
+  <target name="compile" depends="-init" description="Compile the JAVA sources">
+    <echo message="compiling with debug=${debug}, optimize=${optimize}" />
+    <javac destdir="${build}" source="1.6" target="1.6"
+      optimize="${optimize}" debug="${debug}" deprecation="on"
+      encoding="iso-8859-1">
+      <src path="${src}" />
+      <classpath refid="classpath" />
+      <compilerarg value="-Xlint:unchecked" />
+    </javac>
+  </target>
+
+  <target name="jar" depends="compile" description="Pack all compiled files into jar files">
+    <jar jarfile="${dist.jar}" compress="false">
+      <fileset dir="${build}">
+        <include name="org/jvoicexml/**/*.class" />
+      </fileset>
+      <manifest>
+        <attribute name="Built-By" value="${user.name}" />
+        <section name="common">
+          <attribute name="Implementation-Vendor"
+            value="JVoiceXML group" />
+          <attribute name="Implementation-Title"
+            value="Base implementation for JSR 113 vendors for JSE" />
+          <attribute name="Implementation-Version"
+              value="${version}" />
+        </section>
+      </manifest>
+    </jar>
+  </target>
+</project>

@@ -1,0 +1,175 @@
+<project name="JSR 113" default="jar" basedir=".">
+  <description>
+This file builds the JSAPI2 project.
+    </description>
+
+  <!-- allow the user to override setting in an own properties file. -->
+  <property file="personal-props/ant.properties" />
+  <property file="config-props/ant.properties" />
+
+  <target name="-init">
+    <!-- directory structure -->
+    <property name="src" value="src" />
+    <property name="build" value="classes" />
+    <property name="dist" value="dist" />
+    <property name="apidoc" value="doc/api" />
+
+    <!-- distribution files -->
+    <property name="component" value="org.jvoicexml.jsapi2" />
+    <property name="dist.jar" value="${dist}/${component}.jar" />
+    <property name="dist.src.zip" value="${dist}/jsr-113-${version}-src.zip" />
+    <property name="dist.src.libs.zip" value="${dist}/jsr-113-${version}-src-withlibs.zip" />
+  	<property name="dist.zip" value="${dist}/jsr-113-${version}.zip" />
+  	<property name="dist.jsr113.jar" value="${dist}/jsr113.jar" />
+
+    <path id="midp.lib">
+      <pathelement location="${midp.home}/lib/${cldcapi.jar}"/>
+      <pathelement location="${midp.home}/lib/${midpapi.jar}"/>
+    </path>
+
+    <fileset dir="." id="dist.files.additional">
+      <include name="AUTHORS"/>
+      <include name="COPYING"/>
+      <include name="INSTALL"/>
+      <include name="README"/>
+      <include name="ChangeLog"/>
+    </fileset>
+
+    <mkdir dir="${build}" />
+    <mkdir dir="${dist}" />
+  </target>
+
+  <target name="clean" depends="-init" description="Remove all compiled and distribution files">
+    <delete dir="${build}" />
+  	<delete file="${dist.jar}" />
+  	<delete file="${dist.zip}" />
+  	<delete file="${dist.src.zip}" />
+  	<delete file="${dist.src.libs.zip}" />
+    <delete file="${dist.jsr113.jar}" />
+    <delete file="${dist.jsr113-base.jar}" />
+    <ant dir="../javax.speech" target="clean" inheritall="false"
+        inheritrefs="false"/>
+    <ant dir="../org.jvoicexml.jsapi2.jse" target="clean" inheritall="false"
+        inheritrefs="false"/>
+    <ant dir="../org.jvoicexml.jsapi2.jse.freetts" target="clean" inheritall="false"
+        inheritrefs="false"/>
+    <ant dir="../org.jvoicexml.jsapi2.jse.sphinx4" target="clean" inheritall="false"
+        inheritrefs="false"/>
+    <ant dir="../org.jvoicexml.jsapi2.mac" target="clean" inheritall="false"
+        inheritrefs="false"/>
+    <ant dir="../org.jvoicexml.jsapi2.sapi" target="clean" inheritall="false"
+        inheritrefs="false"/>
+  </target>
+
+  <target name="-dependentComponents">
+    <ant dir="../javax.speech" antfile="build.xml" inheritall="false"/>
+  </target>
+  
+  <target name="compile" depends="-init,-dependentComponents"
+    description="Compile the JAVA sources">
+    <echo message="compiling with debug=${debug}, optimize=${optimize}" />
+    <javac bootclasspathref="midp.lib" destdir="${build}" source="1.2"
+      target="1.1" optimize="${optimize}" debug="${debug}" deprecation="on"
+      encoding="iso-8859-1">
+      <src path="${src}" />
+      <classpath>
+        <pathelement location="../javax.speech/classes"/>
+      </classpath>
+      <compilerarg value="-Xlint:unchecked" />
+    </javac>
+  </target>
+
+  <target name="rebuild" depends="clean,compile"/>
+
+  <target name="preverify" depends="compile">
+    <mkdir dir="preverify"/>
+    <path id="preverify.path">
+      <path refid="midp.lib"/>
+      <pathelement location="../javax.speech/classes"/>
+    </path>
+    <pathconvert property="midp.path" refid="preverify.path"/>
+    <exec executable="${midp.home}/bin/preverify">
+      <arg value="-classpath"/>
+      <arg value="${midp.path}"/>
+      <arg value="-d"/>
+      <arg value="preverify"/>
+      <arg value="${build}"/>
+      <arg value="-cldc1.0" />
+    </exec>
+  </target>
+  
+  <target name="-jar" depends="preverify"
+    description="Pack all compiled files into jar files">
+    <jar jarfile="${dist.jar}" compress="false">
+      <fileset dir="${build}">
+        <include name="**/*.class" />
+      </fileset>
+      <manifest>
+        <attribute name="Built-By" value="${user.name}" />
+        <section name="common">
+          <attribute name="Implementation-Vendor"
+            value="JVoiceXML group" />
+          <attribute name="Implementation-Title"
+            value="Base implementation for JSR 113 vendors" />
+          <attribute name="Implementation-Version"
+              value="${version}" />
+        </section>
+      </manifest>
+    </jar>
+  </target>
+
+  <target name="-components" depends="-jar">
+    <copy file="../javax.speech/${dist.jsr113.jar}" todir="${dist}" />
+    <ant dir="../org.jvoicexml.jsapi2.jse" antfile="build.xml"
+        inheritall="false"/>
+    <ant dir="../org.jvoicexml.jsapi2.jse.freetts" target="jar" inheritall="false"
+        inheritrefs="false"/>
+    <ant dir="../org.jvoicexml.jsapi2.jse.sphinx4" target="jar" inheritall="false"
+        inheritrefs="false"/>
+    <ant dir="../org.jvoicexml.jsapi2.sapi" antfile="build.xml"
+        inheritall="false" />
+    <ant dir="../org.jvoicexml.jsapi2.mac" antfile="build.xml"
+        inheritall="false" />
+  </target>
+
+  <target name="jar" depends="-jar,-components" />
+
+  <target name="distribution" description="Build the distribution files"
+        depends="clean,jar">
+    <zip basedir="${dist}" destfile="${dist.zip}" compress="true">
+      <include name="*.jar" />
+      <include name="*.dll" />
+      <fileset refid="dist.files.additional" />
+    </zip>
+    <zip basedir=".." destfile="${dist.src.zip}" compress="true">
+      <include name="org.jvoicexml.jsapi2*/src/**/*.java" />
+      <include name="org.jvoicexml.jsapi2*/cpp/**/*.cpp" />
+      <include name="org.jvoicexml.jsapi2*/cpp/**/*.h" />
+      <include name="org.jvoicexml.jsapi2*/cpp/**/*.sln" />
+      <include name="org.jvoicexml.jsapi2*/cpp/**/*.vcp" />
+      <include name="org.jvoicexml.jsapi2*/cpp/**/*.lib" />
+      <include name="org.jvoicexml.jsapi2*/cpp/**/lib*.jnilib" />
+      <include name="org.jvoicexml.jsapi2*/demo/**" />
+      <include name="org.jvoicexml.jsapi2*/build.xml" />
+      <include name="org.jvoicexml.jsapi2/config-props/**" />
+      <include name="org.jvoicexml.jsapi2*/etc/**" />
+      <fileset refid="dist.files.additional" />
+    </zip>
+    <zip basedir=".." destfile="${dist.src.libs.zip}" compress="true">
+      <include name="org.jvoicexml.jsapi2*/src/**/*.java" />
+      <include name="org.jvoicexml.jsapi2*/cpp/**/*.cpp" />
+      <include name="org.jvoicexml.jsapi2*/cpp/**/*.h" />
+      <include name="org.jvoicexml.jsapi2*/cpp/**/*.sln" />
+      <include name="org.jvoicexml.jsapi2*/cpp/**/*.vcp" />
+      <include name="org.jvoicexml.jsapi2*/cpp/**/*.lib" />
+      <include name="org.jvoicexml.jsapi2*/cpp/**/lib*.jnilib" />
+      <include name="org.jvoicexml.jsapi2*/3rdparty/**" />
+      <exclude name="org.jvoicexml.jsapi2/3rdparty/jsapi2/lib/*.jar" />
+      <include name="org.jvoicexml.jsapi2*/demo/**" />
+      <include name="org.jvoicexml.jsapi2*/build.xml" />
+      <include name="org.jvoicexml.jsapi2/config-props/**" />
+      <include name="org.jvoicexml.jsapi2*/etc/**" />
+      <fileset refid="dist.files.additional" />
+    </zip>
+  </target>
+</project>

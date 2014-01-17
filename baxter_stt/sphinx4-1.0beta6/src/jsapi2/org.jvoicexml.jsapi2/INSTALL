@@ -1,0 +1,17 @@
+JSAPI
+=====
+
+Requirements
+------------
+
+In order to run the demos you will need to download the jars from
+- sphinx4 http://cmusphinx.sourceforge.net
+- FreeTTS http://freetts.sourceforge.net
+
+The RTP demos are based on
+- jlibrtp http://jlibrtp.org
+
+jsr-113 Installation
+----------------------
+
+Simply unzip jsr113-base-<version>.zip to extract the jar files.

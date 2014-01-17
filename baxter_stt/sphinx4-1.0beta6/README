@@ -1,0 +1,13 @@
+Speech to text for use on Brown Robotic's Baxter - developed with CMU's Sphinx toolkit for speech recognition.
+
+(1) ISSUING NATURAL LANGUAGE COMMANDS
+
+To issue a command to Baxter, run stt.py. You will then be prompted to speak.
+
+(2) CHANGING THE LANGUAGE MODEL
+
+The current corpus is located in src/apps/edu/cmu/sphinx/demo/baxter/baxter_corpus.txt. Either create a corpus of your own or add to this one, and use CMU's Sphinx knowledge base builder at: http://www.speech.cs.cmu.edu/tools/lmtool.html and store the resulting language model in src/apps/edu/cmu/sphinx/demo/baxter/baxter_trigram.lm
+
+If the dictionary, either acoustic or text, does not contain some of the words you have included, you may augment these, located in models/acoustic/ and models/language/. There is a tutorial for training he acoustic model located here: http://cmusphinx.sourceforge.net/wiki/tutorialam
+
+Once the language model has been changed, you will need to rebuild. Simply run: "ant -find demo.xml", and then you will be able to run through the normal python script (stt.py).
