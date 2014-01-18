@@ -12,7 +12,7 @@ try:
 	while True:
 		line = proc.stdout.readline()
 		if line != '':
-			if len(line) == 1:
+			if len(line) != 1:
 				rospy.loginfo(line.rstrip())
 				pub.publish(String(line.rstrip()))
 				rospy.sleep(1.0)
