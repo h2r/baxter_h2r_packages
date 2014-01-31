@@ -25,6 +25,21 @@
   <build_depend>roscpp</build_depend>
   <build_depend>tf</build_depend>
   <build_depend>visualization_msgs</build_depend>
+  <build_depend>ar_track_alvar</build_depend> 
+
+ <build_depend>geometry_msgs</build_depend>
+ <build_depend>message_generation</build_depend>
+ <build_depend>resource_retriever</build_depend>
+ <build_depend>rospy</build_depend>
+ <build_depend>roscpp</build_depend>
+ <build_depend>sensor_msgs</build_depend>
+ <build_depend>std_msgs</build_depend>
+ <build_depend>tf2</build_depend>
+ <build_depend>tinyxml</build_depend>
+ <build_depend>visualization_msgs</build_depend>
+ <build_depend>dynamic_reconfigure</build_depend>
+  <build_depend>message_runtime</build_depend>
+
 
   <run_depend>cv_bridge</run_depend>
   <run_depend>eigen</run_depend>
@@ -36,4 +51,17 @@
   <run_depend>roscpp</run_depend>
   <run_depend>tf</run_depend>
   <run_depend>visualization_msgs</run_depend>
+  <run_depend>ar_track_alvar</run_depend>
+  <run_depend>geometry_msgs</run_depend>
+  <run_depend>message_generation</run_depend>
+   <run_depend>message_runtime</run_depend>
+  <run_depend>resource_retriever</run_depend>
+  <run_depend>rospy</run_depend>
+  <run_depend>roscpp</run_depend>
+  <run_depend>sensor_msgs</run_depend>
+  <run_depend>std_msgs</run_depend>
+  <run_depend>tf2</run_depend>
+  <run_depend>tinyxml</run_depend>
+  <run_depend>visualization_msgs</run_depend>
+  <run_depend>dynamic_reconfigure</run_depend>
 </package>

@@ -1,0 +1,11 @@
+\subsubsection usage Usage
+\verbatim
+<node name="ar_track_alvar_configure" pkg="ar_track_alvar" type="ar_track_alvar_configure">
+  <param name="enabled" type="bool" value="True" />
+  <param name="max_frequency" type="double" value="10.0" />
+  <param name="marker_size" type="double" value="10.0" />
+  <param name="max_new_marker_error" type="double" value="0.08" />
+  <param name="max_track_error" type="double" value="0.2" />
+</node>
+\endverbatim
+

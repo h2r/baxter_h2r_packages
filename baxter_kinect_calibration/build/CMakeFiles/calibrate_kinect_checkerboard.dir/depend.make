@@ -59,6 +59,8 @@ CMakeFiles/calibrate_kinect_checkerboard.dir/src/calibrate_kinect_checkerboard.c
 CMakeFiles/calibrate_kinect_checkerboard.dir/src/calibrate_kinect_checkerboard.cpp.o: /opt/ros/hydro/include/ros/callback_queue_interface.h
 CMakeFiles/calibrate_kinect_checkerboard.dir/src/calibrate_kinect_checkerboard.cpp.o: /opt/ros/hydro/include/ros/common.h
 CMakeFiles/calibrate_kinect_checkerboard.dir/src/calibrate_kinect_checkerboard.cpp.o: /opt/ros/hydro/include/ros/console.h
+CMakeFiles/calibrate_kinect_checkerboard.dir/src/calibrate_kinect_checkerboard.cpp.o: /opt/ros/hydro/include/ros/console_backend.h
+CMakeFiles/calibrate_kinect_checkerboard.dir/src/calibrate_kinect_checkerboard.cpp.o: /opt/ros/hydro/include/ros/datatypes.h
 CMakeFiles/calibrate_kinect_checkerboard.dir/src/calibrate_kinect_checkerboard.cpp.o: /opt/ros/hydro/include/ros/duration.h
 CMakeFiles/calibrate_kinect_checkerboard.dir/src/calibrate_kinect_checkerboard.cpp.o: /opt/ros/hydro/include/ros/exception.h
 CMakeFiles/calibrate_kinect_checkerboard.dir/src/calibrate_kinect_checkerboard.cpp.o: /opt/ros/hydro/include/ros/exceptions.h

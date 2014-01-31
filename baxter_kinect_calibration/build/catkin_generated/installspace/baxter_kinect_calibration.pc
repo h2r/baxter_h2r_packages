@@ -3,6 +3,6 @@ prefix=/usr/local
 Name: baxter_kinect_calibration
 Description: Description of baxter_kinect_calibration
 Version: 0.2.0
-Cflags: 
+Cflags: -I/usr/local/include
 Libs: -L/usr/local/lib 
-Requires: cv_bridge image_geometry image_transport pcl_ros roscpp tf visualization_msgs
+Requires: cv_bridge image_geometry image_transport pcl_ros roscpp tf visualization_msgs std_msgs tf2 message_runtime sensor_msgs geometry_msgs resource_retriever pcl_conversions dynamic_reconfigure

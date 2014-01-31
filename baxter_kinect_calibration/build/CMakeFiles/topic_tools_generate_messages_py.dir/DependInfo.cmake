@@ -6,7 +6,9 @@ SET(CMAKE_DEPENDS_LANGUAGES
 # Preprocessor definitions for this target.
 SET(CMAKE_TARGET_DEFINITIONS
   "ROS_PACKAGE_NAME=\"baxter_kinect_calibration\""
+  "ROSCONSOLE_BACKEND_LOG4CXX"
   "ROS_PACKAGE_NAME=\"baxter_kinect_calibration\""
+  "ROSCONSOLE_BACKEND_LOG4CXX"
   )
 
 # Targets to which this target links.
@@ -15,8 +17,11 @@ SET(CMAKE_TARGET_LINKED_INFO_FILES
 
 # The include file search paths:
 SET(CMAKE_C_TARGET_INCLUDE_PATH
+  "devel/include"
   "/usr/include/vtk-5.8"
   "../include"
+  "/home/brawner/workspace/devel/include"
+  "/home/brawner/workspace/src/ar_track_alvar/include"
   "/opt/ros/hydro/include"
   "/opt/ros/hydro/include/opencv"
   "/usr/include/eigen3"

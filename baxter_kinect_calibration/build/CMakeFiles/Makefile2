@@ -47,10 +47,10 @@ RM = /usr/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/brawner/workspace/baxter_hackathon/baxter_kinect_calibration
+CMAKE_SOURCE_DIR = /home/brawner/workspace/src/baxter_hackathon/baxter_kinect_calibration
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/brawner/workspace/baxter_hackathon/baxter_kinect_calibration/build
+CMAKE_BINARY_DIR = /home/brawner/workspace/src/baxter_hackathon/baxter_kinect_calibration/build
 
 #=============================================================================
 # Target rules for target CMakeFiles/actionlib_generate_messages_cpp.dir
@@ -59,15 +59,15 @@ CMAKE_BINARY_DIR = /home/brawner/workspace/baxter_hackathon/baxter_kinect_calibr
 CMakeFiles/actionlib_generate_messages_cpp.dir/all:
 	$(MAKE) -f CMakeFiles/actionlib_generate_messages_cpp.dir/build.make CMakeFiles/actionlib_generate_messages_cpp.dir/depend
 	$(MAKE) -f CMakeFiles/actionlib_generate_messages_cpp.dir/build.make CMakeFiles/actionlib_generate_messages_cpp.dir/build
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/brawner/workspace/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/brawner/workspace/src/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 
 	@echo "Built target actionlib_generate_messages_cpp"
 .PHONY : CMakeFiles/actionlib_generate_messages_cpp.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/actionlib_generate_messages_cpp.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/brawner/workspace/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/brawner/workspace/src/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 0
 	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/actionlib_generate_messages_cpp.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/brawner/workspace/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/brawner/workspace/src/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 0
 .PHONY : CMakeFiles/actionlib_generate_messages_cpp.dir/rule
 
 # Convenience name for target.
@@ -90,15 +90,15 @@ clean: CMakeFiles/actionlib_generate_messages_cpp.dir/clean
 CMakeFiles/actionlib_generate_messages_lisp.dir/all:
 	$(MAKE) -f CMakeFiles/actionlib_generate_messages_lisp.dir/build.make CMakeFiles/actionlib_generate_messages_lisp.dir/depend
 	$(MAKE) -f CMakeFiles/actionlib_generate_messages_lisp.dir/build.make CMakeFiles/actionlib_generate_messages_lisp.dir/build
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/brawner/workspace/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/brawner/workspace/src/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 
 	@echo "Built target actionlib_generate_messages_lisp"
 .PHONY : CMakeFiles/actionlib_generate_messages_lisp.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/actionlib_generate_messages_lisp.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/brawner/workspace/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/brawner/workspace/src/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 0
 	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/actionlib_generate_messages_lisp.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/brawner/workspace/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/brawner/workspace/src/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 0
 .PHONY : CMakeFiles/actionlib_generate_messages_lisp.dir/rule
 
 # Convenience name for target.
@@ -121,15 +121,15 @@ clean: CMakeFiles/actionlib_generate_messages_lisp.dir/clean
 CMakeFiles/actionlib_generate_messages_py.dir/all:
 	$(MAKE) -f CMakeFiles/actionlib_generate_messages_py.dir/build.make CMakeFiles/actionlib_generate_messages_py.dir/depend
 	$(MAKE) -f CMakeFiles/actionlib_generate_messages_py.dir/build.make CMakeFiles/actionlib_generate_messages_py.dir/build
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/brawner/workspace/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/brawner/workspace/src/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 
 	@echo "Built target actionlib_generate_messages_py"
 .PHONY : CMakeFiles/actionlib_generate_messages_py.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/actionlib_generate_messages_py.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/brawner/workspace/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/brawner/workspace/src/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 0
 	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/actionlib_generate_messages_py.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/brawner/workspace/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/brawner/workspace/src/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 0
 .PHONY : CMakeFiles/actionlib_generate_messages_py.dir/rule
 
 # Convenience name for target.
@@ -152,15 +152,15 @@ clean: CMakeFiles/actionlib_generate_messages_py.dir/clean
 CMakeFiles/actionlib_msgs_generate_messages_cpp.dir/all:
 	$(MAKE) -f CMakeFiles/actionlib_msgs_generate_messages_cpp.dir/build.make CMakeFiles/actionlib_msgs_generate_messages_cpp.dir/depend
 	$(MAKE) -f CMakeFiles/actionlib_msgs_generate_messages_cpp.dir/build.make CMakeFiles/actionlib_msgs_generate_messages_cpp.dir/build
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/brawner/workspace/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/brawner/workspace/src/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 
 	@echo "Built target actionlib_msgs_generate_messages_cpp"
 .PHONY : CMakeFiles/actionlib_msgs_generate_messages_cpp.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/actionlib_msgs_generate_messages_cpp.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/brawner/workspace/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/brawner/workspace/src/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 0
 	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/actionlib_msgs_generate_messages_cpp.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/brawner/workspace/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/brawner/workspace/src/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 0
 .PHONY : CMakeFiles/actionlib_msgs_generate_messages_cpp.dir/rule
 
 # Convenience name for target.
@@ -183,15 +183,15 @@ clean: CMakeFiles/actionlib_msgs_generate_messages_cpp.dir/clean
 CMakeFiles/actionlib_msgs_generate_messages_lisp.dir/all:
 	$(MAKE) -f CMakeFiles/actionlib_msgs_generate_messages_lisp.dir/build.make CMakeFiles/actionlib_msgs_generate_messages_lisp.dir/depend
 	$(MAKE) -f CMakeFiles/actionlib_msgs_generate_messages_lisp.dir/build.make CMakeFiles/actionlib_msgs_generate_messages_lisp.dir/build
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/brawner/workspace/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/brawner/workspace/src/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 
 	@echo "Built target actionlib_msgs_generate_messages_lisp"
 .PHONY : CMakeFiles/actionlib_msgs_generate_messages_lisp.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/actionlib_msgs_generate_messages_lisp.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/brawner/workspace/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/brawner/workspace/src/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 0
 	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/actionlib_msgs_generate_messages_lisp.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/brawner/workspace/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/brawner/workspace/src/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 0
 .PHONY : CMakeFiles/actionlib_msgs_generate_messages_lisp.dir/rule
 
 # Convenience name for target.
@@ -214,15 +214,15 @@ clean: CMakeFiles/actionlib_msgs_generate_messages_lisp.dir/clean
 CMakeFiles/actionlib_msgs_generate_messages_py.dir/all:
 	$(MAKE) -f CMakeFiles/actionlib_msgs_generate_messages_py.dir/build.make CMakeFiles/actionlib_msgs_generate_messages_py.dir/depend
 	$(MAKE) -f CMakeFiles/actionlib_msgs_generate_messages_py.dir/build.make CMakeFiles/actionlib_msgs_generate_messages_py.dir/build
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/brawner/workspace/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/brawner/workspace/src/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 
 	@echo "Built target actionlib_msgs_generate_messages_py"
 .PHONY : CMakeFiles/actionlib_msgs_generate_messages_py.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/actionlib_msgs_generate_messages_py.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/brawner/workspace/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/brawner/workspace/src/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 0
 	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/actionlib_msgs_generate_messages_py.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/brawner/workspace/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/brawner/workspace/src/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 0
 .PHONY : CMakeFiles/actionlib_msgs_generate_messages_py.dir/rule
 
 # Convenience name for target.
@@ -239,38 +239,162 @@ clean: CMakeFiles/actionlib_msgs_generate_messages_py.dir/clean
 .PHONY : clean
 
 #=============================================================================
-# Target rules for target CMakeFiles/auto_calibrate.dir
+# Target rules for target CMakeFiles/ar_track_alvar_gencfg.dir
 
 # All Build rule for target.
-CMakeFiles/auto_calibrate.dir/all:
-	$(MAKE) -f CMakeFiles/auto_calibrate.dir/build.make CMakeFiles/auto_calibrate.dir/depend
-	$(MAKE) -f CMakeFiles/auto_calibrate.dir/build.make CMakeFiles/auto_calibrate.dir/build
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/brawner/workspace/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles  1 2
-	@echo "Built target auto_calibrate"
-.PHONY : CMakeFiles/auto_calibrate.dir/all
+CMakeFiles/ar_track_alvar_gencfg.dir/all:
+	$(MAKE) -f CMakeFiles/ar_track_alvar_gencfg.dir/build.make CMakeFiles/ar_track_alvar_gencfg.dir/depend
+	$(MAKE) -f CMakeFiles/ar_track_alvar_gencfg.dir/build.make CMakeFiles/ar_track_alvar_gencfg.dir/build
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/brawner/workspace/src/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 
+	@echo "Built target ar_track_alvar_gencfg"
+.PHONY : CMakeFiles/ar_track_alvar_gencfg.dir/all
+
+# Build rule for subdir invocation for target.
+CMakeFiles/ar_track_alvar_gencfg.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/brawner/workspace/src/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 0
+	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/ar_track_alvar_gencfg.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/brawner/workspace/src/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 0
+.PHONY : CMakeFiles/ar_track_alvar_gencfg.dir/rule
+
+# Convenience name for target.
+ar_track_alvar_gencfg: CMakeFiles/ar_track_alvar_gencfg.dir/rule
+.PHONY : ar_track_alvar_gencfg
+
+# clean rule for target.
+CMakeFiles/ar_track_alvar_gencfg.dir/clean:
+	$(MAKE) -f CMakeFiles/ar_track_alvar_gencfg.dir/build.make CMakeFiles/ar_track_alvar_gencfg.dir/clean
+.PHONY : CMakeFiles/ar_track_alvar_gencfg.dir/clean
+
+# clean rule for target.
+clean: CMakeFiles/ar_track_alvar_gencfg.dir/clean
+.PHONY : clean
+
+#=============================================================================
+# Target rules for target CMakeFiles/ar_track_alvar_generate_messages_cpp.dir
+
+# All Build rule for target.
+CMakeFiles/ar_track_alvar_generate_messages_cpp.dir/all:
+	$(MAKE) -f CMakeFiles/ar_track_alvar_generate_messages_cpp.dir/build.make CMakeFiles/ar_track_alvar_generate_messages_cpp.dir/depend
+	$(MAKE) -f CMakeFiles/ar_track_alvar_generate_messages_cpp.dir/build.make CMakeFiles/ar_track_alvar_generate_messages_cpp.dir/build
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/brawner/workspace/src/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 
+	@echo "Built target ar_track_alvar_generate_messages_cpp"
+.PHONY : CMakeFiles/ar_track_alvar_generate_messages_cpp.dir/all
+
+# Build rule for subdir invocation for target.
+CMakeFiles/ar_track_alvar_generate_messages_cpp.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/brawner/workspace/src/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 0
+	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/ar_track_alvar_generate_messages_cpp.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/brawner/workspace/src/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 0
+.PHONY : CMakeFiles/ar_track_alvar_generate_messages_cpp.dir/rule
+
+# Convenience name for target.
+ar_track_alvar_generate_messages_cpp: CMakeFiles/ar_track_alvar_generate_messages_cpp.dir/rule
+.PHONY : ar_track_alvar_generate_messages_cpp
+
+# clean rule for target.
+CMakeFiles/ar_track_alvar_generate_messages_cpp.dir/clean:
+	$(MAKE) -f CMakeFiles/ar_track_alvar_generate_messages_cpp.dir/build.make CMakeFiles/ar_track_alvar_generate_messages_cpp.dir/clean
+.PHONY : CMakeFiles/ar_track_alvar_generate_messages_cpp.dir/clean
+
+# clean rule for target.
+clean: CMakeFiles/ar_track_alvar_generate_messages_cpp.dir/clean
+.PHONY : clean
+
+#=============================================================================
+# Target rules for target CMakeFiles/ar_track_alvar_generate_messages_lisp.dir
+
+# All Build rule for target.
+CMakeFiles/ar_track_alvar_generate_messages_lisp.dir/all:
+	$(MAKE) -f CMakeFiles/ar_track_alvar_generate_messages_lisp.dir/build.make CMakeFiles/ar_track_alvar_generate_messages_lisp.dir/depend
+	$(MAKE) -f CMakeFiles/ar_track_alvar_generate_messages_lisp.dir/build.make CMakeFiles/ar_track_alvar_generate_messages_lisp.dir/build
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/brawner/workspace/src/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 
+	@echo "Built target ar_track_alvar_generate_messages_lisp"
+.PHONY : CMakeFiles/ar_track_alvar_generate_messages_lisp.dir/all
+
+# Build rule for subdir invocation for target.
+CMakeFiles/ar_track_alvar_generate_messages_lisp.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/brawner/workspace/src/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 0
+	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/ar_track_alvar_generate_messages_lisp.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/brawner/workspace/src/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 0
+.PHONY : CMakeFiles/ar_track_alvar_generate_messages_lisp.dir/rule
+
+# Convenience name for target.
+ar_track_alvar_generate_messages_lisp: CMakeFiles/ar_track_alvar_generate_messages_lisp.dir/rule
+.PHONY : ar_track_alvar_generate_messages_lisp
+
+# clean rule for target.
+CMakeFiles/ar_track_alvar_generate_messages_lisp.dir/clean:
+	$(MAKE) -f CMakeFiles/ar_track_alvar_generate_messages_lisp.dir/build.make CMakeFiles/ar_track_alvar_generate_messages_lisp.dir/clean
+.PHONY : CMakeFiles/ar_track_alvar_generate_messages_lisp.dir/clean
+
+# clean rule for target.
+clean: CMakeFiles/ar_track_alvar_generate_messages_lisp.dir/clean
+.PHONY : clean
+
+#=============================================================================
+# Target rules for target CMakeFiles/ar_track_alvar_generate_messages_py.dir
+
+# All Build rule for target.
+CMakeFiles/ar_track_alvar_generate_messages_py.dir/all:
+	$(MAKE) -f CMakeFiles/ar_track_alvar_generate_messages_py.dir/build.make CMakeFiles/ar_track_alvar_generate_messages_py.dir/depend
+	$(MAKE) -f CMakeFiles/ar_track_alvar_generate_messages_py.dir/build.make CMakeFiles/ar_track_alvar_generate_messages_py.dir/build
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/brawner/workspace/src/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 
+	@echo "Built target ar_track_alvar_generate_messages_py"
+.PHONY : CMakeFiles/ar_track_alvar_generate_messages_py.dir/all
+
+# Build rule for subdir invocation for target.
+CMakeFiles/ar_track_alvar_generate_messages_py.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/brawner/workspace/src/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 0
+	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/ar_track_alvar_generate_messages_py.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/brawner/workspace/src/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 0
+.PHONY : CMakeFiles/ar_track_alvar_generate_messages_py.dir/rule
+
+# Convenience name for target.
+ar_track_alvar_generate_messages_py: CMakeFiles/ar_track_alvar_generate_messages_py.dir/rule
+.PHONY : ar_track_alvar_generate_messages_py
+
+# clean rule for target.
+CMakeFiles/ar_track_alvar_generate_messages_py.dir/clean:
+	$(MAKE) -f CMakeFiles/ar_track_alvar_generate_messages_py.dir/build.make CMakeFiles/ar_track_alvar_generate_messages_py.dir/clean
+.PHONY : CMakeFiles/ar_track_alvar_generate_messages_py.dir/clean
+
+# clean rule for target.
+clean: CMakeFiles/ar_track_alvar_generate_messages_py.dir/clean
+.PHONY : clean
+
+#=============================================================================
+# Target rules for target CMakeFiles/baxter_kinect_calibration_gencfg.dir
+
+# All Build rule for target.
+CMakeFiles/baxter_kinect_calibration_gencfg.dir/all:
+	$(MAKE) -f CMakeFiles/baxter_kinect_calibration_gencfg.dir/build.make CMakeFiles/baxter_kinect_calibration_gencfg.dir/depend
+	$(MAKE) -f CMakeFiles/baxter_kinect_calibration_gencfg.dir/build.make CMakeFiles/baxter_kinect_calibration_gencfg.dir/build
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/brawner/workspace/src/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles  1
+	@echo "Built target baxter_kinect_calibration_gencfg"
+.PHONY : CMakeFiles/baxter_kinect_calibration_gencfg.dir/all
 
 # Include target in all.
-all: CMakeFiles/auto_calibrate.dir/all
+all: CMakeFiles/baxter_kinect_calibration_gencfg.dir/all
 .PHONY : all
 
 # Build rule for subdir invocation for target.
-CMakeFiles/auto_calibrate.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/brawner/workspace/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 2
-	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/auto_calibrate.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/brawner/workspace/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 0
-.PHONY : CMakeFiles/auto_calibrate.dir/rule
+CMakeFiles/baxter_kinect_calibration_gencfg.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/brawner/workspace/src/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 1
+	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/baxter_kinect_calibration_gencfg.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/brawner/workspace/src/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 0
+.PHONY : CMakeFiles/baxter_kinect_calibration_gencfg.dir/rule
 
 # Convenience name for target.
-auto_calibrate: CMakeFiles/auto_calibrate.dir/rule
-.PHONY : auto_calibrate
+baxter_kinect_calibration_gencfg: CMakeFiles/baxter_kinect_calibration_gencfg.dir/rule
+.PHONY : baxter_kinect_calibration_gencfg
 
 # clean rule for target.
-CMakeFiles/auto_calibrate.dir/clean:
-	$(MAKE) -f CMakeFiles/auto_calibrate.dir/build.make CMakeFiles/auto_calibrate.dir/clean
-.PHONY : CMakeFiles/auto_calibrate.dir/clean
+CMakeFiles/baxter_kinect_calibration_gencfg.dir/clean:
+	$(MAKE) -f CMakeFiles/baxter_kinect_calibration_gencfg.dir/build.make CMakeFiles/baxter_kinect_calibration_gencfg.dir/clean
+.PHONY : CMakeFiles/baxter_kinect_calibration_gencfg.dir/clean
 
 # clean rule for target.
-clean: CMakeFiles/auto_calibrate.dir/clean
+clean: CMakeFiles/baxter_kinect_calibration_gencfg.dir/clean
 .PHONY : clean
 
 #=============================================================================
@@ -280,15 +404,15 @@ clean: CMakeFiles/auto_calibrate.dir/clean
 CMakeFiles/bond_generate_messages_cpp.dir/all:
 	$(MAKE) -f CMakeFiles/bond_generate_messages_cpp.dir/build.make CMakeFiles/bond_generate_messages_cpp.dir/depend
 	$(MAKE) -f CMakeFiles/bond_generate_messages_cpp.dir/build.make CMakeFiles/bond_generate_messages_cpp.dir/build
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/brawner/workspace/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/brawner/workspace/src/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 
 	@echo "Built target bond_generate_messages_cpp"
 .PHONY : CMakeFiles/bond_generate_messages_cpp.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/bond_generate_messages_cpp.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/brawner/workspace/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/brawner/workspace/src/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 0
 	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/bond_generate_messages_cpp.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/brawner/workspace/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/brawner/workspace/src/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 0
 .PHONY : CMakeFiles/bond_generate_messages_cpp.dir/rule
 
 # Convenience name for target.
@@ -311,15 +435,15 @@ clean: CMakeFiles/bond_generate_messages_cpp.dir/clean
 CMakeFiles/bond_generate_messages_lisp.dir/all:
 	$(MAKE) -f CMakeFiles/bond_generate_messages_lisp.dir/build.make CMakeFiles/bond_generate_messages_lisp.dir/depend
 	$(MAKE) -f CMakeFiles/bond_generate_messages_lisp.dir/build.make CMakeFiles/bond_generate_messages_lisp.dir/build
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/brawner/workspace/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/brawner/workspace/src/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 
 	@echo "Built target bond_generate_messages_lisp"
 .PHONY : CMakeFiles/bond_generate_messages_lisp.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/bond_generate_messages_lisp.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/brawner/workspace/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/brawner/workspace/src/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 0
 	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/bond_generate_messages_lisp.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/brawner/workspace/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/brawner/workspace/src/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 0
 .PHONY : CMakeFiles/bond_generate_messages_lisp.dir/rule
 
 # Convenience name for target.
@@ -342,15 +466,15 @@ clean: CMakeFiles/bond_generate_messages_lisp.dir/clean
 CMakeFiles/bond_generate_messages_py.dir/all:
 	$(MAKE) -f CMakeFiles/bond_generate_messages_py.dir/build.make CMakeFiles/bond_generate_messages_py.dir/depend
 	$(MAKE) -f CMakeFiles/bond_generate_messages_py.dir/build.make CMakeFiles/bond_generate_messages_py.dir/build
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/brawner/workspace/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/brawner/workspace/src/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 
 	@echo "Built target bond_generate_messages_py"
 .PHONY : CMakeFiles/bond_generate_messages_py.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/bond_generate_messages_py.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/brawner/workspace/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/brawner/workspace/src/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 0
 	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/bond_generate_messages_py.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/brawner/workspace/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/brawner/workspace/src/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 0
 .PHONY : CMakeFiles/bond_generate_messages_py.dir/rule
 
 # Convenience name for target.
@@ -367,56 +491,21 @@ clean: CMakeFiles/bond_generate_messages_py.dir/clean
 .PHONY : clean
 
 #=============================================================================
-# Target rules for target CMakeFiles/calibrate_kinect_checkerboard.dir
-
-# All Build rule for target.
-CMakeFiles/calibrate_kinect_checkerboard.dir/all:
-	$(MAKE) -f CMakeFiles/calibrate_kinect_checkerboard.dir/build.make CMakeFiles/calibrate_kinect_checkerboard.dir/depend
-	$(MAKE) -f CMakeFiles/calibrate_kinect_checkerboard.dir/build.make CMakeFiles/calibrate_kinect_checkerboard.dir/build
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/brawner/workspace/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles  3 4
-	@echo "Built target calibrate_kinect_checkerboard"
-.PHONY : CMakeFiles/calibrate_kinect_checkerboard.dir/all
-
-# Include target in all.
-all: CMakeFiles/calibrate_kinect_checkerboard.dir/all
-.PHONY : all
-
-# Build rule for subdir invocation for target.
-CMakeFiles/calibrate_kinect_checkerboard.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/brawner/workspace/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 2
-	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/calibrate_kinect_checkerboard.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/brawner/workspace/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 0
-.PHONY : CMakeFiles/calibrate_kinect_checkerboard.dir/rule
-
-# Convenience name for target.
-calibrate_kinect_checkerboard: CMakeFiles/calibrate_kinect_checkerboard.dir/rule
-.PHONY : calibrate_kinect_checkerboard
-
-# clean rule for target.
-CMakeFiles/calibrate_kinect_checkerboard.dir/clean:
-	$(MAKE) -f CMakeFiles/calibrate_kinect_checkerboard.dir/build.make CMakeFiles/calibrate_kinect_checkerboard.dir/clean
-.PHONY : CMakeFiles/calibrate_kinect_checkerboard.dir/clean
-
-# clean rule for target.
-clean: CMakeFiles/calibrate_kinect_checkerboard.dir/clean
-.PHONY : clean
-
-#=============================================================================
 # Target rules for target CMakeFiles/clean_test_results.dir
 
 # All Build rule for target.
 CMakeFiles/clean_test_results.dir/all:
 	$(MAKE) -f CMakeFiles/clean_test_results.dir/build.make CMakeFiles/clean_test_results.dir/depend
 	$(MAKE) -f CMakeFiles/clean_test_results.dir/build.make CMakeFiles/clean_test_results.dir/build
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/brawner/workspace/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/brawner/workspace/src/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 
 	@echo "Built target clean_test_results"
 .PHONY : CMakeFiles/clean_test_results.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/clean_test_results.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/brawner/workspace/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/brawner/workspace/src/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 0
 	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/clean_test_results.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/brawner/workspace/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/brawner/workspace/src/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 0
 .PHONY : CMakeFiles/clean_test_results.dir/rule
 
 # Convenience name for target.
@@ -439,15 +528,15 @@ clean: CMakeFiles/clean_test_results.dir/clean
 CMakeFiles/doxygen.dir/all:
 	$(MAKE) -f CMakeFiles/doxygen.dir/build.make CMakeFiles/doxygen.dir/depend
 	$(MAKE) -f CMakeFiles/doxygen.dir/build.make CMakeFiles/doxygen.dir/build
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/brawner/workspace/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles  5
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/brawner/workspace/src/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles  2
 	@echo "Built target doxygen"
 .PHONY : CMakeFiles/doxygen.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/doxygen.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/brawner/workspace/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 1
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/brawner/workspace/src/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 1
 	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/doxygen.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/brawner/workspace/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/brawner/workspace/src/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 0
 .PHONY : CMakeFiles/doxygen.dir/rule
 
 # Convenience name for target.
@@ -470,15 +559,15 @@ clean: CMakeFiles/doxygen.dir/clean
 CMakeFiles/dynamic_reconfigure_generate_messages_cpp.dir/all:
 	$(MAKE) -f CMakeFiles/dynamic_reconfigure_generate_messages_cpp.dir/build.make CMakeFiles/dynamic_reconfigure_generate_messages_cpp.dir/depend
 	$(MAKE) -f CMakeFiles/dynamic_reconfigure_generate_messages_cpp.dir/build.make CMakeFiles/dynamic_reconfigure_generate_messages_cpp.dir/build
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/brawner/workspace/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/brawner/workspace/src/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 
 	@echo "Built target dynamic_reconfigure_generate_messages_cpp"
 .PHONY : CMakeFiles/dynamic_reconfigure_generate_messages_cpp.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/dynamic_reconfigure_generate_messages_cpp.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/brawner/workspace/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/brawner/workspace/src/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 0
 	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/dynamic_reconfigure_generate_messages_cpp.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/brawner/workspace/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/brawner/workspace/src/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 0
 .PHONY : CMakeFiles/dynamic_reconfigure_generate_messages_cpp.dir/rule
 
 # Convenience name for target.
@@ -501,15 +590,15 @@ clean: CMakeFiles/dynamic_reconfigure_generate_messages_cpp.dir/clean
 CMakeFiles/dynamic_reconfigure_generate_messages_lisp.dir/all:
 	$(MAKE) -f CMakeFiles/dynamic_reconfigure_generate_messages_lisp.dir/build.make CMakeFiles/dynamic_reconfigure_generate_messages_lisp.dir/depend
 	$(MAKE) -f CMakeFiles/dynamic_reconfigure_generate_messages_lisp.dir/build.make CMakeFiles/dynamic_reconfigure_generate_messages_lisp.dir/build
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/brawner/workspace/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/brawner/workspace/src/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 
 	@echo "Built target dynamic_reconfigure_generate_messages_lisp"
 .PHONY : CMakeFiles/dynamic_reconfigure_generate_messages_lisp.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/dynamic_reconfigure_generate_messages_lisp.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/brawner/workspace/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/brawner/workspace/src/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 0
 	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/dynamic_reconfigure_generate_messages_lisp.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/brawner/workspace/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/brawner/workspace/src/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 0
 .PHONY : CMakeFiles/dynamic_reconfigure_generate_messages_lisp.dir/rule
 
 # Convenience name for target.
@@ -532,15 +621,15 @@ clean: CMakeFiles/dynamic_reconfigure_generate_messages_lisp.dir/clean
 CMakeFiles/dynamic_reconfigure_generate_messages_py.dir/all:
 	$(MAKE) -f CMakeFiles/dynamic_reconfigure_generate_messages_py.dir/build.make CMakeFiles/dynamic_reconfigure_generate_messages_py.dir/depend
 	$(MAKE) -f CMakeFiles/dynamic_reconfigure_generate_messages_py.dir/build.make CMakeFiles/dynamic_reconfigure_generate_messages_py.dir/build
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/brawner/workspace/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/brawner/workspace/src/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 
 	@echo "Built target dynamic_reconfigure_generate_messages_py"
 .PHONY : CMakeFiles/dynamic_reconfigure_generate_messages_py.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/dynamic_reconfigure_generate_messages_py.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/brawner/workspace/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/brawner/workspace/src/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 0
 	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/dynamic_reconfigure_generate_messages_py.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/brawner/workspace/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/brawner/workspace/src/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 0
 .PHONY : CMakeFiles/dynamic_reconfigure_generate_messages_py.dir/rule
 
 # Convenience name for target.
@@ -563,15 +652,15 @@ clean: CMakeFiles/dynamic_reconfigure_generate_messages_py.dir/clean
 CMakeFiles/geometry_msgs_generate_messages_cpp.dir/all:
 	$(MAKE) -f CMakeFiles/geometry_msgs_generate_messages_cpp.dir/build.make CMakeFiles/geometry_msgs_generate_messages_cpp.dir/depend
 	$(MAKE) -f CMakeFiles/geometry_msgs_generate_messages_cpp.dir/build.make CMakeFiles/geometry_msgs_generate_messages_cpp.dir/build
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/brawner/workspace/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/brawner/workspace/src/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 
 	@echo "Built target geometry_msgs_generate_messages_cpp"
 .PHONY : CMakeFiles/geometry_msgs_generate_messages_cpp.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/geometry_msgs_generate_messages_cpp.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/brawner/workspace/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/brawner/workspace/src/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 0
 	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/geometry_msgs_generate_messages_cpp.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/brawner/workspace/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/brawner/workspace/src/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 0
 .PHONY : CMakeFiles/geometry_msgs_generate_messages_cpp.dir/rule
 
 # Convenience name for target.
@@ -594,15 +683,15 @@ clean: CMakeFiles/geometry_msgs_generate_messages_cpp.dir/clean
 CMakeFiles/geometry_msgs_generate_messages_lisp.dir/all:
 	$(MAKE) -f CMakeFiles/geometry_msgs_generate_messages_lisp.dir/build.make CMakeFiles/geometry_msgs_generate_messages_lisp.dir/depend
 	$(MAKE) -f CMakeFiles/geometry_msgs_generate_messages_lisp.dir/build.make CMakeFiles/geometry_msgs_generate_messages_lisp.dir/build
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/brawner/workspace/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/brawner/workspace/src/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 
 	@echo "Built target geometry_msgs_generate_messages_lisp"
 .PHONY : CMakeFiles/geometry_msgs_generate_messages_lisp.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/geometry_msgs_generate_messages_lisp.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/brawner/workspace/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/brawner/workspace/src/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 0
 	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/geometry_msgs_generate_messages_lisp.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/brawner/workspace/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/brawner/workspace/src/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 0
 .PHONY : CMakeFiles/geometry_msgs_generate_messages_lisp.dir/rule
 
 # Convenience name for target.
@@ -625,15 +714,15 @@ clean: CMakeFiles/geometry_msgs_generate_messages_lisp.dir/clean
 CMakeFiles/geometry_msgs_generate_messages_py.dir/all:
 	$(MAKE) -f CMakeFiles/geometry_msgs_generate_messages_py.dir/build.make CMakeFiles/geometry_msgs_generate_messages_py.dir/depend
 	$(MAKE) -f CMakeFiles/geometry_msgs_generate_messages_py.dir/build.make CMakeFiles/geometry_msgs_generate_messages_py.dir/build
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/brawner/workspace/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/brawner/workspace/src/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 
 	@echo "Built target geometry_msgs_generate_messages_py"
 .PHONY : CMakeFiles/geometry_msgs_generate_messages_py.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/geometry_msgs_generate_messages_py.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/brawner/workspace/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/brawner/workspace/src/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 0
 	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/geometry_msgs_generate_messages_py.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/brawner/workspace/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/brawner/workspace/src/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 0
 .PHONY : CMakeFiles/geometry_msgs_generate_messages_py.dir/rule
 
 # Convenience name for target.
@@ -650,21 +739,56 @@ clean: CMakeFiles/geometry_msgs_generate_messages_py.dir/clean
 .PHONY : clean
 
 #=============================================================================
+# Target rules for target CMakeFiles/individual_markers_calibrate.dir
+
+# All Build rule for target.
+CMakeFiles/individual_markers_calibrate.dir/all:
+	$(MAKE) -f CMakeFiles/individual_markers_calibrate.dir/build.make CMakeFiles/individual_markers_calibrate.dir/depend
+	$(MAKE) -f CMakeFiles/individual_markers_calibrate.dir/build.make CMakeFiles/individual_markers_calibrate.dir/build
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/brawner/workspace/src/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles  5
+	@echo "Built target individual_markers_calibrate"
+.PHONY : CMakeFiles/individual_markers_calibrate.dir/all
+
+# Include target in all.
+all: CMakeFiles/individual_markers_calibrate.dir/all
+.PHONY : all
+
+# Build rule for subdir invocation for target.
+CMakeFiles/individual_markers_calibrate.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/brawner/workspace/src/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 1
+	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/individual_markers_calibrate.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/brawner/workspace/src/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 0
+.PHONY : CMakeFiles/individual_markers_calibrate.dir/rule
+
+# Convenience name for target.
+individual_markers_calibrate: CMakeFiles/individual_markers_calibrate.dir/rule
+.PHONY : individual_markers_calibrate
+
+# clean rule for target.
+CMakeFiles/individual_markers_calibrate.dir/clean:
+	$(MAKE) -f CMakeFiles/individual_markers_calibrate.dir/build.make CMakeFiles/individual_markers_calibrate.dir/clean
+.PHONY : CMakeFiles/individual_markers_calibrate.dir/clean
+
+# clean rule for target.
+clean: CMakeFiles/individual_markers_calibrate.dir/clean
+.PHONY : clean
+
+#=============================================================================
 # Target rules for target CMakeFiles/nodelet_generate_messages_cpp.dir
 
 # All Build rule for target.
 CMakeFiles/nodelet_generate_messages_cpp.dir/all:
 	$(MAKE) -f CMakeFiles/nodelet_generate_messages_cpp.dir/build.make CMakeFiles/nodelet_generate_messages_cpp.dir/depend
 	$(MAKE) -f CMakeFiles/nodelet_generate_messages_cpp.dir/build.make CMakeFiles/nodelet_generate_messages_cpp.dir/build
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/brawner/workspace/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/brawner/workspace/src/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 
 	@echo "Built target nodelet_generate_messages_cpp"
 .PHONY : CMakeFiles/nodelet_generate_messages_cpp.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/nodelet_generate_messages_cpp.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/brawner/workspace/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/brawner/workspace/src/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 0
 	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/nodelet_generate_messages_cpp.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/brawner/workspace/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/brawner/workspace/src/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 0
 .PHONY : CMakeFiles/nodelet_generate_messages_cpp.dir/rule
 
 # Convenience name for target.
@@ -687,15 +811,15 @@ clean: CMakeFiles/nodelet_generate_messages_cpp.dir/clean
 CMakeFiles/nodelet_generate_messages_lisp.dir/all:
 	$(MAKE) -f CMakeFiles/nodelet_generate_messages_lisp.dir/build.make CMakeFiles/nodelet_generate_messages_lisp.dir/depend
 	$(MAKE) -f CMakeFiles/nodelet_generate_messages_lisp.dir/build.make CMakeFiles/nodelet_generate_messages_lisp.dir/build
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/brawner/workspace/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/brawner/workspace/src/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 
 	@echo "Built target nodelet_generate_messages_lisp"
 .PHONY : CMakeFiles/nodelet_generate_messages_lisp.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/nodelet_generate_messages_lisp.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/brawner/workspace/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/brawner/workspace/src/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 0
 	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/nodelet_generate_messages_lisp.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/brawner/workspace/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/brawner/workspace/src/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 0
 .PHONY : CMakeFiles/nodelet_generate_messages_lisp.dir/rule
 
 # Convenience name for target.
@@ -718,15 +842,15 @@ clean: CMakeFiles/nodelet_generate_messages_lisp.dir/clean
 CMakeFiles/nodelet_generate_messages_py.dir/all:
 	$(MAKE) -f CMakeFiles/nodelet_generate_messages_py.dir/build.make CMakeFiles/nodelet_generate_messages_py.dir/depend
 	$(MAKE) -f CMakeFiles/nodelet_generate_messages_py.dir/build.make CMakeFiles/nodelet_generate_messages_py.dir/build
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/brawner/workspace/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/brawner/workspace/src/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 
 	@echo "Built target nodelet_generate_messages_py"
 .PHONY : CMakeFiles/nodelet_generate_messages_py.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/nodelet_generate_messages_py.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/brawner/workspace/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/brawner/workspace/src/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 0
 	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/nodelet_generate_messages_py.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/brawner/workspace/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/brawner/workspace/src/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 0
 .PHONY : CMakeFiles/nodelet_generate_messages_py.dir/rule
 
 # Convenience name for target.
@@ -749,15 +873,15 @@ clean: CMakeFiles/nodelet_generate_messages_py.dir/clean
 CMakeFiles/pcl_msgs_generate_messages_cpp.dir/all:
 	$(MAKE) -f CMakeFiles/pcl_msgs_generate_messages_cpp.dir/build.make CMakeFiles/pcl_msgs_generate_messages_cpp.dir/depend
 	$(MAKE) -f CMakeFiles/pcl_msgs_generate_messages_cpp.dir/build.make CMakeFiles/pcl_msgs_generate_messages_cpp.dir/build
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/brawner/workspace/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/brawner/workspace/src/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 
 	@echo "Built target pcl_msgs_generate_messages_cpp"
 .PHONY : CMakeFiles/pcl_msgs_generate_messages_cpp.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/pcl_msgs_generate_messages_cpp.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/brawner/workspace/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/brawner/workspace/src/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 0
 	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/pcl_msgs_generate_messages_cpp.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/brawner/workspace/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/brawner/workspace/src/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 0
 .PHONY : CMakeFiles/pcl_msgs_generate_messages_cpp.dir/rule
 
 # Convenience name for target.
@@ -780,15 +904,15 @@ clean: CMakeFiles/pcl_msgs_generate_messages_cpp.dir/clean
 CMakeFiles/pcl_msgs_generate_messages_lisp.dir/all:
 	$(MAKE) -f CMakeFiles/pcl_msgs_generate_messages_lisp.dir/build.make CMakeFiles/pcl_msgs_generate_messages_lisp.dir/depend
 	$(MAKE) -f CMakeFiles/pcl_msgs_generate_messages_lisp.dir/build.make CMakeFiles/pcl_msgs_generate_messages_lisp.dir/build
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/brawner/workspace/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/brawner/workspace/src/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 
 	@echo "Built target pcl_msgs_generate_messages_lisp"
 .PHONY : CMakeFiles/pcl_msgs_generate_messages_lisp.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/pcl_msgs_generate_messages_lisp.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/brawner/workspace/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/brawner/workspace/src/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 0
 	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/pcl_msgs_generate_messages_lisp.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/brawner/workspace/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/brawner/workspace/src/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 0
 .PHONY : CMakeFiles/pcl_msgs_generate_messages_lisp.dir/rule
 
 # Convenience name for target.
@@ -811,15 +935,15 @@ clean: CMakeFiles/pcl_msgs_generate_messages_lisp.dir/clean
 CMakeFiles/pcl_msgs_generate_messages_py.dir/all:
 	$(MAKE) -f CMakeFiles/pcl_msgs_generate_messages_py.dir/build.make CMakeFiles/pcl_msgs_generate_messages_py.dir/depend
 	$(MAKE) -f CMakeFiles/pcl_msgs_generate_messages_py.dir/build.make CMakeFiles/pcl_msgs_generate_messages_py.dir/build
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/brawner/workspace/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/brawner/workspace/src/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 
 	@echo "Built target pcl_msgs_generate_messages_py"
 .PHONY : CMakeFiles/pcl_msgs_generate_messages_py.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/pcl_msgs_generate_messages_py.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/brawner/workspace/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/brawner/workspace/src/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 0
 	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/pcl_msgs_generate_messages_py.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/brawner/workspace/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/brawner/workspace/src/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 0
 .PHONY : CMakeFiles/pcl_msgs_generate_messages_py.dir/rule
 
 # Convenience name for target.
@@ -842,15 +966,15 @@ clean: CMakeFiles/pcl_msgs_generate_messages_py.dir/clean
 CMakeFiles/pcl_ros_gencfg.dir/all:
 	$(MAKE) -f CMakeFiles/pcl_ros_gencfg.dir/build.make CMakeFiles/pcl_ros_gencfg.dir/depend
 	$(MAKE) -f CMakeFiles/pcl_ros_gencfg.dir/build.make CMakeFiles/pcl_ros_gencfg.dir/build
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/brawner/workspace/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/brawner/workspace/src/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 
 	@echo "Built target pcl_ros_gencfg"
 .PHONY : CMakeFiles/pcl_ros_gencfg.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/pcl_ros_gencfg.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/brawner/workspace/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/brawner/workspace/src/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 0
 	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/pcl_ros_gencfg.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/brawner/workspace/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/brawner/workspace/src/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 0
 .PHONY : CMakeFiles/pcl_ros_gencfg.dir/rule
 
 # Convenience name for target.
@@ -873,15 +997,15 @@ clean: CMakeFiles/pcl_ros_gencfg.dir/clean
 CMakeFiles/roscpp_generate_messages_cpp.dir/all:
 	$(MAKE) -f CMakeFiles/roscpp_generate_messages_cpp.dir/build.make CMakeFiles/roscpp_generate_messages_cpp.dir/depend
 	$(MAKE) -f CMakeFiles/roscpp_generate_messages_cpp.dir/build.make CMakeFiles/roscpp_generate_messages_cpp.dir/build
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/brawner/workspace/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/brawner/workspace/src/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 
 	@echo "Built target roscpp_generate_messages_cpp"
 .PHONY : CMakeFiles/roscpp_generate_messages_cpp.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/roscpp_generate_messages_cpp.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/brawner/workspace/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/brawner/workspace/src/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 0
 	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/roscpp_generate_messages_cpp.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/brawner/workspace/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/brawner/workspace/src/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 0
 .PHONY : CMakeFiles/roscpp_generate_messages_cpp.dir/rule
 
 # Convenience name for target.
@@ -904,15 +1028,15 @@ clean: CMakeFiles/roscpp_generate_messages_cpp.dir/clean
 CMakeFiles/roscpp_generate_messages_lisp.dir/all:
 	$(MAKE) -f CMakeFiles/roscpp_generate_messages_lisp.dir/build.make CMakeFiles/roscpp_generate_messages_lisp.dir/depend
 	$(MAKE) -f CMakeFiles/roscpp_generate_messages_lisp.dir/build.make CMakeFiles/roscpp_generate_messages_lisp.dir/build
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/brawner/workspace/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/brawner/workspace/src/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 
 	@echo "Built target roscpp_generate_messages_lisp"
 .PHONY : CMakeFiles/roscpp_generate_messages_lisp.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/roscpp_generate_messages_lisp.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/brawner/workspace/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/brawner/workspace/src/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 0
 	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/roscpp_generate_messages_lisp.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/brawner/workspace/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/brawner/workspace/src/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 0
 .PHONY : CMakeFiles/roscpp_generate_messages_lisp.dir/rule
 
 # Convenience name for target.
@@ -935,15 +1059,15 @@ clean: CMakeFiles/roscpp_generate_messages_lisp.dir/clean
 CMakeFiles/roscpp_generate_messages_py.dir/all:
 	$(MAKE) -f CMakeFiles/roscpp_generate_messages_py.dir/build.make CMakeFiles/roscpp_generate_messages_py.dir/depend
 	$(MAKE) -f CMakeFiles/roscpp_generate_messages_py.dir/build.make CMakeFiles/roscpp_generate_messages_py.dir/build
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/brawner/workspace/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/brawner/workspace/src/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 
 	@echo "Built target roscpp_generate_messages_py"
 .PHONY : CMakeFiles/roscpp_generate_messages_py.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/roscpp_generate_messages_py.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/brawner/workspace/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/brawner/workspace/src/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 0
 	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/roscpp_generate_messages_py.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/brawner/workspace/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/brawner/workspace/src/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 0
 .PHONY : CMakeFiles/roscpp_generate_messages_py.dir/rule
 
 # Convenience name for target.
@@ -966,15 +1090,15 @@ clean: CMakeFiles/roscpp_generate_messages_py.dir/clean
 CMakeFiles/rosgraph_msgs_generate_messages_cpp.dir/all:
 	$(MAKE) -f CMakeFiles/rosgraph_msgs_generate_messages_cpp.dir/build.make CMakeFiles/rosgraph_msgs_generate_messages_cpp.dir/depend
 	$(MAKE) -f CMakeFiles/rosgraph_msgs_generate_messages_cpp.dir/build.make CMakeFiles/rosgraph_msgs_generate_messages_cpp.dir/build
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/brawner/workspace/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/brawner/workspace/src/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 
 	@echo "Built target rosgraph_msgs_generate_messages_cpp"
 .PHONY : CMakeFiles/rosgraph_msgs_generate_messages_cpp.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/rosgraph_msgs_generate_messages_cpp.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/brawner/workspace/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/brawner/workspace/src/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 0
 	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/rosgraph_msgs_generate_messages_cpp.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/brawner/workspace/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/brawner/workspace/src/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 0
 .PHONY : CMakeFiles/rosgraph_msgs_generate_messages_cpp.dir/rule
 
 # Convenience name for target.
@@ -997,15 +1121,15 @@ clean: CMakeFiles/rosgraph_msgs_generate_messages_cpp.dir/clean
 CMakeFiles/rosgraph_msgs_generate_messages_lisp.dir/all:
 	$(MAKE) -f CMakeFiles/rosgraph_msgs_generate_messages_lisp.dir/build.make CMakeFiles/rosgraph_msgs_generate_messages_lisp.dir/depend
 	$(MAKE) -f CMakeFiles/rosgraph_msgs_generate_messages_lisp.dir/build.make CMakeFiles/rosgraph_msgs_generate_messages_lisp.dir/build
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/brawner/workspace/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/brawner/workspace/src/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 
 	@echo "Built target rosgraph_msgs_generate_messages_lisp"
 .PHONY : CMakeFiles/rosgraph_msgs_generate_messages_lisp.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/rosgraph_msgs_generate_messages_lisp.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/brawner/workspace/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/brawner/workspace/src/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 0
 	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/rosgraph_msgs_generate_messages_lisp.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/brawner/workspace/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/brawner/workspace/src/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 0
 .PHONY : CMakeFiles/rosgraph_msgs_generate_messages_lisp.dir/rule
 
 # Convenience name for target.
@@ -1028,15 +1152,15 @@ clean: CMakeFiles/rosgraph_msgs_generate_messages_lisp.dir/clean
 CMakeFiles/rosgraph_msgs_generate_messages_py.dir/all:
 	$(MAKE) -f CMakeFiles/rosgraph_msgs_generate_messages_py.dir/build.make CMakeFiles/rosgraph_msgs_generate_messages_py.dir/depend
 	$(MAKE) -f CMakeFiles/rosgraph_msgs_generate_messages_py.dir/build.make CMakeFiles/rosgraph_msgs_generate_messages_py.dir/build
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/brawner/workspace/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/brawner/workspace/src/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 
 	@echo "Built target rosgraph_msgs_generate_messages_py"
 .PHONY : CMakeFiles/rosgraph_msgs_generate_messages_py.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/rosgraph_msgs_generate_messages_py.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/brawner/workspace/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/brawner/workspace/src/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 0
 	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/rosgraph_msgs_generate_messages_py.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/brawner/workspace/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/brawner/workspace/src/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 0
 .PHONY : CMakeFiles/rosgraph_msgs_generate_messages_py.dir/rule
 
 # Convenience name for target.
@@ -1059,15 +1183,15 @@ clean: CMakeFiles/rosgraph_msgs_generate_messages_py.dir/clean
 CMakeFiles/run_tests.dir/all:
 	$(MAKE) -f CMakeFiles/run_tests.dir/build.make CMakeFiles/run_tests.dir/depend
 	$(MAKE) -f CMakeFiles/run_tests.dir/build.make CMakeFiles/run_tests.dir/build
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/brawner/workspace/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/brawner/workspace/src/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 
 	@echo "Built target run_tests"
 .PHONY : CMakeFiles/run_tests.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/run_tests.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/brawner/workspace/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/brawner/workspace/src/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 0
 	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/run_tests.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/brawner/workspace/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/brawner/workspace/src/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 0
 .PHONY : CMakeFiles/run_tests.dir/rule
 
 # Convenience name for target.
@@ -1090,15 +1214,15 @@ clean: CMakeFiles/run_tests.dir/clean
 CMakeFiles/sensor_msgs_generate_messages_cpp.dir/all:
 	$(MAKE) -f CMakeFiles/sensor_msgs_generate_messages_cpp.dir/build.make CMakeFiles/sensor_msgs_generate_messages_cpp.dir/depend
 	$(MAKE) -f CMakeFiles/sensor_msgs_generate_messages_cpp.dir/build.make CMakeFiles/sensor_msgs_generate_messages_cpp.dir/build
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/brawner/workspace/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/brawner/workspace/src/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 
 	@echo "Built target sensor_msgs_generate_messages_cpp"
 .PHONY : CMakeFiles/sensor_msgs_generate_messages_cpp.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/sensor_msgs_generate_messages_cpp.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/brawner/workspace/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/brawner/workspace/src/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 0
 	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/sensor_msgs_generate_messages_cpp.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/brawner/workspace/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/brawner/workspace/src/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 0
 .PHONY : CMakeFiles/sensor_msgs_generate_messages_cpp.dir/rule
 
 # Convenience name for target.
@@ -1121,15 +1245,15 @@ clean: CMakeFiles/sensor_msgs_generate_messages_cpp.dir/clean
 CMakeFiles/sensor_msgs_generate_messages_lisp.dir/all:
 	$(MAKE) -f CMakeFiles/sensor_msgs_generate_messages_lisp.dir/build.make CMakeFiles/sensor_msgs_generate_messages_lisp.dir/depend
 	$(MAKE) -f CMakeFiles/sensor_msgs_generate_messages_lisp.dir/build.make CMakeFiles/sensor_msgs_generate_messages_lisp.dir/build
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/brawner/workspace/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/brawner/workspace/src/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 
 	@echo "Built target sensor_msgs_generate_messages_lisp"
 .PHONY : CMakeFiles/sensor_msgs_generate_messages_lisp.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/sensor_msgs_generate_messages_lisp.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/brawner/workspace/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/brawner/workspace/src/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 0
 	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/sensor_msgs_generate_messages_lisp.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/brawner/workspace/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/brawner/workspace/src/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 0
 .PHONY : CMakeFiles/sensor_msgs_generate_messages_lisp.dir/rule
 
 # Convenience name for target.
@@ -1152,15 +1276,15 @@ clean: CMakeFiles/sensor_msgs_generate_messages_lisp.dir/clean
 CMakeFiles/sensor_msgs_generate_messages_py.dir/all:
 	$(MAKE) -f CMakeFiles/sensor_msgs_generate_messages_py.dir/build.make CMakeFiles/sensor_msgs_generate_messages_py.dir/depend
 	$(MAKE) -f CMakeFiles/sensor_msgs_generate_messages_py.dir/build.make CMakeFiles/sensor_msgs_generate_messages_py.dir/build
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/brawner/workspace/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/brawner/workspace/src/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 
 	@echo "Built target sensor_msgs_generate_messages_py"
 .PHONY : CMakeFiles/sensor_msgs_generate_messages_py.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/sensor_msgs_generate_messages_py.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/brawner/workspace/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/brawner/workspace/src/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 0
 	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/sensor_msgs_generate_messages_py.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/brawner/workspace/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/brawner/workspace/src/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 0
 .PHONY : CMakeFiles/sensor_msgs_generate_messages_py.dir/rule
 
 # Convenience name for target.
@@ -1183,15 +1307,15 @@ clean: CMakeFiles/sensor_msgs_generate_messages_py.dir/clean
 CMakeFiles/std_msgs_generate_messages_cpp.dir/all:
 	$(MAKE) -f CMakeFiles/std_msgs_generate_messages_cpp.dir/build.make CMakeFiles/std_msgs_generate_messages_cpp.dir/depend
 	$(MAKE) -f CMakeFiles/std_msgs_generate_messages_cpp.dir/build.make CMakeFiles/std_msgs_generate_messages_cpp.dir/build
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/brawner/workspace/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/brawner/workspace/src/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 
 	@echo "Built target std_msgs_generate_messages_cpp"
 .PHONY : CMakeFiles/std_msgs_generate_messages_cpp.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/std_msgs_generate_messages_cpp.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/brawner/workspace/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/brawner/workspace/src/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 0
 	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/std_msgs_generate_messages_cpp.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/brawner/workspace/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/brawner/workspace/src/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 0
 .PHONY : CMakeFiles/std_msgs_generate_messages_cpp.dir/rule
 
 # Convenience name for target.
@@ -1214,15 +1338,15 @@ clean: CMakeFiles/std_msgs_generate_messages_cpp.dir/clean
 CMakeFiles/std_msgs_generate_messages_lisp.dir/all:
 	$(MAKE) -f CMakeFiles/std_msgs_generate_messages_lisp.dir/build.make CMakeFiles/std_msgs_generate_messages_lisp.dir/depend
 	$(MAKE) -f CMakeFiles/std_msgs_generate_messages_lisp.dir/build.make CMakeFiles/std_msgs_generate_messages_lisp.dir/build
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/brawner/workspace/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/brawner/workspace/src/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 
 	@echo "Built target std_msgs_generate_messages_lisp"
 .PHONY : CMakeFiles/std_msgs_generate_messages_lisp.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/std_msgs_generate_messages_lisp.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/brawner/workspace/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/brawner/workspace/src/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 0
 	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/std_msgs_generate_messages_lisp.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/brawner/workspace/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/brawner/workspace/src/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 0
 .PHONY : CMakeFiles/std_msgs_generate_messages_lisp.dir/rule
 
 # Convenience name for target.
@@ -1245,15 +1369,15 @@ clean: CMakeFiles/std_msgs_generate_messages_lisp.dir/clean
 CMakeFiles/std_msgs_generate_messages_py.dir/all:
 	$(MAKE) -f CMakeFiles/std_msgs_generate_messages_py.dir/build.make CMakeFiles/std_msgs_generate_messages_py.dir/depend
 	$(MAKE) -f CMakeFiles/std_msgs_generate_messages_py.dir/build.make CMakeFiles/std_msgs_generate_messages_py.dir/build
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/brawner/workspace/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/brawner/workspace/src/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 
 	@echo "Built target std_msgs_generate_messages_py"
 .PHONY : CMakeFiles/std_msgs_generate_messages_py.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/std_msgs_generate_messages_py.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/brawner/workspace/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/brawner/workspace/src/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 0
 	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/std_msgs_generate_messages_py.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/brawner/workspace/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/brawner/workspace/src/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 0
 .PHONY : CMakeFiles/std_msgs_generate_messages_py.dir/rule
 
 # Convenience name for target.
@@ -1276,15 +1400,15 @@ clean: CMakeFiles/std_msgs_generate_messages_py.dir/clean
 CMakeFiles/tests.dir/all:
 	$(MAKE) -f CMakeFiles/tests.dir/build.make CMakeFiles/tests.dir/depend
 	$(MAKE) -f CMakeFiles/tests.dir/build.make CMakeFiles/tests.dir/build
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/brawner/workspace/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/brawner/workspace/src/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 
 	@echo "Built target tests"
 .PHONY : CMakeFiles/tests.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/tests.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/brawner/workspace/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/brawner/workspace/src/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 0
 	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/tests.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/brawner/workspace/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/brawner/workspace/src/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 0
 .PHONY : CMakeFiles/tests.dir/rule
 
 # Convenience name for target.
@@ -1307,15 +1431,15 @@ clean: CMakeFiles/tests.dir/clean
 CMakeFiles/tf2_msgs_generate_messages_cpp.dir/all:
 	$(MAKE) -f CMakeFiles/tf2_msgs_generate_messages_cpp.dir/build.make CMakeFiles/tf2_msgs_generate_messages_cpp.dir/depend
 	$(MAKE) -f CMakeFiles/tf2_msgs_generate_messages_cpp.dir/build.make CMakeFiles/tf2_msgs_generate_messages_cpp.dir/build
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/brawner/workspace/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/brawner/workspace/src/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 
 	@echo "Built target tf2_msgs_generate_messages_cpp"
 .PHONY : CMakeFiles/tf2_msgs_generate_messages_cpp.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/tf2_msgs_generate_messages_cpp.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/brawner/workspace/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/brawner/workspace/src/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 0
 	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/tf2_msgs_generate_messages_cpp.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/brawner/workspace/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/brawner/workspace/src/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 0
 .PHONY : CMakeFiles/tf2_msgs_generate_messages_cpp.dir/rule
 
 # Convenience name for target.
@@ -1338,15 +1462,15 @@ clean: CMakeFiles/tf2_msgs_generate_messages_cpp.dir/clean
 CMakeFiles/tf2_msgs_generate_messages_lisp.dir/all:
 	$(MAKE) -f CMakeFiles/tf2_msgs_generate_messages_lisp.dir/build.make CMakeFiles/tf2_msgs_generate_messages_lisp.dir/depend
 	$(MAKE) -f CMakeFiles/tf2_msgs_generate_messages_lisp.dir/build.make CMakeFiles/tf2_msgs_generate_messages_lisp.dir/build
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/brawner/workspace/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/brawner/workspace/src/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 
 	@echo "Built target tf2_msgs_generate_messages_lisp"
 .PHONY : CMakeFiles/tf2_msgs_generate_messages_lisp.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/tf2_msgs_generate_messages_lisp.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/brawner/workspace/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/brawner/workspace/src/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 0
 	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/tf2_msgs_generate_messages_lisp.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/brawner/workspace/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/brawner/workspace/src/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 0
 .PHONY : CMakeFiles/tf2_msgs_generate_messages_lisp.dir/rule
 
 # Convenience name for target.
@@ -1369,15 +1493,15 @@ clean: CMakeFiles/tf2_msgs_generate_messages_lisp.dir/clean
 CMakeFiles/tf2_msgs_generate_messages_py.dir/all:
 	$(MAKE) -f CMakeFiles/tf2_msgs_generate_messages_py.dir/build.make CMakeFiles/tf2_msgs_generate_messages_py.dir/depend
 	$(MAKE) -f CMakeFiles/tf2_msgs_generate_messages_py.dir/build.make CMakeFiles/tf2_msgs_generate_messages_py.dir/build
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/brawner/workspace/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/brawner/workspace/src/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 
 	@echo "Built target tf2_msgs_generate_messages_py"
 .PHONY : CMakeFiles/tf2_msgs_generate_messages_py.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/tf2_msgs_generate_messages_py.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/brawner/workspace/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/brawner/workspace/src/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 0
 	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/tf2_msgs_generate_messages_py.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/brawner/workspace/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/brawner/workspace/src/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 0
 .PHONY : CMakeFiles/tf2_msgs_generate_messages_py.dir/rule
 
 # Convenience name for target.
@@ -1400,15 +1524,15 @@ clean: CMakeFiles/tf2_msgs_generate_messages_py.dir/clean
 CMakeFiles/tf_generate_messages_cpp.dir/all:
 	$(MAKE) -f CMakeFiles/tf_generate_messages_cpp.dir/build.make CMakeFiles/tf_generate_messages_cpp.dir/depend
 	$(MAKE) -f CMakeFiles/tf_generate_messages_cpp.dir/build.make CMakeFiles/tf_generate_messages_cpp.dir/build
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/brawner/workspace/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/brawner/workspace/src/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 
 	@echo "Built target tf_generate_messages_cpp"
 .PHONY : CMakeFiles/tf_generate_messages_cpp.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/tf_generate_messages_cpp.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/brawner/workspace/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/brawner/workspace/src/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 0
 	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/tf_generate_messages_cpp.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/brawner/workspace/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/brawner/workspace/src/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 0
 .PHONY : CMakeFiles/tf_generate_messages_cpp.dir/rule
 
 # Convenience name for target.
@@ -1431,15 +1555,15 @@ clean: CMakeFiles/tf_generate_messages_cpp.dir/clean
 CMakeFiles/tf_generate_messages_lisp.dir/all:
 	$(MAKE) -f CMakeFiles/tf_generate_messages_lisp.dir/build.make CMakeFiles/tf_generate_messages_lisp.dir/depend
 	$(MAKE) -f CMakeFiles/tf_generate_messages_lisp.dir/build.make CMakeFiles/tf_generate_messages_lisp.dir/build
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/brawner/workspace/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/brawner/workspace/src/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 
 	@echo "Built target tf_generate_messages_lisp"
 .PHONY : CMakeFiles/tf_generate_messages_lisp.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/tf_generate_messages_lisp.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/brawner/workspace/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/brawner/workspace/src/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 0
 	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/tf_generate_messages_lisp.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/brawner/workspace/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/brawner/workspace/src/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 0
 .PHONY : CMakeFiles/tf_generate_messages_lisp.dir/rule
 
 # Convenience name for target.
@@ -1462,15 +1586,15 @@ clean: CMakeFiles/tf_generate_messages_lisp.dir/clean
 CMakeFiles/tf_generate_messages_py.dir/all:
 	$(MAKE) -f CMakeFiles/tf_generate_messages_py.dir/build.make CMakeFiles/tf_generate_messages_py.dir/depend
 	$(MAKE) -f CMakeFiles/tf_generate_messages_py.dir/build.make CMakeFiles/tf_generate_messages_py.dir/build
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/brawner/workspace/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/brawner/workspace/src/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 
 	@echo "Built target tf_generate_messages_py"
 .PHONY : CMakeFiles/tf_generate_messages_py.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/tf_generate_messages_py.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/brawner/workspace/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/brawner/workspace/src/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 0
 	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/tf_generate_messages_py.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/brawner/workspace/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/brawner/workspace/src/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 0
 .PHONY : CMakeFiles/tf_generate_messages_py.dir/rule
 
 # Convenience name for target.
@@ -1493,15 +1617,15 @@ clean: CMakeFiles/tf_generate_messages_py.dir/clean
 CMakeFiles/topic_tools_generate_messages_cpp.dir/all:
 	$(MAKE) -f CMakeFiles/topic_tools_generate_messages_cpp.dir/build.make CMakeFiles/topic_tools_generate_messages_cpp.dir/depend
 	$(MAKE) -f CMakeFiles/topic_tools_generate_messages_cpp.dir/build.make CMakeFiles/topic_tools_generate_messages_cpp.dir/build
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/brawner/workspace/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/brawner/workspace/src/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 
 	@echo "Built target topic_tools_generate_messages_cpp"
 .PHONY : CMakeFiles/topic_tools_generate_messages_cpp.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/topic_tools_generate_messages_cpp.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/brawner/workspace/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/brawner/workspace/src/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 0
 	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/topic_tools_generate_messages_cpp.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/brawner/workspace/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/brawner/workspace/src/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 0
 .PHONY : CMakeFiles/topic_tools_generate_messages_cpp.dir/rule
 
 # Convenience name for target.
@@ -1524,15 +1648,15 @@ clean: CMakeFiles/topic_tools_generate_messages_cpp.dir/clean
 CMakeFiles/topic_tools_generate_messages_lisp.dir/all:
 	$(MAKE) -f CMakeFiles/topic_tools_generate_messages_lisp.dir/build.make CMakeFiles/topic_tools_generate_messages_lisp.dir/depend
 	$(MAKE) -f CMakeFiles/topic_tools_generate_messages_lisp.dir/build.make CMakeFiles/topic_tools_generate_messages_lisp.dir/build
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/brawner/workspace/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/brawner/workspace/src/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 
 	@echo "Built target topic_tools_generate_messages_lisp"
 .PHONY : CMakeFiles/topic_tools_generate_messages_lisp.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/topic_tools_generate_messages_lisp.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/brawner/workspace/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/brawner/workspace/src/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 0
 	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/topic_tools_generate_messages_lisp.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/brawner/workspace/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/brawner/workspace/src/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 0
 .PHONY : CMakeFiles/topic_tools_generate_messages_lisp.dir/rule
 
 # Convenience name for target.
@@ -1555,15 +1679,15 @@ clean: CMakeFiles/topic_tools_generate_messages_lisp.dir/clean
 CMakeFiles/topic_tools_generate_messages_py.dir/all:
 	$(MAKE) -f CMakeFiles/topic_tools_generate_messages_py.dir/build.make CMakeFiles/topic_tools_generate_messages_py.dir/depend
 	$(MAKE) -f CMakeFiles/topic_tools_generate_messages_py.dir/build.make CMakeFiles/topic_tools_generate_messages_py.dir/build
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/brawner/workspace/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/brawner/workspace/src/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 
 	@echo "Built target topic_tools_generate_messages_py"
 .PHONY : CMakeFiles/topic_tools_generate_messages_py.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/topic_tools_generate_messages_py.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/brawner/workspace/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/brawner/workspace/src/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 0
 	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/topic_tools_generate_messages_py.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/brawner/workspace/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/brawner/workspace/src/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 0
 .PHONY : CMakeFiles/topic_tools_generate_messages_py.dir/rule
 
 # Convenience name for target.
@@ -1586,15 +1710,15 @@ clean: CMakeFiles/topic_tools_generate_messages_py.dir/clean
 CMakeFiles/visualization_msgs_generate_messages_cpp.dir/all:
 	$(MAKE) -f CMakeFiles/visualization_msgs_generate_messages_cpp.dir/build.make CMakeFiles/visualization_msgs_generate_messages_cpp.dir/depend
 	$(MAKE) -f CMakeFiles/visualization_msgs_generate_messages_cpp.dir/build.make CMakeFiles/visualization_msgs_generate_messages_cpp.dir/build
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/brawner/workspace/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/brawner/workspace/src/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 
 	@echo "Built target visualization_msgs_generate_messages_cpp"
 .PHONY : CMakeFiles/visualization_msgs_generate_messages_cpp.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/visualization_msgs_generate_messages_cpp.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/brawner/workspace/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/brawner/workspace/src/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 0
 	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/visualization_msgs_generate_messages_cpp.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/brawner/workspace/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/brawner/workspace/src/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 0
 .PHONY : CMakeFiles/visualization_msgs_generate_messages_cpp.dir/rule
 
 # Convenience name for target.
@@ -1617,15 +1741,15 @@ clean: CMakeFiles/visualization_msgs_generate_messages_cpp.dir/clean
 CMakeFiles/visualization_msgs_generate_messages_lisp.dir/all:
 	$(MAKE) -f CMakeFiles/visualization_msgs_generate_messages_lisp.dir/build.make CMakeFiles/visualization_msgs_generate_messages_lisp.dir/depend
 	$(MAKE) -f CMakeFiles/visualization_msgs_generate_messages_lisp.dir/build.make CMakeFiles/visualization_msgs_generate_messages_lisp.dir/build
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/brawner/workspace/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/brawner/workspace/src/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 
 	@echo "Built target visualization_msgs_generate_messages_lisp"
 .PHONY : CMakeFiles/visualization_msgs_generate_messages_lisp.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/visualization_msgs_generate_messages_lisp.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/brawner/workspace/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/brawner/workspace/src/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 0
 	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/visualization_msgs_generate_messages_lisp.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/brawner/workspace/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/brawner/workspace/src/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 0
 .PHONY : CMakeFiles/visualization_msgs_generate_messages_lisp.dir/rule
 
 # Convenience name for target.
@@ -1648,15 +1772,15 @@ clean: CMakeFiles/visualization_msgs_generate_messages_lisp.dir/clean
 CMakeFiles/visualization_msgs_generate_messages_py.dir/all:
 	$(MAKE) -f CMakeFiles/visualization_msgs_generate_messages_py.dir/build.make CMakeFiles/visualization_msgs_generate_messages_py.dir/depend
 	$(MAKE) -f CMakeFiles/visualization_msgs_generate_messages_py.dir/build.make CMakeFiles/visualization_msgs_generate_messages_py.dir/build
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/brawner/workspace/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/brawner/workspace/src/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 
 	@echo "Built target visualization_msgs_generate_messages_py"
 .PHONY : CMakeFiles/visualization_msgs_generate_messages_py.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/visualization_msgs_generate_messages_py.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/brawner/workspace/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/brawner/workspace/src/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 0
 	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/visualization_msgs_generate_messages_py.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/brawner/workspace/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/brawner/workspace/src/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 0
 .PHONY : CMakeFiles/visualization_msgs_generate_messages_py.dir/rule
 
 # Convenience name for target.
@@ -1695,15 +1819,15 @@ gtest/preinstall:
 gtest/CMakeFiles/gtest.dir/all:
 	$(MAKE) -f gtest/CMakeFiles/gtest.dir/build.make gtest/CMakeFiles/gtest.dir/depend
 	$(MAKE) -f gtest/CMakeFiles/gtest.dir/build.make gtest/CMakeFiles/gtest.dir/build
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/brawner/workspace/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles  6
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/brawner/workspace/src/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles  3
 	@echo "Built target gtest"
 .PHONY : gtest/CMakeFiles/gtest.dir/all
 
 # Build rule for subdir invocation for target.
 gtest/CMakeFiles/gtest.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/brawner/workspace/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 1
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/brawner/workspace/src/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 1
 	$(MAKE) -f CMakeFiles/Makefile2 gtest/CMakeFiles/gtest.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/brawner/workspace/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/brawner/workspace/src/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 0
 .PHONY : gtest/CMakeFiles/gtest.dir/rule
 
 # Convenience name for target.
@@ -1726,15 +1850,15 @@ clean: gtest/CMakeFiles/gtest.dir/clean
 gtest/CMakeFiles/gtest_main.dir/all: gtest/CMakeFiles/gtest.dir/all
 	$(MAKE) -f gtest/CMakeFiles/gtest_main.dir/build.make gtest/CMakeFiles/gtest_main.dir/depend
 	$(MAKE) -f gtest/CMakeFiles/gtest_main.dir/build.make gtest/CMakeFiles/gtest_main.dir/build
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/brawner/workspace/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles  7
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/brawner/workspace/src/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles  4
 	@echo "Built target gtest_main"
 .PHONY : gtest/CMakeFiles/gtest_main.dir/all
 
 # Build rule for subdir invocation for target.
 gtest/CMakeFiles/gtest_main.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/brawner/workspace/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 2
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/brawner/workspace/src/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 2
 	$(MAKE) -f CMakeFiles/Makefile2 gtest/CMakeFiles/gtest_main.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/brawner/workspace/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/brawner/workspace/src/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 0
 .PHONY : gtest/CMakeFiles/gtest_main.dir/rule
 
 # Convenience name for target.

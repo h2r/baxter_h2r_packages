@@ -3,7 +3,7 @@
 
 CMakeFiles/auto_calibrate.dir/src/calibrate_kinect_arm_checkerboard.cpp.o
  ../include/baxter_kinect_calibration/detect_calibration_pattern.h
- /home/brawner/workspace/baxter_hackathon/baxter_kinect_calibration/src/calibrate_kinect_arm_checkerboard.cpp
+ /home/brawner/workspace/src/baxter_hackathon/baxter_kinect_calibration/src/calibrate_kinect_arm_checkerboard.cpp
  /opt/ros/hydro/include/XmlRpcDecl.h
  /opt/ros/hydro/include/XmlRpcValue.h
  /opt/ros/hydro/include/cv_bridge/cv_bridge.h
@@ -60,6 +60,8 @@ CMakeFiles/auto_calibrate.dir/src/calibrate_kinect_arm_checkerboard.cpp.o
  /opt/ros/hydro/include/ros/callback_queue_interface.h
  /opt/ros/hydro/include/ros/common.h
  /opt/ros/hydro/include/ros/console.h
+ /opt/ros/hydro/include/ros/console_backend.h
+ /opt/ros/hydro/include/ros/datatypes.h
  /opt/ros/hydro/include/ros/duration.h
  /opt/ros/hydro/include/ros/exception.h
  /opt/ros/hydro/include/ros/exceptions.h
@@ -415,7 +417,7 @@ CMakeFiles/auto_calibrate.dir/src/calibrate_kinect_arm_checkerboard.cpp.o
  /usr/include/qhull/io.h
 CMakeFiles/auto_calibrate.dir/src/detect_calibration_pattern.cpp.o
  ../include/baxter_kinect_calibration/detect_calibration_pattern.h
- /home/brawner/workspace/baxter_hackathon/baxter_kinect_calibration/src/detect_calibration_pattern.cpp
+ /home/brawner/workspace/src/baxter_hackathon/baxter_kinect_calibration/src/detect_calibration_pattern.cpp
  /opt/ros/hydro/include/opencv2/calib3d/calib3d.hpp
  /opt/ros/hydro/include/opencv2/core/core.hpp
  /opt/ros/hydro/include/opencv2/core/core_c.h

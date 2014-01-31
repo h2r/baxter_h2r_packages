@@ -35,10 +35,10 @@ RM = /usr/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/brawner/workspace/baxter_hackathon/baxter_kinect_calibration
+CMAKE_SOURCE_DIR = /home/brawner/workspace/src/baxter_hackathon/baxter_kinect_calibration
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/brawner/workspace/baxter_hackathon/baxter_kinect_calibration/build
+CMAKE_BINARY_DIR = /home/brawner/workspace/src/baxter_hackathon/baxter_kinect_calibration/build
 
 # Utility rule file for pcl_ros_gencfg.
 
@@ -60,6 +60,6 @@ CMakeFiles/pcl_ros_gencfg.dir/clean:
 .PHONY : CMakeFiles/pcl_ros_gencfg.dir/clean
 
 CMakeFiles/pcl_ros_gencfg.dir/depend:
-	cd /home/brawner/workspace/baxter_hackathon/baxter_kinect_calibration/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/brawner/workspace/baxter_hackathon/baxter_kinect_calibration /home/brawner/workspace/baxter_hackathon/baxter_kinect_calibration /home/brawner/workspace/baxter_hackathon/baxter_kinect_calibration/build /home/brawner/workspace/baxter_hackathon/baxter_kinect_calibration/build /home/brawner/workspace/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles/pcl_ros_gencfg.dir/DependInfo.cmake --color=$(COLOR)
+	cd /home/brawner/workspace/src/baxter_hackathon/baxter_kinect_calibration/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/brawner/workspace/src/baxter_hackathon/baxter_kinect_calibration /home/brawner/workspace/src/baxter_hackathon/baxter_kinect_calibration /home/brawner/workspace/src/baxter_hackathon/baxter_kinect_calibration/build /home/brawner/workspace/src/baxter_hackathon/baxter_kinect_calibration/build /home/brawner/workspace/src/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles/pcl_ros_gencfg.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : CMakeFiles/pcl_ros_gencfg.dir/depend
 

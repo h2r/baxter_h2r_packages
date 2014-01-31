@@ -28,7 +28,7 @@ iostream
 stdexcept
 -
 
-/home/brawner/workspace/baxter_hackathon/baxter_kinect_calibration/src/calibrate_kinect_checkerboard.cpp
+/home/brawner/workspace/src/baxter_hackathon/baxter_kinect_calibration/src/calibrate_kinect_checkerboard.cpp
 ros/ros.h
 -
 image_transport/image_transport.h
@@ -57,6 +57,10 @@ sensor_msgs/CameraInfo.h
 -
 geometry_msgs/PointStamped.h
 -
+baxter_kinect_calibration/detect_calibration_pattern.h
+-
+
+/home/brawner/workspace/src/baxter_hackathon/baxter_kinect_calibration/src/detect_calibration_pattern.cpp
 baxter_kinect_calibration/detect_calibration_pattern.h
 -
 
@@ -779,6 +783,8 @@ ros/macros.h
 -
 
 /opt/ros/hydro/include/ros/console.h
+console_backend.h
+/opt/ros/hydro/include/ros/console_backend.h
 cstdio
 -
 sstream
@@ -789,10 +795,28 @@ cstdarg
 -
 ros/macros.h
 -
-log4cxx/logger.h
+map
 -
+log4cxx/level.h
+/opt/ros/hydro/include/ros/log4cxx/level.h
 rosconsole/macros_generated.h
 /opt/ros/hydro/include/ros/rosconsole/macros_generated.h
+
+/opt/ros/hydro/include/ros/console_backend.h
+
+/opt/ros/hydro/include/ros/datatypes.h
+string
+-
+vector
+-
+map
+-
+set
+-
+list
+-
+boost/shared_ptr.hpp
+-
 
 /opt/ros/hydro/include/ros/duration.h
 iostream
@@ -839,6 +863,8 @@ ros/macros.h
 -
 exceptions.h
 /opt/ros/hydro/include/ros/exceptions.h
+ros/datatypes.h
+/opt/ros/hydro/include/ros/ros/datatypes.h
 
 /opt/ros/hydro/include/ros/init.h
 ros/forwards.h
@@ -875,11 +901,9 @@ stdint.h
 -
 
 /opt/ros/hydro/include/ros/message_event.h
-ros/forwards.h
-/opt/ros/hydro/include/ros/ros/forwards.h
 ros/time.h
 /opt/ros/hydro/include/ros/ros/time.h
-ros/assert.h
+ros/datatypes.h
 -
 ros/message_traits.h
 -
@@ -901,6 +925,8 @@ boost/make_shared.hpp
 -
 
 /opt/ros/hydro/include/ros/message_forward.h
+memory
+-
 
 /opt/ros/hydro/include/ros/message_operations.h
 ostream
@@ -1079,7 +1105,11 @@ ros/builtin_message_traits.h
 /opt/ros/hydro/include/ros/ros/builtin_message_traits.h
 ros/exception.h
 /opt/ros/hydro/include/ros/ros/exception.h
+ros/datatypes.h
+/opt/ros/hydro/include/ros/ros/datatypes.h
 vector
+-
+map
 -
 boost/array.hpp
 -

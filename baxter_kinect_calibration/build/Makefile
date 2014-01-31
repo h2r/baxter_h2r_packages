@@ -39,10 +39,10 @@ RM = /usr/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/brawner/workspace/baxter_hackathon/baxter_kinect_calibration
+CMAKE_SOURCE_DIR = /home/brawner/workspace/src/baxter_hackathon/baxter_kinect_calibration
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/brawner/workspace/baxter_hackathon/baxter_kinect_calibration/build
+CMAKE_BINARY_DIR = /home/brawner/workspace/src/baxter_hackathon/baxter_kinect_calibration/build
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -120,9 +120,9 @@ test/fast: test
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/brawner/workspace/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles /home/brawner/workspace/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles/progress.marks
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/brawner/workspace/src/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles /home/brawner/workspace/src/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles/progress.marks
 	$(MAKE) -f CMakeFiles/Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/brawner/workspace/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/brawner/workspace/src/baxter_hackathon/baxter_kinect_calibration/build/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
@@ -228,17 +228,69 @@ actionlib_msgs_generate_messages_py/fast:
 .PHONY : actionlib_msgs_generate_messages_py/fast
 
 #=============================================================================
-# Target rules for targets named auto_calibrate
+# Target rules for targets named ar_track_alvar_gencfg
 
 # Build rule for target.
-auto_calibrate: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 auto_calibrate
-.PHONY : auto_calibrate
+ar_track_alvar_gencfg: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 ar_track_alvar_gencfg
+.PHONY : ar_track_alvar_gencfg
 
 # fast build rule for target.
-auto_calibrate/fast:
-	$(MAKE) -f CMakeFiles/auto_calibrate.dir/build.make CMakeFiles/auto_calibrate.dir/build
-.PHONY : auto_calibrate/fast
+ar_track_alvar_gencfg/fast:
+	$(MAKE) -f CMakeFiles/ar_track_alvar_gencfg.dir/build.make CMakeFiles/ar_track_alvar_gencfg.dir/build
+.PHONY : ar_track_alvar_gencfg/fast
+
+#=============================================================================
+# Target rules for targets named ar_track_alvar_generate_messages_cpp
+
+# Build rule for target.
+ar_track_alvar_generate_messages_cpp: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 ar_track_alvar_generate_messages_cpp
+.PHONY : ar_track_alvar_generate_messages_cpp
+
+# fast build rule for target.
+ar_track_alvar_generate_messages_cpp/fast:
+	$(MAKE) -f CMakeFiles/ar_track_alvar_generate_messages_cpp.dir/build.make CMakeFiles/ar_track_alvar_generate_messages_cpp.dir/build
+.PHONY : ar_track_alvar_generate_messages_cpp/fast
+
+#=============================================================================
+# Target rules for targets named ar_track_alvar_generate_messages_lisp
+
+# Build rule for target.
+ar_track_alvar_generate_messages_lisp: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 ar_track_alvar_generate_messages_lisp
+.PHONY : ar_track_alvar_generate_messages_lisp
+
+# fast build rule for target.
+ar_track_alvar_generate_messages_lisp/fast:
+	$(MAKE) -f CMakeFiles/ar_track_alvar_generate_messages_lisp.dir/build.make CMakeFiles/ar_track_alvar_generate_messages_lisp.dir/build
+.PHONY : ar_track_alvar_generate_messages_lisp/fast
+
+#=============================================================================
+# Target rules for targets named ar_track_alvar_generate_messages_py
+
+# Build rule for target.
+ar_track_alvar_generate_messages_py: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 ar_track_alvar_generate_messages_py
+.PHONY : ar_track_alvar_generate_messages_py
+
+# fast build rule for target.
+ar_track_alvar_generate_messages_py/fast:
+	$(MAKE) -f CMakeFiles/ar_track_alvar_generate_messages_py.dir/build.make CMakeFiles/ar_track_alvar_generate_messages_py.dir/build
+.PHONY : ar_track_alvar_generate_messages_py/fast
+
+#=============================================================================
+# Target rules for targets named baxter_kinect_calibration_gencfg
+
+# Build rule for target.
+baxter_kinect_calibration_gencfg: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 baxter_kinect_calibration_gencfg
+.PHONY : baxter_kinect_calibration_gencfg
+
+# fast build rule for target.
+baxter_kinect_calibration_gencfg/fast:
+	$(MAKE) -f CMakeFiles/baxter_kinect_calibration_gencfg.dir/build.make CMakeFiles/baxter_kinect_calibration_gencfg.dir/build
+.PHONY : baxter_kinect_calibration_gencfg/fast
 
 #=============================================================================
 # Target rules for targets named bond_generate_messages_cpp
@@ -278,19 +330,6 @@ bond_generate_messages_py: cmake_check_build_system
 bond_generate_messages_py/fast:
 	$(MAKE) -f CMakeFiles/bond_generate_messages_py.dir/build.make CMakeFiles/bond_generate_messages_py.dir/build
 .PHONY : bond_generate_messages_py/fast
-
-#=============================================================================
-# Target rules for targets named calibrate_kinect_checkerboard
-
-# Build rule for target.
-calibrate_kinect_checkerboard: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 calibrate_kinect_checkerboard
-.PHONY : calibrate_kinect_checkerboard
-
-# fast build rule for target.
-calibrate_kinect_checkerboard/fast:
-	$(MAKE) -f CMakeFiles/calibrate_kinect_checkerboard.dir/build.make CMakeFiles/calibrate_kinect_checkerboard.dir/build
-.PHONY : calibrate_kinect_checkerboard/fast
 
 #=============================================================================
 # Target rules for targets named clean_test_results
@@ -395,6 +434,19 @@ geometry_msgs_generate_messages_py: cmake_check_build_system
 geometry_msgs_generate_messages_py/fast:
 	$(MAKE) -f CMakeFiles/geometry_msgs_generate_messages_py.dir/build.make CMakeFiles/geometry_msgs_generate_messages_py.dir/build
 .PHONY : geometry_msgs_generate_messages_py/fast
+
+#=============================================================================
+# Target rules for targets named individual_markers_calibrate
+
+# Build rule for target.
+individual_markers_calibrate: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 individual_markers_calibrate
+.PHONY : individual_markers_calibrate
+
+# fast build rule for target.
+individual_markers_calibrate/fast:
+	$(MAKE) -f CMakeFiles/individual_markers_calibrate.dir/build.make CMakeFiles/individual_markers_calibrate.dir/build
+.PHONY : individual_markers_calibrate/fast
 
 #=============================================================================
 # Target rules for targets named nodelet_generate_messages_cpp
@@ -851,80 +903,29 @@ gtest_main/fast:
 	$(MAKE) -f gtest/CMakeFiles/gtest_main.dir/build.make gtest/CMakeFiles/gtest_main.dir/build
 .PHONY : gtest_main/fast
 
-src/calibrate_kinect_arm_checkerboard.o: src/calibrate_kinect_arm_checkerboard.cpp.o
-.PHONY : src/calibrate_kinect_arm_checkerboard.o
+src/individualMarkersCalibrate.o: src/individualMarkersCalibrate.cpp.o
+.PHONY : src/individualMarkersCalibrate.o
 
 # target to build an object file
-src/calibrate_kinect_arm_checkerboard.cpp.o:
-	$(MAKE) -f CMakeFiles/auto_calibrate.dir/build.make CMakeFiles/auto_calibrate.dir/src/calibrate_kinect_arm_checkerboard.cpp.o
-.PHONY : src/calibrate_kinect_arm_checkerboard.cpp.o
+src/individualMarkersCalibrate.cpp.o:
+	$(MAKE) -f CMakeFiles/individual_markers_calibrate.dir/build.make CMakeFiles/individual_markers_calibrate.dir/src/individualMarkersCalibrate.cpp.o
+.PHONY : src/individualMarkersCalibrate.cpp.o
 
-src/calibrate_kinect_arm_checkerboard.i: src/calibrate_kinect_arm_checkerboard.cpp.i
-.PHONY : src/calibrate_kinect_arm_checkerboard.i
-
-# target to preprocess a source file
-src/calibrate_kinect_arm_checkerboard.cpp.i:
-	$(MAKE) -f CMakeFiles/auto_calibrate.dir/build.make CMakeFiles/auto_calibrate.dir/src/calibrate_kinect_arm_checkerboard.cpp.i
-.PHONY : src/calibrate_kinect_arm_checkerboard.cpp.i
-
-src/calibrate_kinect_arm_checkerboard.s: src/calibrate_kinect_arm_checkerboard.cpp.s
-.PHONY : src/calibrate_kinect_arm_checkerboard.s
-
-# target to generate assembly for a file
-src/calibrate_kinect_arm_checkerboard.cpp.s:
-	$(MAKE) -f CMakeFiles/auto_calibrate.dir/build.make CMakeFiles/auto_calibrate.dir/src/calibrate_kinect_arm_checkerboard.cpp.s
-.PHONY : src/calibrate_kinect_arm_checkerboard.cpp.s
-
-src/calibrate_kinect_checkerboard.o: src/calibrate_kinect_checkerboard.cpp.o
-.PHONY : src/calibrate_kinect_checkerboard.o
-
-# target to build an object file
-src/calibrate_kinect_checkerboard.cpp.o:
-	$(MAKE) -f CMakeFiles/calibrate_kinect_checkerboard.dir/build.make CMakeFiles/calibrate_kinect_checkerboard.dir/src/calibrate_kinect_checkerboard.cpp.o
-.PHONY : src/calibrate_kinect_checkerboard.cpp.o
-
-src/calibrate_kinect_checkerboard.i: src/calibrate_kinect_checkerboard.cpp.i
-.PHONY : src/calibrate_kinect_checkerboard.i
+src/individualMarkersCalibrate.i: src/individualMarkersCalibrate.cpp.i
+.PHONY : src/individualMarkersCalibrate.i
 
 # target to preprocess a source file
-src/calibrate_kinect_checkerboard.cpp.i:
-	$(MAKE) -f CMakeFiles/calibrate_kinect_checkerboard.dir/build.make CMakeFiles/calibrate_kinect_checkerboard.dir/src/calibrate_kinect_checkerboard.cpp.i
-.PHONY : src/calibrate_kinect_checkerboard.cpp.i
+src/individualMarkersCalibrate.cpp.i:
+	$(MAKE) -f CMakeFiles/individual_markers_calibrate.dir/build.make CMakeFiles/individual_markers_calibrate.dir/src/individualMarkersCalibrate.cpp.i
+.PHONY : src/individualMarkersCalibrate.cpp.i
 
-src/calibrate_kinect_checkerboard.s: src/calibrate_kinect_checkerboard.cpp.s
-.PHONY : src/calibrate_kinect_checkerboard.s
-
-# target to generate assembly for a file
-src/calibrate_kinect_checkerboard.cpp.s:
-	$(MAKE) -f CMakeFiles/calibrate_kinect_checkerboard.dir/build.make CMakeFiles/calibrate_kinect_checkerboard.dir/src/calibrate_kinect_checkerboard.cpp.s
-.PHONY : src/calibrate_kinect_checkerboard.cpp.s
-
-src/detect_calibration_pattern.o: src/detect_calibration_pattern.cpp.o
-.PHONY : src/detect_calibration_pattern.o
-
-# target to build an object file
-src/detect_calibration_pattern.cpp.o:
-	$(MAKE) -f CMakeFiles/auto_calibrate.dir/build.make CMakeFiles/auto_calibrate.dir/src/detect_calibration_pattern.cpp.o
-	$(MAKE) -f CMakeFiles/calibrate_kinect_checkerboard.dir/build.make CMakeFiles/calibrate_kinect_checkerboard.dir/src/detect_calibration_pattern.cpp.o
-.PHONY : src/detect_calibration_pattern.cpp.o
-
-src/detect_calibration_pattern.i: src/detect_calibration_pattern.cpp.i
-.PHONY : src/detect_calibration_pattern.i
-
-# target to preprocess a source file
-src/detect_calibration_pattern.cpp.i:
-	$(MAKE) -f CMakeFiles/auto_calibrate.dir/build.make CMakeFiles/auto_calibrate.dir/src/detect_calibration_pattern.cpp.i
-	$(MAKE) -f CMakeFiles/calibrate_kinect_checkerboard.dir/build.make CMakeFiles/calibrate_kinect_checkerboard.dir/src/detect_calibration_pattern.cpp.i
-.PHONY : src/detect_calibration_pattern.cpp.i
-
-src/detect_calibration_pattern.s: src/detect_calibration_pattern.cpp.s
-.PHONY : src/detect_calibration_pattern.s
+src/individualMarkersCalibrate.s: src/individualMarkersCalibrate.cpp.s
+.PHONY : src/individualMarkersCalibrate.s
 
 # target to generate assembly for a file
-src/detect_calibration_pattern.cpp.s:
-	$(MAKE) -f CMakeFiles/auto_calibrate.dir/build.make CMakeFiles/auto_calibrate.dir/src/detect_calibration_pattern.cpp.s
-	$(MAKE) -f CMakeFiles/calibrate_kinect_checkerboard.dir/build.make CMakeFiles/calibrate_kinect_checkerboard.dir/src/detect_calibration_pattern.cpp.s
-.PHONY : src/detect_calibration_pattern.cpp.s
+src/individualMarkersCalibrate.cpp.s:
+	$(MAKE) -f CMakeFiles/individual_markers_calibrate.dir/build.make CMakeFiles/individual_markers_calibrate.dir/src/individualMarkersCalibrate.cpp.s
+.PHONY : src/individualMarkersCalibrate.cpp.s
 
 # Help Target
 help:
@@ -938,11 +939,14 @@ help:
 	@echo "... actionlib_msgs_generate_messages_cpp"
 	@echo "... actionlib_msgs_generate_messages_lisp"
 	@echo "... actionlib_msgs_generate_messages_py"
-	@echo "... auto_calibrate"
+	@echo "... ar_track_alvar_gencfg"
+	@echo "... ar_track_alvar_generate_messages_cpp"
+	@echo "... ar_track_alvar_generate_messages_lisp"
+	@echo "... ar_track_alvar_generate_messages_py"
+	@echo "... baxter_kinect_calibration_gencfg"
 	@echo "... bond_generate_messages_cpp"
 	@echo "... bond_generate_messages_lisp"
 	@echo "... bond_generate_messages_py"
-	@echo "... calibrate_kinect_checkerboard"
 	@echo "... clean_test_results"
 	@echo "... doxygen"
 	@echo "... dynamic_reconfigure_generate_messages_cpp"
@@ -952,6 +956,7 @@ help:
 	@echo "... geometry_msgs_generate_messages_cpp"
 	@echo "... geometry_msgs_generate_messages_lisp"
 	@echo "... geometry_msgs_generate_messages_py"
+	@echo "... individual_markers_calibrate"
 	@echo "... install"
 	@echo "... install/local"
 	@echo "... install/strip"
@@ -993,15 +998,9 @@ help:
 	@echo "... visualization_msgs_generate_messages_py"
 	@echo "... gtest"
 	@echo "... gtest_main"
-	@echo "... src/calibrate_kinect_arm_checkerboard.o"
-	@echo "... src/calibrate_kinect_arm_checkerboard.i"
-	@echo "... src/calibrate_kinect_arm_checkerboard.s"
-	@echo "... src/calibrate_kinect_checkerboard.o"
-	@echo "... src/calibrate_kinect_checkerboard.i"
-	@echo "... src/calibrate_kinect_checkerboard.s"
-	@echo "... src/detect_calibration_pattern.o"
-	@echo "... src/detect_calibration_pattern.i"
-	@echo "... src/detect_calibration_pattern.s"
+	@echo "... src/individualMarkersCalibrate.o"
+	@echo "... src/individualMarkersCalibrate.i"
+	@echo "... src/individualMarkersCalibrate.s"
 .PHONY : help
 
 
