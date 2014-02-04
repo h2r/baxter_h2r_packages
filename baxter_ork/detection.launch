@@ -1,0 +1,6 @@
+<launch>
+
+<rosparam></rosparam>
+
+<node> </node>
+</launch>
