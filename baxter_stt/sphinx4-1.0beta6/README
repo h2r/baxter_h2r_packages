@@ -14,4 +14,6 @@ If the dictionary, either acoustic or text, does not contain some of the words y
 
 There is also a tutorial provided by CMU for training the acoustic model located here: http://cmusphinx.sourceforge.net/wiki/tutorialam
 
-Once the language model has been changed, you will need to rebuild. Simply run: "ant -find demo.xml", and then you will be able to run through the normal python script (stt.py).
+(3) TO BUILD
+
+Run: "ant -find demo.xml" to build, and then you will be able to run through the normal python script (speech_to_text.py).
