@@ -1,0 +1,6 @@
+<launch>
+
+<node pkg="baxter_speech_command" type="speech_to_text.py" name="speaker"
+output="screen"/>
+
+</launch>
