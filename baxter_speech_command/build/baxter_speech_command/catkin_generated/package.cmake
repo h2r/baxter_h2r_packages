@@ -1,0 +1,7 @@
+set(_CATKIN_CURRENT_PACKAGE "baxter_speech_command")
+set(baxter_speech_command_MAINTAINER "Dave Abel <David_Abel@Brown.edu>")
+set(baxter_speech_command_DEPRECATED "")
+set(baxter_speech_command_VERSION "0.1.0")
+set(baxter_speech_command_BUILD_DEPENDS "roscpp" "rospy" "std_msgs")
+set(baxter_speech_command_RUN_DEPENDS "roscpp" "rospy" "std_msgs")
+set(baxter_speech_command_BUILDTOOL_DEPENDS "catkin")

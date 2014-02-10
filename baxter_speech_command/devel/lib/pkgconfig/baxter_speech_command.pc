@@ -1,0 +1,8 @@
+prefix=/home/dabel/baxter_hackathon/baxter_speech_command/devel
+
+Name: baxter_speech_command
+Description: Description of baxter_speech_command
+Version: 0.1.0
+Cflags: 
+Libs: -L/home/dabel/baxter_hackathon/baxter_speech_command/devel/lib 
+Requires: 
