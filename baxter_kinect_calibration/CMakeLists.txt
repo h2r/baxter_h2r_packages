@@ -76,6 +76,10 @@ add_executable(individual_markers_calibrate src/individualMarkersCalibrate.cpp)
 target_link_libraries(individual_markers_calibrate ar_track_alvar kinect_filtering ${catkin_LIBRARIES})
 add_dependencies(individual_markers_calibrate ${PROJECT_NAME}_gencpp ${GENCPP_DEPS})
 
+add_executable(bundle_calibrate src/calibrate_kinect_alvar_bundle.cpp)
+target_link_libraries(bundle_calibrate ar_track_alvar kinect_filtering ${catkin_LIBRARIES})
+add_dependencies(bundle_calibrate ${PROJECT_NAME}_gencpp ${GENCPP_DEPS})
+
 #add_executable(auto_calibrate src/calibrate_kinect_arm_checkerboard.cpp
 #                                             src/detect_calibration_pattern.cpp)
 #target_link_libraries(calibrate_kinect_checkerboard ${Boost_LIBRARIES}
