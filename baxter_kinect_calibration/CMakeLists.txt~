@@ -98,7 +98,7 @@ add_dependencies(bundle_calibrate ${PROJECT_NAME}_gencpp ${GENCPP_DEPS})
  #                                                   ${OpenCV_LIBRARIES})
 
 
-set(CALIBRATION_TARGETS baxter_kinect_calibration individual_markers_calibrate bundle_calibrate)
+set(CALIBRATION_TARGETS individual_markers_calibrate bundle_calibrate)
 
 install(TARGETS ${CALIBRATION_TARGETS}
   ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
@@ -112,3 +112,4 @@ install(DIRECTORY include/${PROJECT_NAME}/
 
 install(DIRECTORY launch/
   DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}/launch
+)

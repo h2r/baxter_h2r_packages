@@ -1,0 +1,10 @@
+\subsubsection parameters ROS parameters
+
+Reads and maintains the following parameters on the ROS server
+
+- \b "~enabled" : \b [bool] Enable/disable tracking, unsubscribing from camera topic to stop openni processing min: False, default: True, max: True
+- \b "~max_frequency" : \b [double] Maximum processing rate; frames coming at a higher rate are discarded min: 1.0, default: 10.0, max: 30.0
+- \b "~marker_size" : \b [double] The width in centimeters of one side of the black square marker border min: 1.0, default: 10.0, max: 100.0
+- \b "~max_new_marker_error" : \b [double] A threshold determining when new markers can be detected under uncertainty min: 0.0, default: 0.08, max: 2.0
+- \b "~max_track_error" : \b [double] A threshold determining how much tracking error can be observed before an tag is considered to have disappeared min: 0.0, default: 0.2, max: 4.0
+

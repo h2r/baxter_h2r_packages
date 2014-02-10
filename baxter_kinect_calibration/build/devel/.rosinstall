@@ -1,0 +1,2 @@
+- setup-file:
+    local-name: /home/brawner/workspace/src/baxter_hackathon/baxter_kinect_calibration/build/devel/setup.sh

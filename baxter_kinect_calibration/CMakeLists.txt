@@ -77,7 +77,7 @@ target_link_libraries(individual_markers_calibrate ar_track_alvar kinect_filteri
 add_dependencies(individual_markers_calibrate ${PROJECT_NAME}_gencpp ${GENCPP_DEPS})
 
 add_executable(bundle_calibrate src/calibrate_kinect_alvar_bundle.cpp)
-target_link_libraries(bundle_calibrate ar_track_alvar kinect_filtering ${catkin_LIBRARIES})
+target_link_libraries(bundle_calibrate ar_track_alvar kinect_filtering medianFilter ${catkin_LIBRARIES})
 add_dependencies(bundle_calibrate ${PROJECT_NAME}_gencpp ${GENCPP_DEPS})
 
 #add_executable(auto_calibrate src/calibrate_kinect_arm_checkerboard.cpp
@@ -98,7 +98,7 @@ add_dependencies(bundle_calibrate ${PROJECT_NAME}_gencpp ${GENCPP_DEPS})
  #                                                   ${OpenCV_LIBRARIES})
 
 
-set(CALIBRATION_TARGETS baxter_kinect_calibration individual_markers_calibrate bundle_calibrate)
+set(CALIBRATION_TARGETS individual_markers_calibrate bundle_calibrate)
 
 install(TARGETS ${CALIBRATION_TARGETS}
   ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
@@ -112,3 +112,4 @@ install(DIRECTORY include/${PROJECT_NAME}/
 
 install(DIRECTORY launch/
   DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}/launch
+)
