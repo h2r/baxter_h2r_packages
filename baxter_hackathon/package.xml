@@ -14,7 +14,6 @@
   <run_depend>baxter_kinect_calibration</run_depend>
   <run_depend>baxter_stt</run_depend>
   <run_depend>baxter_ork</run_depend>
-  <run_depend>kinect_calibration</run_depend>
   <export>
    <metapackage/>
  </export>
