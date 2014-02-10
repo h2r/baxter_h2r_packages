@@ -33,6 +33,7 @@
 
   author: Scott Niekum
 */
+
 #include "ar_track_alvar/CvTestbed.h"
 #include "ar_track_alvar/MarkerDetector.h"
 #include "ar_track_alvar/MultiMarkerBundle.h"
@@ -98,7 +99,7 @@ MultiMarkerBundle **multi_marker_bundles=NULL;
 
 Pose *bundlePoses;
 int *master_id;
-bool *bundles_seen;
+int *bundles_seen;
 bool *master_visible;
 std::vector<int> *bundle_indices; 	
 bool init = true;  
@@ -730,7 +731,7 @@ void getCapCallback (const sensor_msgs::ImageConstPtr & image_msg)
 		
       //Draw the observed markers that are visible and note which bundles have at least 1 marker seen
       for(int i=0; i<n_bundles; i++)
-	bundles_seen[i] = false;
+	bundles_seen[i]++;
 
       for (size_t i=0; i<marker_detector.markers->size(); i++)
 	{
@@ -743,7 +744,7 @@ void getCapCallback (const sensor_msgs::ImageConstPtr & image_msg)
 	    for(int j=0; j<n_bundles; j++){
 	      for(int k=0; k<bundle_indices[j].size(); k++){
 		if(bundle_indices[j][k] == id){
-		  bundles_seen[j] = true;
+		  bundles_seen[j]++;
 		  break;
 		}
 	      }
@@ -765,7 +766,7 @@ void getCapCallback (const sensor_msgs::ImageConstPtr & image_msg)
       //Draw the main markers, whether they are visible or not -- but only if at least 1 marker from their bundle is currently seen
       for(int i=0; i<n_bundles; i++)
 	{
-	  if(bundles_seen[i] == true){
+	  if(bundles_seen[i] > 0){
 	    makeMarkerMsgs(MAIN_MARKER, master_id[i], bundlePoses[i], image_msg, CamToOutput, &rvizMarker, &ar_pose_marker);
 	    rvizMarkerPub_.publish (rvizMarker);
 	    arPoseMarkers_.markers.push_back (ar_pose_marker);
@@ -967,7 +968,7 @@ int main(int argc, char *argv[])
   kinectInfoTopic = argv[5];
   calibratedImageTopic = argv[6];
   calibratedInfoTopic = argv[7];
-  calibratedFrameID = arg[8];
+  calibratedFrameID = argv[8];
   output_frame = argv[9];
   med_filt_size = atoi(argv[10]);
   int n_args_before_list = 10;

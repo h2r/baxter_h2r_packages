@@ -1,0 +1,21 @@
+<package>
+  <name>baxter_hackathon</name>
+  <version>1</version>
+  <description>
+    Metapackage for Brown CS H2R baxter hackamegathon
+  </description>
+  <maintainer email="h2r@cs.brown.edu">Not me, please</maintainer>
+  <license>BSD</license>
+
+  <url>http://github.com/h2r/baxter_hackathon</url>
+  <author>h2r</author>
+
+  <buildtool_depend>catkin</buildtool_depend>
+  <run_depend>baxter_kinect_calibration</run_depend>
+  <run_depend>baxter_stt</run_depend>
+  <run_depend>baxter_ork</run_depend>
+  <run_depend>kinect_calibration</run_depend>
+  <export>
+   <metapackage/>
+ </export>
+</package>
