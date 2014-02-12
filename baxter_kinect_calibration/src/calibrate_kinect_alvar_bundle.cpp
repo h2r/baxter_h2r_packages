@@ -65,9 +65,11 @@ ar_track_alvar::AlvarMarkers arPoseMarkers_;
 tf::TransformListener *tf_listener;
 tf::TransformBroadcaster *tf_broadcaster;
 MarkerDetector<MarkerData> marker_detector;
+MarkerDetector<MarkerData> kinect_marker_detector;
 MultiMarkerBundle **multi_marker_bundles=NULL;
 
 Pose *bundlePoses;
+Pose *kinectBundlePoses;
 int *master_id;
 int *bundles_seen;
 bool *master_visible;
@@ -210,9 +212,9 @@ int InferCorners(const ARCloud &cloud, MultiMarkerBundle &master, ARCloud &bund_
   int n_est = 0;
 
   // For every detected marker
-  for (size_t i=0; i<marker_detector.markers->size(); i++)
+  for (size_t i=0; i<kinect_marker_detector.markers->size(); i++)
     {
-      const Marker* marker = &((*marker_detector.markers)[i]);
+      const Marker* marker = &((*kinect_marker_detector.markers)[i]);
       int id = marker->GetId();
       int index = master.get_id_index(id);
       int mast_id = master.master_id;
@@ -368,34 +370,22 @@ void GetMultiMarkerPoses(IplImage *image) {
 // using all markers in a bundle to infer the master tag's position
 void GetMultiMarkerPoses(IplImage *image, ARCloud &cloud) {
 
-  for(int i=0; i<n_bundles; i++){
-    master_visible[i] = false;
-    bundles_seen[i] = 0;
-  }
+  //for(int i=0; i<n_bundles; i++){
+  //  master_visible[i] = false;
+  //  bundles_seen[i] = 0;
+  //}
   
   //Detect and track the markers
-  if (marker_detector.Detect(image, kinectCam, true, false, max_new_marker_error,
+  if (kinect_marker_detector.Detect(image, kinectCam, true, false, max_new_marker_error,
 			     max_track_error, CVSEQ, true)) 
     {
       //printf("\n--------------------------\n\n");
-      for (size_t i=0; i<marker_detector.markers->size(); i++)
+      for (size_t i=0; i<kinect_marker_detector.markers->size(); i++)
     	{
 	  vector<cv::Point> pixels;
-	  Marker *m = &((*marker_detector.markers)[i]);
+	  Marker *m = &((*kinect_marker_detector.markers)[i]);
 	  int id = m->GetId();
-	  //cout << "******* ID: " << id << endl;
-      
-	  //Get the 3D points of the outer corners
-          /*
-	  PointDouble corner0 = m->marker_corners_img[0];
-	  PointDouble corner1 = m->marker_corners_img[1];
-	  PointDouble corner2 = m->marker_corners_img[2];
-	  PointDouble corner3 = m->marker_corners_img[3];
-	  m->ros_corners_3D[0] = cloud(corner0.x, corner0.y);
-	  m->ros_corners_3D[1] = cloud(corner1.x, corner1.y);
-	  m->ros_corners_3D[2] = cloud(corner2.x, corner2.y);
-	  m->ros_corners_3D[3] = cloud(corner3.x, corner3.y);
-	  */
+	  
           
 	  //Get the 3D inner corner points - more stable than outer corners that can "fall off" object
 	  int resol = m->GetRes();
@@ -421,6 +411,7 @@ void GetMultiMarkerPoses(IplImage *image, ARCloud &cloud) {
 	    ROS_ERROR("FindMarkerBundles: Bad Orientation: %i for ID: %i", ori, id);
 
 	  //Check if we have spotted a master tag
+/*
 	  int master_ind = -1;
 	  for(int j=0; j<n_bundles; j++){
 	    if(id == master_id[j])
@@ -439,7 +430,7 @@ void GetMultiMarkerPoses(IplImage *image, ARCloud &cloud) {
           }
         }
       }
-
+*/
 	  //Get the 3D marker points
 	  BOOST_FOREACH (const PointDouble& p, m->ros_marker_points_img)
 	    pixels.push_back(cv::Point(p.x, p.y));	  
@@ -453,15 +444,15 @@ void GetMultiMarkerPoses(IplImage *image, ARCloud &cloud) {
 		//Mark this tag as invalid
 		m->valid = false;
 	    //If this was a master tag, reset its visibility
-	    if(master_ind >= 0)
-	      master_visible[master_ind] = false;
+	    //if(master_ind >= 0)
+	      //master_visible[master_ind] = false;
 	    //decrement the number of markers seen in this bundle
-	    bundles_seen[bundle_ind] -= 1;
+	    //bundles_seen[bundle_ind] -= 1;
 	      
 	  }
 	  else
 		m->valid = true;
-	}	
+	  }	
 
       //For each master tag, infer the 3D position of its corners from other visible tags
       //Then, do a plane fit to those new corners   	
@@ -469,118 +460,29 @@ void GetMultiMarkerPoses(IplImage *image, ARCloud &cloud) {
       for(int i=0; i<n_bundles; i++){
         if(bundles_seen[i] > 0){
             //if(master_visible[i] == false){
-                if(InferCorners(cloud, *(multi_marker_bundles[i]), inferred_corners) >= 0){
-                    ARCloud::Ptr inferred_cloud(new ARCloud(inferred_corners));
-                    PlaneFitPoseImprovement(i+5000, inferred_corners, inferred_cloud, cloud, bundlePoses[i]);
-                }
+                //if(InferCorners(cloud, *(multi_marker_bundles[i]), inferred_corners) >= 0){
+                //    ARCloud::Ptr inferred_cloud(new ARCloud(inferred_corners));
+                //    PlaneFitPoseImprovement(i+5000, inferred_corners, inferred_cloud, cloud, bundlePoses[i]);
+                //}
             //}
             //If master is visible, use it directly instead of inferring pose
-            //else{
-            //    for (size_t j=0; j<marker_detector.markers->size(); j++){
-            //        Marker *m = &((*marker_detector.markers)[j]);                     
-            //        if(m->GetId() == master_id[i])
-            //            bundlePoses[i] = m->pose;
-            //    } 
-            //}
+            
+                for (size_t j=0; j<marker_detector.markers->size(); j++){
+                    Marker *m = &((*marker_detector.markers)[j]);                     
+                    if(m->GetId() == master_id[i])
+                        bundlePoses[i] = m->pose;
+                } 
+
             Pose ret_pose;
             if(med_filt_size > 0){
                 med_filts[i]->addPose(bundlePoses[i]);
                 med_filts[i]->getMedian(ret_pose);
-                bundlePoses[i] = ret_pose;
+                kinectBundlePoses[i] = ret_pose;
             }   
         }		
     }
   }
 }
-
-// Given the pose of a marker, builds the appropriate ROS messages for later publishing 
-void makeMarkerMsgs(int type, int id, Pose &p, sensor_msgs::ImageConstPtr image_msg, tf::StampedTransform &CamToOutput, visualization_msgs::Marker *rvizMarker, ar_track_alvar::AlvarMarker *ar_pose_marker, int confidence){
-  double px,py,pz,qx,qy,qz,qw;
-	
-  px = p.translation[0]/100.0;
-  py = p.translation[1]/100.0;
-  pz = p.translation[2]/100.0;
-  qx = p.quaternion[1];
-  qy = p.quaternion[2];
-  qz = p.quaternion[3];
-  qw = p.quaternion[0];
-
-  //Get the marker pose in the camera frame
-  tf::Quaternion rotation (qx,qy,qz,qw);
-  tf::Vector3 origin (px,py,pz);
-  tf::Transform t (rotation, origin);  //transform from cam to marker
-
-  tf::Vector3 markerOrigin (0, 0, 0);
-  tf::Transform m (tf::Quaternion::getIdentity (), markerOrigin);
-  tf::Transform markerPose = t * m;
-
-  //Publish the cam to marker transform for each marker
-  std::string markerFrame = "ar_marker_";
-  std::stringstream out;
-  out << id;
-  std::string id_string = out.str();
-  markerFrame += id_string;
-  tf::StampedTransform camToMarker (t, image_msg->header.stamp, image_msg->header.frame_id, markerFrame.c_str());
-  tf_broadcaster->sendTransform(camToMarker);
-
-  //Create the rviz visualization message
-  tf::poseTFToMsg (markerPose, rvizMarker->pose);
-  rvizMarker->header.frame_id = image_msg->header.frame_id;
-  rvizMarker->header.stamp = image_msg->header.stamp;
-  rvizMarker->id = id;
-
-  rvizMarker->scale.x = 1.0 * marker_size/100.0;
-  rvizMarker->scale.y = 1.0 * marker_size/100.0;
-  rvizMarker->scale.z = 0.2 * marker_size/100.0;
-
-  if(type==MAIN_MARKER)
-    rvizMarker->ns = "main_shapes";
-  else
-    rvizMarker->ns = "basic_shapes";
-
-
-  rvizMarker->type = visualization_msgs::Marker::CUBE;
-  rvizMarker->action = visualization_msgs::Marker::ADD;
-
-  //Determine a color and opacity, based on marker type
-  if(type==MAIN_MARKER){
-    rvizMarker->color.r = 1.0f;
-    rvizMarker->color.g = 0.0f;
-    rvizMarker->color.b = 0.0f;
-    rvizMarker->color.a = 1.0;
-  }
-  else if(type==VISIBLE_MARKER){
-    rvizMarker->color.r = 0.0f;
-    rvizMarker->color.g = 1.0f;
-    rvizMarker->color.b = 0.0f;
-    rvizMarker->color.a = 0.7;
-  }
-  else if(type==GHOST_MARKER){
-    rvizMarker->color.r = 0.0f;
-    rvizMarker->color.g = 0.0f;
-    rvizMarker->color.b = 1.0f;
-    rvizMarker->color.a = 0.5;
-  }
-
-  rvizMarker->lifetime = ros::Duration (0.1);
-
-  // Only publish the pose of the master tag in each bundle, since that's all we really care about aside from visualization 
-  if(type==MAIN_MARKER){
-    //Take the pose of the tag in the camera frame and convert to the output frame (usually torso_lift_link for the PR2)
-    tf::Transform tagPoseOutput = CamToOutput * markerPose;
-
-    //Create the pose marker message
-    tf::poseTFToMsg (tagPoseOutput, ar_pose_marker->pose.pose);
-    ar_pose_marker->header.frame_id = output_frame;
-    ar_pose_marker->header.stamp = image_msg->header.stamp;
-    ar_pose_marker->id = id;
-    ar_pose_marker->confidence = confidence;
-  }
-  else
-    ar_pose_marker = NULL;
-}
-
-
 
 void makeMarkerMsgs(int type, int id, Pose &p, sensor_msgs::ImageConstPtr image_msg, tf::StampedTransform &CamToOutput, visualization_msgs::Marker *rvizMarker, ar_track_alvar::AlvarMarker *ar_pose_marker){
   double px,py,pz,qx,qy,qz,qw;
@@ -702,8 +604,9 @@ void getCapCallback (const sensor_msgs::ImageConstPtr & image_msg)
 		
       //Draw the observed markers that are visible and note which bundles have at least 1 marker seen
       for(int i=0; i<n_bundles; i++)
+      {
 	bundles_seen[i]++;
-
+      }
       for (size_t i=0; i<marker_detector.markers->size(); i++)
 	{
 	  int id = (*(marker_detector.markers))[i].GetId();
@@ -723,8 +626,8 @@ void getCapCallback (const sensor_msgs::ImageConstPtr & image_msg)
 
 	    // Don't draw if it is a master tag...we do this later, a bit differently
 	    bool should_draw = true;
-	    for(int i=0; i<n_bundles; i++){
-	      if(id == master_id[i]) should_draw = false;
+	    for(int j=0; j<n_bundles; j++){
+	      if(id == master_id[j]) should_draw = false;
 	    }
 	    if(should_draw){
 	      Pose p = (*(marker_detector.markers))[i].pose;
@@ -761,7 +664,7 @@ void getCapCallback (const sensor_msgs::ImageConstPtr & image_msg)
             tf::Transform m (tf::Quaternion::getIdentity (), markerOrigin);
             tf::Transform markerPose = t * m; // marker pose in the camera frame
 
-            tf::StampedTransform camToMarker (markerPose, image_msg->header.stamp, calibratedFrameID.c_str(), output_frame.c_str());
+            tf::StampedTransform camToMarker (markerPose, image_msg->header.stamp, calibratedFrameID.c_str(), "ar_marker_5");
             ROS_INFO_STREAM("Publishing transform between bundle " << i << " and " << output_frame << std::endl);
             tf_broadcaster->sendTransform(camToMarker);
           }
@@ -784,21 +687,6 @@ void getPointCloudCallback (const sensor_msgs::PointCloud2ConstPtr &msg)
   //If we've already gotten the cam info, then go ahead
   if(kinectCam->getCamInfo_){
     try{
-      //Get the transformation from the Camera to the output frame for this image capture
-      tf::StampedTransform CamToOutput;
-      try{
-	tf_listener->waitForTransform(output_frame, msg->header.frame_id, msg->header.stamp, ros::Duration(1.0));
-	tf_listener->lookupTransform(output_frame, msg->header.frame_id, msg->header.stamp, CamToOutput);
-      }
-      catch (tf::TransformException ex){
-	ROS_ERROR("%s",ex.what());
-      }
-
-      //Init and clear visualization markers
-      visualization_msgs::Marker rvizMarker;
-      ar_track_alvar::AlvarMarker ar_pose_marker;
-      arPoseMarkers_.markers.clear ();
-
       //Convert cloud to PCL 
       ARCloud cloud;
       pcl::fromROSMsg(*msg, cloud);
@@ -819,65 +707,54 @@ void getPointCloudCallback (const sensor_msgs::PointCloud2ConstPtr &msg)
       IplImage ipl_image = cv_ptr_->image;
       GetMultiMarkerPoses(&ipl_image, cloud);
 
-      for (size_t i=0; i<marker_detector.markers->size(); i++)
+
+
+
+
+
+      for (size_t i=0; i<kinect_marker_detector.markers->size(); i++)
 	{
-	  int id = (*(marker_detector.markers))[i].GetId();	
-
+	  int id = (*(kinect_marker_detector.markers))[i].GetId();
+          Pose p = (*(kinect_marker_detector.markers))[i].pose;
 	  // Draw if id is valid
-	  if(id >= 0){
-
-	    // Don't draw if it is a master tag...we do this later, a bit differently
-	    bool should_draw = true;
-	    for(int j=0; j<n_bundles; j++){
-	      if(id == master_id[j]) should_draw = false;
-	    }
-	    if(should_draw && (*(marker_detector.markers))[i].valid){
-	      Pose p = (*(marker_detector.markers))[i].pose;
-	      makeMarkerMsgs(VISIBLE_MARKER, id, p, image_msg, CamToOutput, &rvizMarker, &ar_pose_marker, 1);
-	      rvizMarkerPub_.publish (rvizMarker);
-	    }
-	  }
-	}
-      for (int i = 0; i < n_bundles; ++i)
-      {
-
-        //Get the pose relative to the camera
-        int id = i;
-        Pose p = bundlePoses[i];
-
-        double px = p.translation[0]/100.0;
-        double py = p.translation[1]/100.0;
-        double pz = p.translation[2]/100.0;
-        double qx = p.quaternion[1];
-        double qy = p.quaternion[2];
-        double qz = p.quaternion[3];
-        double qw = p.quaternion[0];
+	  double px = p.translation[0]/100.0;
+          double py = p.translation[1]/100.0;
+          double pz = p.translation[2]/100.0;
+          double qx = p.quaternion[1];
+          double qy = p.quaternion[2];
+          double qz = p.quaternion[3];
+          double qw = p.quaternion[0];
  
-        tf::Quaternion rotation (qx,qy,qz,qw);
-        tf::Vector3 origin (px,py,pz);
-        tf::Transform t (rotation, origin);
-        tf::Vector3 markerOrigin (0, 0, 0);
-        tf::Transform m (tf::Quaternion::getIdentity (), markerOrigin);
-        tf::Transform markerPose = t * m; // marker pose in the camera frame
+          tf::Quaternion rotation (qx, qy, qz, qw);
+          tf::Vector3 origin (px,py,pz);
+          tf::Transform t (rotation, origin);
+          tf::Vector3 markerOrigin (0, 0, 0);
+          tf::Transform m (tf::Quaternion::getIdentity (), markerOrigin);
+          tf::Transform markerPose = t * m; // marker pose in the camera frame
 
-        tf::StampedTransform camBaseToCamera;
-        try{
-          tf_listener->waitForTransform(kinectBaseLinkFrameID, image_msg->header.frame_id, image_msg->header.stamp, ros::Duration(1.0));
-          tf_listener->lookupTransform(kinectBaseLinkFrameID, image_msg->header.frame_id, image_msg->header.stamp, camBaseToCamera);
-        }
-        catch (tf::TransformException ex){
-          ROS_ERROR("%s",ex.what());
-      }
-
-      tf::Transform linkToMarker = camBaseToCamera * markerPose;
-      tf::StampedTransform camToMarker (linkToMarker.inverse(), image_msg->header.stamp, output_frame.c_str(), kinectBaseLinkFrameID);
-        ROS_INFO_STREAM("Publishing transform between bundle " << i << " and " << kinectBaseLinkFrameID << std::endl);
-        tf_broadcaster->sendTransform(camToMarker);
-      }
+          ROS_INFO_STREAM("Getting transform from " << kinectBaseLinkFrameID << " to " <<  image_msg->header.frame_id);
+          tf::StampedTransform camBaseToCamera;
+          try{
+            tf_listener->waitForTransform(kinectBaseLinkFrameID, image_msg->header.frame_id, image_msg->header.stamp, ros::Duration(1.0));
+            tf_listener->lookupTransform(kinectBaseLinkFrameID, image_msg->header.frame_id, image_msg->header.stamp, camBaseToCamera);
+          }
+          catch (tf::TransformException ex){
+            ROS_ERROR("%s",ex.what());
+          }
+ 
+          tf::Transform linkToMarker = camBaseToCamera * markerPose;
+          tf::StampedTransform markerToCamera (linkToMarker.inverse(), image_msg->header.stamp, "ar_marker_5", kinectBaseLinkFrameID);
+          ROS_INFO_STREAM("Publishing transform between bundle " << i << " and " << kinectBaseLinkFrameID << std::endl);
+          tf_broadcaster->sendTransform(markerToCamera);
+	}
     }
     catch (cv_bridge::Exception& e){
       ROS_ERROR ("ar_track_alvar: Image error: %s", image_msg->encoding.c_str ());
     }
+  } 
+  else
+  {
+     ROS_WARN_STREAM("Can't get kinect info on topic " << kinectInfoTopic);
   }
 }
 
@@ -984,7 +861,7 @@ int main(int argc, char *argv[])
   if(argc < 9){
     std::cout << std::endl;
     cout << "Not enough arguments provided." << endl;
-    cout << "Usage: ./findMarkerBundles <marker size in cm> <max new marker error> <max track error> <cam image topic> <cam info topic> <output frame> <median filt size> <list of bundle XML files...>" << endl;
+    cout << "Usage: ./findMarkerBundles <marker size in cm> <max new marker error> <max track error> <kinect image topic> <kinect info topic> <kinect base link frame ID> <calibrated image topic> <calibrated info topic> <calibrated frame ID> <output frame> <median filt size> <list of bundle XML files...>" << endl;
     std::cout << std::endl;
     return 0;
   }
@@ -1005,8 +882,10 @@ int main(int argc, char *argv[])
   n_bundles = argc - n_args_before_list;
 
   marker_detector.SetMarkerSize(marker_size);
+  kinect_marker_detector.SetMarkerSize(marker_size);
   multi_marker_bundles = new MultiMarkerBundle*[n_bundles];	
   bundlePoses = new Pose[n_bundles];
+  kinectBundlePoses = new Pose[n_bundles];
   master_id = new int[n_bundles]; 
   bundle_indices = new std::vector<int>[n_bundles]; 
   bundles_seen = new int[n_bundles]; 
@@ -1021,7 +900,8 @@ int main(int argc, char *argv[])
     med_filts[i] = new ata::MedianFilter(med_filt_size);
 
   // Load the marker bundle XML files
-  for(int i=0; i<n_bundles; i++){	
+  for(int i=0; i<n_bundles; i++){
+    kinectBundlePoses[i].Reset();	
     bundlePoses[i].Reset();		
     MultiMarker loadHelper;
     if(loadHelper.Load(argv[i + n_args_before_list], FILE_FORMAT_XML)){
@@ -1052,8 +932,13 @@ int main(int argc, char *argv[])
   ros::spinOnce();			
 	 
   //Subscribe to topics and set up callbacks
-  ROS_INFO ("Subscribing to image topic");
+  ROS_INFO_STREAM ("Subscribing to kinect image topic '" << kinectImageTopic << "'");
   cloud_sub_ = n.subscribe(kinectImageTopic, 1, &getPointCloudCallback);
+
+  image_transport::ImageTransport it_(n);
+//Subscribe to topics and set up callbacks
+  ROS_INFO_STREAM ("Subscribing to calibrated image topic '" << calibratedImageTopic << "'");
+  calibratedSub_ = it_.subscribe(calibratedImageTopic, 1, &getCapCallback);
 
   ros::spin();
 
