@@ -2,7 +2,7 @@ Speech to text for use on Brown Robotic's Baxter - developed with CMU's Sphinx t
 
 (1) ISSUING NATURAL LANGUAGE COMMANDS
 
-To issue a command to Baxter, run stt.py. You will then be prompted to speak.
+To issue a command to Baxter, run roslaunch on the speaker.launch file in this package. You will then be prompted to speak.
 
 The results will be published to the rostopic speech_command
 
@@ -15,5 +15,7 @@ If the dictionary, either acoustic or text, does not contain some of the words y
 There is also a tutorial provided by CMU for training the acoustic model located here: http://cmusphinx.sourceforge.net/wiki/tutorialam
 
 (3) TO BUILD
+
+In case you require a clean build:
 
 Run: "ant -find demo.xml" to build, and then you will be able to run through the normal python script (speech_to_text.py).
