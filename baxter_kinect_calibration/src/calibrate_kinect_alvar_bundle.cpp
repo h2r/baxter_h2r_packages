@@ -2,7 +2,7 @@
 #include <dynamic_reconfigure/server.h>
 #include <ar_track_alvar/ParamsConfig.h>
 
-
+#include <deque>
 #include "ar_track_alvar/CvTestbed.h"
 #include "ar_track_alvar/MarkerDetector.h"
 #include "ar_track_alvar/MultiMarkerBundle.h"
@@ -91,6 +91,9 @@ std::string calibratedImageTopic;
 std::string calibratedInfoTopic; 
 std::string calibratedFrameID;
 int n_bundles = 0;   
+
+std::deque<tf::Transform> accumulatedTransforms;
+tf::Transform accumulatedTransform;
 
 //Debugging utility function
 void draw3dPoints(ARCloud::Ptr cloud, string frame, int color, int id, double rad)
@@ -665,8 +668,8 @@ void getCapCallback (const sensor_msgs::ImageConstPtr & image_msg)
             tf::Transform markerPose = t * m; // marker pose in the camera frame
 
             tf::StampedTransform camToMarker (markerPose, image_msg->header.stamp, calibratedFrameID.c_str(), "ar_marker_5");
-            ROS_INFO_STREAM("Publishing transform between bundle " << i << " and " << output_frame << std::endl);
             tf_broadcaster->sendTransform(camToMarker);
+            
           }
         }
            //Publish the marker messages
@@ -678,6 +681,42 @@ void getCapCallback (const sensor_msgs::ImageConstPtr & image_msg)
   }
 }
 
+
+void addTransformToAverage(tf::Transform incoming)
+{
+    accumulatedTransforms.push_back(incoming); 
+    if (accumulatedTransforms.size() <=1)
+    {
+         accumulatedTransform = tf::Transform(incoming);
+         return;
+    }
+    tf::Quaternion quat = accumulatedTransform.getRotation();
+    tf::Vector3 vec = accumulatedTransform.getOrigin();
+    
+    if (accumulatedTransforms.size() > 100)
+    {
+        int n = accumulatedTransforms.size();
+        double t = 1.0 / accumulatedTransforms.size();
+        tf::Transform outgoing = accumulatedTransforms.front();
+        accumulatedTransforms.pop_front();
+
+        tf::Quaternion oQuat = outgoing.getRotation();
+        tf::Vector3 oVec = outgoing.getOrigin();
+           
+        
+        vec = ((n-1) * vec - oVec) / (n - 2);
+        quat = quat.slerp(oQuat.inverse(), t);
+    }
+    int n = accumulatedTransforms.size();
+    double t = 1.0 / accumulatedTransforms.size();
+    
+    
+    tf::Quaternion iQuat = incoming.getRotation();
+    tf::Vector3 iVec = incoming.getOrigin();
+
+    accumulatedTransform.setOrigin(((n-1) * vec + iVec) / n);
+    //accumulatedTransform.setRotation(quat.slerp(iQuat, t));
+}
 
 //Callback to handle getting kinect point clouds and processing them
 void getPointCloudCallback (const sensor_msgs::PointCloud2ConstPtr &msg)
@@ -707,11 +746,6 @@ void getPointCloudCallback (const sensor_msgs::PointCloud2ConstPtr &msg)
       IplImage ipl_image = cv_ptr_->image;
       GetMultiMarkerPoses(&ipl_image, cloud);
 
-
-
-
-
-
       for (size_t i=0; i<kinect_marker_detector.markers->size(); i++)
 	{
 	  int id = (*(kinect_marker_detector.markers))[i].GetId();
@@ -729,10 +763,11 @@ void getPointCloudCallback (const sensor_msgs::PointCloud2ConstPtr &msg)
           tf::Vector3 origin (px,py,pz);
           tf::Transform t (rotation, origin);
           tf::Vector3 markerOrigin (0, 0, 0);
-          tf::Transform m (tf::Quaternion::getIdentity (), markerOrigin);
+          tf::Quaternion quat;
+          quat.setRPY(0,0,-3.14159/2.0);
+          tf::Transform m (quat, markerOrigin);
           tf::Transform markerPose = t * m; // marker pose in the camera frame
 
-          ROS_INFO_STREAM("Getting transform from " << kinectBaseLinkFrameID << " to " <<  image_msg->header.frame_id);
           tf::StampedTransform camBaseToCamera;
           try{
             tf_listener->waitForTransform(kinectBaseLinkFrameID, image_msg->header.frame_id, image_msg->header.stamp, ros::Duration(1.0));
@@ -741,10 +776,11 @@ void getPointCloudCallback (const sensor_msgs::PointCloud2ConstPtr &msg)
           catch (tf::TransformException ex){
             ROS_ERROR("%s",ex.what());
           }
- 
+         
           tf::Transform linkToMarker = camBaseToCamera * markerPose;
+          addTransformToAverage(linkToMarker.inverse());
+          
           tf::StampedTransform markerToCamera (linkToMarker.inverse(), image_msg->header.stamp, "ar_marker_5", kinectBaseLinkFrameID);
-          ROS_INFO_STREAM("Publishing transform between bundle " << i << " and " << kinectBaseLinkFrameID << std::endl);
           tf_broadcaster->sendTransform(markerToCamera);
 	}
     }
