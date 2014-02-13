@@ -1,1 +1,0 @@
-/usr/bin/c++  -fPIC    -shared -Wl,-soname,libgtest_main.so -o libgtest_main.so CMakeFiles/gtest_main.dir/src/gtest_main.cc.o  -L/home/dabel/baxter_hackathon/baxter_speech_command/build/gtest/src -lpthread libgtest.so -lpthread -Wl,-rpath,/home/dabel/baxter_hackathon/baxter_speech_command/build/gtest/src:/home/dabel/baxter_hackathon/baxter_speech_command/build/gtest 

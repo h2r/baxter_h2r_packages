@@ -2,13 +2,13 @@
 import subprocess
 import rospy
 from std_msgs.msg import String
-
+import os
 
 try:
 	pub = rospy.Publisher('speech_command', String)
 	rospy.init_node('speaker')
 
-	proc = subprocess.Popen(["java","-mx312m", "-jar", "./BaxterSpeech.jar"], stdout=subprocess.PIPE)
+	proc = subprocess.Popen(["java","-mx312m", "-jar", "../src/bin/BaxterSpeech.jar"], stdout=subprocess.PIPE)
 	print "Start Speaking. Press Crtl-C to quit."
 	while True:
 		line = proc.stdout.readline()
