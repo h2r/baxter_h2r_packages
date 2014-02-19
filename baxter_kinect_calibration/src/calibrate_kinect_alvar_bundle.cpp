@@ -36,7 +36,8 @@
 #include <Eigen/Core>
 #include <ar_track_alvar/filter/kinect_filtering.h>
 #include <ar_track_alvar/filter/medianFilter.h>
-
+#include <fstream>
+#include <iostream>
 
 #define MAIN_MARKER 1
 #define VISIBLE_MARKER 2
@@ -79,6 +80,7 @@ bool init = true;
 ata::MedianFilter **med_filts;
 int med_filt_size;
 
+std::string launchFileName;
 double marker_size;
 double max_new_marker_error;
 double max_track_error;
@@ -92,8 +94,11 @@ std::string calibratedInfoTopic;
 std::string calibratedFrameID;
 int n_bundles = 0;   
 
-std::deque<tf::Transform> accumulatedTransforms;
-tf::Transform accumulatedTransform;
+std::deque<tf::Transform> kinectTransforms;
+tf::Transform kinectTransform;
+std::deque<std::deque<tf::Transform> > camTransforms;
+std::vector<tf::Transform> camTransform;
+
 
 //Debugging utility function
 void draw3dPoints(ARCloud::Ptr cloud, string frame, int color, int id, double rad)
@@ -573,6 +578,43 @@ void makeMarkerMsgs(int type, int id, Pose &p, sensor_msgs::ImageConstPtr image_
   else
     ar_pose_marker = NULL;
 }
+
+void addTransformToAverage(tf::Transform incoming, std::deque<tf::Transform> &transforms, tf::Transform &transform)
+{
+    transforms.push_back(incoming); 
+    int n = transforms.size();
+    if (n <=1)
+    {
+         transform = tf::Transform(incoming);
+         return;
+    }
+    tf::Quaternion quat = transform.getRotation();
+    tf::Vector3 vec = transform.getOrigin();
+    
+    if (n > 100)
+    {
+        double t = 1.0 / (n - 1);
+        tf::Transform outgoing = transforms.front();
+        transforms.pop_front();
+
+        tf::Quaternion oQuat = outgoing.getRotation();
+        tf::Vector3 oVec = outgoing.getOrigin();
+           
+        
+        vec = (1+t) * vec - t * oVec;
+        n--;
+    }
+    double t = 1.0 / (n-1);
+    
+    
+    tf::Quaternion iQuat = incoming.getRotation();
+    tf::Vector3 iVec = incoming.getOrigin();
+
+    transform.setOrigin((1 - t) * vec + t * iVec);
+    transform.setRotation(quat.slerp(iQuat, t));
+}
+
+
 //Callback to handle getting video frames and processing them
 void getCapCallback (const sensor_msgs::ImageConstPtr & image_msg)
 {
@@ -667,7 +709,18 @@ void getCapCallback (const sensor_msgs::ImageConstPtr & image_msg)
             tf::Transform m (tf::Quaternion::getIdentity (), markerOrigin);
             tf::Transform markerPose = t * m; // marker pose in the camera frame
 
-            tf::StampedTransform camToMarker (markerPose, image_msg->header.stamp, calibratedFrameID.c_str(), "ar_marker_5");
+            if (camTransforms.size() <= i)
+            {
+                std::deque<tf::Transform> transformDeque;
+                camTransforms.push_back(transformDeque);
+                tf::Quaternion p (0,0,0,1);
+                tf::Vector3 o (0,0,0);
+                tf::Transform t (p, o);
+                camTransform.push_back(t);
+            }
+            addTransformToAverage(markerPose, camTransforms[i], camTransform[i]);
+
+            tf::StampedTransform camToMarker (camTransform[i], image_msg->header.stamp, calibratedFrameID.c_str(), "ar_marker_5");
             tf_broadcaster->sendTransform(camToMarker);
             
           }
@@ -681,42 +734,28 @@ void getCapCallback (const sensor_msgs::ImageConstPtr & image_msg)
   }
 }
 
-
-void addTransformToAverage(tf::Transform incoming)
+void writeFile()
 {
-    accumulatedTransforms.push_back(incoming); 
-    if (accumulatedTransforms.size() <=1)
-    {
-         accumulatedTransform = tf::Transform(incoming);
-         return;
+    tf::StampedTransform t;
+    try{
+        tf_listener->waitForTransform(output_frame, kinectBaseLinkFrameID, ros::Time::now(), ros::Duration(1.0));
+        tf_listener->lookupTransform(output_frame, kinectBaseLinkFrameID, ros::Time::now(), t);
     }
-    tf::Quaternion quat = accumulatedTransform.getRotation();
-    tf::Vector3 vec = accumulatedTransform.getOrigin();
-    
-    if (accumulatedTransforms.size() > 100)
-    {
-        int n = accumulatedTransforms.size();
-        double t = 1.0 / accumulatedTransforms.size();
-        tf::Transform outgoing = accumulatedTransforms.front();
-        accumulatedTransforms.pop_front();
-
-        tf::Quaternion oQuat = outgoing.getRotation();
-        tf::Vector3 oVec = outgoing.getOrigin();
-           
-        
-        vec = ((n-1) * vec - oVec) / (n - 2);
-        quat = quat.slerp(oQuat.inverse(), t);
+    catch (tf::TransformException ex){
+       ROS_ERROR("%s",ex.what());
     }
-    int n = accumulatedTransforms.size();
-    double t = 1.0 / accumulatedTransforms.size();
-    
-    
-    tf::Quaternion iQuat = incoming.getRotation();
-    tf::Vector3 iVec = incoming.getOrigin();
-
-    accumulatedTransform.setOrigin(((n-1) * vec + iVec) / n);
-    //accumulatedTransform.setRotation(quat.slerp(iQuat, t));
+    tf::Vector3 vec = t.getOrigin();
+    tf::Quaternion quat = t.getRotation();
+    std::ofstream file;
+    file.open(launchFileName.c_str());
+    file << "<launch>\n"
+         << "  <node pkg=\"tf\" type=\"static_transform_publisher\" name=\"kinectTransformer\" \n"
+         << "      args=\"" << vec.x() << " " << vec.y() << " " << vec.z() << " " 
+         << quat.x() << " " << quat.y() << " " << quat.z() << " " << quat.w() << "\"/>\n"
+         << "</launch>";
+    file.close();
 }
+
 
 //Callback to handle getting kinect point clouds and processing them
 void getPointCloudCallback (const sensor_msgs::PointCloud2ConstPtr &msg)
@@ -778,10 +817,11 @@ void getPointCloudCallback (const sensor_msgs::PointCloud2ConstPtr &msg)
           }
          
           tf::Transform linkToMarker = camBaseToCamera * markerPose;
-          addTransformToAverage(linkToMarker.inverse());
+          addTransformToAverage(linkToMarker.inverse(), kinectTransforms, kinectTransform);
           
-          tf::StampedTransform markerToCamera (linkToMarker.inverse(), image_msg->header.stamp, "ar_marker_5", kinectBaseLinkFrameID);
+          tf::StampedTransform markerToCamera (kinectTransform, image_msg->header.stamp, "ar_marker_5", kinectBaseLinkFrameID);
           tf_broadcaster->sendTransform(markerToCamera);
+          writeFile();
 	}
     }
     catch (cv_bridge::Exception& e){
@@ -897,24 +937,26 @@ int main(int argc, char *argv[])
   if(argc < 9){
     std::cout << std::endl;
     cout << "Not enough arguments provided." << endl;
-    cout << "Usage: ./findMarkerBundles <marker size in cm> <max new marker error> <max track error> <kinect image topic> <kinect info topic> <kinect base link frame ID> <calibrated image topic> <calibrated info topic> <calibrated frame ID> <output frame> <median filt size> <list of bundle XML files...>" << endl;
+    cout << "Usage: ./bundle_calibrate <output file> <marker size in cm> <max new marker error> <max track error> <kinect image topic> <kinect info topic> <kinect base link frame ID> <calibrated image topic> <calibrated info topic> <calibrated frame ID> <output frame> <median filt size> <list of bundle XML files...>" << endl;
     std::cout << std::endl;
     return 0;
   }
 
   // Get params from command line
-  marker_size = atof(argv[1]);
-  max_new_marker_error = atof(argv[2]);
-  max_track_error = atof(argv[3]);
-  kinectImageTopic = argv[4]; 
-  kinectInfoTopic = argv[5];
-  kinectBaseLinkFrameID = argv[6];
-  calibratedImageTopic = argv[7];
-  calibratedInfoTopic = argv[8];
-  calibratedFrameID = argv[9];
-  output_frame = argv[10];
-  med_filt_size = atoi(argv[11]);
-  int n_args_before_list = 12;
+  
+  launchFileName = argv[1];
+  marker_size = atof(argv[2]);
+  max_new_marker_error = atof(argv[3]);
+  max_track_error = atof(argv[4]);
+  kinectImageTopic = argv[5]; 
+  kinectInfoTopic = argv[6];
+  kinectBaseLinkFrameID = argv[7];
+  calibratedImageTopic = argv[8];
+  calibratedInfoTopic = argv[9];
+  calibratedFrameID = argv[10];
+  output_frame = argv[11];
+  med_filt_size = atoi(argv[12]);
+  int n_args_before_list = 13;
   n_bundles = argc - n_args_before_list;
 
   marker_detector.SetMarkerSize(marker_size);
