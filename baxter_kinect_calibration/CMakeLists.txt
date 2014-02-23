@@ -80,6 +80,10 @@ add_executable(bundle_calibrate src/calibrate_kinect_alvar_bundle.cpp)
 target_link_libraries(bundle_calibrate ar_track_alvar kinect_filtering medianFilter ${catkin_LIBRARIES})
 add_dependencies(bundle_calibrate ${PROJECT_NAME}_gencpp ${GENCPP_DEPS})
 
+add_executable(baxter_camera_info_publisher src/camera_info.cpp)
+target_link_libraries(baxter_camera_info_publisher ${catkin_LIBRARIES})
+add_dependencies(baxter_camera_info_publisher ${PROJECT_NAME}_gencpp ${GENCPP_DEPS})
+
 #add_executable(auto_calibrate src/calibrate_kinect_arm_checkerboard.cpp
 #                                             src/detect_calibration_pattern.cpp)
 #target_link_libraries(calibrate_kinect_checkerboard ${Boost_LIBRARIES}
@@ -98,7 +102,7 @@ add_dependencies(bundle_calibrate ${PROJECT_NAME}_gencpp ${GENCPP_DEPS})
  #                                                   ${OpenCV_LIBRARIES})
 
 
-set(CALIBRATION_TARGETS individual_markers_calibrate bundle_calibrate)
+set(CALIBRATION_TARGETS individual_markers_calibrate bundle_calibrate baxter_camera_info_publisher)
 
 install(TARGETS ${CALIBRATION_TARGETS}
   ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
