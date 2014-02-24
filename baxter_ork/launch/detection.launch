@@ -1,5 +1,5 @@
 <launch>
-
+    <include file="$(find baxter_kinect_calibration)/launch/kinect_publisher.launch"/>
 <rosparam></rosparam>
 
 <node> </node>

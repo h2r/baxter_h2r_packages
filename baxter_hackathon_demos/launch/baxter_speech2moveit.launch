@@ -1,0 +1,7 @@
+<launch>
+    <include file="$(find baxter_speech_command)/launch/speaker.launch"/>
+    
+    <include file="$(find baxter_ork)/launch/detection.launch" />
+
+    <include file="$(find listen_and_grasp)/launch/listen_and_grasp.launch" />
+</launch>

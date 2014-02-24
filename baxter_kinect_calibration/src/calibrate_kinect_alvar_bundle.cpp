@@ -519,7 +519,7 @@ void makeMarkerMsgs(int type, int id, Pose &p, sensor_msgs::ImageConstPtr image_
     out << id;
     std::string id_string = out.str();
     markerFrame += id_string;
-    tf::StampedTransform camToMarker (t, image_msg->header.stamp, image_msg->header.frame_id, markerFrame.c_str());
+    tf::StampedTransform camToMarker (t, ros::Time::now(), image_msg->header.frame_id, markerFrame.c_str());
     tf_broadcaster->sendTransform(camToMarker);
   }
 
@@ -624,8 +624,9 @@ void getCapCallback (const sensor_msgs::ImageConstPtr & image_msg)
       //Get the transformation from the Camera to the output frame for this image capture
       tf::StampedTransform CamToOutput;
       try{
-	tf_listener->waitForTransform(output_frame, image_msg->header.frame_id, image_msg->header.stamp, ros::Duration(1.0));
-	tf_listener->lookupTransform(output_frame, image_msg->header.frame_id, image_msg->header.stamp, CamToOutput);
+        ros::Time now = ros::Time::now();
+	tf_listener->waitForTransform(output_frame, image_msg->header.frame_id, now, ros::Duration(1.0));
+	tf_listener->lookupTransform(output_frame, image_msg->header.frame_id, now, CamToOutput);
       }
       catch (tf::TransformException ex){
 	ROS_ERROR("%s",ex.what());
@@ -720,7 +721,7 @@ void getCapCallback (const sensor_msgs::ImageConstPtr & image_msg)
             }
             addTransformToAverage(markerPose, camTransforms[i], camTransform[i]);
 
-            tf::StampedTransform camToMarker (camTransform[i], image_msg->header.stamp, calibratedFrameID.c_str(), "ar_marker_5");
+            tf::StampedTransform camToMarker (camTransform[i], ros::Time::now(), calibratedFrameID.c_str(), "ar_marker_5");
             tf_broadcaster->sendTransform(camToMarker);
             
           }
@@ -734,12 +735,12 @@ void getCapCallback (const sensor_msgs::ImageConstPtr & image_msg)
   }
 }
 
-void writeFile()
+void writeFile(ros::Time stamp)
 {
     tf::StampedTransform t;
     try{
-        tf_listener->waitForTransform(output_frame, kinectBaseLinkFrameID, ros::Time::now(), ros::Duration(1.0));
-        tf_listener->lookupTransform(output_frame, kinectBaseLinkFrameID, ros::Time::now(), t);
+        tf_listener->waitForTransform(output_frame, kinectBaseLinkFrameID, ros::Time(0), ros::Duration(1.0));
+        tf_listener->lookupTransform(output_frame, kinectBaseLinkFrameID, ros::Time(0), t);
     }
     catch (tf::TransformException ex){
        ROS_ERROR("%s",ex.what());
@@ -784,7 +785,7 @@ void getPointCloudCallback (const sensor_msgs::PointCloud2ConstPtr &msg)
       // do this conversion here -jbinney
       IplImage ipl_image = cv_ptr_->image;
       GetMultiMarkerPoses(&ipl_image, cloud);
-
+      ros::Time now = ros::Time::now();
       for (size_t i=0; i<kinect_marker_detector.markers->size(); i++)
 	{
 	  int id = (*(kinect_marker_detector.markers))[i].GetId();
@@ -809,8 +810,9 @@ void getPointCloudCallback (const sensor_msgs::PointCloud2ConstPtr &msg)
 
           tf::StampedTransform camBaseToCamera;
           try{
-            tf_listener->waitForTransform(kinectBaseLinkFrameID, image_msg->header.frame_id, image_msg->header.stamp, ros::Duration(1.0));
-            tf_listener->lookupTransform(kinectBaseLinkFrameID, image_msg->header.frame_id, image_msg->header.stamp, camBaseToCamera);
+            
+            tf_listener->waitForTransform(kinectBaseLinkFrameID, image_msg->header.frame_id, now, ros::Duration(1.0));
+            tf_listener->lookupTransform(kinectBaseLinkFrameID, image_msg->header.frame_id, now, camBaseToCamera);
           }
           catch (tf::TransformException ex){
             ROS_ERROR("%s",ex.what());
@@ -818,11 +820,10 @@ void getPointCloudCallback (const sensor_msgs::PointCloud2ConstPtr &msg)
          
           tf::Transform linkToMarker = camBaseToCamera * markerPose;
           addTransformToAverage(linkToMarker.inverse(), kinectTransforms, kinectTransform);
-          
-          tf::StampedTransform markerToCamera (kinectTransform, image_msg->header.stamp, "ar_marker_5", kinectBaseLinkFrameID);
+          tf::StampedTransform markerToCamera (kinectTransform, now, "ar_marker_5", kinectBaseLinkFrameID);
           tf_broadcaster->sendTransform(markerToCamera);
-          writeFile();
 	}
+         writeFile(now);
     }
     catch (cv_bridge::Exception& e){
       ROS_ERROR ("ar_track_alvar: Image error: %s", image_msg->encoding.c_str ());

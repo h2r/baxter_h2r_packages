@@ -14,3 +14,12 @@ $ source devel/setup.bash
 $ catkin_make
 $ catkin_make install
 ```
+
+
+Running demo
+-------------------
+
+```
+$ roslaunch baxter_hackathon_demos baxter_speech2moveit.launch
+
+```

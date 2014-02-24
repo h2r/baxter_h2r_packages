@@ -13,6 +13,7 @@ find_package(catkin REQUIRED
         eigen
         image_geometry
         image_transport
+        camera_info_manager
         pcl_conversions
         pcl_ros
         roscpp
@@ -40,6 +41,7 @@ catkin_package(DEPENDS
     eigen
     image_geometry
     image_transport
+    camera_info_manager
     pcl_ros
     roscpp
     tf
@@ -112,6 +114,10 @@ install(TARGETS ${CALIBRATION_TARGETS}
 
 install(DIRECTORY include/${PROJECT_NAME}/
   DESTINATION ${CATKIN_PACKAGE_INCLUDE_DESTINATION}
+)
+
+install(DIRECTORY scripts/${PROJECT_NAME}/
+  DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )
 
 install(DIRECTORY launch/

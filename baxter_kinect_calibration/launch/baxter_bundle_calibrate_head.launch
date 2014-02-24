@@ -1,0 +1,21 @@
+<launch>
+        <arg name="output_file" default="kinectPublisher.launch" />
+	<arg name="marker_size" default="4.8" />
+	<arg name="max_new_marker_error" default="0.08" />
+	<arg name="max_track_error" default="0.2" />
+
+	<arg name="kinect_image_topic" default="/camera/depth_registered/points" />
+	<arg name="kinect_info_topic" default="/camera/depth_registered/camera_info" />		
+	<arg name="kinect_base_frame" default="/camera_link" />
+
+	<arg name="calibrated_image_topic" default="/cameras/head_camera/image" />
+	<arg name="calibrated_info_topic" default="/cameras/head_camera/camera_info" />		
+	<arg name="calibrated_frame" default="/head_camera" />
+
+	<arg name="output_frame" default="/world" />
+	<arg name="median_filter_size" default="10" />
+
+	<arg name="calibration_bundle" default="$(find baxter_kinect_calibration)/bundles/table_8_9_10.xml" />
+
+	<node name="baxter_bundle_calibrate" pkg="baxter_kinect_calibration" type="bundle_calibrate" respawn="false" output="screen" args="$(arg output_file) $(arg marker_size) $(arg max_new_marker_error) $(arg max_track_error) $(arg kinect_image_topic) $(arg kinect_info_topic) $(arg kinect_base_frame) $(arg calibrated_image_topic) $(arg calibrated_info_topic) $(arg calibrated_frame) $(arg output_frame) $(arg median_filter_size) $(arg calibration_bundle)" />
+</launch>
