@@ -1,0 +1,32 @@
+source1:
+  type: RosKinect
+  module: object_recognition_ros.io.source.ros_kinect
+  parameters:
+    rgb_frame_id: 'camera_rgb_optical_frame'
+    depth_frame_id: 'camera_depth_optical_frame'
+    #  The ROS topic for the depth camera info.
+    depth_camera_info: /camera/depth_registered/camera_info
+    #  The ROS topic for the depth image.
+    depth_image_topic: /camera/depth_registered/image_raw
+    #  The ROS topic for the RGB camera info.
+    rgb_camera_info: /camera/rgb/camera_info
+    #  The ROS topic for the RGB image.
+    rgb_image_topic: /camera/rgb/image_color
+
+sink1:
+  type: TablePublisher
+  module: 'object_recognition_tabletop'
+  inputs: [source1]
+
+pipeline1:
+  type: TabletopTableDetector
+  module: 'object_recognition_tabletop'
+  inputs: [source1]
+  outputs: [sink1]
+  parameters:
+    table_detector:
+      min_table_size: 4000
+      plane_threshold: 0.01
+    #clusterer:
+    #  table_z_filter_max: 0.35
+    #  table_z_filter_min: 0.025
