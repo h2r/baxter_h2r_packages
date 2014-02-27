@@ -1,12 +1,10 @@
 <launch>
-    <param name="depth_registration" value="True" type="bool"/>
-    <include file="$(find openni_launch)/launch/openni.launch"/>
-    <!--<remap from="/camera/depth_registered/image_raw" to="/camera/depth_registered/image"/>-->
+    <include file="$(find openni_launch)/launch/openni.launch">
+	<arg name="depth_registration" value="True"/>
+    </include>
+    <!--<include file="$(find baxter_kinect_calibration)/launch/kinect_publisher.launch"/>-->
     <node name="relay" pkg="topic_tools" args="/camera/depth_registered/image_raw /camera/depth_registered/image" type="relay"/>
     <node name="detection" pkg="baxter_ork" type="hack1.sh"/>
-    <node name="server" pkg="baxter_ork" type="hack2.sh"/> 
-    <!--<include file="$(find baxter_kinect_calibration)/launch/kinect_publisher.launch"/>-->
-    <!--<node name="detection" pkg="object_recognition_core" args="-c $(find baxter_ork)/conf/detection.ros.ork" type="detection"/>-->
-    <!--<node name="server" pkg="object_recognition_ros" args="-c $(find baxter_ork)/conf/detection2.table.ros.ork" type="server"/>-->
+    <node name="server" pkg="object_recognition_ros" args="-c $(find baxter_ork)/conf/detection2.table.ros.ork" type="server"/>
 
 </launch>
