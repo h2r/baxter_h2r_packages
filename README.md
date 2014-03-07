@@ -4,7 +4,7 @@ To make and install
 Clone this package into the src directory of your catkin workspace
 
 ```
-$ git clone http://github.com/h2r/baxter_hackathon
+$ git clone http://github.com/h2r/baxter_packages
 ```
 
 Build it
