@@ -1,6 +1,6 @@
 Make sure you built baxter_packages according to its README (baxter_h2r_packages/README.md)
 
-Print a copy of table8_9_10.png and place it on a table where the kinect can view it as well as the left arm camera (after moving it to the correct position)
+Print a copy of table8_9_10.png and place it on a table where the kinect can view it as well as the left arm camera (after moving it to the correct position). The markers in the printout should be approximately 44-45 mm wide.
 https://github.com/sniekum/ar_track_alvar/blob/groovy-devel/markers/table_8_9_10.png
 
 Make sure to change your camera resolution to 1280x800
@@ -33,7 +33,7 @@ rosrun tf tf_echo /world /camera_link
 You can now write a launch file with the following syntax
 ```
 <launch>
-    <node pkg="tf" type="static_transform_publisher" name="kinectTransformer"args="x y z qx qy qz qw" />
+    <node pkg="tf" type="static_transform_publisher" name="kinectTransformer" args="x y z qx qy qz qw" />
 </launch>
 
 ```
