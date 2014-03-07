@@ -33,7 +33,7 @@ rosrun tf tf_echo /world /camera_link
 You can now write a launch file with the following syntax
 ```
 <launch>
-    <node pkg="tf" type="static_transform_publisher" name="kinectTransformer"args="x y z qx qy qz qw" />
+    <node pkg="tf" type="static_transform_publisher" name="kinectTransformer" args="x y z qx qy qz qw" />
 </launch>
 
 ```
