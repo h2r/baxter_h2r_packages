@@ -1,8 +1,16 @@
+Make sure you built baxter_packages according to its README (baxter_packages/README.md)
+
 Print a copy of table8_9_10.png and place it on a table where the kinect can view it as well as the left arm camera (after moving it to the correct position)
 https://github.com/sniekum/ar_track_alvar/blob/groovy-devel/markers/table_8_9_10.png
 
+Make sure to change your camera resolution to 1280x800
 
+```
+rosrun baxter_tools camera_control.py -c left_hand_camera
+rosrun baxter_tools camera_control.py -o left_hand_camera -r 1280x800
+```
 
+Enable the robot
 ```
 $ cd ~/baxter_ws/
 $ ./baxter.sh

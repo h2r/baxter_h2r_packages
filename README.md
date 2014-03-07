@@ -4,6 +4,7 @@ To make and install
 Clone this package into the src directory of your catkin workspace
 
 ```
+$ git clone -b hydro-devel http://github.com/sniekum/ar_track_alvar
 $ git clone http://github.com/h2r/baxter_packages
 ```
 

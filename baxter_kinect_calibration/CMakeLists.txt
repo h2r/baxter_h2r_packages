@@ -74,9 +74,9 @@ set(GENCPP_DEPS std_msgs_gencpp sensor_msgs_gencpp geometry_msgs_gencpp visualiz
 
 #add_executable(calibrate_kinect_alvar src/calibrate_kinect_alvar.cpp)
 
-add_executable(individual_markers_calibrate src/individualMarkersCalibrate.cpp)
-target_link_libraries(individual_markers_calibrate ar_track_alvar kinect_filtering ${catkin_LIBRARIES})
-add_dependencies(individual_markers_calibrate ${PROJECT_NAME}_gencpp ${GENCPP_DEPS})
+#add_executable(individual_markers_calibrate src/individualMarkersCalibrate.cpp)
+#target_link_libraries(individual_markers_calibrate ar_track_alvar kinect_filtering ${catkin_LIBRARIES})
+#add_dependencies(individual_markers_calibrate ${PROJECT_NAME}_gencpp ${GENCPP_DEPS})
 
 add_executable(bundle_calibrate src/calibrate_kinect_alvar_bundle.cpp)
 target_link_libraries(bundle_calibrate ar_track_alvar kinect_filtering medianFilter ${catkin_LIBRARIES})
@@ -104,7 +104,7 @@ add_dependencies(baxter_camera_info_publisher ${PROJECT_NAME}_gencpp ${GENCPP_DE
  #                                                   ${OpenCV_LIBRARIES})
 
 
-set(CALIBRATION_TARGETS individual_markers_calibrate bundle_calibrate baxter_camera_info_publisher)
+set(CALIBRATION_TARGETS bundle_calibrate baxter_camera_info_publisher)
 
 install(TARGETS ${CALIBRATION_TARGETS}
   ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
@@ -116,8 +116,8 @@ install(DIRECTORY include/${PROJECT_NAME}/
   DESTINATION ${CATKIN_PACKAGE_INCLUDE_DESTINATION}
 )
 
-install(DIRECTORY scripts/${PROJECT_NAME}/
-  DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
+install(DIRECTORY scripts/
+  DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}/scripts
 )
 
 install(DIRECTORY launch/

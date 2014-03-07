@@ -1,13 +1,13 @@
 <package>
-  <name>baxter_hackathon</name>
+  <name>baxter_packages</name>
   <version>0.1.0</version>
   <description>
     Metapackage for Brown CS H2R baxter hackamegathon
   </description>
-  <maintainer email="h2r@cs.brown.edu">Not me, please</maintainer>
+  <maintainer email="brawener@cs.brown.edu">Stephen Brawner</maintainer>
   <license>BSD</license>
 
-  <url>http://github.com/h2r/baxter_hackathon</url>
+  <url>http://github.com/h2r/baxter_packages</url>
   <author>h2r</author>
 
   <buildtool_depend>catkin</buildtool_depend>
