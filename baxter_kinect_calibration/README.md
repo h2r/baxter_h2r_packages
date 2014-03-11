@@ -9,6 +9,11 @@ Make sure to change your camera resolution to 1280x800
 rosrun baxter_tools camera_control.py -c left_hand_camera
 rosrun baxter_tools camera_control.py -o left_hand_camera -r 1280x800
 ```
+Run openni with depth_registration (if you haven't done your own extrinsic calibration).
+
+```
+roslaunch openni_launch openni.launch depth_registration:=true
+```
 
 Enable the robot
 ```
