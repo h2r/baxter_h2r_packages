@@ -7,6 +7,12 @@ Clone this package into the src directory of your catkin workspace
 $ git clone -b hydro-devel http://github.com/sniekum/ar_track_alvar
 $ git clone http://github.com/h2r/baxter_h2r_packages
 ```
+Install ros object recognition packages
+
+```
+$ sudo apt-get install ros-hydro-object-recognition-*
+```
+
 
 Build it
 ```
