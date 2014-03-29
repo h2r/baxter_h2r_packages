@@ -120,7 +120,7 @@ AM_RECURSIVE_TARGETS = $(RECURSIVE_TARGETS:-recursive=) \
 	distdir dist dist-all distcheck
 ETAGS = etags
 CTAGS = ctags
-DIST_SUBDIRS = src getopt/lib tools test doxygen
+DIST_SUBDIRS = src getopt/lib tools test
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
 distdir = $(PACKAGE)-$(VERSION)
 top_distdir = $(distdir)
@@ -298,7 +298,7 @@ EXTRA_DIST = matio.pc.in bootstrap patches/inflate.patch \
 
 pkgconfigdir = $(libdir)/pkgconfig
 pkgconfig_DATA = matio.pc
-DOCS = doxygen
+DOCS =
 GETOPT = getopt/lib
 SUBDIRS = src $(GETOPT) tools test $(DOCS)
 dosubst = sed -e 's,[@]PACKAGE[@],$(PACKAGE),g' \
