@@ -12,7 +12,7 @@ image_transport
 
 
 
-cd $CATKIN_WS/src/meldon_detection/src/kdes/matio
+cd $CATKIN_WS/src/meldon_detection/src/kdes/dependencies/matio
 make CFLAGS=-DH5_USE_16_API
 cd ../KernelDescriptors_CPU/
 make
