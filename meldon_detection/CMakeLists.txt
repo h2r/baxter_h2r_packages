@@ -29,9 +29,8 @@ catkin_package(CATKIN_DEPENDS message_runtime)
 include_directories(include
 	${catkin_INCLUDE_DIRS}
 	${EIGEN_INCLUDE_DIRS}
-  ${find meldon_detection}/src/kdes/KernelDescripors_CPU/Include
-	#/home/meldon/catkin_ws/src/meldon_detection/src/kdes/KernelDescriptors_CPU/Include
-	/home/meldon/catkin_ws/src/meldon_detection/src/kdes/KernelDescriptors_CPU
+	${PROJECT_SOURCE_DIR}/src/kdes/KernelDescriptors_CPU/Include
+	${PROJECT_SOURCE_DIR}/src/kdes/KernelDescriptors_CPU
 )
 
 add_executable(talker src/talker.cpp)
@@ -39,6 +38,6 @@ add_executable(talker src/talker.cpp)
 target_link_libraries(talker
 	${catkin_LIBRARIES}
 	${OpenCV_LIBS}
-	/home/meldon/catkin_ws/src/meldon_detection/src/kdes/dependencies/matio/src/.libs/libmatio.so.2
-	/usr/lib/libhdf5.so.7
+	${PROJECT_SOURCE_DIR}/src/kdes/dependencies/matio/src/.libs/libmatio.so
+  /usr/lib/libhdf5.so
 )
