@@ -4,7 +4,7 @@ project(baxter_grasps_server)
 ## Find catkin macros and libraries
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
-find_package(catkin REQUIRED)
+find_package(catkin REQUIRED moveit_msgs)
 
 ## Generate services in the 'srv' folder
  add_service_files(

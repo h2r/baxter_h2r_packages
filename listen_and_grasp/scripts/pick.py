@@ -86,9 +86,7 @@ class Pick:
 		dim_x = maxX - minX
 		dim_y = maxY - minY
 		dim_z = maxZ - minZ
-		center_x = 
-		center_y = 
-		center_z = 
+
 		pose = PoseStamped()
 		pose.header.frame_id = "/base"
 		pose.pose.position.x = (maxX + minX) / 2.0
@@ -113,96 +111,23 @@ class Pick:
 		if not graspResponse.success:
 			rospy.logerr("No grasps were found for object " + msg.data)
 			return
-
+		self.group.set_start_state_to_current_state()
 		robot.left_arm.pick(msg.data, graspResponse.grasps)
 
-	def pick():
-		moveit_commander.roscpp_initialize(sys.argv)
+	def go(args):
+		moveit_commander.roscpp_initialize(args)
 		rospy.init_node('pick')
-		robot = moveit_commander.RobotCommander()
-		scene = moveit_commander.PlanningSceneInterface()
-		scene.remove_world_object("cube")
-		group = moveit_commander.MoveGroupCommander("left_arm")
-		group.set_start_state_to_current_state()
-		left = baxter_interface.Gripper('left')
-		left.calibrate()
-
-		display_trajectory_publisher = rospy.Publisher(
-		                                  '/move_group/display_planned_path',
-		                                  moveit_msgs.msg.DisplayTrajectory)
-		left.open()
-		rospy.sleep(1)
-
-		p = PoseStamped()
-		p.header.frame_id = "/base"
-		p.pose.position.x = 0.85
-		p.pose.position.y = 0.3
-		p.pose.position.z = -0.3
-		scene.add_box("cube", p, (0.5, 0.5, 0.5))
-
-		p.pose.position.y = 0.5
-		p.pose.position.z = -0.3
-		#scene.add_box("table", p, (0.5, 1.5, 0.35))
-		# pick an object
-
-		## Planning to a Pose goal
-		## ^^^^^^^^^^^^^^^^^^^^^^^
-		## We can plan a motion for this group to a desired pose for the 
-		## end-effector
-		print "============ Generating plan 1"
-
-
-		# Create grasp
-		grasp_pose = PoseStamped()
-		grasp_pose.header.frame_id="base"
-		grasp_pose.pose.position.x = 0.6
-		grasp_pose.pose.position.y = 0.4
-		grasp_pose.pose.position.z = 0
-		grasp_pose.pose.orientation.x = 0
-		grasp_pose.pose.orientation.y = 0.707
-		grasp_pose.pose.orientation.z = 0
-		grasp_pose.pose.orientation.w = .707
-		grasp = Grasp()
-
-		grasp.grasp_pose = grasp_pose
-		grasp.pre_grasp_approach.direction.vector.y = 0
-		grasp.pre_grasp_approach.direction.vector.x = 0
-		grasp.pre_grasp_approach.direction.vector.z = 1
-		grasp.pre_grasp_approach.direction.header.frame_id = "base"
-		grasp.pre_grasp_approach.min_distance = 0.01
-		grasp.pre_grasp_approach.desired_distance = 0.25
-
-		grasp.post_grasp_retreat.direction.header.frame_id = "base"
-		grasp.pre_grasp_approach.direction.vector.y = 0
-		grasp.pre_grasp_approach.direction.vector.x = 0
-		grasp.pre_grasp_approach.direction.vector.z = -1
-		grasp.post_grasp_retreat.min_distance = 0.01
-		grasp.post_grasp_retreat.desired_distance = 0.25
-
-		grasp.pre_grasp_posture.header.frame_id="base"
-		grasp.pre_grasp_posture.joint_names.append("left_gripper_l_finger_joint")
-		pre_point = JointTrajectoryPoint()
-		pre_point.positions.append(0.0095)
-		grasp.pre_grasp_posture.points.append(pre_point)
-
-		grasp.grasp_posture.header.frame_id="base"
-		grasp.grasp_posture.joint_names.append("left_gripper_l_finger_joint")
-		point = JointTrajectoryPoint()
-		point.positions.append(-0.0125)  
-		grasp.grasp_posture.points.append(point)
-		grasp.allowed_touch_objects.append("cube")
-		grasps = []
-		grasps.append(grasp)
-
-		group.set_goal_position_tolerance(10)
-		group.set_planning_time(20)
-
-		robot.left_arm.pick("cube", grasps)
+		rospy.Subscriber("/labeled_objects", MarkerObjectArray, objectsCallback)
+		rospy.Subscriber("/labeled_objects", MarkerObjectArray, objectsCallback)
+		
+		self.robot = moveit_commander.RobotCommander()
+		self.scene = moveit_commander.PlanningSceneInterface()
+		self.group = moveit_commander.MoveGroupCommander("left_arm")
+		
+		rospy.Service('/pick_place_server', String, objectRequestCallback)
+		rospy.spin()
 
 if __name__=='__main__':
 	rospy.init_node("Pick object")
-	rospy.Subscriber("/labeled_objects", MarkerObjectArray, objectsCallback)
-	try:
-		pick()
-	except rospy.ROSInterruptException:
-		pass
+	pick = Pick()
+	pick.go(sys.argv)
