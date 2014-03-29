@@ -1,0 +1,86 @@
+\hypertarget{mat_8c}{\section{/home/meldon/catkin\-\_\-ws/src/meldon\-\_\-detection/src/kdes/dependencies/matio/src/mat.c File Reference}
+\label{mat_8c}\index{/home/meldon/catkin\-\_\-ws/src/meldon\-\_\-detection/src/kdes/dependencies/matio/src/mat.\-c@{/home/meldon/catkin\-\_\-ws/src/meldon\-\_\-detection/src/kdes/dependencies/matio/src/mat.\-c}}
+}
+{\ttfamily \#include $<$stdlib.\-h$>$}\\*
+{\ttfamily \#include $<$string.\-h$>$}\\*
+{\ttfamily \#include $<$stdio.\-h$>$}\\*
+{\ttfamily \#include $<$math.\-h$>$}\\*
+{\ttfamily \#include $<$time.\-h$>$}\\*
+{\ttfamily \#include \char`\"{}matio\-\_\-private.\-h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}mat5.\-h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}mat4.\-h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}mat73.\-h\char`\"{}}\\*
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group__MAT_gab0fc888f5a5d79943b16284b1f91c2e8}{mat\-\_\-t} $\ast$ \hyperlink{group__MAT_ga22d404f203af7869c841400e7ad247cf}{Mat\-\_\-\-Create\-Ver} (const char $\ast$matname, const char $\ast$hdr\-\_\-str, enum \hyperlink{group__MAT_gad03442b8378999189d510e3745c702b7}{mat\-\_\-ft} mat\-\_\-file\-\_\-ver)
+\begin{DoxyCompactList}\small\item\em Creates a new Matlab M\-A\-T file. \end{DoxyCompactList}\item 
+\hyperlink{group__MAT_gab0fc888f5a5d79943b16284b1f91c2e8}{mat\-\_\-t} $\ast$ \hyperlink{group__MAT_gafbfedb5636a99f0ef867520c47f77d18}{Mat\-\_\-\-Open} (const char $\ast$matname, int mode)
+\begin{DoxyCompactList}\small\item\em Opens an existing Matlab M\-A\-T file. \end{DoxyCompactList}\item 
+int \hyperlink{group__MAT_ga101c92ff7bde4a2d4615661beba09262}{Mat\-\_\-\-Close} (\hyperlink{group__MAT_gab0fc888f5a5d79943b16284b1f91c2e8}{mat\-\_\-t} $\ast$mat)
+\begin{DoxyCompactList}\small\item\em Closes an open Matlab M\-A\-T file. \end{DoxyCompactList}\item 
+int \hyperlink{group__MAT_ga4d6e3892d2e216c507a744ba0e070d0b}{Mat\-\_\-\-Rewind} (\hyperlink{group__MAT_gab0fc888f5a5d79943b16284b1f91c2e8}{mat\-\_\-t} $\ast$mat)
+\begin{DoxyCompactList}\small\item\em Rewinds a Matlab M\-A\-T file to the first variable. \end{DoxyCompactList}\item 
+size\-\_\-t \hyperlink{group__MAT_ga2bf682f015b22fa796a8885e997661e7}{Mat\-\_\-\-Size\-Of\-Class} (int class\-\_\-type)
+\begin{DoxyCompactList}\small\item\em Returns the size of a Matlab Class. \end{DoxyCompactList}\item 
+\hyperlink{structmatvar__t}{matvar\-\_\-t} $\ast$ \hyperlink{group__MAT_gae7c9c3699f6e9c31a9c490300013098c}{Mat\-\_\-\-Var\-Calloc} (void)
+\begin{DoxyCompactList}\small\item\em Allocates memory for a new \hyperlink{structmatvar__t}{matvar\-\_\-t} and initializes all the fields. \end{DoxyCompactList}\item 
+\hyperlink{structmatvar__t}{matvar\-\_\-t} $\ast$ \hyperlink{group__MAT_ga1c54a84bb4d810c6fccdb8869489eac4}{Mat\-\_\-\-Var\-Create} (const char $\ast$name, enum \hyperlink{group__MAT_gad4d60ae7b709fc81bfd744fb4c857c40}{matio\-\_\-classes} class\-\_\-type, enum \hyperlink{group__MAT_gacf7b3b879282b7ab3a51190e49bf3453}{matio\-\_\-types} data\-\_\-type, int rank, size\-\_\-t $\ast$dims, void $\ast$data, int opt)
+\begin{DoxyCompactList}\small\item\em Creates a M\-A\-T Variable with the given name and (optionally) data. \end{DoxyCompactList}\item 
+int \hyperlink{group__MAT_gabf139e48d48177e5069338fa2919c60a}{Mat\-\_\-\-Var\-Delete} (\hyperlink{group__MAT_gab0fc888f5a5d79943b16284b1f91c2e8}{mat\-\_\-t} $\ast$mat, const char $\ast$name)
+\begin{DoxyCompactList}\small\item\em Deletes a variable from a file. \end{DoxyCompactList}\item 
+\hyperlink{structmatvar__t}{matvar\-\_\-t} $\ast$ \hyperlink{group__MAT_ga7ef80c5d99d7918b2b09db3bea106ecc}{Mat\-\_\-\-Var\-Duplicate} (const \hyperlink{structmatvar__t}{matvar\-\_\-t} $\ast$in, int opt)
+\begin{DoxyCompactList}\small\item\em Duplicates a \hyperlink{structmatvar__t}{matvar\-\_\-t} structure. \end{DoxyCompactList}\item 
+void \hyperlink{group__MAT_ga1d14716f7450530fd1c9d02413787f0e}{Mat\-\_\-\-Var\-Free} (\hyperlink{structmatvar__t}{matvar\-\_\-t} $\ast$matvar)
+\begin{DoxyCompactList}\small\item\em Frees all the allocated memory associated with the structure. \end{DoxyCompactList}\item 
+\hypertarget{mat_8c_ad5ef8f43e9f073fc984dcd57db459908}{void {\bfseries Mat\-\_\-\-Var\-Free2} (\hyperlink{structmatvar__t}{matvar\-\_\-t} $\ast$matvar)}\label{mat_8c_ad5ef8f43e9f073fc984dcd57db459908}
+
+\item 
+int \hyperlink{group__MAT_ga9b8d09f631538b14ca29792e0334e349}{Mat\-\_\-\-Calc\-Single\-Subscript} (int rank, int $\ast$dims, int $\ast$subs)
+\begin{DoxyCompactList}\small\item\em Calculate a single subscript from a set of subscript values. \end{DoxyCompactList}\item 
+int $\ast$ \hyperlink{group__MAT_gabe2571a4b9b6cff3b31aa6f152deba61}{Mat\-\_\-\-Calc\-Subscripts} (int rank, int $\ast$dims, int index)
+\begin{DoxyCompactList}\small\item\em Calculate a set of subscript values from a single(linear) subscript. \end{DoxyCompactList}\item 
+\hyperlink{structmatvar__t}{matvar\-\_\-t} $\ast$ \hyperlink{group__MAT_gac1e15063439c0bd3eb0c986514c742dc}{Mat\-\_\-\-Var\-Get\-Cell} (\hyperlink{structmatvar__t}{matvar\-\_\-t} $\ast$matvar, int index)
+\begin{DoxyCompactList}\small\item\em Returns a pointer to the Cell array at a specific index. \end{DoxyCompactList}\item 
+\hyperlink{structmatvar__t}{matvar\-\_\-t} $\ast$$\ast$ \hyperlink{group__MAT_ga0732b0a6c40975b036068b9a14422d45}{Mat\-\_\-\-Var\-Get\-Cells} (\hyperlink{structmatvar__t}{matvar\-\_\-t} $\ast$matvar, int $\ast$start, int $\ast$stride, int $\ast$edge)
+\begin{DoxyCompactList}\small\item\em Indexes a cell array. \end{DoxyCompactList}\item 
+\hyperlink{structmatvar__t}{matvar\-\_\-t} $\ast$$\ast$ \hyperlink{group__MAT_ga004987d665654409f74eaf8e82bb1380}{Mat\-\_\-\-Var\-Get\-Cells\-Linear} (\hyperlink{structmatvar__t}{matvar\-\_\-t} $\ast$matvar, int start, int stride, int edge)
+\begin{DoxyCompactList}\small\item\em Indexes a cell array. \end{DoxyCompactList}\item 
+size\-\_\-t \hyperlink{group__MAT_gaeeb798fead2f765bddfb19016c7fdbcc}{Mat\-\_\-\-Var\-Get\-Size} (\hyperlink{structmatvar__t}{matvar\-\_\-t} $\ast$matvar)
+\begin{DoxyCompactList}\small\item\em Calculates the size of a matlab variable in bytes. \end{DoxyCompactList}\item 
+int \hyperlink{group__MAT_ga9f8ab8a7e4206c16cb20437acc6960d2}{Mat\-\_\-\-Var\-Add\-Struct\-Field} (\hyperlink{structmatvar__t}{matvar\-\_\-t} $\ast$matvar, \hyperlink{structmatvar__t}{matvar\-\_\-t} $\ast$$\ast$fields)
+\begin{DoxyCompactList}\small\item\em Adds a field to a structure. \end{DoxyCompactList}\item 
+int \hyperlink{group__MAT_ga56b9a545990a0f253164018e37111741}{Mat\-\_\-\-Var\-Get\-Number\-Of\-Fields} (\hyperlink{structmatvar__t}{matvar\-\_\-t} $\ast$matvar)
+\begin{DoxyCompactList}\small\item\em Returns the number of fields in a structure variable. \end{DoxyCompactList}\item 
+\hyperlink{structmatvar__t}{matvar\-\_\-t} $\ast$ \hyperlink{group__MAT_ga7018bfe6934b96ae32e8f2a1712eefab}{Mat\-\_\-\-Var\-Get\-Struct\-Field} (\hyperlink{structmatvar__t}{matvar\-\_\-t} $\ast$matvar, void $\ast$name\-\_\-or\-\_\-index, int opt, int index)
+\begin{DoxyCompactList}\small\item\em Finds a field of a structure. \end{DoxyCompactList}\item 
+\hyperlink{structmatvar__t}{matvar\-\_\-t} $\ast$ \hyperlink{group__MAT_ga509178d7dc15faf9f7cd0440df6009b9}{Mat\-\_\-\-Var\-Get\-Structs} (\hyperlink{structmatvar__t}{matvar\-\_\-t} $\ast$matvar, int $\ast$start, int $\ast$stride, int $\ast$edge, int copy\-\_\-fields)
+\begin{DoxyCompactList}\small\item\em Indexes a structure. \end{DoxyCompactList}\item 
+\hyperlink{structmatvar__t}{matvar\-\_\-t} $\ast$ \hyperlink{group__MAT_gaa56680fb7b2cd3d410f659e945da8141}{Mat\-\_\-\-Var\-Get\-Structs\-Linear} (\hyperlink{structmatvar__t}{matvar\-\_\-t} $\ast$matvar, int start, int stride, int edge, int copy\-\_\-fields)
+\begin{DoxyCompactList}\small\item\em Indexes a structure. \end{DoxyCompactList}\item 
+void \hyperlink{group__MAT_ga9100c145e338b84b55d5d0795d5d390a}{Mat\-\_\-\-Var\-Print} (\hyperlink{structmatvar__t}{matvar\-\_\-t} $\ast$matvar, int printdata)
+\begin{DoxyCompactList}\small\item\em Prints the variable information. \end{DoxyCompactList}\item 
+int \hyperlink{group__MAT_ga1845000f4fc6252ec5ff11c4b9f0759f}{Mat\-\_\-\-Var\-Read\-Data} (\hyperlink{group__MAT_gab0fc888f5a5d79943b16284b1f91c2e8}{mat\-\_\-t} $\ast$mat, \hyperlink{structmatvar__t}{matvar\-\_\-t} $\ast$matvar, void $\ast$data, int $\ast$start, int $\ast$stride, int $\ast$edge)
+\begin{DoxyCompactList}\small\item\em Reads M\-A\-T variable data from a file. \end{DoxyCompactList}\item 
+int \hyperlink{group__MAT_gaa8060d7c8e5da0aa9ee5f96e5f1eb30a}{Mat\-\_\-\-Var\-Read\-Data\-All} (\hyperlink{group__MAT_gab0fc888f5a5d79943b16284b1f91c2e8}{mat\-\_\-t} $\ast$mat, \hyperlink{structmatvar__t}{matvar\-\_\-t} $\ast$matvar)
+\begin{DoxyCompactList}\small\item\em Reads all the data for a matlab variable. \end{DoxyCompactList}\item 
+int \hyperlink{group__MAT_gaad61c8449a2106afa697280ff0ee9dd8}{Mat\-\_\-\-Var\-Read\-Data\-Linear} (\hyperlink{group__MAT_gab0fc888f5a5d79943b16284b1f91c2e8}{mat\-\_\-t} $\ast$mat, \hyperlink{structmatvar__t}{matvar\-\_\-t} $\ast$matvar, void $\ast$data, int start, int stride, int edge)
+\begin{DoxyCompactList}\small\item\em Reads M\-A\-T variable data from a file. \end{DoxyCompactList}\item 
+\hyperlink{structmatvar__t}{matvar\-\_\-t} $\ast$ \hyperlink{group__MAT_ga72dd99330507b17177e22f9ed3bea5e6}{Mat\-\_\-\-Var\-Read\-Next\-Info} (\hyperlink{group__MAT_gab0fc888f5a5d79943b16284b1f91c2e8}{mat\-\_\-t} $\ast$mat)
+\begin{DoxyCompactList}\small\item\em Reads the information of the next variable in a M\-A\-T file. \end{DoxyCompactList}\item 
+\hyperlink{structmatvar__t}{matvar\-\_\-t} $\ast$ \hyperlink{group__MAT_ga46da2e45ed96d3f1a6ec643757f2b086}{Mat\-\_\-\-Var\-Read\-Info} (\hyperlink{group__MAT_gab0fc888f5a5d79943b16284b1f91c2e8}{mat\-\_\-t} $\ast$mat, const char $\ast$name)
+\begin{DoxyCompactList}\small\item\em Reads the information of a variable with the given name from a M\-A\-T file. \end{DoxyCompactList}\item 
+\hyperlink{structmatvar__t}{matvar\-\_\-t} $\ast$ \hyperlink{group__MAT_ga3505f63029763eaa73d5a19f1115eb42}{Mat\-\_\-\-Var\-Read} (\hyperlink{group__MAT_gab0fc888f5a5d79943b16284b1f91c2e8}{mat\-\_\-t} $\ast$mat, const char $\ast$name)
+\begin{DoxyCompactList}\small\item\em Reads the variable with the given name from a M\-A\-T file. \end{DoxyCompactList}\item 
+\hyperlink{structmatvar__t}{matvar\-\_\-t} $\ast$ \hyperlink{group__MAT_ga7c321d6aafd93916ba6c5655ad78e9ca}{Mat\-\_\-\-Var\-Read\-Next} (\hyperlink{group__MAT_gab0fc888f5a5d79943b16284b1f91c2e8}{mat\-\_\-t} $\ast$mat)
+\begin{DoxyCompactList}\small\item\em Reads the next variable in a M\-A\-T file. \end{DoxyCompactList}\item 
+int \hyperlink{group__MAT_ga1ae164415dfd98cdf48ad07033b6e0bb}{Mat\-\_\-\-Var\-Write\-Info} (\hyperlink{group__MAT_gab0fc888f5a5d79943b16284b1f91c2e8}{mat\-\_\-t} $\ast$mat, \hyperlink{structmatvar__t}{matvar\-\_\-t} $\ast$matvar)
+\begin{DoxyCompactList}\small\item\em Writes the given M\-A\-T variable to a M\-A\-T file. \end{DoxyCompactList}\item 
+int \hyperlink{group__MAT_ga43179b930fb30c025a153a55a083a98a}{Mat\-\_\-\-Var\-Write\-Data} (\hyperlink{group__MAT_gab0fc888f5a5d79943b16284b1f91c2e8}{mat\-\_\-t} $\ast$mat, \hyperlink{structmatvar__t}{matvar\-\_\-t} $\ast$matvar, void $\ast$data, int $\ast$start, int $\ast$stride, int $\ast$edge)
+\begin{DoxyCompactList}\small\item\em Writes the given data to the M\-A\-T variable. \end{DoxyCompactList}\item 
+int \hyperlink{group__MAT_ga77c5ad24d45047830046fe3ed25da8ad}{Mat\-\_\-\-Var\-Write} (\hyperlink{group__MAT_gab0fc888f5a5d79943b16284b1f91c2e8}{mat\-\_\-t} $\ast$mat, \hyperlink{structmatvar__t}{matvar\-\_\-t} $\ast$matvar, int compress)
+\begin{DoxyCompactList}\small\item\em Writes the given M\-A\-T variable to a M\-A\-T file. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Matlab M\-A\-T version 5 file functions 

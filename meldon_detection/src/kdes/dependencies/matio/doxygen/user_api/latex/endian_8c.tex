@@ -1,0 +1,193 @@
+\hypertarget{endian_8c}{\section{/home/meldon/catkin\-\_\-ws/src/meldon\-\_\-detection/src/kdes/dependencies/matio/src/endian.c File Reference}
+\label{endian_8c}\index{/home/meldon/catkin\-\_\-ws/src/meldon\-\_\-detection/src/kdes/dependencies/matio/src/endian.\-c@{/home/meldon/catkin\-\_\-ws/src/meldon\-\_\-detection/src/kdes/dependencies/matio/src/endian.\-c}}
+}
+
+
+Functions to handle endian specifics.  
+
+
+{\ttfamily \#include $<$stdlib.\-h$>$}\\*
+{\ttfamily \#include \char`\"{}matio\-\_\-private.\-h\char`\"{}}\\*
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{endian_8c_a3ca5ecd34b04d6a243c054ac3a57f68d}{\#define \hyperlink{endian_8c_a3ca5ecd34b04d6a243c054ac3a57f68d}{swap}(a, b)~a$^\wedge$=b;b$^\wedge$=a;a$^\wedge$=b}\label{endian_8c_a3ca5ecd34b04d6a243c054ac3a57f68d}
+
+\begin{DoxyCompactList}\small\item\em swap the bytes {\ttfamily a} and {\ttfamily b} \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+mat\-\_\-int64\-\_\-t \hyperlink{endian_8c_ade92156b3144177bc008b2b34d604eb0}{Mat\-\_\-int64\-Swap} (mat\-\_\-int64\-\_\-t $\ast$a)
+\begin{DoxyCompactList}\small\item\em swap the bytes of a 64-\/bit signed integer \end{DoxyCompactList}\item 
+mat\-\_\-uint64\-\_\-t \hyperlink{endian_8c_a7920da873d225c6eb9f891eea4782d2f}{Mat\-\_\-uint64\-Swap} (mat\-\_\-uint64\-\_\-t $\ast$a)
+\begin{DoxyCompactList}\small\item\em swap the bytes of a 64-\/bit unsigned integer \end{DoxyCompactList}\item 
+mat\-\_\-int32\-\_\-t \hyperlink{endian_8c_a2e0153996243f0a34df9a5286087cfa3}{Mat\-\_\-int32\-Swap} (mat\-\_\-int32\-\_\-t $\ast$a)
+\begin{DoxyCompactList}\small\item\em swap the bytes of a 32-\/bit signed integer \end{DoxyCompactList}\item 
+mat\-\_\-uint32\-\_\-t \hyperlink{endian_8c_a8cb0d0750e2eaf9840d95db531934f4f}{Mat\-\_\-uint32\-Swap} (mat\-\_\-uint32\-\_\-t $\ast$a)
+\begin{DoxyCompactList}\small\item\em swap the bytes of a 32-\/bit unsigned integer \end{DoxyCompactList}\item 
+mat\-\_\-int16\-\_\-t \hyperlink{endian_8c_a741eb8019dbc3e8addfc0e75adb0dd90}{Mat\-\_\-int16\-Swap} (mat\-\_\-int16\-\_\-t $\ast$a)
+\begin{DoxyCompactList}\small\item\em swap the bytes of a 16-\/bit signed integer \end{DoxyCompactList}\item 
+mat\-\_\-uint16\-\_\-t \hyperlink{endian_8c_a0fd527794c69f2872e80a6f20cd09fd2}{Mat\-\_\-uint16\-Swap} (mat\-\_\-uint16\-\_\-t $\ast$a)
+\begin{DoxyCompactList}\small\item\em swap the bytes of a 16-\/bit unsigned integer \end{DoxyCompactList}\item 
+float \hyperlink{endian_8c_aec590b585dd84bbbae74a857922fced2}{Mat\-\_\-float\-Swap} (float $\ast$a)
+\begin{DoxyCompactList}\small\item\em swap the bytes of a 4 byte single-\/precision float \end{DoxyCompactList}\item 
+double \hyperlink{endian_8c_a7f548ab23c3b06fa90ef646ed43dc558}{Mat\-\_\-double\-Swap} (double $\ast$a)
+\begin{DoxyCompactList}\small\item\em swap the bytes of a 4 or 8 byte double-\/precision float \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Functions to handle endian specifics. 
+
+\subsection{Function Documentation}
+\hypertarget{endian_8c_a7f548ab23c3b06fa90ef646ed43dc558}{\index{endian.\-c@{endian.\-c}!Mat\-\_\-double\-Swap@{Mat\-\_\-double\-Swap}}
+\index{Mat\-\_\-double\-Swap@{Mat\-\_\-double\-Swap}!endian.c@{endian.\-c}}
+\subsubsection[{Mat\-\_\-double\-Swap}]{\setlength{\rightskip}{0pt plus 5cm}double Mat\-\_\-double\-Swap (
+\begin{DoxyParamCaption}
+\item[{double $\ast$}]{a}
+\end{DoxyParamCaption}
+)}}\label{endian_8c_a7f548ab23c3b06fa90ef646ed43dc558}
+
+
+swap the bytes of a 4 or 8 byte double-\/precision float 
+
+
+\begin{DoxyParams}{Parameters}
+{\em a} & pointer to integer to swap \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+the swapped integer 
+\end{DoxyReturn}
+\hypertarget{endian_8c_aec590b585dd84bbbae74a857922fced2}{\index{endian.\-c@{endian.\-c}!Mat\-\_\-float\-Swap@{Mat\-\_\-float\-Swap}}
+\index{Mat\-\_\-float\-Swap@{Mat\-\_\-float\-Swap}!endian.c@{endian.\-c}}
+\subsubsection[{Mat\-\_\-float\-Swap}]{\setlength{\rightskip}{0pt plus 5cm}float Mat\-\_\-float\-Swap (
+\begin{DoxyParamCaption}
+\item[{float $\ast$}]{a}
+\end{DoxyParamCaption}
+)}}\label{endian_8c_aec590b585dd84bbbae74a857922fced2}
+
+
+swap the bytes of a 4 byte single-\/precision float 
+
+
+\begin{DoxyParams}{Parameters}
+{\em a} & pointer to integer to swap \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+the swapped integer 
+\end{DoxyReturn}
+\hypertarget{endian_8c_a741eb8019dbc3e8addfc0e75adb0dd90}{\index{endian.\-c@{endian.\-c}!Mat\-\_\-int16\-Swap@{Mat\-\_\-int16\-Swap}}
+\index{Mat\-\_\-int16\-Swap@{Mat\-\_\-int16\-Swap}!endian.c@{endian.\-c}}
+\subsubsection[{Mat\-\_\-int16\-Swap}]{\setlength{\rightskip}{0pt plus 5cm}mat\-\_\-int16\-\_\-t Mat\-\_\-int16\-Swap (
+\begin{DoxyParamCaption}
+\item[{mat\-\_\-int16\-\_\-t $\ast$}]{a}
+\end{DoxyParamCaption}
+)}}\label{endian_8c_a741eb8019dbc3e8addfc0e75adb0dd90}
+
+
+swap the bytes of a 16-\/bit signed integer 
+
+
+\begin{DoxyParams}{Parameters}
+{\em a} & pointer to integer to swap \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+the swapped integer 
+\end{DoxyReturn}
+\hypertarget{endian_8c_a2e0153996243f0a34df9a5286087cfa3}{\index{endian.\-c@{endian.\-c}!Mat\-\_\-int32\-Swap@{Mat\-\_\-int32\-Swap}}
+\index{Mat\-\_\-int32\-Swap@{Mat\-\_\-int32\-Swap}!endian.c@{endian.\-c}}
+\subsubsection[{Mat\-\_\-int32\-Swap}]{\setlength{\rightskip}{0pt plus 5cm}mat\-\_\-int32\-\_\-t Mat\-\_\-int32\-Swap (
+\begin{DoxyParamCaption}
+\item[{mat\-\_\-int32\-\_\-t $\ast$}]{a}
+\end{DoxyParamCaption}
+)}}\label{endian_8c_a2e0153996243f0a34df9a5286087cfa3}
+
+
+swap the bytes of a 32-\/bit signed integer 
+
+
+\begin{DoxyParams}{Parameters}
+{\em a} & pointer to integer to swap \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+the swapped integer 
+\end{DoxyReturn}
+\hypertarget{endian_8c_ade92156b3144177bc008b2b34d604eb0}{\index{endian.\-c@{endian.\-c}!Mat\-\_\-int64\-Swap@{Mat\-\_\-int64\-Swap}}
+\index{Mat\-\_\-int64\-Swap@{Mat\-\_\-int64\-Swap}!endian.c@{endian.\-c}}
+\subsubsection[{Mat\-\_\-int64\-Swap}]{\setlength{\rightskip}{0pt plus 5cm}mat\-\_\-int64\-\_\-t Mat\-\_\-int64\-Swap (
+\begin{DoxyParamCaption}
+\item[{mat\-\_\-int64\-\_\-t $\ast$}]{a}
+\end{DoxyParamCaption}
+)}}\label{endian_8c_ade92156b3144177bc008b2b34d604eb0}
+
+
+swap the bytes of a 64-\/bit signed integer 
+
+
+\begin{DoxyParams}{Parameters}
+{\em a} & pointer to integer to swap \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+the swapped integer 
+\end{DoxyReturn}
+\hypertarget{endian_8c_a0fd527794c69f2872e80a6f20cd09fd2}{\index{endian.\-c@{endian.\-c}!Mat\-\_\-uint16\-Swap@{Mat\-\_\-uint16\-Swap}}
+\index{Mat\-\_\-uint16\-Swap@{Mat\-\_\-uint16\-Swap}!endian.c@{endian.\-c}}
+\subsubsection[{Mat\-\_\-uint16\-Swap}]{\setlength{\rightskip}{0pt plus 5cm}mat\-\_\-uint16\-\_\-t Mat\-\_\-uint16\-Swap (
+\begin{DoxyParamCaption}
+\item[{mat\-\_\-uint16\-\_\-t $\ast$}]{a}
+\end{DoxyParamCaption}
+)}}\label{endian_8c_a0fd527794c69f2872e80a6f20cd09fd2}
+
+
+swap the bytes of a 16-\/bit unsigned integer 
+
+
+\begin{DoxyParams}{Parameters}
+{\em a} & pointer to integer to swap \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+the swapped integer 
+\end{DoxyReturn}
+\hypertarget{endian_8c_a8cb0d0750e2eaf9840d95db531934f4f}{\index{endian.\-c@{endian.\-c}!Mat\-\_\-uint32\-Swap@{Mat\-\_\-uint32\-Swap}}
+\index{Mat\-\_\-uint32\-Swap@{Mat\-\_\-uint32\-Swap}!endian.c@{endian.\-c}}
+\subsubsection[{Mat\-\_\-uint32\-Swap}]{\setlength{\rightskip}{0pt plus 5cm}mat\-\_\-uint32\-\_\-t Mat\-\_\-uint32\-Swap (
+\begin{DoxyParamCaption}
+\item[{mat\-\_\-uint32\-\_\-t $\ast$}]{a}
+\end{DoxyParamCaption}
+)}}\label{endian_8c_a8cb0d0750e2eaf9840d95db531934f4f}
+
+
+swap the bytes of a 32-\/bit unsigned integer 
+
+
+\begin{DoxyParams}{Parameters}
+{\em a} & pointer to integer to swap \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+the swapped integer 
+\end{DoxyReturn}
+\hypertarget{endian_8c_a7920da873d225c6eb9f891eea4782d2f}{\index{endian.\-c@{endian.\-c}!Mat\-\_\-uint64\-Swap@{Mat\-\_\-uint64\-Swap}}
+\index{Mat\-\_\-uint64\-Swap@{Mat\-\_\-uint64\-Swap}!endian.c@{endian.\-c}}
+\subsubsection[{Mat\-\_\-uint64\-Swap}]{\setlength{\rightskip}{0pt plus 5cm}mat\-\_\-uint64\-\_\-t Mat\-\_\-uint64\-Swap (
+\begin{DoxyParamCaption}
+\item[{mat\-\_\-uint64\-\_\-t $\ast$}]{a}
+\end{DoxyParamCaption}
+)}}\label{endian_8c_a7920da873d225c6eb9f891eea4782d2f}
+
+
+swap the bytes of a 64-\/bit unsigned integer 
+
+
+\begin{DoxyParams}{Parameters}
+{\em a} & pointer to integer to swap \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+the swapped integer 
+\end{DoxyReturn}

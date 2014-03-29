@@ -1,0 +1,350 @@
+\hypertarget{group__mat__util}{\section{M\-A\-T File I/\-O Utitlity Functions}
+\label{group__mat__util}\index{M\-A\-T File I/\-O Utitlity Functions@{M\-A\-T File I/\-O Utitlity Functions}}
+}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+char $\ast$ \hyperlink{group__mat__util_ga2b342987d3b664345cb233640b611fe9}{strdup\-\_\-vprintf} (const char $\ast$format, va\-\_\-list ap)
+\begin{DoxyCompactList}\small\item\em Allocates and prints to a new string. \end{DoxyCompactList}\item 
+char $\ast$ \hyperlink{group__mat__util_ga291b08f933c75fb70e3736b669896ebd}{strdup\-\_\-printf} (const char $\ast$format,...)
+\begin{DoxyCompactList}\small\item\em Allocates and prints to a new string using printf format. \end{DoxyCompactList}\item 
+int \hyperlink{group__mat__util_gaf348b811ee26bfc923924878cea3c9ba}{Mat\-\_\-\-Set\-Verbose} (int verb, int s)
+\begin{DoxyCompactList}\small\item\em Sets verbose parameters. \end{DoxyCompactList}\item 
+int \hyperlink{group__mat__util_gad75e2962dcaf2ac366f2420bb5b13094}{Mat\-\_\-\-Set\-Debug} (int d)
+\begin{DoxyCompactList}\small\item\em Sets verbose parameters. \end{DoxyCompactList}\item 
+int \hyperlink{group__mat__util_gae7dfa394b111bc908a616f8f5bddaa97}{Mat\-\_\-\-Message} (const char $\ast$format,...)
+\begin{DoxyCompactList}\small\item\em Log a message unless silent. \end{DoxyCompactList}\item 
+int \hyperlink{group__mat__util_ga26e00cfb07551be5201fd9e0f04066d9}{Mat\-\_\-\-Debug\-Message} (int level, const char $\ast$format,...)
+\begin{DoxyCompactList}\small\item\em Log a message based on verbose level. \end{DoxyCompactList}\item 
+int \hyperlink{group__mat__util_ga64a176ea7e27e38d4242a24f3e3bad24}{Mat\-\_\-\-Verb\-Message} (int level, const char $\ast$format,...)
+\begin{DoxyCompactList}\small\item\em Log a message based on verbose level. \end{DoxyCompactList}\item 
+void \hyperlink{group__mat__util_gaf51f2bfbb5580f575e4dd79757e2b80c}{Mat\-\_\-\-Critical} (const char $\ast$format,...)
+\begin{DoxyCompactList}\small\item\em Logs a Critical message and returns to the user. \end{DoxyCompactList}\item 
+void \hyperlink{group__mat__util_ga058b1cb9a4ca36712857d2b3c4de7ffc}{Mat\-\_\-\-Error} (const char $\ast$format,...)
+\begin{DoxyCompactList}\small\item\em Logs a Critical message and aborts the program. \end{DoxyCompactList}\item 
+void \hyperlink{group__mat__util_gaa4039c185e807ed2e9682b66fe2ea331}{Mat\-\_\-\-Help} (const char $\ast$helpstr\mbox{[}$\,$\mbox{]})
+\begin{DoxyCompactList}\small\item\em Prints a helpstring to stdout and exits with status 1. \end{DoxyCompactList}\item 
+int \hyperlink{group__mat__util_ga333d15dbd2e7a691621a2af8fc7adc3d}{Mat\-\_\-\-Log\-Close} (void)
+\begin{DoxyCompactList}\small\item\em Closes the logging system. \end{DoxyCompactList}\item 
+int \hyperlink{group__mat__util_ga0d30e03216ceaab7c0a4ff878b26f89f}{Mat\-\_\-\-Log\-Init} (const char $\ast$prog\-\_\-name)
+\begin{DoxyCompactList}\small\item\em Intializes the logging system. \end{DoxyCompactList}\item 
+int \hyperlink{group__mat__util_ga93f4dd8d36413ae7f49260d757e3ab9f}{Mat\-\_\-\-Log\-Init\-Func} (const char $\ast$prog\-\_\-name, void($\ast$log\-\_\-func)(int log\-\_\-level, char $\ast$message))
+\begin{DoxyCompactList}\small\item\em Intializes the logging system. \end{DoxyCompactList}\item 
+void \hyperlink{group__mat__util_gafcedc83eb7e4759a8ea5c974c4f801c3}{Mat\-\_\-\-Warning} (const char $\ast$format,...)
+\begin{DoxyCompactList}\small\item\em Prints a warning message to stdout. \end{DoxyCompactList}\item 
+size\-\_\-t \hyperlink{group__mat__util_gab6774aabdc124c540c1e7686d0804940}{Mat\-\_\-\-Size\-Of} (enum \hyperlink{group__MAT_gacf7b3b879282b7ab3a51190e49bf3453}{matio\-\_\-types} data\-\_\-type)
+\begin{DoxyCompactList}\small\item\em Calculate the size of M\-A\-T data types. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+
+
+\subsection{Function Documentation}
+\hypertarget{group__mat__util_gaf51f2bfbb5580f575e4dd79757e2b80c}{\index{M\-A\-T File I/\-O Utitlity Functions@{M\-A\-T File I/\-O Utitlity Functions}!Mat\-\_\-\-Critical@{Mat\-\_\-\-Critical}}
+\index{Mat\-\_\-\-Critical@{Mat\-\_\-\-Critical}!MAT File I/O Utitlity Functions@{M\-A\-T File I/\-O Utitlity Functions}}
+\subsubsection[{Mat\-\_\-\-Critical}]{\setlength{\rightskip}{0pt plus 5cm}void Mat\-\_\-\-Critical (
+\begin{DoxyParamCaption}
+\item[{const char $\ast$}]{format, }
+\item[{}]{...}
+\end{DoxyParamCaption}
+)}}\label{group__mat__util_gaf51f2bfbb5580f575e4dd79757e2b80c}
+
+
+Logs a Critical message and returns to the user. 
+
+Logs a Critical message and returns to the user. If the program should stop running, use \hyperlink{group__mat__util_ga058b1cb9a4ca36712857d2b3c4de7ffc}{Mat\-\_\-\-Error}
+
+
+\begin{DoxyParams}{Parameters}
+{\em format} & format string identical to printf format \\
+\hline
+{\em ...} & arguments to the format string \\
+\hline
+\end{DoxyParams}
+\hypertarget{group__mat__util_ga26e00cfb07551be5201fd9e0f04066d9}{\index{M\-A\-T File I/\-O Utitlity Functions@{M\-A\-T File I/\-O Utitlity Functions}!Mat\-\_\-\-Debug\-Message@{Mat\-\_\-\-Debug\-Message}}
+\index{Mat\-\_\-\-Debug\-Message@{Mat\-\_\-\-Debug\-Message}!MAT File I/O Utitlity Functions@{M\-A\-T File I/\-O Utitlity Functions}}
+\subsubsection[{Mat\-\_\-\-Debug\-Message}]{\setlength{\rightskip}{0pt plus 5cm}int Mat\-\_\-\-Debug\-Message (
+\begin{DoxyParamCaption}
+\item[{int}]{level, }
+\item[{const char $\ast$}]{format, }
+\item[{}]{...}
+\end{DoxyParamCaption}
+)}}\label{group__mat__util_ga26e00cfb07551be5201fd9e0f04066d9}
+
+
+Log a message based on verbose level. 
+
+If {\itshape level} is less than or equal to the set verbose level, the message is printed. If the level is higher than the set verbose level nothing is displayed.
+
+
+\begin{DoxyParams}{Parameters}
+{\em level} & verbose level \\
+\hline
+{\em format} & message format \\
+\hline
+\end{DoxyParams}
+\hypertarget{group__mat__util_ga058b1cb9a4ca36712857d2b3c4de7ffc}{\index{M\-A\-T File I/\-O Utitlity Functions@{M\-A\-T File I/\-O Utitlity Functions}!Mat\-\_\-\-Error@{Mat\-\_\-\-Error}}
+\index{Mat\-\_\-\-Error@{Mat\-\_\-\-Error}!MAT File I/O Utitlity Functions@{M\-A\-T File I/\-O Utitlity Functions}}
+\subsubsection[{Mat\-\_\-\-Error}]{\setlength{\rightskip}{0pt plus 5cm}void Mat\-\_\-\-Error (
+\begin{DoxyParamCaption}
+\item[{const char $\ast$}]{format, }
+\item[{}]{...}
+\end{DoxyParamCaption}
+)}}\label{group__mat__util_ga058b1cb9a4ca36712857d2b3c4de7ffc}
+
+
+Logs a Critical message and aborts the program. 
+
+Logs an Error message and aborts
+
+
+\begin{DoxyParams}{Parameters}
+{\em format} & format string identical to printf format \\
+\hline
+{\em ...} & arguments to the format string \\
+\hline
+\end{DoxyParams}
+\hypertarget{group__mat__util_gaa4039c185e807ed2e9682b66fe2ea331}{\index{M\-A\-T File I/\-O Utitlity Functions@{M\-A\-T File I/\-O Utitlity Functions}!Mat\-\_\-\-Help@{Mat\-\_\-\-Help}}
+\index{Mat\-\_\-\-Help@{Mat\-\_\-\-Help}!MAT File I/O Utitlity Functions@{M\-A\-T File I/\-O Utitlity Functions}}
+\subsubsection[{Mat\-\_\-\-Help}]{\setlength{\rightskip}{0pt plus 5cm}void Mat\-\_\-\-Help (
+\begin{DoxyParamCaption}
+\item[{const char $\ast$}]{helpstr\mbox{[}$\,$\mbox{]}}
+\end{DoxyParamCaption}
+)}}\label{group__mat__util_gaa4039c185e807ed2e9682b66fe2ea331}
+
+
+Prints a helpstring to stdout and exits with status 1. 
+
+Prints the array of strings to stdout and exits with status 1. The array of strings should have N\-U\-L\-L as its last element 
+\begin{DoxyCode}
+\textcolor{keywordtype}{char} *helpstr[] = \{\textcolor{stringliteral}{"My Help string line1"},\textcolor{stringliteral}{"My help string line 2"},NULL\};
+\hyperlink{group__mat__util_gaa4039c185e807ed2e9682b66fe2ea331}{Mat\_Help}(helpstr);
+\end{DoxyCode}
+
+
+
+\begin{DoxyParams}{Parameters}
+{\em helpstr} & array of strings with N\-U\-L\-L as its last element \\
+\hline
+\end{DoxyParams}
+\hypertarget{group__mat__util_ga333d15dbd2e7a691621a2af8fc7adc3d}{\index{M\-A\-T File I/\-O Utitlity Functions@{M\-A\-T File I/\-O Utitlity Functions}!Mat\-\_\-\-Log\-Close@{Mat\-\_\-\-Log\-Close}}
+\index{Mat\-\_\-\-Log\-Close@{Mat\-\_\-\-Log\-Close}!MAT File I/O Utitlity Functions@{M\-A\-T File I/\-O Utitlity Functions}}
+\subsubsection[{Mat\-\_\-\-Log\-Close}]{\setlength{\rightskip}{0pt plus 5cm}int Mat\-\_\-\-Log\-Close (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{group__mat__util_ga333d15dbd2e7a691621a2af8fc7adc3d}
+
+
+Closes the logging system. 
+
+
+\begin{DoxyRetVals}{Return values}
+{\em 1} & \\
+\hline
+\end{DoxyRetVals}
+\hypertarget{group__mat__util_ga0d30e03216ceaab7c0a4ff878b26f89f}{\index{M\-A\-T File I/\-O Utitlity Functions@{M\-A\-T File I/\-O Utitlity Functions}!Mat\-\_\-\-Log\-Init@{Mat\-\_\-\-Log\-Init}}
+\index{Mat\-\_\-\-Log\-Init@{Mat\-\_\-\-Log\-Init}!MAT File I/O Utitlity Functions@{M\-A\-T File I/\-O Utitlity Functions}}
+\subsubsection[{Mat\-\_\-\-Log\-Init}]{\setlength{\rightskip}{0pt plus 5cm}int Mat\-\_\-\-Log\-Init (
+\begin{DoxyParamCaption}
+\item[{const char $\ast$}]{prog\-\_\-name}
+\end{DoxyParamCaption}
+)}}\label{group__mat__util_ga0d30e03216ceaab7c0a4ff878b26f89f}
+
+
+Intializes the logging system. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em prog\-\_\-name} & Name of the program initializing the logging functions \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+0 on success 
+\end{DoxyReturn}
+\hypertarget{group__mat__util_ga93f4dd8d36413ae7f49260d757e3ab9f}{\index{M\-A\-T File I/\-O Utitlity Functions@{M\-A\-T File I/\-O Utitlity Functions}!Mat\-\_\-\-Log\-Init\-Func@{Mat\-\_\-\-Log\-Init\-Func}}
+\index{Mat\-\_\-\-Log\-Init\-Func@{Mat\-\_\-\-Log\-Init\-Func}!MAT File I/O Utitlity Functions@{M\-A\-T File I/\-O Utitlity Functions}}
+\subsubsection[{Mat\-\_\-\-Log\-Init\-Func}]{\setlength{\rightskip}{0pt plus 5cm}int Mat\-\_\-\-Log\-Init\-Func (
+\begin{DoxyParamCaption}
+\item[{const char $\ast$}]{prog\-\_\-name, }
+\item[{void($\ast$)(int log\-\_\-level, char $\ast$message)}]{log\-\_\-func}
+\end{DoxyParamCaption}
+)}}\label{group__mat__util_ga93f4dd8d36413ae7f49260d757e3ab9f}
+
+
+Intializes the logging system. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em prog\-\_\-name} & Name of the program initializing the logging functions \\
+\hline
+{\em log\-\_\-func} & pointer to the function to do the logging \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+0 on success 
+\end{DoxyReturn}
+\hypertarget{group__mat__util_gae7dfa394b111bc908a616f8f5bddaa97}{\index{M\-A\-T File I/\-O Utitlity Functions@{M\-A\-T File I/\-O Utitlity Functions}!Mat\-\_\-\-Message@{Mat\-\_\-\-Message}}
+\index{Mat\-\_\-\-Message@{Mat\-\_\-\-Message}!MAT File I/O Utitlity Functions@{M\-A\-T File I/\-O Utitlity Functions}}
+\subsubsection[{Mat\-\_\-\-Message}]{\setlength{\rightskip}{0pt plus 5cm}int Mat\-\_\-\-Message (
+\begin{DoxyParamCaption}
+\item[{const char $\ast$}]{format, }
+\item[{}]{...}
+\end{DoxyParamCaption}
+)}}\label{group__mat__util_gae7dfa394b111bc908a616f8f5bddaa97}
+
+
+Log a message unless silent. 
+
+Logs the message unless the silent option is set (See Set\-Verbose). To log a message based on the verbose level, use \hyperlink{group__mat__util_ga64a176ea7e27e38d4242a24f3e3bad24}{Mat\-\_\-\-Verb\-Message}
+
+
+\begin{DoxyParams}{Parameters}
+{\em format} & message format \\
+\hline
+\end{DoxyParams}
+\hypertarget{group__mat__util_gad75e2962dcaf2ac366f2420bb5b13094}{\index{M\-A\-T File I/\-O Utitlity Functions@{M\-A\-T File I/\-O Utitlity Functions}!Mat\-\_\-\-Set\-Debug@{Mat\-\_\-\-Set\-Debug}}
+\index{Mat\-\_\-\-Set\-Debug@{Mat\-\_\-\-Set\-Debug}!MAT File I/O Utitlity Functions@{M\-A\-T File I/\-O Utitlity Functions}}
+\subsubsection[{Mat\-\_\-\-Set\-Debug}]{\setlength{\rightskip}{0pt plus 5cm}int Mat\-\_\-\-Set\-Debug (
+\begin{DoxyParamCaption}
+\item[{int}]{d}
+\end{DoxyParamCaption}
+)}}\label{group__mat__util_gad75e2962dcaf2ac366f2420bb5b13094}
+
+
+Sets verbose parameters. 
+
+Sets the verbose level and silent level. These values are used by programs to determine what information should be printed to the screen
+
+
+\begin{DoxyParams}{Parameters}
+{\em verb} & sets logging verbosity level \\
+\hline
+{\em s} & sets logging silent level \\
+\hline
+\end{DoxyParams}
+\hypertarget{group__mat__util_gaf348b811ee26bfc923924878cea3c9ba}{\index{M\-A\-T File I/\-O Utitlity Functions@{M\-A\-T File I/\-O Utitlity Functions}!Mat\-\_\-\-Set\-Verbose@{Mat\-\_\-\-Set\-Verbose}}
+\index{Mat\-\_\-\-Set\-Verbose@{Mat\-\_\-\-Set\-Verbose}!MAT File I/O Utitlity Functions@{M\-A\-T File I/\-O Utitlity Functions}}
+\subsubsection[{Mat\-\_\-\-Set\-Verbose}]{\setlength{\rightskip}{0pt plus 5cm}int Mat\-\_\-\-Set\-Verbose (
+\begin{DoxyParamCaption}
+\item[{int}]{verb, }
+\item[{int}]{s}
+\end{DoxyParamCaption}
+)}}\label{group__mat__util_gaf348b811ee26bfc923924878cea3c9ba}
+
+
+Sets verbose parameters. 
+
+Sets the verbose level and silent level. These values are used by programs to determine what information should be printed to the screen
+
+
+\begin{DoxyParams}{Parameters}
+{\em verb} & sets logging verbosity level \\
+\hline
+{\em s} & sets logging silent level \\
+\hline
+\end{DoxyParams}
+\hypertarget{group__mat__util_gab6774aabdc124c540c1e7686d0804940}{\index{M\-A\-T File I/\-O Utitlity Functions@{M\-A\-T File I/\-O Utitlity Functions}!Mat\-\_\-\-Size\-Of@{Mat\-\_\-\-Size\-Of}}
+\index{Mat\-\_\-\-Size\-Of@{Mat\-\_\-\-Size\-Of}!MAT File I/O Utitlity Functions@{M\-A\-T File I/\-O Utitlity Functions}}
+\subsubsection[{Mat\-\_\-\-Size\-Of}]{\setlength{\rightskip}{0pt plus 5cm}size\-\_\-t Mat\-\_\-\-Size\-Of (
+\begin{DoxyParamCaption}
+\item[{enum {\bf matio\-\_\-types}}]{data\-\_\-type}
+\end{DoxyParamCaption}
+)}}\label{group__mat__util_gab6774aabdc124c540c1e7686d0804940}
+
+
+Calculate the size of M\-A\-T data types. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em data\-\_\-type} & Data type enumeration \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+size of the data type in bytes 
+\end{DoxyReturn}
+\hypertarget{group__mat__util_ga64a176ea7e27e38d4242a24f3e3bad24}{\index{M\-A\-T File I/\-O Utitlity Functions@{M\-A\-T File I/\-O Utitlity Functions}!Mat\-\_\-\-Verb\-Message@{Mat\-\_\-\-Verb\-Message}}
+\index{Mat\-\_\-\-Verb\-Message@{Mat\-\_\-\-Verb\-Message}!MAT File I/O Utitlity Functions@{M\-A\-T File I/\-O Utitlity Functions}}
+\subsubsection[{Mat\-\_\-\-Verb\-Message}]{\setlength{\rightskip}{0pt plus 5cm}int Mat\-\_\-\-Verb\-Message (
+\begin{DoxyParamCaption}
+\item[{int}]{level, }
+\item[{const char $\ast$}]{format, }
+\item[{}]{...}
+\end{DoxyParamCaption}
+)}}\label{group__mat__util_ga64a176ea7e27e38d4242a24f3e3bad24}
+
+
+Log a message based on verbose level. 
+
+If {\itshape level} is less than or equal to the set verbose level, the message is printed. If the level is higher than the set verbose level nothing is displayed.
+
+
+\begin{DoxyParams}{Parameters}
+{\em level} & verbose level \\
+\hline
+{\em format} & message format \\
+\hline
+\end{DoxyParams}
+\hypertarget{group__mat__util_gafcedc83eb7e4759a8ea5c974c4f801c3}{\index{M\-A\-T File I/\-O Utitlity Functions@{M\-A\-T File I/\-O Utitlity Functions}!Mat\-\_\-\-Warning@{Mat\-\_\-\-Warning}}
+\index{Mat\-\_\-\-Warning@{Mat\-\_\-\-Warning}!MAT File I/O Utitlity Functions@{M\-A\-T File I/\-O Utitlity Functions}}
+\subsubsection[{Mat\-\_\-\-Warning}]{\setlength{\rightskip}{0pt plus 5cm}void Mat\-\_\-\-Warning (
+\begin{DoxyParamCaption}
+\item[{const char $\ast$}]{format, }
+\item[{}]{...}
+\end{DoxyParamCaption}
+)}}\label{group__mat__util_gafcedc83eb7e4759a8ea5c974c4f801c3}
+
+
+Prints a warning message to stdout. 
+
+Logs a warning message then returns
+
+
+\begin{DoxyParams}{Parameters}
+{\em format} & format string identical to printf format \\
+\hline
+{\em ...} & arguments to the format string \\
+\hline
+\end{DoxyParams}
+\hypertarget{group__mat__util_ga291b08f933c75fb70e3736b669896ebd}{\index{M\-A\-T File I/\-O Utitlity Functions@{M\-A\-T File I/\-O Utitlity Functions}!strdup\-\_\-printf@{strdup\-\_\-printf}}
+\index{strdup\-\_\-printf@{strdup\-\_\-printf}!MAT File I/O Utitlity Functions@{M\-A\-T File I/\-O Utitlity Functions}}
+\subsubsection[{strdup\-\_\-printf}]{\setlength{\rightskip}{0pt plus 5cm}char$\ast$ strdup\-\_\-printf (
+\begin{DoxyParamCaption}
+\item[{const char $\ast$}]{format, }
+\item[{}]{...}
+\end{DoxyParamCaption}
+)}}\label{group__mat__util_ga291b08f933c75fb70e3736b669896ebd}
+
+
+Allocates and prints to a new string using printf format. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em format} & format string \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Pointer to resulting string, or N\-U\-L\-L if there was an error 
+\end{DoxyReturn}
+\hypertarget{group__mat__util_ga2b342987d3b664345cb233640b611fe9}{\index{M\-A\-T File I/\-O Utitlity Functions@{M\-A\-T File I/\-O Utitlity Functions}!strdup\-\_\-vprintf@{strdup\-\_\-vprintf}}
+\index{strdup\-\_\-vprintf@{strdup\-\_\-vprintf}!MAT File I/O Utitlity Functions@{M\-A\-T File I/\-O Utitlity Functions}}
+\subsubsection[{strdup\-\_\-vprintf}]{\setlength{\rightskip}{0pt plus 5cm}char$\ast$ strdup\-\_\-vprintf (
+\begin{DoxyParamCaption}
+\item[{const char $\ast$}]{format, }
+\item[{va\-\_\-list}]{ap}
+\end{DoxyParamCaption}
+)}}\label{group__mat__util_ga2b342987d3b664345cb233640b611fe9}
+
+
+Allocates and prints to a new string. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em format} & format string \\
+\hline
+{\em ap} & variable argument list \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Newly allocated string with format printed to it 
+\end{DoxyReturn}

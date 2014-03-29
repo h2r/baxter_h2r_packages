@@ -1,0 +1,1261 @@
+\hypertarget{group__MAT}{\section{Matlab M\-A\-T File I/\-O Library}
+\label{group__MAT}\index{Matlab M\-A\-T File I/\-O Library@{Matlab M\-A\-T File I/\-O Library}}
+}
+\subsection*{Files}
+\begin{DoxyCompactItemize}
+\item 
+file \hyperlink{inflate_8c}{inflate.\-c}
+\begin{DoxyCompactList}\small\item\em Functions to inflate data/tags. \end{DoxyCompactList}\item 
+file \hyperlink{mat_8c}{mat.\-c}
+\item 
+file \hyperlink{mat4_8c}{mat4.\-c}
+\item 
+file \hyperlink{mat5_8c}{mat5.\-c}
+\item 
+file \hyperlink{mat5_8c}{mat5.\-c}
+\item 
+file \hyperlink{matio_8h}{matio.\-h}
+\item 
+file \hyperlink{read__data_8c}{read\-\_\-data.\-c}
+\end{DoxyCompactItemize}
+\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structComplexSplit}{Complex\-Split}
+\begin{DoxyCompactList}\small\item\em Complex data type using split storage. \end{DoxyCompactList}\item 
+struct \hyperlink{structmatvar__t}{matvar\-\_\-t}
+\begin{DoxyCompactList}\small\item\em Matlab variable information. \end{DoxyCompactList}\item 
+struct \hyperlink{structsparse__t}{sparse\-\_\-t}
+\begin{DoxyCompactList}\small\item\em sparse data information \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{group__MAT_gab0fc888f5a5d79943b16284b1f91c2e8}{typedef struct \hyperlink{struct__mat__t}{\-\_\-mat\-\_\-t} \hyperlink{group__MAT_gab0fc888f5a5d79943b16284b1f91c2e8}{mat\-\_\-t}}\label{group__MAT_gab0fc888f5a5d79943b16284b1f91c2e8}
+
+\begin{DoxyCompactList}\small\item\em Matlab M\-A\-T File information Contains information about a Matlab M\-A\-T file. \end{DoxyCompactList}\item 
+typedef struct \hyperlink{structmatvar__t}{matvar\-\_\-t} \hyperlink{group__MAT_ga24775c96a2a6d073581639c780b7896c}{matvar\-\_\-t}
+\begin{DoxyCompactList}\small\item\em Matlab variable information. \end{DoxyCompactList}\item 
+typedef struct \hyperlink{structsparse__t}{sparse\-\_\-t} \hyperlink{group__MAT_ga3ce6ed53a1909e27e92f3eaffc2f92ed}{sparse\-\_\-t}
+\begin{DoxyCompactList}\small\item\em sparse data information \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{group__MAT_gaa9dcbc70f538af79bd557593ff6b5cdb}{mat\-\_\-acc} \{ \hyperlink{group__MAT_ggaa9dcbc70f538af79bd557593ff6b5cdba8dd1457651b27ba9bea6cfba158c037c}{M\-A\-T\-\_\-\-A\-C\-C\-\_\-\-R\-D\-O\-N\-L\-Y} = 0, 
+\hyperlink{group__MAT_ggaa9dcbc70f538af79bd557593ff6b5cdba0f65f27ea42fde32d62b702b82329c1f}{M\-A\-T\-\_\-\-A\-C\-C\-\_\-\-R\-D\-W\-R} = 1
+ \}
+\begin{DoxyCompactList}\small\item\em M\-A\-T file access types. \end{DoxyCompactList}\item 
+enum \hyperlink{group__MAT_gad03442b8378999189d510e3745c702b7}{mat\-\_\-ft} \{ \hyperlink{group__MAT_ggad03442b8378999189d510e3745c702b7a765c5d1d5038947646260dc82483517e}{M\-A\-T\-\_\-\-F\-T\-\_\-\-M\-A\-T73} = 0x0200, 
+\hyperlink{group__MAT_ggad03442b8378999189d510e3745c702b7a31ade1f6989411dc0299007e2c7d33b2}{M\-A\-T\-\_\-\-F\-T\-\_\-\-M\-A\-T5} = 0x0100, 
+\hyperlink{group__MAT_ggad03442b8378999189d510e3745c702b7a858b4f5da65548219b1c3ad47aa478d3}{M\-A\-T\-\_\-\-F\-T\-\_\-\-M\-A\-T4} = 0x0010
+ \}
+\begin{DoxyCompactList}\small\item\em M\-A\-T file versions. \end{DoxyCompactList}\item 
+enum \hyperlink{group__MAT_gacf7b3b879282b7ab3a51190e49bf3453}{matio\-\_\-types} \{ \\*
+\hyperlink{group__MAT_ggacf7b3b879282b7ab3a51190e49bf3453a2a7318fe8bf9464935e7ed8902618293}{M\-A\-T\-\_\-\-T\-\_\-\-U\-N\-K\-N\-O\-W\-N} = 0, 
+\hyperlink{group__MAT_ggacf7b3b879282b7ab3a51190e49bf3453a9807f5033ed4f9b548953742d9fd1658}{M\-A\-T\-\_\-\-T\-\_\-\-I\-N\-T8} = 1, 
+\hyperlink{group__MAT_ggacf7b3b879282b7ab3a51190e49bf3453a01c1bd7db68f90552862eb5d311be408}{M\-A\-T\-\_\-\-T\-\_\-\-U\-I\-N\-T8} = 2, 
+\hyperlink{group__MAT_ggacf7b3b879282b7ab3a51190e49bf3453a8c5b2e381946e95ea8d81ac216743302}{M\-A\-T\-\_\-\-T\-\_\-\-I\-N\-T16} = 3, 
+\\*
+\hyperlink{group__MAT_ggacf7b3b879282b7ab3a51190e49bf3453a05bc7af7680aa68be95126ae0a4c2e31}{M\-A\-T\-\_\-\-T\-\_\-\-U\-I\-N\-T16} = 4, 
+\hyperlink{group__MAT_ggacf7b3b879282b7ab3a51190e49bf3453a83e06a68320726c6572bfbb9f3addb1d}{M\-A\-T\-\_\-\-T\-\_\-\-I\-N\-T32} = 5, 
+\hyperlink{group__MAT_ggacf7b3b879282b7ab3a51190e49bf3453aa397e285a23fe240368b752897652c6a}{M\-A\-T\-\_\-\-T\-\_\-\-U\-I\-N\-T32} = 6, 
+\hyperlink{group__MAT_ggacf7b3b879282b7ab3a51190e49bf3453a3a3657d40e9212c923d9b9d03531b64c}{M\-A\-T\-\_\-\-T\-\_\-\-S\-I\-N\-G\-L\-E} = 7, 
+\\*
+\hyperlink{group__MAT_ggacf7b3b879282b7ab3a51190e49bf3453a31e721ecf7e188196f83c32838288797}{M\-A\-T\-\_\-\-T\-\_\-\-D\-O\-U\-B\-L\-E} = 9, 
+\hyperlink{group__MAT_ggacf7b3b879282b7ab3a51190e49bf3453a9e825b5d18b8f946eaf2b4b57e51c145}{M\-A\-T\-\_\-\-T\-\_\-\-I\-N\-T64} = 12, 
+\hyperlink{group__MAT_ggacf7b3b879282b7ab3a51190e49bf3453a45547932c46be27118abe08302d7e29f}{M\-A\-T\-\_\-\-T\-\_\-\-U\-I\-N\-T64} = 13, 
+\hyperlink{group__MAT_ggacf7b3b879282b7ab3a51190e49bf3453a32985fee89a4df8db4b3f5d3a48823d3}{M\-A\-T\-\_\-\-T\-\_\-\-M\-A\-T\-R\-I\-X} = 14, 
+\\*
+\hyperlink{group__MAT_ggacf7b3b879282b7ab3a51190e49bf3453a30437f2eb3becc2fa6e5d96599d7f724}{M\-A\-T\-\_\-\-T\-\_\-\-C\-O\-M\-P\-R\-E\-S\-S\-E\-D} = 15, 
+\hyperlink{group__MAT_ggacf7b3b879282b7ab3a51190e49bf3453ac34ad81f5cbd3b7d0d95e57e5be0149b}{M\-A\-T\-\_\-\-T\-\_\-\-U\-T\-F8} = 16, 
+\hyperlink{group__MAT_ggacf7b3b879282b7ab3a51190e49bf3453a87ffc0412143c326a1fcc759d5d81bdc}{M\-A\-T\-\_\-\-T\-\_\-\-U\-T\-F16} = 17, 
+\hyperlink{group__MAT_ggacf7b3b879282b7ab3a51190e49bf3453a11e43c0e0be79b1983090e02ae583109}{M\-A\-T\-\_\-\-T\-\_\-\-U\-T\-F32} = 18, 
+\\*
+\hyperlink{group__MAT_ggacf7b3b879282b7ab3a51190e49bf3453a9456a83c0b22022af42461a09d63cdb2}{M\-A\-T\-\_\-\-T\-\_\-\-S\-T\-R\-I\-N\-G} = 20, 
+\hyperlink{group__MAT_ggacf7b3b879282b7ab3a51190e49bf3453a07599cf2cca6d2b2d059378563318ba5}{M\-A\-T\-\_\-\-T\-\_\-\-C\-E\-L\-L} = 21, 
+\hyperlink{group__MAT_ggacf7b3b879282b7ab3a51190e49bf3453a4f4d5a6e1d42c6aa81ffb810e5da5c85}{M\-A\-T\-\_\-\-T\-\_\-\-S\-T\-R\-U\-C\-T} = 22, 
+\hyperlink{group__MAT_ggacf7b3b879282b7ab3a51190e49bf3453acf106b0c23021582375f59bc9fce89b1}{M\-A\-T\-\_\-\-T\-\_\-\-A\-R\-R\-A\-Y} = 23, 
+\\*
+\hyperlink{group__MAT_ggacf7b3b879282b7ab3a51190e49bf3453ae76686f267dd1641cd55dce306af6d10}{M\-A\-T\-\_\-\-T\-\_\-\-F\-U\-N\-C\-T\-I\-O\-N} = 24
+ \}
+\begin{DoxyCompactList}\small\item\em Matlab data types. \end{DoxyCompactList}\item 
+enum \hyperlink{group__MAT_gad4d60ae7b709fc81bfd744fb4c857c40}{matio\-\_\-classes} \{ \\*
+\hyperlink{group__MAT_ggad4d60ae7b709fc81bfd744fb4c857c40a5c76eef0ca0373d25abe49053be6fa9a}{M\-A\-T\-\_\-\-C\-\_\-\-E\-M\-P\-T\-Y} = 0, 
+\hyperlink{group__MAT_ggad4d60ae7b709fc81bfd744fb4c857c40a2f7abb47a1c51e248bd4e5e03cc81b08}{M\-A\-T\-\_\-\-C\-\_\-\-C\-E\-L\-L} = 1, 
+\hyperlink{group__MAT_ggad4d60ae7b709fc81bfd744fb4c857c40acb467c7749c80902b798134c729bb521}{M\-A\-T\-\_\-\-C\-\_\-\-S\-T\-R\-U\-C\-T} = 2, 
+\hyperlink{group__MAT_ggad4d60ae7b709fc81bfd744fb4c857c40afe45104b68b044c83a2f99e349fa1ea6}{M\-A\-T\-\_\-\-C\-\_\-\-O\-B\-J\-E\-C\-T} = 3, 
+\\*
+\hyperlink{group__MAT_ggad4d60ae7b709fc81bfd744fb4c857c40aacdec5834df0861130b393697646119c}{M\-A\-T\-\_\-\-C\-\_\-\-C\-H\-A\-R} = 4, 
+\hyperlink{group__MAT_ggad4d60ae7b709fc81bfd744fb4c857c40a0d5655b7e6178a2242cb3bb56ff4c8d2}{M\-A\-T\-\_\-\-C\-\_\-\-S\-P\-A\-R\-S\-E} = 5, 
+\hyperlink{group__MAT_ggad4d60ae7b709fc81bfd744fb4c857c40a5d70e0862e5bdb7bd86bf7ba5948f307}{M\-A\-T\-\_\-\-C\-\_\-\-D\-O\-U\-B\-L\-E} = 6, 
+\hyperlink{group__MAT_ggad4d60ae7b709fc81bfd744fb4c857c40a2825631e26a961cbe0f79db50a39cea2}{M\-A\-T\-\_\-\-C\-\_\-\-S\-I\-N\-G\-L\-E} = 7, 
+\\*
+\hyperlink{group__MAT_ggad4d60ae7b709fc81bfd744fb4c857c40a984ff310f9e906100fcff95f704f43c5}{M\-A\-T\-\_\-\-C\-\_\-\-I\-N\-T8} = 8, 
+\hyperlink{group__MAT_ggad4d60ae7b709fc81bfd744fb4c857c40a81270f8093cb4808e992c1d29d84d4e3}{M\-A\-T\-\_\-\-C\-\_\-\-U\-I\-N\-T8} = 9, 
+\hyperlink{group__MAT_ggad4d60ae7b709fc81bfd744fb4c857c40a40370e9de516c5036a67a5865c071006}{M\-A\-T\-\_\-\-C\-\_\-\-I\-N\-T16} = 10, 
+\hyperlink{group__MAT_ggad4d60ae7b709fc81bfd744fb4c857c40a8bede21dbf6c1edc0bbccc1481bccae7}{M\-A\-T\-\_\-\-C\-\_\-\-U\-I\-N\-T16} = 11, 
+\\*
+\hyperlink{group__MAT_ggad4d60ae7b709fc81bfd744fb4c857c40adb44fc39694e3152ae5e69470a2fefe8}{M\-A\-T\-\_\-\-C\-\_\-\-I\-N\-T32} = 12, 
+\hyperlink{group__MAT_ggad4d60ae7b709fc81bfd744fb4c857c40a9a17a7edd45b19ef68197db81b27e816}{M\-A\-T\-\_\-\-C\-\_\-\-U\-I\-N\-T32} = 13, 
+\hyperlink{group__MAT_ggad4d60ae7b709fc81bfd744fb4c857c40a1ea83bcde49b35477494412973f82409}{M\-A\-T\-\_\-\-C\-\_\-\-I\-N\-T64} = 14, 
+\hyperlink{group__MAT_ggad4d60ae7b709fc81bfd744fb4c857c40a86470e25c3763d9a24623f04326195dd}{M\-A\-T\-\_\-\-C\-\_\-\-U\-I\-N\-T64} = 15, 
+\\*
+\hyperlink{group__MAT_ggad4d60ae7b709fc81bfd744fb4c857c40aaa9bf08312779cd1ab8e504a162ddcea}{M\-A\-T\-\_\-\-C\-\_\-\-F\-U\-N\-C\-T\-I\-O\-N} = 16
+ \}
+\begin{DoxyCompactList}\small\item\em Matlab variable classes. \end{DoxyCompactList}\item 
+enum \hyperlink{group__MAT_gab9d6ef9e3ddca78a317b173f01d53fbb}{matio\-\_\-flags} \{ \hyperlink{group__MAT_ggab9d6ef9e3ddca78a317b173f01d53fbbacd7b091a11184aad7fc6078c04470780}{M\-A\-T\-\_\-\-F\-\_\-\-C\-O\-M\-P\-L\-E\-X} = 0x0800, 
+\hyperlink{group__MAT_ggab9d6ef9e3ddca78a317b173f01d53fbba49084e0c796aa7963e53f7539525d40d}{M\-A\-T\-\_\-\-F\-\_\-\-G\-L\-O\-B\-A\-L} = 0x0400, 
+\hyperlink{group__MAT_ggab9d6ef9e3ddca78a317b173f01d53fbba57eb5c6e200bcbc0f1b7982f29a169c2}{M\-A\-T\-\_\-\-F\-\_\-\-L\-O\-G\-I\-C\-A\-L} = 0x0200, 
+\hyperlink{group__MAT_ggab9d6ef9e3ddca78a317b173f01d53fbba3a88beaec448e0485ffe21b18a540c1d}{M\-A\-T\-\_\-\-F\-\_\-\-C\-L\-A\-S\-S\-\_\-\-T} = 0x00ff
+ \}
+\begin{DoxyCompactList}\small\item\em Matlab array flags. \end{DoxyCompactList}\item 
+enum \hyperlink{group__MAT_ga768c318af97bd2567758ecb001ceb7f4}{matio\-\_\-compression} \{ \hyperlink{group__MAT_gga768c318af97bd2567758ecb001ceb7f4ac549b871996d1ef05d40056bf5bb52e5}{C\-O\-M\-P\-R\-E\-S\-S\-I\-O\-N\-\_\-\-N\-O\-N\-E} = 0, 
+\hyperlink{group__MAT_gga768c318af97bd2567758ecb001ceb7f4a1f453c9a2c01b52294b37a1226837f86}{C\-O\-M\-P\-R\-E\-S\-S\-I\-O\-N\-\_\-\-Z\-L\-I\-B} = 1
+ \}
+\begin{DoxyCompactList}\small\item\em Matlab compression options. \end{DoxyCompactList}\item 
+enum \{ \hyperlink{group__MAT_gga06fc87d81c62e9abb8790b6e5713c55ba8938378c70879fe916177141cce0417e}{B\-Y\-\_\-\-N\-A\-M\-E} = 1, 
+\hyperlink{group__MAT_gga06fc87d81c62e9abb8790b6e5713c55ba5f4d5606de1ec27f80f4a50186909005}{B\-Y\-\_\-\-I\-N\-D\-E\-X} = 2
+ \}
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group__MAT_gab0fc888f5a5d79943b16284b1f91c2e8}{mat\-\_\-t} $\ast$ \hyperlink{group__MAT_ga22d404f203af7869c841400e7ad247cf}{Mat\-\_\-\-Create\-Ver} (const char $\ast$matname, const char $\ast$hdr\-\_\-str, enum \hyperlink{group__MAT_gad03442b8378999189d510e3745c702b7}{mat\-\_\-ft} mat\-\_\-file\-\_\-ver)
+\begin{DoxyCompactList}\small\item\em Creates a new Matlab M\-A\-T file. \end{DoxyCompactList}\item 
+\hyperlink{group__MAT_gab0fc888f5a5d79943b16284b1f91c2e8}{mat\-\_\-t} $\ast$ \hyperlink{group__MAT_gafbfedb5636a99f0ef867520c47f77d18}{Mat\-\_\-\-Open} (const char $\ast$matname, int mode)
+\begin{DoxyCompactList}\small\item\em Opens an existing Matlab M\-A\-T file. \end{DoxyCompactList}\item 
+int \hyperlink{group__MAT_ga101c92ff7bde4a2d4615661beba09262}{Mat\-\_\-\-Close} (\hyperlink{group__MAT_gab0fc888f5a5d79943b16284b1f91c2e8}{mat\-\_\-t} $\ast$mat)
+\begin{DoxyCompactList}\small\item\em Closes an open Matlab M\-A\-T file. \end{DoxyCompactList}\item 
+int \hyperlink{group__MAT_ga4d6e3892d2e216c507a744ba0e070d0b}{Mat\-\_\-\-Rewind} (\hyperlink{group__MAT_gab0fc888f5a5d79943b16284b1f91c2e8}{mat\-\_\-t} $\ast$mat)
+\begin{DoxyCompactList}\small\item\em Rewinds a Matlab M\-A\-T file to the first variable. \end{DoxyCompactList}\item 
+size\-\_\-t \hyperlink{group__MAT_ga2bf682f015b22fa796a8885e997661e7}{Mat\-\_\-\-Size\-Of\-Class} (int class\-\_\-type)
+\begin{DoxyCompactList}\small\item\em Returns the size of a Matlab Class. \end{DoxyCompactList}\item 
+\hyperlink{structmatvar__t}{matvar\-\_\-t} $\ast$ \hyperlink{group__MAT_gae7c9c3699f6e9c31a9c490300013098c}{Mat\-\_\-\-Var\-Calloc} (void)
+\begin{DoxyCompactList}\small\item\em Allocates memory for a new \hyperlink{structmatvar__t}{matvar\-\_\-t} and initializes all the fields. \end{DoxyCompactList}\item 
+\hyperlink{structmatvar__t}{matvar\-\_\-t} $\ast$ \hyperlink{group__MAT_ga1c54a84bb4d810c6fccdb8869489eac4}{Mat\-\_\-\-Var\-Create} (const char $\ast$name, enum \hyperlink{group__MAT_gad4d60ae7b709fc81bfd744fb4c857c40}{matio\-\_\-classes} class\-\_\-type, enum \hyperlink{group__MAT_gacf7b3b879282b7ab3a51190e49bf3453}{matio\-\_\-types} data\-\_\-type, int rank, size\-\_\-t $\ast$dims, void $\ast$data, int opt)
+\begin{DoxyCompactList}\small\item\em Creates a M\-A\-T Variable with the given name and (optionally) data. \end{DoxyCompactList}\item 
+int \hyperlink{group__MAT_gabf139e48d48177e5069338fa2919c60a}{Mat\-\_\-\-Var\-Delete} (\hyperlink{group__MAT_gab0fc888f5a5d79943b16284b1f91c2e8}{mat\-\_\-t} $\ast$mat, const char $\ast$name)
+\begin{DoxyCompactList}\small\item\em Deletes a variable from a file. \end{DoxyCompactList}\item 
+\hyperlink{structmatvar__t}{matvar\-\_\-t} $\ast$ \hyperlink{group__MAT_ga7ef80c5d99d7918b2b09db3bea106ecc}{Mat\-\_\-\-Var\-Duplicate} (const \hyperlink{structmatvar__t}{matvar\-\_\-t} $\ast$in, int opt)
+\begin{DoxyCompactList}\small\item\em Duplicates a \hyperlink{structmatvar__t}{matvar\-\_\-t} structure. \end{DoxyCompactList}\item 
+void \hyperlink{group__MAT_ga1d14716f7450530fd1c9d02413787f0e}{Mat\-\_\-\-Var\-Free} (\hyperlink{structmatvar__t}{matvar\-\_\-t} $\ast$matvar)
+\begin{DoxyCompactList}\small\item\em Frees all the allocated memory associated with the structure. \end{DoxyCompactList}\item 
+int \hyperlink{group__MAT_ga9b8d09f631538b14ca29792e0334e349}{Mat\-\_\-\-Calc\-Single\-Subscript} (int rank, int $\ast$dims, int $\ast$subs)
+\begin{DoxyCompactList}\small\item\em Calculate a single subscript from a set of subscript values. \end{DoxyCompactList}\item 
+int $\ast$ \hyperlink{group__MAT_gabe2571a4b9b6cff3b31aa6f152deba61}{Mat\-\_\-\-Calc\-Subscripts} (int rank, int $\ast$dims, int index)
+\begin{DoxyCompactList}\small\item\em Calculate a set of subscript values from a single(linear) subscript. \end{DoxyCompactList}\item 
+\hyperlink{structmatvar__t}{matvar\-\_\-t} $\ast$ \hyperlink{group__MAT_gac1e15063439c0bd3eb0c986514c742dc}{Mat\-\_\-\-Var\-Get\-Cell} (\hyperlink{structmatvar__t}{matvar\-\_\-t} $\ast$matvar, int index)
+\begin{DoxyCompactList}\small\item\em Returns a pointer to the Cell array at a specific index. \end{DoxyCompactList}\item 
+\hyperlink{structmatvar__t}{matvar\-\_\-t} $\ast$$\ast$ \hyperlink{group__MAT_ga0732b0a6c40975b036068b9a14422d45}{Mat\-\_\-\-Var\-Get\-Cells} (\hyperlink{structmatvar__t}{matvar\-\_\-t} $\ast$matvar, int $\ast$start, int $\ast$stride, int $\ast$edge)
+\begin{DoxyCompactList}\small\item\em Indexes a cell array. \end{DoxyCompactList}\item 
+\hyperlink{structmatvar__t}{matvar\-\_\-t} $\ast$$\ast$ \hyperlink{group__MAT_ga004987d665654409f74eaf8e82bb1380}{Mat\-\_\-\-Var\-Get\-Cells\-Linear} (\hyperlink{structmatvar__t}{matvar\-\_\-t} $\ast$matvar, int start, int stride, int edge)
+\begin{DoxyCompactList}\small\item\em Indexes a cell array. \end{DoxyCompactList}\item 
+size\-\_\-t \hyperlink{group__MAT_gaeeb798fead2f765bddfb19016c7fdbcc}{Mat\-\_\-\-Var\-Get\-Size} (\hyperlink{structmatvar__t}{matvar\-\_\-t} $\ast$matvar)
+\begin{DoxyCompactList}\small\item\em Calculates the size of a matlab variable in bytes. \end{DoxyCompactList}\item 
+int \hyperlink{group__MAT_ga9f8ab8a7e4206c16cb20437acc6960d2}{Mat\-\_\-\-Var\-Add\-Struct\-Field} (\hyperlink{structmatvar__t}{matvar\-\_\-t} $\ast$matvar, \hyperlink{structmatvar__t}{matvar\-\_\-t} $\ast$$\ast$fields)
+\begin{DoxyCompactList}\small\item\em Adds a field to a structure. \end{DoxyCompactList}\item 
+int \hyperlink{group__MAT_ga56b9a545990a0f253164018e37111741}{Mat\-\_\-\-Var\-Get\-Number\-Of\-Fields} (\hyperlink{structmatvar__t}{matvar\-\_\-t} $\ast$matvar)
+\begin{DoxyCompactList}\small\item\em Returns the number of fields in a structure variable. \end{DoxyCompactList}\item 
+\hyperlink{structmatvar__t}{matvar\-\_\-t} $\ast$ \hyperlink{group__MAT_ga7018bfe6934b96ae32e8f2a1712eefab}{Mat\-\_\-\-Var\-Get\-Struct\-Field} (\hyperlink{structmatvar__t}{matvar\-\_\-t} $\ast$matvar, void $\ast$name\-\_\-or\-\_\-index, int opt, int index)
+\begin{DoxyCompactList}\small\item\em Finds a field of a structure. \end{DoxyCompactList}\item 
+\hyperlink{structmatvar__t}{matvar\-\_\-t} $\ast$ \hyperlink{group__MAT_ga509178d7dc15faf9f7cd0440df6009b9}{Mat\-\_\-\-Var\-Get\-Structs} (\hyperlink{structmatvar__t}{matvar\-\_\-t} $\ast$matvar, int $\ast$start, int $\ast$stride, int $\ast$edge, int copy\-\_\-fields)
+\begin{DoxyCompactList}\small\item\em Indexes a structure. \end{DoxyCompactList}\item 
+\hyperlink{structmatvar__t}{matvar\-\_\-t} $\ast$ \hyperlink{group__MAT_gaa56680fb7b2cd3d410f659e945da8141}{Mat\-\_\-\-Var\-Get\-Structs\-Linear} (\hyperlink{structmatvar__t}{matvar\-\_\-t} $\ast$matvar, int start, int stride, int edge, int copy\-\_\-fields)
+\begin{DoxyCompactList}\small\item\em Indexes a structure. \end{DoxyCompactList}\item 
+void \hyperlink{group__MAT_ga9100c145e338b84b55d5d0795d5d390a}{Mat\-\_\-\-Var\-Print} (\hyperlink{structmatvar__t}{matvar\-\_\-t} $\ast$matvar, int printdata)
+\begin{DoxyCompactList}\small\item\em Prints the variable information. \end{DoxyCompactList}\item 
+int \hyperlink{group__MAT_ga1845000f4fc6252ec5ff11c4b9f0759f}{Mat\-\_\-\-Var\-Read\-Data} (\hyperlink{group__MAT_gab0fc888f5a5d79943b16284b1f91c2e8}{mat\-\_\-t} $\ast$mat, \hyperlink{structmatvar__t}{matvar\-\_\-t} $\ast$matvar, void $\ast$data, int $\ast$start, int $\ast$stride, int $\ast$edge)
+\begin{DoxyCompactList}\small\item\em Reads M\-A\-T variable data from a file. \end{DoxyCompactList}\item 
+int \hyperlink{group__MAT_gaa8060d7c8e5da0aa9ee5f96e5f1eb30a}{Mat\-\_\-\-Var\-Read\-Data\-All} (\hyperlink{group__MAT_gab0fc888f5a5d79943b16284b1f91c2e8}{mat\-\_\-t} $\ast$mat, \hyperlink{structmatvar__t}{matvar\-\_\-t} $\ast$matvar)
+\begin{DoxyCompactList}\small\item\em Reads all the data for a matlab variable. \end{DoxyCompactList}\item 
+int \hyperlink{group__MAT_gaad61c8449a2106afa697280ff0ee9dd8}{Mat\-\_\-\-Var\-Read\-Data\-Linear} (\hyperlink{group__MAT_gab0fc888f5a5d79943b16284b1f91c2e8}{mat\-\_\-t} $\ast$mat, \hyperlink{structmatvar__t}{matvar\-\_\-t} $\ast$matvar, void $\ast$data, int start, int stride, int edge)
+\begin{DoxyCompactList}\small\item\em Reads M\-A\-T variable data from a file. \end{DoxyCompactList}\item 
+\hyperlink{structmatvar__t}{matvar\-\_\-t} $\ast$ \hyperlink{group__MAT_ga72dd99330507b17177e22f9ed3bea5e6}{Mat\-\_\-\-Var\-Read\-Next\-Info} (\hyperlink{group__MAT_gab0fc888f5a5d79943b16284b1f91c2e8}{mat\-\_\-t} $\ast$mat)
+\begin{DoxyCompactList}\small\item\em Reads the information of the next variable in a M\-A\-T file. \end{DoxyCompactList}\item 
+\hyperlink{structmatvar__t}{matvar\-\_\-t} $\ast$ \hyperlink{group__MAT_ga46da2e45ed96d3f1a6ec643757f2b086}{Mat\-\_\-\-Var\-Read\-Info} (\hyperlink{group__MAT_gab0fc888f5a5d79943b16284b1f91c2e8}{mat\-\_\-t} $\ast$mat, const char $\ast$name)
+\begin{DoxyCompactList}\small\item\em Reads the information of a variable with the given name from a M\-A\-T file. \end{DoxyCompactList}\item 
+\hyperlink{structmatvar__t}{matvar\-\_\-t} $\ast$ \hyperlink{group__MAT_ga3505f63029763eaa73d5a19f1115eb42}{Mat\-\_\-\-Var\-Read} (\hyperlink{group__MAT_gab0fc888f5a5d79943b16284b1f91c2e8}{mat\-\_\-t} $\ast$mat, const char $\ast$name)
+\begin{DoxyCompactList}\small\item\em Reads the variable with the given name from a M\-A\-T file. \end{DoxyCompactList}\item 
+\hyperlink{structmatvar__t}{matvar\-\_\-t} $\ast$ \hyperlink{group__MAT_ga7c321d6aafd93916ba6c5655ad78e9ca}{Mat\-\_\-\-Var\-Read\-Next} (\hyperlink{group__MAT_gab0fc888f5a5d79943b16284b1f91c2e8}{mat\-\_\-t} $\ast$mat)
+\begin{DoxyCompactList}\small\item\em Reads the next variable in a M\-A\-T file. \end{DoxyCompactList}\item 
+int \hyperlink{group__MAT_ga1ae164415dfd98cdf48ad07033b6e0bb}{Mat\-\_\-\-Var\-Write\-Info} (\hyperlink{group__MAT_gab0fc888f5a5d79943b16284b1f91c2e8}{mat\-\_\-t} $\ast$mat, \hyperlink{structmatvar__t}{matvar\-\_\-t} $\ast$matvar)
+\begin{DoxyCompactList}\small\item\em Writes the given M\-A\-T variable to a M\-A\-T file. \end{DoxyCompactList}\item 
+int \hyperlink{group__MAT_ga43179b930fb30c025a153a55a083a98a}{Mat\-\_\-\-Var\-Write\-Data} (\hyperlink{group__MAT_gab0fc888f5a5d79943b16284b1f91c2e8}{mat\-\_\-t} $\ast$mat, \hyperlink{structmatvar__t}{matvar\-\_\-t} $\ast$matvar, void $\ast$data, int $\ast$start, int $\ast$stride, int $\ast$edge)
+\begin{DoxyCompactList}\small\item\em Writes the given data to the M\-A\-T variable. \end{DoxyCompactList}\item 
+int \hyperlink{group__MAT_ga77c5ad24d45047830046fe3ed25da8ad}{Mat\-\_\-\-Var\-Write} (\hyperlink{group__MAT_gab0fc888f5a5d79943b16284b1f91c2e8}{mat\-\_\-t} $\ast$mat, \hyperlink{structmatvar__t}{matvar\-\_\-t} $\ast$matvar, int compress)
+\begin{DoxyCompactList}\small\item\em Writes the given M\-A\-T variable to a M\-A\-T file. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+
+
+\subsection{Typedef Documentation}
+\hypertarget{group__MAT_ga24775c96a2a6d073581639c780b7896c}{\index{Matlab M\-A\-T File I/\-O Library@{Matlab M\-A\-T File I/\-O Library}!matvar\-\_\-t@{matvar\-\_\-t}}
+\index{matvar\-\_\-t@{matvar\-\_\-t}!Matlab MAT File I/O Library@{Matlab M\-A\-T File I/\-O Library}}
+\subsubsection[{matvar\-\_\-t}]{\setlength{\rightskip}{0pt plus 5cm}typedef struct {\bf matvar\-\_\-t}  {\bf matvar\-\_\-t}}}\label{group__MAT_ga24775c96a2a6d073581639c780b7896c}
+
+
+Matlab variable information. 
+
+Contains information about a Matlab variable \hypertarget{group__MAT_ga3ce6ed53a1909e27e92f3eaffc2f92ed}{\index{Matlab M\-A\-T File I/\-O Library@{Matlab M\-A\-T File I/\-O Library}!sparse\-\_\-t@{sparse\-\_\-t}}
+\index{sparse\-\_\-t@{sparse\-\_\-t}!Matlab MAT File I/O Library@{Matlab M\-A\-T File I/\-O Library}}
+\subsubsection[{sparse\-\_\-t}]{\setlength{\rightskip}{0pt plus 5cm}typedef struct {\bf sparse\-\_\-t}  {\bf sparse\-\_\-t}}}\label{group__MAT_ga3ce6ed53a1909e27e92f3eaffc2f92ed}
+
+
+sparse data information 
+
+Contains information and data for a sparse matrix 
+
+\subsection{Enumeration Type Documentation}
+\hypertarget{group__MAT_ga06fc87d81c62e9abb8790b6e5713c55b}{\subsubsection[{anonymous enum}]{\setlength{\rightskip}{0pt plus 5cm}anonymous enum}}\label{group__MAT_ga06fc87d81c62e9abb8790b6e5713c55b}
+matio lookup type \begin{Desc}
+\item[Enumerator]\par
+\begin{description}
+\index{B\-Y\-\_\-\-N\-A\-M\-E@{B\-Y\-\_\-\-N\-A\-M\-E}!Matlab M\-A\-T File I/\-O Library@{Matlab M\-A\-T File I/\-O Library}}\index{Matlab M\-A\-T File I/\-O Library@{Matlab M\-A\-T File I/\-O Library}!B\-Y\-\_\-\-N\-A\-M\-E@{B\-Y\-\_\-\-N\-A\-M\-E}}\item[{\em 
+\hypertarget{group__MAT_gga06fc87d81c62e9abb8790b6e5713c55ba8938378c70879fe916177141cce0417e}{B\-Y\-\_\-\-N\-A\-M\-E}\label{group__MAT_gga06fc87d81c62e9abb8790b6e5713c55ba8938378c70879fe916177141cce0417e}
+}]Lookup by name \index{B\-Y\-\_\-\-I\-N\-D\-E\-X@{B\-Y\-\_\-\-I\-N\-D\-E\-X}!Matlab M\-A\-T File I/\-O Library@{Matlab M\-A\-T File I/\-O Library}}\index{Matlab M\-A\-T File I/\-O Library@{Matlab M\-A\-T File I/\-O Library}!B\-Y\-\_\-\-I\-N\-D\-E\-X@{B\-Y\-\_\-\-I\-N\-D\-E\-X}}\item[{\em 
+\hypertarget{group__MAT_gga06fc87d81c62e9abb8790b6e5713c55ba5f4d5606de1ec27f80f4a50186909005}{B\-Y\-\_\-\-I\-N\-D\-E\-X}\label{group__MAT_gga06fc87d81c62e9abb8790b6e5713c55ba5f4d5606de1ec27f80f4a50186909005}
+}]Lookup by index \end{description}
+\end{Desc}
+\hypertarget{group__MAT_gaa9dcbc70f538af79bd557593ff6b5cdb}{\index{Matlab M\-A\-T File I/\-O Library@{Matlab M\-A\-T File I/\-O Library}!mat\-\_\-acc@{mat\-\_\-acc}}
+\index{mat\-\_\-acc@{mat\-\_\-acc}!Matlab MAT File I/O Library@{Matlab M\-A\-T File I/\-O Library}}
+\subsubsection[{mat\-\_\-acc}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf mat\-\_\-acc}}}\label{group__MAT_gaa9dcbc70f538af79bd557593ff6b5cdb}
+
+
+M\-A\-T file access types. 
+
+M\-A\-T file access types \begin{Desc}
+\item[Enumerator]\par
+\begin{description}
+\index{M\-A\-T\-\_\-\-A\-C\-C\-\_\-\-R\-D\-O\-N\-L\-Y@{M\-A\-T\-\_\-\-A\-C\-C\-\_\-\-R\-D\-O\-N\-L\-Y}!Matlab M\-A\-T File I/\-O Library@{Matlab M\-A\-T File I/\-O Library}}\index{Matlab M\-A\-T File I/\-O Library@{Matlab M\-A\-T File I/\-O Library}!M\-A\-T\-\_\-\-A\-C\-C\-\_\-\-R\-D\-O\-N\-L\-Y@{M\-A\-T\-\_\-\-A\-C\-C\-\_\-\-R\-D\-O\-N\-L\-Y}}\item[{\em 
+\hypertarget{group__MAT_ggaa9dcbc70f538af79bd557593ff6b5cdba8dd1457651b27ba9bea6cfba158c037c}{M\-A\-T\-\_\-\-A\-C\-C\-\_\-\-R\-D\-O\-N\-L\-Y}\label{group__MAT_ggaa9dcbc70f538af79bd557593ff6b5cdba8dd1457651b27ba9bea6cfba158c037c}
+}]Read only file access. \index{M\-A\-T\-\_\-\-A\-C\-C\-\_\-\-R\-D\-W\-R@{M\-A\-T\-\_\-\-A\-C\-C\-\_\-\-R\-D\-W\-R}!Matlab M\-A\-T File I/\-O Library@{Matlab M\-A\-T File I/\-O Library}}\index{Matlab M\-A\-T File I/\-O Library@{Matlab M\-A\-T File I/\-O Library}!M\-A\-T\-\_\-\-A\-C\-C\-\_\-\-R\-D\-W\-R@{M\-A\-T\-\_\-\-A\-C\-C\-\_\-\-R\-D\-W\-R}}\item[{\em 
+\hypertarget{group__MAT_ggaa9dcbc70f538af79bd557593ff6b5cdba0f65f27ea42fde32d62b702b82329c1f}{M\-A\-T\-\_\-\-A\-C\-C\-\_\-\-R\-D\-W\-R}\label{group__MAT_ggaa9dcbc70f538af79bd557593ff6b5cdba0f65f27ea42fde32d62b702b82329c1f}
+}]Read/\-Write file access. \end{description}
+\end{Desc}
+\hypertarget{group__MAT_gad03442b8378999189d510e3745c702b7}{\index{Matlab M\-A\-T File I/\-O Library@{Matlab M\-A\-T File I/\-O Library}!mat\-\_\-ft@{mat\-\_\-ft}}
+\index{mat\-\_\-ft@{mat\-\_\-ft}!Matlab MAT File I/O Library@{Matlab M\-A\-T File I/\-O Library}}
+\subsubsection[{mat\-\_\-ft}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf mat\-\_\-ft}}}\label{group__MAT_gad03442b8378999189d510e3745c702b7}
+
+
+M\-A\-T file versions. 
+
+M\-A\-T file versions \begin{Desc}
+\item[Enumerator]\par
+\begin{description}
+\index{M\-A\-T\-\_\-\-F\-T\-\_\-\-M\-A\-T73@{M\-A\-T\-\_\-\-F\-T\-\_\-\-M\-A\-T73}!Matlab M\-A\-T File I/\-O Library@{Matlab M\-A\-T File I/\-O Library}}\index{Matlab M\-A\-T File I/\-O Library@{Matlab M\-A\-T File I/\-O Library}!M\-A\-T\-\_\-\-F\-T\-\_\-\-M\-A\-T73@{M\-A\-T\-\_\-\-F\-T\-\_\-\-M\-A\-T73}}\item[{\em 
+\hypertarget{group__MAT_ggad03442b8378999189d510e3745c702b7a765c5d1d5038947646260dc82483517e}{M\-A\-T\-\_\-\-F\-T\-\_\-\-M\-A\-T73}\label{group__MAT_ggad03442b8378999189d510e3745c702b7a765c5d1d5038947646260dc82483517e}
+}]Matlab version 7.\-3 file. \index{M\-A\-T\-\_\-\-F\-T\-\_\-\-M\-A\-T5@{M\-A\-T\-\_\-\-F\-T\-\_\-\-M\-A\-T5}!Matlab M\-A\-T File I/\-O Library@{Matlab M\-A\-T File I/\-O Library}}\index{Matlab M\-A\-T File I/\-O Library@{Matlab M\-A\-T File I/\-O Library}!M\-A\-T\-\_\-\-F\-T\-\_\-\-M\-A\-T5@{M\-A\-T\-\_\-\-F\-T\-\_\-\-M\-A\-T5}}\item[{\em 
+\hypertarget{group__MAT_ggad03442b8378999189d510e3745c702b7a31ade1f6989411dc0299007e2c7d33b2}{M\-A\-T\-\_\-\-F\-T\-\_\-\-M\-A\-T5}\label{group__MAT_ggad03442b8378999189d510e3745c702b7a31ade1f6989411dc0299007e2c7d33b2}
+}]Matlab level-\/5 file. \index{M\-A\-T\-\_\-\-F\-T\-\_\-\-M\-A\-T4@{M\-A\-T\-\_\-\-F\-T\-\_\-\-M\-A\-T4}!Matlab M\-A\-T File I/\-O Library@{Matlab M\-A\-T File I/\-O Library}}\index{Matlab M\-A\-T File I/\-O Library@{Matlab M\-A\-T File I/\-O Library}!M\-A\-T\-\_\-\-F\-T\-\_\-\-M\-A\-T4@{M\-A\-T\-\_\-\-F\-T\-\_\-\-M\-A\-T4}}\item[{\em 
+\hypertarget{group__MAT_ggad03442b8378999189d510e3745c702b7a858b4f5da65548219b1c3ad47aa478d3}{M\-A\-T\-\_\-\-F\-T\-\_\-\-M\-A\-T4}\label{group__MAT_ggad03442b8378999189d510e3745c702b7a858b4f5da65548219b1c3ad47aa478d3}
+}]Version 4 file. \end{description}
+\end{Desc}
+\hypertarget{group__MAT_gad4d60ae7b709fc81bfd744fb4c857c40}{\index{Matlab M\-A\-T File I/\-O Library@{Matlab M\-A\-T File I/\-O Library}!matio\-\_\-classes@{matio\-\_\-classes}}
+\index{matio\-\_\-classes@{matio\-\_\-classes}!Matlab MAT File I/O Library@{Matlab M\-A\-T File I/\-O Library}}
+\subsubsection[{matio\-\_\-classes}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf matio\-\_\-classes}}}\label{group__MAT_gad4d60ae7b709fc81bfd744fb4c857c40}
+
+
+Matlab variable classes. 
+
+Matlab variable classes \begin{Desc}
+\item[Enumerator]\par
+\begin{description}
+\index{M\-A\-T\-\_\-\-C\-\_\-\-E\-M\-P\-T\-Y@{M\-A\-T\-\_\-\-C\-\_\-\-E\-M\-P\-T\-Y}!Matlab M\-A\-T File I/\-O Library@{Matlab M\-A\-T File I/\-O Library}}\index{Matlab M\-A\-T File I/\-O Library@{Matlab M\-A\-T File I/\-O Library}!M\-A\-T\-\_\-\-C\-\_\-\-E\-M\-P\-T\-Y@{M\-A\-T\-\_\-\-C\-\_\-\-E\-M\-P\-T\-Y}}\item[{\em 
+\hypertarget{group__MAT_ggad4d60ae7b709fc81bfd744fb4c857c40a5c76eef0ca0373d25abe49053be6fa9a}{M\-A\-T\-\_\-\-C\-\_\-\-E\-M\-P\-T\-Y}\label{group__MAT_ggad4d60ae7b709fc81bfd744fb4c857c40a5c76eef0ca0373d25abe49053be6fa9a}
+}]Empty array. \index{M\-A\-T\-\_\-\-C\-\_\-\-C\-E\-L\-L@{M\-A\-T\-\_\-\-C\-\_\-\-C\-E\-L\-L}!Matlab M\-A\-T File I/\-O Library@{Matlab M\-A\-T File I/\-O Library}}\index{Matlab M\-A\-T File I/\-O Library@{Matlab M\-A\-T File I/\-O Library}!M\-A\-T\-\_\-\-C\-\_\-\-C\-E\-L\-L@{M\-A\-T\-\_\-\-C\-\_\-\-C\-E\-L\-L}}\item[{\em 
+\hypertarget{group__MAT_ggad4d60ae7b709fc81bfd744fb4c857c40a2f7abb47a1c51e248bd4e5e03cc81b08}{M\-A\-T\-\_\-\-C\-\_\-\-C\-E\-L\-L}\label{group__MAT_ggad4d60ae7b709fc81bfd744fb4c857c40a2f7abb47a1c51e248bd4e5e03cc81b08}
+}]Matlab cell array class. \index{M\-A\-T\-\_\-\-C\-\_\-\-S\-T\-R\-U\-C\-T@{M\-A\-T\-\_\-\-C\-\_\-\-S\-T\-R\-U\-C\-T}!Matlab M\-A\-T File I/\-O Library@{Matlab M\-A\-T File I/\-O Library}}\index{Matlab M\-A\-T File I/\-O Library@{Matlab M\-A\-T File I/\-O Library}!M\-A\-T\-\_\-\-C\-\_\-\-S\-T\-R\-U\-C\-T@{M\-A\-T\-\_\-\-C\-\_\-\-S\-T\-R\-U\-C\-T}}\item[{\em 
+\hypertarget{group__MAT_ggad4d60ae7b709fc81bfd744fb4c857c40acb467c7749c80902b798134c729bb521}{M\-A\-T\-\_\-\-C\-\_\-\-S\-T\-R\-U\-C\-T}\label{group__MAT_ggad4d60ae7b709fc81bfd744fb4c857c40acb467c7749c80902b798134c729bb521}
+}]Matlab structure class. \index{M\-A\-T\-\_\-\-C\-\_\-\-O\-B\-J\-E\-C\-T@{M\-A\-T\-\_\-\-C\-\_\-\-O\-B\-J\-E\-C\-T}!Matlab M\-A\-T File I/\-O Library@{Matlab M\-A\-T File I/\-O Library}}\index{Matlab M\-A\-T File I/\-O Library@{Matlab M\-A\-T File I/\-O Library}!M\-A\-T\-\_\-\-C\-\_\-\-O\-B\-J\-E\-C\-T@{M\-A\-T\-\_\-\-C\-\_\-\-O\-B\-J\-E\-C\-T}}\item[{\em 
+\hypertarget{group__MAT_ggad4d60ae7b709fc81bfd744fb4c857c40afe45104b68b044c83a2f99e349fa1ea6}{M\-A\-T\-\_\-\-C\-\_\-\-O\-B\-J\-E\-C\-T}\label{group__MAT_ggad4d60ae7b709fc81bfd744fb4c857c40afe45104b68b044c83a2f99e349fa1ea6}
+}]Matlab object class. \index{M\-A\-T\-\_\-\-C\-\_\-\-C\-H\-A\-R@{M\-A\-T\-\_\-\-C\-\_\-\-C\-H\-A\-R}!Matlab M\-A\-T File I/\-O Library@{Matlab M\-A\-T File I/\-O Library}}\index{Matlab M\-A\-T File I/\-O Library@{Matlab M\-A\-T File I/\-O Library}!M\-A\-T\-\_\-\-C\-\_\-\-C\-H\-A\-R@{M\-A\-T\-\_\-\-C\-\_\-\-C\-H\-A\-R}}\item[{\em 
+\hypertarget{group__MAT_ggad4d60ae7b709fc81bfd744fb4c857c40aacdec5834df0861130b393697646119c}{M\-A\-T\-\_\-\-C\-\_\-\-C\-H\-A\-R}\label{group__MAT_ggad4d60ae7b709fc81bfd744fb4c857c40aacdec5834df0861130b393697646119c}
+}]Matlab character array class. \index{M\-A\-T\-\_\-\-C\-\_\-\-S\-P\-A\-R\-S\-E@{M\-A\-T\-\_\-\-C\-\_\-\-S\-P\-A\-R\-S\-E}!Matlab M\-A\-T File I/\-O Library@{Matlab M\-A\-T File I/\-O Library}}\index{Matlab M\-A\-T File I/\-O Library@{Matlab M\-A\-T File I/\-O Library}!M\-A\-T\-\_\-\-C\-\_\-\-S\-P\-A\-R\-S\-E@{M\-A\-T\-\_\-\-C\-\_\-\-S\-P\-A\-R\-S\-E}}\item[{\em 
+\hypertarget{group__MAT_ggad4d60ae7b709fc81bfd744fb4c857c40a0d5655b7e6178a2242cb3bb56ff4c8d2}{M\-A\-T\-\_\-\-C\-\_\-\-S\-P\-A\-R\-S\-E}\label{group__MAT_ggad4d60ae7b709fc81bfd744fb4c857c40a0d5655b7e6178a2242cb3bb56ff4c8d2}
+}]Matlab sparse array class. \index{M\-A\-T\-\_\-\-C\-\_\-\-D\-O\-U\-B\-L\-E@{M\-A\-T\-\_\-\-C\-\_\-\-D\-O\-U\-B\-L\-E}!Matlab M\-A\-T File I/\-O Library@{Matlab M\-A\-T File I/\-O Library}}\index{Matlab M\-A\-T File I/\-O Library@{Matlab M\-A\-T File I/\-O Library}!M\-A\-T\-\_\-\-C\-\_\-\-D\-O\-U\-B\-L\-E@{M\-A\-T\-\_\-\-C\-\_\-\-D\-O\-U\-B\-L\-E}}\item[{\em 
+\hypertarget{group__MAT_ggad4d60ae7b709fc81bfd744fb4c857c40a5d70e0862e5bdb7bd86bf7ba5948f307}{M\-A\-T\-\_\-\-C\-\_\-\-D\-O\-U\-B\-L\-E}\label{group__MAT_ggad4d60ae7b709fc81bfd744fb4c857c40a5d70e0862e5bdb7bd86bf7ba5948f307}
+}]Matlab double-\/precision class. \index{M\-A\-T\-\_\-\-C\-\_\-\-S\-I\-N\-G\-L\-E@{M\-A\-T\-\_\-\-C\-\_\-\-S\-I\-N\-G\-L\-E}!Matlab M\-A\-T File I/\-O Library@{Matlab M\-A\-T File I/\-O Library}}\index{Matlab M\-A\-T File I/\-O Library@{Matlab M\-A\-T File I/\-O Library}!M\-A\-T\-\_\-\-C\-\_\-\-S\-I\-N\-G\-L\-E@{M\-A\-T\-\_\-\-C\-\_\-\-S\-I\-N\-G\-L\-E}}\item[{\em 
+\hypertarget{group__MAT_ggad4d60ae7b709fc81bfd744fb4c857c40a2825631e26a961cbe0f79db50a39cea2}{M\-A\-T\-\_\-\-C\-\_\-\-S\-I\-N\-G\-L\-E}\label{group__MAT_ggad4d60ae7b709fc81bfd744fb4c857c40a2825631e26a961cbe0f79db50a39cea2}
+}]Matlab single-\/precision class. \index{M\-A\-T\-\_\-\-C\-\_\-\-I\-N\-T8@{M\-A\-T\-\_\-\-C\-\_\-\-I\-N\-T8}!Matlab M\-A\-T File I/\-O Library@{Matlab M\-A\-T File I/\-O Library}}\index{Matlab M\-A\-T File I/\-O Library@{Matlab M\-A\-T File I/\-O Library}!M\-A\-T\-\_\-\-C\-\_\-\-I\-N\-T8@{M\-A\-T\-\_\-\-C\-\_\-\-I\-N\-T8}}\item[{\em 
+\hypertarget{group__MAT_ggad4d60ae7b709fc81bfd744fb4c857c40a984ff310f9e906100fcff95f704f43c5}{M\-A\-T\-\_\-\-C\-\_\-\-I\-N\-T8}\label{group__MAT_ggad4d60ae7b709fc81bfd744fb4c857c40a984ff310f9e906100fcff95f704f43c5}
+}]Matlab signed 8-\/bit integer class. \index{M\-A\-T\-\_\-\-C\-\_\-\-U\-I\-N\-T8@{M\-A\-T\-\_\-\-C\-\_\-\-U\-I\-N\-T8}!Matlab M\-A\-T File I/\-O Library@{Matlab M\-A\-T File I/\-O Library}}\index{Matlab M\-A\-T File I/\-O Library@{Matlab M\-A\-T File I/\-O Library}!M\-A\-T\-\_\-\-C\-\_\-\-U\-I\-N\-T8@{M\-A\-T\-\_\-\-C\-\_\-\-U\-I\-N\-T8}}\item[{\em 
+\hypertarget{group__MAT_ggad4d60ae7b709fc81bfd744fb4c857c40a81270f8093cb4808e992c1d29d84d4e3}{M\-A\-T\-\_\-\-C\-\_\-\-U\-I\-N\-T8}\label{group__MAT_ggad4d60ae7b709fc81bfd744fb4c857c40a81270f8093cb4808e992c1d29d84d4e3}
+}]Matlab unsigned 8-\/bit integer class. \index{M\-A\-T\-\_\-\-C\-\_\-\-I\-N\-T16@{M\-A\-T\-\_\-\-C\-\_\-\-I\-N\-T16}!Matlab M\-A\-T File I/\-O Library@{Matlab M\-A\-T File I/\-O Library}}\index{Matlab M\-A\-T File I/\-O Library@{Matlab M\-A\-T File I/\-O Library}!M\-A\-T\-\_\-\-C\-\_\-\-I\-N\-T16@{M\-A\-T\-\_\-\-C\-\_\-\-I\-N\-T16}}\item[{\em 
+\hypertarget{group__MAT_ggad4d60ae7b709fc81bfd744fb4c857c40a40370e9de516c5036a67a5865c071006}{M\-A\-T\-\_\-\-C\-\_\-\-I\-N\-T16}\label{group__MAT_ggad4d60ae7b709fc81bfd744fb4c857c40a40370e9de516c5036a67a5865c071006}
+}]Matlab signed 16-\/bit integer class. \index{M\-A\-T\-\_\-\-C\-\_\-\-U\-I\-N\-T16@{M\-A\-T\-\_\-\-C\-\_\-\-U\-I\-N\-T16}!Matlab M\-A\-T File I/\-O Library@{Matlab M\-A\-T File I/\-O Library}}\index{Matlab M\-A\-T File I/\-O Library@{Matlab M\-A\-T File I/\-O Library}!M\-A\-T\-\_\-\-C\-\_\-\-U\-I\-N\-T16@{M\-A\-T\-\_\-\-C\-\_\-\-U\-I\-N\-T16}}\item[{\em 
+\hypertarget{group__MAT_ggad4d60ae7b709fc81bfd744fb4c857c40a8bede21dbf6c1edc0bbccc1481bccae7}{M\-A\-T\-\_\-\-C\-\_\-\-U\-I\-N\-T16}\label{group__MAT_ggad4d60ae7b709fc81bfd744fb4c857c40a8bede21dbf6c1edc0bbccc1481bccae7}
+}]Matlab unsigned 16-\/bit integer class. \index{M\-A\-T\-\_\-\-C\-\_\-\-I\-N\-T32@{M\-A\-T\-\_\-\-C\-\_\-\-I\-N\-T32}!Matlab M\-A\-T File I/\-O Library@{Matlab M\-A\-T File I/\-O Library}}\index{Matlab M\-A\-T File I/\-O Library@{Matlab M\-A\-T File I/\-O Library}!M\-A\-T\-\_\-\-C\-\_\-\-I\-N\-T32@{M\-A\-T\-\_\-\-C\-\_\-\-I\-N\-T32}}\item[{\em 
+\hypertarget{group__MAT_ggad4d60ae7b709fc81bfd744fb4c857c40adb44fc39694e3152ae5e69470a2fefe8}{M\-A\-T\-\_\-\-C\-\_\-\-I\-N\-T32}\label{group__MAT_ggad4d60ae7b709fc81bfd744fb4c857c40adb44fc39694e3152ae5e69470a2fefe8}
+}]Matlab signed 32-\/bit integer class. \index{M\-A\-T\-\_\-\-C\-\_\-\-U\-I\-N\-T32@{M\-A\-T\-\_\-\-C\-\_\-\-U\-I\-N\-T32}!Matlab M\-A\-T File I/\-O Library@{Matlab M\-A\-T File I/\-O Library}}\index{Matlab M\-A\-T File I/\-O Library@{Matlab M\-A\-T File I/\-O Library}!M\-A\-T\-\_\-\-C\-\_\-\-U\-I\-N\-T32@{M\-A\-T\-\_\-\-C\-\_\-\-U\-I\-N\-T32}}\item[{\em 
+\hypertarget{group__MAT_ggad4d60ae7b709fc81bfd744fb4c857c40a9a17a7edd45b19ef68197db81b27e816}{M\-A\-T\-\_\-\-C\-\_\-\-U\-I\-N\-T32}\label{group__MAT_ggad4d60ae7b709fc81bfd744fb4c857c40a9a17a7edd45b19ef68197db81b27e816}
+}]Matlab unsigned 32-\/bit integer class. \index{M\-A\-T\-\_\-\-C\-\_\-\-I\-N\-T64@{M\-A\-T\-\_\-\-C\-\_\-\-I\-N\-T64}!Matlab M\-A\-T File I/\-O Library@{Matlab M\-A\-T File I/\-O Library}}\index{Matlab M\-A\-T File I/\-O Library@{Matlab M\-A\-T File I/\-O Library}!M\-A\-T\-\_\-\-C\-\_\-\-I\-N\-T64@{M\-A\-T\-\_\-\-C\-\_\-\-I\-N\-T64}}\item[{\em 
+\hypertarget{group__MAT_ggad4d60ae7b709fc81bfd744fb4c857c40a1ea83bcde49b35477494412973f82409}{M\-A\-T\-\_\-\-C\-\_\-\-I\-N\-T64}\label{group__MAT_ggad4d60ae7b709fc81bfd744fb4c857c40a1ea83bcde49b35477494412973f82409}
+}]Matlab unsigned 32-\/bit integer class. \index{M\-A\-T\-\_\-\-C\-\_\-\-U\-I\-N\-T64@{M\-A\-T\-\_\-\-C\-\_\-\-U\-I\-N\-T64}!Matlab M\-A\-T File I/\-O Library@{Matlab M\-A\-T File I/\-O Library}}\index{Matlab M\-A\-T File I/\-O Library@{Matlab M\-A\-T File I/\-O Library}!M\-A\-T\-\_\-\-C\-\_\-\-U\-I\-N\-T64@{M\-A\-T\-\_\-\-C\-\_\-\-U\-I\-N\-T64}}\item[{\em 
+\hypertarget{group__MAT_ggad4d60ae7b709fc81bfd744fb4c857c40a86470e25c3763d9a24623f04326195dd}{M\-A\-T\-\_\-\-C\-\_\-\-U\-I\-N\-T64}\label{group__MAT_ggad4d60ae7b709fc81bfd744fb4c857c40a86470e25c3763d9a24623f04326195dd}
+}]Matlab unsigned 32-\/bit integer class. \index{M\-A\-T\-\_\-\-C\-\_\-\-F\-U\-N\-C\-T\-I\-O\-N@{M\-A\-T\-\_\-\-C\-\_\-\-F\-U\-N\-C\-T\-I\-O\-N}!Matlab M\-A\-T File I/\-O Library@{Matlab M\-A\-T File I/\-O Library}}\index{Matlab M\-A\-T File I/\-O Library@{Matlab M\-A\-T File I/\-O Library}!M\-A\-T\-\_\-\-C\-\_\-\-F\-U\-N\-C\-T\-I\-O\-N@{M\-A\-T\-\_\-\-C\-\_\-\-F\-U\-N\-C\-T\-I\-O\-N}}\item[{\em 
+\hypertarget{group__MAT_ggad4d60ae7b709fc81bfd744fb4c857c40aaa9bf08312779cd1ab8e504a162ddcea}{M\-A\-T\-\_\-\-C\-\_\-\-F\-U\-N\-C\-T\-I\-O\-N}\label{group__MAT_ggad4d60ae7b709fc81bfd744fb4c857c40aaa9bf08312779cd1ab8e504a162ddcea}
+}]Matlab unsigned 32-\/bit integer class. \end{description}
+\end{Desc}
+\hypertarget{group__MAT_ga768c318af97bd2567758ecb001ceb7f4}{\index{Matlab M\-A\-T File I/\-O Library@{Matlab M\-A\-T File I/\-O Library}!matio\-\_\-compression@{matio\-\_\-compression}}
+\index{matio\-\_\-compression@{matio\-\_\-compression}!Matlab MAT File I/O Library@{Matlab M\-A\-T File I/\-O Library}}
+\subsubsection[{matio\-\_\-compression}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf matio\-\_\-compression}}}\label{group__MAT_ga768c318af97bd2567758ecb001ceb7f4}
+
+
+Matlab compression options. 
+
+Matlab compression options \begin{Desc}
+\item[Enumerator]\par
+\begin{description}
+\index{C\-O\-M\-P\-R\-E\-S\-S\-I\-O\-N\-\_\-\-N\-O\-N\-E@{C\-O\-M\-P\-R\-E\-S\-S\-I\-O\-N\-\_\-\-N\-O\-N\-E}!Matlab M\-A\-T File I/\-O Library@{Matlab M\-A\-T File I/\-O Library}}\index{Matlab M\-A\-T File I/\-O Library@{Matlab M\-A\-T File I/\-O Library}!C\-O\-M\-P\-R\-E\-S\-S\-I\-O\-N\-\_\-\-N\-O\-N\-E@{C\-O\-M\-P\-R\-E\-S\-S\-I\-O\-N\-\_\-\-N\-O\-N\-E}}\item[{\em 
+\hypertarget{group__MAT_gga768c318af97bd2567758ecb001ceb7f4ac549b871996d1ef05d40056bf5bb52e5}{C\-O\-M\-P\-R\-E\-S\-S\-I\-O\-N\-\_\-\-N\-O\-N\-E}\label{group__MAT_gga768c318af97bd2567758ecb001ceb7f4ac549b871996d1ef05d40056bf5bb52e5}
+}]No compression. \index{C\-O\-M\-P\-R\-E\-S\-S\-I\-O\-N\-\_\-\-Z\-L\-I\-B@{C\-O\-M\-P\-R\-E\-S\-S\-I\-O\-N\-\_\-\-Z\-L\-I\-B}!Matlab M\-A\-T File I/\-O Library@{Matlab M\-A\-T File I/\-O Library}}\index{Matlab M\-A\-T File I/\-O Library@{Matlab M\-A\-T File I/\-O Library}!C\-O\-M\-P\-R\-E\-S\-S\-I\-O\-N\-\_\-\-Z\-L\-I\-B@{C\-O\-M\-P\-R\-E\-S\-S\-I\-O\-N\-\_\-\-Z\-L\-I\-B}}\item[{\em 
+\hypertarget{group__MAT_gga768c318af97bd2567758ecb001ceb7f4a1f453c9a2c01b52294b37a1226837f86}{C\-O\-M\-P\-R\-E\-S\-S\-I\-O\-N\-\_\-\-Z\-L\-I\-B}\label{group__MAT_gga768c318af97bd2567758ecb001ceb7f4a1f453c9a2c01b52294b37a1226837f86}
+}]zlib compression \end{description}
+\end{Desc}
+\hypertarget{group__MAT_gab9d6ef9e3ddca78a317b173f01d53fbb}{\index{Matlab M\-A\-T File I/\-O Library@{Matlab M\-A\-T File I/\-O Library}!matio\-\_\-flags@{matio\-\_\-flags}}
+\index{matio\-\_\-flags@{matio\-\_\-flags}!Matlab MAT File I/O Library@{Matlab M\-A\-T File I/\-O Library}}
+\subsubsection[{matio\-\_\-flags}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf matio\-\_\-flags}}}\label{group__MAT_gab9d6ef9e3ddca78a317b173f01d53fbb}
+
+
+Matlab array flags. 
+
+Matlab array flags \begin{Desc}
+\item[Enumerator]\par
+\begin{description}
+\index{M\-A\-T\-\_\-\-F\-\_\-\-C\-O\-M\-P\-L\-E\-X@{M\-A\-T\-\_\-\-F\-\_\-\-C\-O\-M\-P\-L\-E\-X}!Matlab M\-A\-T File I/\-O Library@{Matlab M\-A\-T File I/\-O Library}}\index{Matlab M\-A\-T File I/\-O Library@{Matlab M\-A\-T File I/\-O Library}!M\-A\-T\-\_\-\-F\-\_\-\-C\-O\-M\-P\-L\-E\-X@{M\-A\-T\-\_\-\-F\-\_\-\-C\-O\-M\-P\-L\-E\-X}}\item[{\em 
+\hypertarget{group__MAT_ggab9d6ef9e3ddca78a317b173f01d53fbbacd7b091a11184aad7fc6078c04470780}{M\-A\-T\-\_\-\-F\-\_\-\-C\-O\-M\-P\-L\-E\-X}\label{group__MAT_ggab9d6ef9e3ddca78a317b173f01d53fbbacd7b091a11184aad7fc6078c04470780}
+}]Complex bit flag. \index{M\-A\-T\-\_\-\-F\-\_\-\-G\-L\-O\-B\-A\-L@{M\-A\-T\-\_\-\-F\-\_\-\-G\-L\-O\-B\-A\-L}!Matlab M\-A\-T File I/\-O Library@{Matlab M\-A\-T File I/\-O Library}}\index{Matlab M\-A\-T File I/\-O Library@{Matlab M\-A\-T File I/\-O Library}!M\-A\-T\-\_\-\-F\-\_\-\-G\-L\-O\-B\-A\-L@{M\-A\-T\-\_\-\-F\-\_\-\-G\-L\-O\-B\-A\-L}}\item[{\em 
+\hypertarget{group__MAT_ggab9d6ef9e3ddca78a317b173f01d53fbba49084e0c796aa7963e53f7539525d40d}{M\-A\-T\-\_\-\-F\-\_\-\-G\-L\-O\-B\-A\-L}\label{group__MAT_ggab9d6ef9e3ddca78a317b173f01d53fbba49084e0c796aa7963e53f7539525d40d}
+}]Global bit flag. \index{M\-A\-T\-\_\-\-F\-\_\-\-L\-O\-G\-I\-C\-A\-L@{M\-A\-T\-\_\-\-F\-\_\-\-L\-O\-G\-I\-C\-A\-L}!Matlab M\-A\-T File I/\-O Library@{Matlab M\-A\-T File I/\-O Library}}\index{Matlab M\-A\-T File I/\-O Library@{Matlab M\-A\-T File I/\-O Library}!M\-A\-T\-\_\-\-F\-\_\-\-L\-O\-G\-I\-C\-A\-L@{M\-A\-T\-\_\-\-F\-\_\-\-L\-O\-G\-I\-C\-A\-L}}\item[{\em 
+\hypertarget{group__MAT_ggab9d6ef9e3ddca78a317b173f01d53fbba57eb5c6e200bcbc0f1b7982f29a169c2}{M\-A\-T\-\_\-\-F\-\_\-\-L\-O\-G\-I\-C\-A\-L}\label{group__MAT_ggab9d6ef9e3ddca78a317b173f01d53fbba57eb5c6e200bcbc0f1b7982f29a169c2}
+}]Logical bit flag. \index{M\-A\-T\-\_\-\-F\-\_\-\-C\-L\-A\-S\-S\-\_\-\-T@{M\-A\-T\-\_\-\-F\-\_\-\-C\-L\-A\-S\-S\-\_\-\-T}!Matlab M\-A\-T File I/\-O Library@{Matlab M\-A\-T File I/\-O Library}}\index{Matlab M\-A\-T File I/\-O Library@{Matlab M\-A\-T File I/\-O Library}!M\-A\-T\-\_\-\-F\-\_\-\-C\-L\-A\-S\-S\-\_\-\-T@{M\-A\-T\-\_\-\-F\-\_\-\-C\-L\-A\-S\-S\-\_\-\-T}}\item[{\em 
+\hypertarget{group__MAT_ggab9d6ef9e3ddca78a317b173f01d53fbba3a88beaec448e0485ffe21b18a540c1d}{M\-A\-T\-\_\-\-F\-\_\-\-C\-L\-A\-S\-S\-\_\-\-T}\label{group__MAT_ggab9d6ef9e3ddca78a317b173f01d53fbba3a88beaec448e0485ffe21b18a540c1d}
+}]Class-\/\-Type bits flag. \end{description}
+\end{Desc}
+\hypertarget{group__MAT_gacf7b3b879282b7ab3a51190e49bf3453}{\index{Matlab M\-A\-T File I/\-O Library@{Matlab M\-A\-T File I/\-O Library}!matio\-\_\-types@{matio\-\_\-types}}
+\index{matio\-\_\-types@{matio\-\_\-types}!Matlab MAT File I/O Library@{Matlab M\-A\-T File I/\-O Library}}
+\subsubsection[{matio\-\_\-types}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf matio\-\_\-types}}}\label{group__MAT_gacf7b3b879282b7ab3a51190e49bf3453}
+
+
+Matlab data types. 
+
+Matlab data types \begin{Desc}
+\item[Enumerator]\par
+\begin{description}
+\index{M\-A\-T\-\_\-\-T\-\_\-\-U\-N\-K\-N\-O\-W\-N@{M\-A\-T\-\_\-\-T\-\_\-\-U\-N\-K\-N\-O\-W\-N}!Matlab M\-A\-T File I/\-O Library@{Matlab M\-A\-T File I/\-O Library}}\index{Matlab M\-A\-T File I/\-O Library@{Matlab M\-A\-T File I/\-O Library}!M\-A\-T\-\_\-\-T\-\_\-\-U\-N\-K\-N\-O\-W\-N@{M\-A\-T\-\_\-\-T\-\_\-\-U\-N\-K\-N\-O\-W\-N}}\item[{\em 
+\hypertarget{group__MAT_ggacf7b3b879282b7ab3a51190e49bf3453a2a7318fe8bf9464935e7ed8902618293}{M\-A\-T\-\_\-\-T\-\_\-\-U\-N\-K\-N\-O\-W\-N}\label{group__MAT_ggacf7b3b879282b7ab3a51190e49bf3453a2a7318fe8bf9464935e7ed8902618293}
+}]U\-N\-K\-O\-W\-N data type. \index{M\-A\-T\-\_\-\-T\-\_\-\-I\-N\-T8@{M\-A\-T\-\_\-\-T\-\_\-\-I\-N\-T8}!Matlab M\-A\-T File I/\-O Library@{Matlab M\-A\-T File I/\-O Library}}\index{Matlab M\-A\-T File I/\-O Library@{Matlab M\-A\-T File I/\-O Library}!M\-A\-T\-\_\-\-T\-\_\-\-I\-N\-T8@{M\-A\-T\-\_\-\-T\-\_\-\-I\-N\-T8}}\item[{\em 
+\hypertarget{group__MAT_ggacf7b3b879282b7ab3a51190e49bf3453a9807f5033ed4f9b548953742d9fd1658}{M\-A\-T\-\_\-\-T\-\_\-\-I\-N\-T8}\label{group__MAT_ggacf7b3b879282b7ab3a51190e49bf3453a9807f5033ed4f9b548953742d9fd1658}
+}]8-\/bit signed integer data type \index{M\-A\-T\-\_\-\-T\-\_\-\-U\-I\-N\-T8@{M\-A\-T\-\_\-\-T\-\_\-\-U\-I\-N\-T8}!Matlab M\-A\-T File I/\-O Library@{Matlab M\-A\-T File I/\-O Library}}\index{Matlab M\-A\-T File I/\-O Library@{Matlab M\-A\-T File I/\-O Library}!M\-A\-T\-\_\-\-T\-\_\-\-U\-I\-N\-T8@{M\-A\-T\-\_\-\-T\-\_\-\-U\-I\-N\-T8}}\item[{\em 
+\hypertarget{group__MAT_ggacf7b3b879282b7ab3a51190e49bf3453a01c1bd7db68f90552862eb5d311be408}{M\-A\-T\-\_\-\-T\-\_\-\-U\-I\-N\-T8}\label{group__MAT_ggacf7b3b879282b7ab3a51190e49bf3453a01c1bd7db68f90552862eb5d311be408}
+}]8-\/bit unsigned integer data type \index{M\-A\-T\-\_\-\-T\-\_\-\-I\-N\-T16@{M\-A\-T\-\_\-\-T\-\_\-\-I\-N\-T16}!Matlab M\-A\-T File I/\-O Library@{Matlab M\-A\-T File I/\-O Library}}\index{Matlab M\-A\-T File I/\-O Library@{Matlab M\-A\-T File I/\-O Library}!M\-A\-T\-\_\-\-T\-\_\-\-I\-N\-T16@{M\-A\-T\-\_\-\-T\-\_\-\-I\-N\-T16}}\item[{\em 
+\hypertarget{group__MAT_ggacf7b3b879282b7ab3a51190e49bf3453a8c5b2e381946e95ea8d81ac216743302}{M\-A\-T\-\_\-\-T\-\_\-\-I\-N\-T16}\label{group__MAT_ggacf7b3b879282b7ab3a51190e49bf3453a8c5b2e381946e95ea8d81ac216743302}
+}]16-\/bit signed integer data type \index{M\-A\-T\-\_\-\-T\-\_\-\-U\-I\-N\-T16@{M\-A\-T\-\_\-\-T\-\_\-\-U\-I\-N\-T16}!Matlab M\-A\-T File I/\-O Library@{Matlab M\-A\-T File I/\-O Library}}\index{Matlab M\-A\-T File I/\-O Library@{Matlab M\-A\-T File I/\-O Library}!M\-A\-T\-\_\-\-T\-\_\-\-U\-I\-N\-T16@{M\-A\-T\-\_\-\-T\-\_\-\-U\-I\-N\-T16}}\item[{\em 
+\hypertarget{group__MAT_ggacf7b3b879282b7ab3a51190e49bf3453a05bc7af7680aa68be95126ae0a4c2e31}{M\-A\-T\-\_\-\-T\-\_\-\-U\-I\-N\-T16}\label{group__MAT_ggacf7b3b879282b7ab3a51190e49bf3453a05bc7af7680aa68be95126ae0a4c2e31}
+}]16-\/bit unsigned integer data type \index{M\-A\-T\-\_\-\-T\-\_\-\-I\-N\-T32@{M\-A\-T\-\_\-\-T\-\_\-\-I\-N\-T32}!Matlab M\-A\-T File I/\-O Library@{Matlab M\-A\-T File I/\-O Library}}\index{Matlab M\-A\-T File I/\-O Library@{Matlab M\-A\-T File I/\-O Library}!M\-A\-T\-\_\-\-T\-\_\-\-I\-N\-T32@{M\-A\-T\-\_\-\-T\-\_\-\-I\-N\-T32}}\item[{\em 
+\hypertarget{group__MAT_ggacf7b3b879282b7ab3a51190e49bf3453a83e06a68320726c6572bfbb9f3addb1d}{M\-A\-T\-\_\-\-T\-\_\-\-I\-N\-T32}\label{group__MAT_ggacf7b3b879282b7ab3a51190e49bf3453a83e06a68320726c6572bfbb9f3addb1d}
+}]32-\/bit signed integer data type \index{M\-A\-T\-\_\-\-T\-\_\-\-U\-I\-N\-T32@{M\-A\-T\-\_\-\-T\-\_\-\-U\-I\-N\-T32}!Matlab M\-A\-T File I/\-O Library@{Matlab M\-A\-T File I/\-O Library}}\index{Matlab M\-A\-T File I/\-O Library@{Matlab M\-A\-T File I/\-O Library}!M\-A\-T\-\_\-\-T\-\_\-\-U\-I\-N\-T32@{M\-A\-T\-\_\-\-T\-\_\-\-U\-I\-N\-T32}}\item[{\em 
+\hypertarget{group__MAT_ggacf7b3b879282b7ab3a51190e49bf3453aa397e285a23fe240368b752897652c6a}{M\-A\-T\-\_\-\-T\-\_\-\-U\-I\-N\-T32}\label{group__MAT_ggacf7b3b879282b7ab3a51190e49bf3453aa397e285a23fe240368b752897652c6a}
+}]32-\/bit unsigned integer data type \index{M\-A\-T\-\_\-\-T\-\_\-\-S\-I\-N\-G\-L\-E@{M\-A\-T\-\_\-\-T\-\_\-\-S\-I\-N\-G\-L\-E}!Matlab M\-A\-T File I/\-O Library@{Matlab M\-A\-T File I/\-O Library}}\index{Matlab M\-A\-T File I/\-O Library@{Matlab M\-A\-T File I/\-O Library}!M\-A\-T\-\_\-\-T\-\_\-\-S\-I\-N\-G\-L\-E@{M\-A\-T\-\_\-\-T\-\_\-\-S\-I\-N\-G\-L\-E}}\item[{\em 
+\hypertarget{group__MAT_ggacf7b3b879282b7ab3a51190e49bf3453a3a3657d40e9212c923d9b9d03531b64c}{M\-A\-T\-\_\-\-T\-\_\-\-S\-I\-N\-G\-L\-E}\label{group__MAT_ggacf7b3b879282b7ab3a51190e49bf3453a3a3657d40e9212c923d9b9d03531b64c}
+}]I\-E\-E\-E 754 single precision data type. \index{M\-A\-T\-\_\-\-T\-\_\-\-D\-O\-U\-B\-L\-E@{M\-A\-T\-\_\-\-T\-\_\-\-D\-O\-U\-B\-L\-E}!Matlab M\-A\-T File I/\-O Library@{Matlab M\-A\-T File I/\-O Library}}\index{Matlab M\-A\-T File I/\-O Library@{Matlab M\-A\-T File I/\-O Library}!M\-A\-T\-\_\-\-T\-\_\-\-D\-O\-U\-B\-L\-E@{M\-A\-T\-\_\-\-T\-\_\-\-D\-O\-U\-B\-L\-E}}\item[{\em 
+\hypertarget{group__MAT_ggacf7b3b879282b7ab3a51190e49bf3453a31e721ecf7e188196f83c32838288797}{M\-A\-T\-\_\-\-T\-\_\-\-D\-O\-U\-B\-L\-E}\label{group__MAT_ggacf7b3b879282b7ab3a51190e49bf3453a31e721ecf7e188196f83c32838288797}
+}]I\-E\-E\-E 754 double precision data type. \index{M\-A\-T\-\_\-\-T\-\_\-\-I\-N\-T64@{M\-A\-T\-\_\-\-T\-\_\-\-I\-N\-T64}!Matlab M\-A\-T File I/\-O Library@{Matlab M\-A\-T File I/\-O Library}}\index{Matlab M\-A\-T File I/\-O Library@{Matlab M\-A\-T File I/\-O Library}!M\-A\-T\-\_\-\-T\-\_\-\-I\-N\-T64@{M\-A\-T\-\_\-\-T\-\_\-\-I\-N\-T64}}\item[{\em 
+\hypertarget{group__MAT_ggacf7b3b879282b7ab3a51190e49bf3453a9e825b5d18b8f946eaf2b4b57e51c145}{M\-A\-T\-\_\-\-T\-\_\-\-I\-N\-T64}\label{group__MAT_ggacf7b3b879282b7ab3a51190e49bf3453a9e825b5d18b8f946eaf2b4b57e51c145}
+}]64-\/bit signed integer data type \index{M\-A\-T\-\_\-\-T\-\_\-\-U\-I\-N\-T64@{M\-A\-T\-\_\-\-T\-\_\-\-U\-I\-N\-T64}!Matlab M\-A\-T File I/\-O Library@{Matlab M\-A\-T File I/\-O Library}}\index{Matlab M\-A\-T File I/\-O Library@{Matlab M\-A\-T File I/\-O Library}!M\-A\-T\-\_\-\-T\-\_\-\-U\-I\-N\-T64@{M\-A\-T\-\_\-\-T\-\_\-\-U\-I\-N\-T64}}\item[{\em 
+\hypertarget{group__MAT_ggacf7b3b879282b7ab3a51190e49bf3453a45547932c46be27118abe08302d7e29f}{M\-A\-T\-\_\-\-T\-\_\-\-U\-I\-N\-T64}\label{group__MAT_ggacf7b3b879282b7ab3a51190e49bf3453a45547932c46be27118abe08302d7e29f}
+}]64-\/bit unsigned integer data type \index{M\-A\-T\-\_\-\-T\-\_\-\-M\-A\-T\-R\-I\-X@{M\-A\-T\-\_\-\-T\-\_\-\-M\-A\-T\-R\-I\-X}!Matlab M\-A\-T File I/\-O Library@{Matlab M\-A\-T File I/\-O Library}}\index{Matlab M\-A\-T File I/\-O Library@{Matlab M\-A\-T File I/\-O Library}!M\-A\-T\-\_\-\-T\-\_\-\-M\-A\-T\-R\-I\-X@{M\-A\-T\-\_\-\-T\-\_\-\-M\-A\-T\-R\-I\-X}}\item[{\em 
+\hypertarget{group__MAT_ggacf7b3b879282b7ab3a51190e49bf3453a32985fee89a4df8db4b3f5d3a48823d3}{M\-A\-T\-\_\-\-T\-\_\-\-M\-A\-T\-R\-I\-X}\label{group__MAT_ggacf7b3b879282b7ab3a51190e49bf3453a32985fee89a4df8db4b3f5d3a48823d3}
+}]matrix data type \index{M\-A\-T\-\_\-\-T\-\_\-\-C\-O\-M\-P\-R\-E\-S\-S\-E\-D@{M\-A\-T\-\_\-\-T\-\_\-\-C\-O\-M\-P\-R\-E\-S\-S\-E\-D}!Matlab M\-A\-T File I/\-O Library@{Matlab M\-A\-T File I/\-O Library}}\index{Matlab M\-A\-T File I/\-O Library@{Matlab M\-A\-T File I/\-O Library}!M\-A\-T\-\_\-\-T\-\_\-\-C\-O\-M\-P\-R\-E\-S\-S\-E\-D@{M\-A\-T\-\_\-\-T\-\_\-\-C\-O\-M\-P\-R\-E\-S\-S\-E\-D}}\item[{\em 
+\hypertarget{group__MAT_ggacf7b3b879282b7ab3a51190e49bf3453a30437f2eb3becc2fa6e5d96599d7f724}{M\-A\-T\-\_\-\-T\-\_\-\-C\-O\-M\-P\-R\-E\-S\-S\-E\-D}\label{group__MAT_ggacf7b3b879282b7ab3a51190e49bf3453a30437f2eb3becc2fa6e5d96599d7f724}
+}]compressed data type \index{M\-A\-T\-\_\-\-T\-\_\-\-U\-T\-F8@{M\-A\-T\-\_\-\-T\-\_\-\-U\-T\-F8}!Matlab M\-A\-T File I/\-O Library@{Matlab M\-A\-T File I/\-O Library}}\index{Matlab M\-A\-T File I/\-O Library@{Matlab M\-A\-T File I/\-O Library}!M\-A\-T\-\_\-\-T\-\_\-\-U\-T\-F8@{M\-A\-T\-\_\-\-T\-\_\-\-U\-T\-F8}}\item[{\em 
+\hypertarget{group__MAT_ggacf7b3b879282b7ab3a51190e49bf3453ac34ad81f5cbd3b7d0d95e57e5be0149b}{M\-A\-T\-\_\-\-T\-\_\-\-U\-T\-F8}\label{group__MAT_ggacf7b3b879282b7ab3a51190e49bf3453ac34ad81f5cbd3b7d0d95e57e5be0149b}
+}]8-\/bit unicode text data type \index{M\-A\-T\-\_\-\-T\-\_\-\-U\-T\-F16@{M\-A\-T\-\_\-\-T\-\_\-\-U\-T\-F16}!Matlab M\-A\-T File I/\-O Library@{Matlab M\-A\-T File I/\-O Library}}\index{Matlab M\-A\-T File I/\-O Library@{Matlab M\-A\-T File I/\-O Library}!M\-A\-T\-\_\-\-T\-\_\-\-U\-T\-F16@{M\-A\-T\-\_\-\-T\-\_\-\-U\-T\-F16}}\item[{\em 
+\hypertarget{group__MAT_ggacf7b3b879282b7ab3a51190e49bf3453a87ffc0412143c326a1fcc759d5d81bdc}{M\-A\-T\-\_\-\-T\-\_\-\-U\-T\-F16}\label{group__MAT_ggacf7b3b879282b7ab3a51190e49bf3453a87ffc0412143c326a1fcc759d5d81bdc}
+}]16-\/bit unicode text data type \index{M\-A\-T\-\_\-\-T\-\_\-\-U\-T\-F32@{M\-A\-T\-\_\-\-T\-\_\-\-U\-T\-F32}!Matlab M\-A\-T File I/\-O Library@{Matlab M\-A\-T File I/\-O Library}}\index{Matlab M\-A\-T File I/\-O Library@{Matlab M\-A\-T File I/\-O Library}!M\-A\-T\-\_\-\-T\-\_\-\-U\-T\-F32@{M\-A\-T\-\_\-\-T\-\_\-\-U\-T\-F32}}\item[{\em 
+\hypertarget{group__MAT_ggacf7b3b879282b7ab3a51190e49bf3453a11e43c0e0be79b1983090e02ae583109}{M\-A\-T\-\_\-\-T\-\_\-\-U\-T\-F32}\label{group__MAT_ggacf7b3b879282b7ab3a51190e49bf3453a11e43c0e0be79b1983090e02ae583109}
+}]32-\/bit unicode text data type \index{M\-A\-T\-\_\-\-T\-\_\-\-S\-T\-R\-I\-N\-G@{M\-A\-T\-\_\-\-T\-\_\-\-S\-T\-R\-I\-N\-G}!Matlab M\-A\-T File I/\-O Library@{Matlab M\-A\-T File I/\-O Library}}\index{Matlab M\-A\-T File I/\-O Library@{Matlab M\-A\-T File I/\-O Library}!M\-A\-T\-\_\-\-T\-\_\-\-S\-T\-R\-I\-N\-G@{M\-A\-T\-\_\-\-T\-\_\-\-S\-T\-R\-I\-N\-G}}\item[{\em 
+\hypertarget{group__MAT_ggacf7b3b879282b7ab3a51190e49bf3453a9456a83c0b22022af42461a09d63cdb2}{M\-A\-T\-\_\-\-T\-\_\-\-S\-T\-R\-I\-N\-G}\label{group__MAT_ggacf7b3b879282b7ab3a51190e49bf3453a9456a83c0b22022af42461a09d63cdb2}
+}]String data type. \index{M\-A\-T\-\_\-\-T\-\_\-\-C\-E\-L\-L@{M\-A\-T\-\_\-\-T\-\_\-\-C\-E\-L\-L}!Matlab M\-A\-T File I/\-O Library@{Matlab M\-A\-T File I/\-O Library}}\index{Matlab M\-A\-T File I/\-O Library@{Matlab M\-A\-T File I/\-O Library}!M\-A\-T\-\_\-\-T\-\_\-\-C\-E\-L\-L@{M\-A\-T\-\_\-\-T\-\_\-\-C\-E\-L\-L}}\item[{\em 
+\hypertarget{group__MAT_ggacf7b3b879282b7ab3a51190e49bf3453a07599cf2cca6d2b2d059378563318ba5}{M\-A\-T\-\_\-\-T\-\_\-\-C\-E\-L\-L}\label{group__MAT_ggacf7b3b879282b7ab3a51190e49bf3453a07599cf2cca6d2b2d059378563318ba5}
+}]Cell array data type. \index{M\-A\-T\-\_\-\-T\-\_\-\-S\-T\-R\-U\-C\-T@{M\-A\-T\-\_\-\-T\-\_\-\-S\-T\-R\-U\-C\-T}!Matlab M\-A\-T File I/\-O Library@{Matlab M\-A\-T File I/\-O Library}}\index{Matlab M\-A\-T File I/\-O Library@{Matlab M\-A\-T File I/\-O Library}!M\-A\-T\-\_\-\-T\-\_\-\-S\-T\-R\-U\-C\-T@{M\-A\-T\-\_\-\-T\-\_\-\-S\-T\-R\-U\-C\-T}}\item[{\em 
+\hypertarget{group__MAT_ggacf7b3b879282b7ab3a51190e49bf3453a4f4d5a6e1d42c6aa81ffb810e5da5c85}{M\-A\-T\-\_\-\-T\-\_\-\-S\-T\-R\-U\-C\-T}\label{group__MAT_ggacf7b3b879282b7ab3a51190e49bf3453a4f4d5a6e1d42c6aa81ffb810e5da5c85}
+}]Structure data type. \index{M\-A\-T\-\_\-\-T\-\_\-\-A\-R\-R\-A\-Y@{M\-A\-T\-\_\-\-T\-\_\-\-A\-R\-R\-A\-Y}!Matlab M\-A\-T File I/\-O Library@{Matlab M\-A\-T File I/\-O Library}}\index{Matlab M\-A\-T File I/\-O Library@{Matlab M\-A\-T File I/\-O Library}!M\-A\-T\-\_\-\-T\-\_\-\-A\-R\-R\-A\-Y@{M\-A\-T\-\_\-\-T\-\_\-\-A\-R\-R\-A\-Y}}\item[{\em 
+\hypertarget{group__MAT_ggacf7b3b879282b7ab3a51190e49bf3453acf106b0c23021582375f59bc9fce89b1}{M\-A\-T\-\_\-\-T\-\_\-\-A\-R\-R\-A\-Y}\label{group__MAT_ggacf7b3b879282b7ab3a51190e49bf3453acf106b0c23021582375f59bc9fce89b1}
+}]Array data type. \index{M\-A\-T\-\_\-\-T\-\_\-\-F\-U\-N\-C\-T\-I\-O\-N@{M\-A\-T\-\_\-\-T\-\_\-\-F\-U\-N\-C\-T\-I\-O\-N}!Matlab M\-A\-T File I/\-O Library@{Matlab M\-A\-T File I/\-O Library}}\index{Matlab M\-A\-T File I/\-O Library@{Matlab M\-A\-T File I/\-O Library}!M\-A\-T\-\_\-\-T\-\_\-\-F\-U\-N\-C\-T\-I\-O\-N@{M\-A\-T\-\_\-\-T\-\_\-\-F\-U\-N\-C\-T\-I\-O\-N}}\item[{\em 
+\hypertarget{group__MAT_ggacf7b3b879282b7ab3a51190e49bf3453ae76686f267dd1641cd55dce306af6d10}{M\-A\-T\-\_\-\-T\-\_\-\-F\-U\-N\-C\-T\-I\-O\-N}\label{group__MAT_ggacf7b3b879282b7ab3a51190e49bf3453ae76686f267dd1641cd55dce306af6d10}
+}]Function data type. \end{description}
+\end{Desc}
+
+
+\subsection{Function Documentation}
+\hypertarget{group__MAT_ga9b8d09f631538b14ca29792e0334e349}{\index{Matlab M\-A\-T File I/\-O Library@{Matlab M\-A\-T File I/\-O Library}!Mat\-\_\-\-Calc\-Single\-Subscript@{Mat\-\_\-\-Calc\-Single\-Subscript}}
+\index{Mat\-\_\-\-Calc\-Single\-Subscript@{Mat\-\_\-\-Calc\-Single\-Subscript}!Matlab MAT File I/O Library@{Matlab M\-A\-T File I/\-O Library}}
+\subsubsection[{Mat\-\_\-\-Calc\-Single\-Subscript}]{\setlength{\rightskip}{0pt plus 5cm}int Mat\-\_\-\-Calc\-Single\-Subscript (
+\begin{DoxyParamCaption}
+\item[{int}]{rank, }
+\item[{int $\ast$}]{dims, }
+\item[{int $\ast$}]{subs}
+\end{DoxyParamCaption}
+)}}\label{group__MAT_ga9b8d09f631538b14ca29792e0334e349}
+
+
+Calculate a single subscript from a set of subscript values. 
+
+Calculates a single linear subscript (0-\/relative) given a 1-\/relative subscript for each dimension. The calculation uses the formula below where index is the linear index, s is an array of length R\-A\-N\-K where each element is the subscript for the correspondind dimension, D is an array whose elements are the dimensions of the variable. \[ index = \sum\limits_{k=0}^{RANK-1} [(s_k - 1) \prod\limits_{l=0}^{k} D_l ] \]
+
+
+\begin{DoxyParams}{Parameters}
+{\em rank} & Rank of the variable \\
+\hline
+{\em dims} & dimensions of the variable \\
+\hline
+{\em subs} & Dimension subscripts \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Single (linear) subscript 
+\end{DoxyReturn}
+\hypertarget{group__MAT_gabe2571a4b9b6cff3b31aa6f152deba61}{\index{Matlab M\-A\-T File I/\-O Library@{Matlab M\-A\-T File I/\-O Library}!Mat\-\_\-\-Calc\-Subscripts@{Mat\-\_\-\-Calc\-Subscripts}}
+\index{Mat\-\_\-\-Calc\-Subscripts@{Mat\-\_\-\-Calc\-Subscripts}!Matlab MAT File I/O Library@{Matlab M\-A\-T File I/\-O Library}}
+\subsubsection[{Mat\-\_\-\-Calc\-Subscripts}]{\setlength{\rightskip}{0pt plus 5cm}int$\ast$ Mat\-\_\-\-Calc\-Subscripts (
+\begin{DoxyParamCaption}
+\item[{int}]{rank, }
+\item[{int $\ast$}]{dims, }
+\item[{int}]{index}
+\end{DoxyParamCaption}
+)}}\label{group__MAT_gabe2571a4b9b6cff3b31aa6f152deba61}
+
+
+Calculate a set of subscript values from a single(linear) subscript. 
+
+Calculates 1-\/relative subscripts for each dimension given a 0-\/relative linear index. Subscripts are calculated as follows where s is the array of dimension subscripts, D is the array of dimensions, and index is the linear index. \[ s_k = \lfloor\frac{1}{L} \prod\limits_{l = 0}^{k} D_l\rfloor + 1 \] \[ L = index - \sum\limits_{l = k}^{RANK - 1} s_k \prod\limits_{m = 0}^{k} D_m \]
+
+
+\begin{DoxyParams}{Parameters}
+{\em rank} & Rank of the variable \\
+\hline
+{\em dims} & dimensions of the variable \\
+\hline
+{\em index} & linear index \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Array of dimension subscripts 
+\end{DoxyReturn}
+\hypertarget{group__MAT_ga101c92ff7bde4a2d4615661beba09262}{\index{Matlab M\-A\-T File I/\-O Library@{Matlab M\-A\-T File I/\-O Library}!Mat\-\_\-\-Close@{Mat\-\_\-\-Close}}
+\index{Mat\-\_\-\-Close@{Mat\-\_\-\-Close}!Matlab MAT File I/O Library@{Matlab M\-A\-T File I/\-O Library}}
+\subsubsection[{Mat\-\_\-\-Close}]{\setlength{\rightskip}{0pt plus 5cm}int Mat\-\_\-\-Close (
+\begin{DoxyParamCaption}
+\item[{{\bf mat\-\_\-t} $\ast$}]{mat}
+\end{DoxyParamCaption}
+)}}\label{group__MAT_ga101c92ff7bde4a2d4615661beba09262}
+
+
+Closes an open Matlab M\-A\-T file. 
+
+Closes the given Matlab M\-A\-T file and frees any memory with it.
+
+
+\begin{DoxyParams}{Parameters}
+{\em mat} & Pointer to the M\-A\-T file \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em 0} & \\
+\hline
+\end{DoxyRetVals}
+\hypertarget{group__MAT_ga22d404f203af7869c841400e7ad247cf}{\index{Matlab M\-A\-T File I/\-O Library@{Matlab M\-A\-T File I/\-O Library}!Mat\-\_\-\-Create\-Ver@{Mat\-\_\-\-Create\-Ver}}
+\index{Mat\-\_\-\-Create\-Ver@{Mat\-\_\-\-Create\-Ver}!Matlab MAT File I/O Library@{Matlab M\-A\-T File I/\-O Library}}
+\subsubsection[{Mat\-\_\-\-Create\-Ver}]{\setlength{\rightskip}{0pt plus 5cm}{\bf mat\-\_\-t}$\ast$ Mat\-\_\-\-Create\-Ver (
+\begin{DoxyParamCaption}
+\item[{const char $\ast$}]{matname, }
+\item[{const char $\ast$}]{hdr\-\_\-str, }
+\item[{enum {\bf mat\-\_\-ft}}]{mat\-\_\-file\-\_\-ver}
+\end{DoxyParamCaption}
+)}}\label{group__MAT_ga22d404f203af7869c841400e7ad247cf}
+
+
+Creates a new Matlab M\-A\-T file. 
+
+Tries to create a new Matlab M\-A\-T file with the given name and optional header string. If no header string is given, the default string is used containing the software, version, and date in it. If a header string is given, at most the first 116 characters is written to the file. The given header string need not be the full 116 characters, but M\-U\-S\-T be N\-U\-L\-L terminated.
+
+
+\begin{DoxyParams}{Parameters}
+{\em matname} & Name of M\-A\-T file to create \\
+\hline
+{\em hdr\-\_\-str} & Optional header string, N\-U\-L\-L to use default \\
+\hline
+{\em mat\-\_\-file\-\_\-ver} & M\-A\-T file version to create \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A pointer to the M\-A\-T file or N\-U\-L\-L if it failed. This is not a simple F\-I\-L\-E $\ast$ and should not be used as one. 
+\end{DoxyReturn}
+\hypertarget{group__MAT_gafbfedb5636a99f0ef867520c47f77d18}{\index{Matlab M\-A\-T File I/\-O Library@{Matlab M\-A\-T File I/\-O Library}!Mat\-\_\-\-Open@{Mat\-\_\-\-Open}}
+\index{Mat\-\_\-\-Open@{Mat\-\_\-\-Open}!Matlab MAT File I/O Library@{Matlab M\-A\-T File I/\-O Library}}
+\subsubsection[{Mat\-\_\-\-Open}]{\setlength{\rightskip}{0pt plus 5cm}{\bf mat\-\_\-t}$\ast$ Mat\-\_\-\-Open (
+\begin{DoxyParamCaption}
+\item[{const char $\ast$}]{matname, }
+\item[{int}]{mode}
+\end{DoxyParamCaption}
+)}}\label{group__MAT_gafbfedb5636a99f0ef867520c47f77d18}
+
+
+Opens an existing Matlab M\-A\-T file. 
+
+Tries to open a Matlab M\-A\-T file with the given name
+
+
+\begin{DoxyParams}{Parameters}
+{\em matname} & Name of M\-A\-T file to open \\
+\hline
+{\em mode} & File access mode (M\-A\-T\-\_\-\-A\-C\-C\-\_\-\-R\-D\-O\-N\-L\-Y,M\-A\-T\-\_\-\-A\-C\-C\-\_\-\-R\-D\-W\-R,etc). \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A pointer to the M\-A\-T file or N\-U\-L\-L if it failed. This is not a simple F\-I\-L\-E $\ast$ and should not be used as one. 
+\end{DoxyReturn}
+\hypertarget{group__MAT_ga4d6e3892d2e216c507a744ba0e070d0b}{\index{Matlab M\-A\-T File I/\-O Library@{Matlab M\-A\-T File I/\-O Library}!Mat\-\_\-\-Rewind@{Mat\-\_\-\-Rewind}}
+\index{Mat\-\_\-\-Rewind@{Mat\-\_\-\-Rewind}!Matlab MAT File I/O Library@{Matlab M\-A\-T File I/\-O Library}}
+\subsubsection[{Mat\-\_\-\-Rewind}]{\setlength{\rightskip}{0pt plus 5cm}int Mat\-\_\-\-Rewind (
+\begin{DoxyParamCaption}
+\item[{{\bf mat\-\_\-t} $\ast$}]{mat}
+\end{DoxyParamCaption}
+)}}\label{group__MAT_ga4d6e3892d2e216c507a744ba0e070d0b}
+
+
+Rewinds a Matlab M\-A\-T file to the first variable. 
+
+Rewinds a Matlab M\-A\-T file to the first variable
+
+
+\begin{DoxyParams}{Parameters}
+{\em mat} & Pointer to the M\-A\-T file \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em 0} & on success \\
+\hline
+\end{DoxyRetVals}
+\hypertarget{group__MAT_ga2bf682f015b22fa796a8885e997661e7}{\index{Matlab M\-A\-T File I/\-O Library@{Matlab M\-A\-T File I/\-O Library}!Mat\-\_\-\-Size\-Of\-Class@{Mat\-\_\-\-Size\-Of\-Class}}
+\index{Mat\-\_\-\-Size\-Of\-Class@{Mat\-\_\-\-Size\-Of\-Class}!Matlab MAT File I/O Library@{Matlab M\-A\-T File I/\-O Library}}
+\subsubsection[{Mat\-\_\-\-Size\-Of\-Class}]{\setlength{\rightskip}{0pt plus 5cm}size\-\_\-t Mat\-\_\-\-Size\-Of\-Class (
+\begin{DoxyParamCaption}
+\item[{int}]{class\-\_\-type}
+\end{DoxyParamCaption}
+)}}\label{group__MAT_ga2bf682f015b22fa796a8885e997661e7}
+
+
+Returns the size of a Matlab Class. 
+
+Returns the size (in bytes) of the matlab class class\-\_\-type
+
+
+\begin{DoxyParams}{Parameters}
+{\em class\-\_\-type} & Matlab class type (M\-A\-T\-\_\-\-C\-\_\-$\ast$) \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Size of the class 
+\end{DoxyReturn}
+\hypertarget{group__MAT_ga9f8ab8a7e4206c16cb20437acc6960d2}{\index{Matlab M\-A\-T File I/\-O Library@{Matlab M\-A\-T File I/\-O Library}!Mat\-\_\-\-Var\-Add\-Struct\-Field@{Mat\-\_\-\-Var\-Add\-Struct\-Field}}
+\index{Mat\-\_\-\-Var\-Add\-Struct\-Field@{Mat\-\_\-\-Var\-Add\-Struct\-Field}!Matlab MAT File I/O Library@{Matlab M\-A\-T File I/\-O Library}}
+\subsubsection[{Mat\-\_\-\-Var\-Add\-Struct\-Field}]{\setlength{\rightskip}{0pt plus 5cm}int Mat\-\_\-\-Var\-Add\-Struct\-Field (
+\begin{DoxyParamCaption}
+\item[{{\bf matvar\-\_\-t} $\ast$}]{matvar, }
+\item[{{\bf matvar\-\_\-t} $\ast$$\ast$}]{fields}
+\end{DoxyParamCaption}
+)}}\label{group__MAT_ga9f8ab8a7e4206c16cb20437acc6960d2}
+
+
+Adds a field to a structure. 
+
+Adds the given field to the structure. fields should be an array of \hyperlink{structmatvar__t}{matvar\-\_\-t} pointers of the same size as the structure (i.\-e. 1 field per structure element).
+
+
+\begin{DoxyParams}{Parameters}
+{\em matvar} & Pointer to the Structure M\-A\-T variable \\
+\hline
+{\em fields} & Array of fields to be added \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em 0} & on success \\
+\hline
+\end{DoxyRetVals}
+\hypertarget{group__MAT_gae7c9c3699f6e9c31a9c490300013098c}{\index{Matlab M\-A\-T File I/\-O Library@{Matlab M\-A\-T File I/\-O Library}!Mat\-\_\-\-Var\-Calloc@{Mat\-\_\-\-Var\-Calloc}}
+\index{Mat\-\_\-\-Var\-Calloc@{Mat\-\_\-\-Var\-Calloc}!Matlab MAT File I/O Library@{Matlab M\-A\-T File I/\-O Library}}
+\subsubsection[{Mat\-\_\-\-Var\-Calloc}]{\setlength{\rightskip}{0pt plus 5cm}{\bf matvar\-\_\-t}$\ast$ Mat\-\_\-\-Var\-Calloc (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{group__MAT_gae7c9c3699f6e9c31a9c490300013098c}
+
+
+Allocates memory for a new \hyperlink{structmatvar__t}{matvar\-\_\-t} and initializes all the fields. 
+
+\begin{DoxyReturn}{Returns}
+A newly allocated \hyperlink{structmatvar__t}{matvar\-\_\-t} 
+\end{DoxyReturn}
+\hypertarget{group__MAT_ga1c54a84bb4d810c6fccdb8869489eac4}{\index{Matlab M\-A\-T File I/\-O Library@{Matlab M\-A\-T File I/\-O Library}!Mat\-\_\-\-Var\-Create@{Mat\-\_\-\-Var\-Create}}
+\index{Mat\-\_\-\-Var\-Create@{Mat\-\_\-\-Var\-Create}!Matlab MAT File I/O Library@{Matlab M\-A\-T File I/\-O Library}}
+\subsubsection[{Mat\-\_\-\-Var\-Create}]{\setlength{\rightskip}{0pt plus 5cm}{\bf matvar\-\_\-t}$\ast$ Mat\-\_\-\-Var\-Create (
+\begin{DoxyParamCaption}
+\item[{const char $\ast$}]{name, }
+\item[{enum {\bf matio\-\_\-classes}}]{class\-\_\-type, }
+\item[{enum {\bf matio\-\_\-types}}]{data\-\_\-type, }
+\item[{int}]{rank, }
+\item[{size\-\_\-t $\ast$}]{dims, }
+\item[{void $\ast$}]{data, }
+\item[{int}]{opt}
+\end{DoxyParamCaption}
+)}}\label{group__MAT_ga1c54a84bb4d810c6fccdb8869489eac4}
+
+
+Creates a M\-A\-T Variable with the given name and (optionally) data. 
+
+Creates a M\-A\-T variable that can be written to a Matlab M\-A\-T file with the given name, data type, dimensions and data. Rank should always be 2 or more. i.\-e. Scalar values would have rank=2 and dims\mbox{[}2\mbox{]} = \{1,1\}. Data type is one of the M\-A\-T\-\_\-\-T types. M\-A\-T adds M\-A\-T\-\_\-\-T\-\_\-\-S\-T\-R\-U\-C\-T and M\-A\-T\-\_\-\-T\-\_\-\-C\-E\-L\-L to create Structures and Cell Arrays respectively. For M\-A\-T\-\_\-\-T\-\_\-\-S\-T\-R\-U\-C\-T, data should be a N\-U\-L\-L terminated array of \hyperlink{structmatvar__t}{matvar\-\_\-t} $\ast$ variables (i.\-e. for a 3x2 structure with 10 fields, there should be 61 \hyperlink{structmatvar__t}{matvar\-\_\-t} $\ast$ variables where the last one is N\-U\-L\-L). For cell arrays, the N\-U\-L\-L termination isn't necessary. So to create a cell array of size 3x2, data would be the address of an array of 6 \hyperlink{structmatvar__t}{matvar\-\_\-t} $\ast$ variables.
+
+E\-X\-A\-M\-P\-L\-E\-: To create a struct of size 3x2 with 3 fields\-: 
+\begin{DoxyCode}
+\textcolor{keywordtype}{int} rank=2, dims[2] = \{3,2\}, nfields = 3;
+\hyperlink{structmatvar__t}{matvar\_t} **vars;
+
+vars = malloc((3*2*nfields+1)*\textcolor{keyword}{sizeof}(\hyperlink{structmatvar__t}{matvar\_t} *));
+vars[0]             = \hyperlink{group__MAT_ga1c54a84bb4d810c6fccdb8869489eac4}{Mat\_VarCreate}(...);
+   :
+vars[3*2*nfields-1] = \hyperlink{group__MAT_ga1c54a84bb4d810c6fccdb8869489eac4}{Mat\_VarCreate}(...);
+vars[3*2*nfields]   = NULL;
+\end{DoxyCode}
+
+
+E\-X\-A\-M\-P\-L\-E\-: To create a cell array of size 3x2\-: 
+\begin{DoxyCode}
+\textcolor{keywordtype}{int} rank=2, dims[2] = \{3,2\};
+\hyperlink{structmatvar__t}{matvar\_t} **vars;
+
+vars = malloc(3*2*\textcolor{keyword}{sizeof}(\hyperlink{structmatvar__t}{matvar\_t} *));
+vars[0]             = \hyperlink{group__MAT_ga1c54a84bb4d810c6fccdb8869489eac4}{Mat\_VarCreate}(...);
+   :
+vars[5] = \hyperlink{group__MAT_ga1c54a84bb4d810c6fccdb8869489eac4}{Mat\_VarCreate}(...);
+\end{DoxyCode}
+
+
+
+\begin{DoxyParams}{Parameters}
+{\em name} & Name of the variable to create \\
+\hline
+{\em class\-\_\-type} & class type of the variable in Matlab(one of the mx Classes) \\
+\hline
+{\em data\-\_\-type} & data type of the variable (one of the M\-A\-T\-\_\-\-T\-\_\- Types) \\
+\hline
+{\em rank} & Rank of the variable \\
+\hline
+{\em dims} & array of dimensions of the variable of size rank \\
+\hline
+{\em data} & pointer to the data \\
+\hline
+{\em opt} & 0, or bitwise or of the following options\-:
+\begin{DoxyItemize}
+\item M\-E\-M\-\_\-\-C\-O\-N\-S\-E\-R\-V\-E to just use the pointer to the data and not copy the data itself. Note that the pointer should not be freed until you are done with the mat variable. The Mat\-\_\-\-Var\-Free function will N\-O\-T free data that was created with M\-E\-M\-\_\-\-C\-O\-N\-S\-E\-R\-V\-E, so free it yourself.
+\item M\-A\-T\-\_\-\-F\-\_\-\-C\-O\-M\-P\-L\-E\-X to specify that the data is complex. The data variable should be a pointer to a struct \hyperlink{structComplexSplit}{Complex\-Split} type.
+\item M\-A\-T\-\_\-\-F\-\_\-\-G\-L\-O\-B\-A\-L to assign the variable as a global variable
+\item M\-A\-T\-\_\-\-F\-\_\-\-L\-O\-G\-I\-C\-A\-L to specify that it is a logical variable 
+\end{DoxyItemize}\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A M\-A\-T variable that can be written to a file or otherwise used 
+\end{DoxyReturn}
+\hypertarget{group__MAT_gabf139e48d48177e5069338fa2919c60a}{\index{Matlab M\-A\-T File I/\-O Library@{Matlab M\-A\-T File I/\-O Library}!Mat\-\_\-\-Var\-Delete@{Mat\-\_\-\-Var\-Delete}}
+\index{Mat\-\_\-\-Var\-Delete@{Mat\-\_\-\-Var\-Delete}!Matlab MAT File I/O Library@{Matlab M\-A\-T File I/\-O Library}}
+\subsubsection[{Mat\-\_\-\-Var\-Delete}]{\setlength{\rightskip}{0pt plus 5cm}int Mat\-\_\-\-Var\-Delete (
+\begin{DoxyParamCaption}
+\item[{{\bf mat\-\_\-t} $\ast$}]{mat, }
+\item[{const char $\ast$}]{name}
+\end{DoxyParamCaption}
+)}}\label{group__MAT_gabf139e48d48177e5069338fa2919c60a}
+
+
+Deletes a variable from a file. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em mat} & Pointer to the mat\-\_\-t file structure \\
+\hline
+{\em name} & Name of the variable to delete \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+0 on success 
+\end{DoxyReturn}
+\hypertarget{group__MAT_ga7ef80c5d99d7918b2b09db3bea106ecc}{\index{Matlab M\-A\-T File I/\-O Library@{Matlab M\-A\-T File I/\-O Library}!Mat\-\_\-\-Var\-Duplicate@{Mat\-\_\-\-Var\-Duplicate}}
+\index{Mat\-\_\-\-Var\-Duplicate@{Mat\-\_\-\-Var\-Duplicate}!Matlab MAT File I/O Library@{Matlab M\-A\-T File I/\-O Library}}
+\subsubsection[{Mat\-\_\-\-Var\-Duplicate}]{\setlength{\rightskip}{0pt plus 5cm}{\bf matvar\-\_\-t}$\ast$ Mat\-\_\-\-Var\-Duplicate (
+\begin{DoxyParamCaption}
+\item[{const {\bf matvar\-\_\-t} $\ast$}]{in, }
+\item[{int}]{opt}
+\end{DoxyParamCaption}
+)}}\label{group__MAT_ga7ef80c5d99d7918b2b09db3bea106ecc}
+
+
+Duplicates a \hyperlink{structmatvar__t}{matvar\-\_\-t} structure. 
+
+Provides a clean function for duplicating a \hyperlink{structmatvar__t}{matvar\-\_\-t} structure.
+
+
+\begin{DoxyParams}{Parameters}
+{\em in} & pointer to the \hyperlink{structmatvar__t}{matvar\-\_\-t} structure to be duplicated \\
+\hline
+{\em opt} & 0 does a shallow duplicate and only assigns the data pointer to the duplicated array. 1 will do a deep duplicate and actually duplicate the contents of the data. Warning\-: If you do a shallow copy and free both structures, the data will be freed twice and memory will be corrupted. This may be fixed in a later release. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Pointer to the duplicated \hyperlink{structmatvar__t}{matvar\-\_\-t} structure. 
+\end{DoxyReturn}
+\hypertarget{group__MAT_ga1d14716f7450530fd1c9d02413787f0e}{\index{Matlab M\-A\-T File I/\-O Library@{Matlab M\-A\-T File I/\-O Library}!Mat\-\_\-\-Var\-Free@{Mat\-\_\-\-Var\-Free}}
+\index{Mat\-\_\-\-Var\-Free@{Mat\-\_\-\-Var\-Free}!Matlab MAT File I/O Library@{Matlab M\-A\-T File I/\-O Library}}
+\subsubsection[{Mat\-\_\-\-Var\-Free}]{\setlength{\rightskip}{0pt plus 5cm}void Mat\-\_\-\-Var\-Free (
+\begin{DoxyParamCaption}
+\item[{{\bf matvar\-\_\-t} $\ast$}]{matvar}
+\end{DoxyParamCaption}
+)}}\label{group__MAT_ga1d14716f7450530fd1c9d02413787f0e}
+
+
+Frees all the allocated memory associated with the structure. 
+
+Frees memory used by a M\-A\-T variable. Frees the data associated with a M\-A\-T variable if it's non-\/\-N\-U\-L\-L and M\-E\-M\-\_\-\-C\-O\-N\-S\-E\-R\-V\-E was not used.
+
+
+\begin{DoxyParams}{Parameters}
+{\em matvar} & Pointer to the \hyperlink{structmatvar__t}{matvar\-\_\-t} structure \\
+\hline
+\end{DoxyParams}
+\hypertarget{group__MAT_gac1e15063439c0bd3eb0c986514c742dc}{\index{Matlab M\-A\-T File I/\-O Library@{Matlab M\-A\-T File I/\-O Library}!Mat\-\_\-\-Var\-Get\-Cell@{Mat\-\_\-\-Var\-Get\-Cell}}
+\index{Mat\-\_\-\-Var\-Get\-Cell@{Mat\-\_\-\-Var\-Get\-Cell}!Matlab MAT File I/O Library@{Matlab M\-A\-T File I/\-O Library}}
+\subsubsection[{Mat\-\_\-\-Var\-Get\-Cell}]{\setlength{\rightskip}{0pt plus 5cm}{\bf matvar\-\_\-t}$\ast$ Mat\-\_\-\-Var\-Get\-Cell (
+\begin{DoxyParamCaption}
+\item[{{\bf matvar\-\_\-t} $\ast$}]{matvar, }
+\item[{int}]{index}
+\end{DoxyParamCaption}
+)}}\label{group__MAT_gac1e15063439c0bd3eb0c986514c742dc}
+
+
+Returns a pointer to the Cell array at a specific index. 
+
+Returns a pointer to the Cell Array Field at the given 1-\/relative index. M\-A\-T file must be a version 5 matlab file.
+
+
+\begin{DoxyParams}{Parameters}
+{\em matvar} & Pointer to the Cell Array M\-A\-T variable \\
+\hline
+{\em index} & linear index of cell to return \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Pointer to the Cell Array Field on success, N\-U\-L\-L on error 
+\end{DoxyReturn}
+\hypertarget{group__MAT_ga0732b0a6c40975b036068b9a14422d45}{\index{Matlab M\-A\-T File I/\-O Library@{Matlab M\-A\-T File I/\-O Library}!Mat\-\_\-\-Var\-Get\-Cells@{Mat\-\_\-\-Var\-Get\-Cells}}
+\index{Mat\-\_\-\-Var\-Get\-Cells@{Mat\-\_\-\-Var\-Get\-Cells}!Matlab MAT File I/O Library@{Matlab M\-A\-T File I/\-O Library}}
+\subsubsection[{Mat\-\_\-\-Var\-Get\-Cells}]{\setlength{\rightskip}{0pt plus 5cm}{\bf matvar\-\_\-t}$\ast$$\ast$ Mat\-\_\-\-Var\-Get\-Cells (
+\begin{DoxyParamCaption}
+\item[{{\bf matvar\-\_\-t} $\ast$}]{matvar, }
+\item[{int $\ast$}]{start, }
+\item[{int $\ast$}]{stride, }
+\item[{int $\ast$}]{edge}
+\end{DoxyParamCaption}
+)}}\label{group__MAT_ga0732b0a6c40975b036068b9a14422d45}
+
+
+Indexes a cell array. 
+
+Finds cells of a cell array given a start, stride, and edge for each. dimension. The cells are placed in a pointer array. The cells should not be freed, but the array of pointers should be. If copies are needed, use Mat\-\_\-\-Var\-Duplicate on each cell. M\-A\-T File version must be 5.
+
+
+\begin{DoxyParams}{Parameters}
+{\em matvar} & Cell Array matlab variable \\
+\hline
+{\em start} & vector of length rank with 0-\/relative starting coordinates for each diemnsion. \\
+\hline
+{\em stride} & vector of length rank with strides for each diemnsion. \\
+\hline
+{\em edge} & vector of length rank with the number of elements to read in each diemnsion. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+an array of pointers to the cells 
+\end{DoxyReturn}
+\hypertarget{group__MAT_ga004987d665654409f74eaf8e82bb1380}{\index{Matlab M\-A\-T File I/\-O Library@{Matlab M\-A\-T File I/\-O Library}!Mat\-\_\-\-Var\-Get\-Cells\-Linear@{Mat\-\_\-\-Var\-Get\-Cells\-Linear}}
+\index{Mat\-\_\-\-Var\-Get\-Cells\-Linear@{Mat\-\_\-\-Var\-Get\-Cells\-Linear}!Matlab MAT File I/O Library@{Matlab M\-A\-T File I/\-O Library}}
+\subsubsection[{Mat\-\_\-\-Var\-Get\-Cells\-Linear}]{\setlength{\rightskip}{0pt plus 5cm}{\bf matvar\-\_\-t}$\ast$$\ast$ Mat\-\_\-\-Var\-Get\-Cells\-Linear (
+\begin{DoxyParamCaption}
+\item[{{\bf matvar\-\_\-t} $\ast$}]{matvar, }
+\item[{int}]{start, }
+\item[{int}]{stride, }
+\item[{int}]{edge}
+\end{DoxyParamCaption}
+)}}\label{group__MAT_ga004987d665654409f74eaf8e82bb1380}
+
+
+Indexes a cell array. 
+
+Finds cells of a cell array given a linear indexed start, stride, and edge. The cells are placed in a pointer array. The cells themself should not be freed as they are part of the original cell array, but the pointer array should be. If copies are needed, use Mat\-\_\-\-Var\-Duplicate on each of the cells. M\-A\-T file version must be 5.
+
+
+\begin{DoxyParams}{Parameters}
+{\em matvar} & Cell Array matlab variable \\
+\hline
+{\em start} & starting index \\
+\hline
+{\em stride} & stride \\
+\hline
+{\em edge} & Number of cells to get \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+an array of pointers to the cells 
+\end{DoxyReturn}
+\hypertarget{group__MAT_ga56b9a545990a0f253164018e37111741}{\index{Matlab M\-A\-T File I/\-O Library@{Matlab M\-A\-T File I/\-O Library}!Mat\-\_\-\-Var\-Get\-Number\-Of\-Fields@{Mat\-\_\-\-Var\-Get\-Number\-Of\-Fields}}
+\index{Mat\-\_\-\-Var\-Get\-Number\-Of\-Fields@{Mat\-\_\-\-Var\-Get\-Number\-Of\-Fields}!Matlab MAT File I/O Library@{Matlab M\-A\-T File I/\-O Library}}
+\subsubsection[{Mat\-\_\-\-Var\-Get\-Number\-Of\-Fields}]{\setlength{\rightskip}{0pt plus 5cm}int Mat\-\_\-\-Var\-Get\-Number\-Of\-Fields (
+\begin{DoxyParamCaption}
+\item[{{\bf matvar\-\_\-t} $\ast$}]{matvar}
+\end{DoxyParamCaption}
+)}}\label{group__MAT_ga56b9a545990a0f253164018e37111741}
+
+
+Returns the number of fields in a structure variable. 
+
+Returns the number of fields in the given structure. M\-A\-T file version must be 5.
+
+
+\begin{DoxyParams}{Parameters}
+{\em matvar} & Structure matlab variable \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Number of fields, or a negative number on error 
+\end{DoxyReturn}
+\hypertarget{group__MAT_gaeeb798fead2f765bddfb19016c7fdbcc}{\index{Matlab M\-A\-T File I/\-O Library@{Matlab M\-A\-T File I/\-O Library}!Mat\-\_\-\-Var\-Get\-Size@{Mat\-\_\-\-Var\-Get\-Size}}
+\index{Mat\-\_\-\-Var\-Get\-Size@{Mat\-\_\-\-Var\-Get\-Size}!Matlab MAT File I/O Library@{Matlab M\-A\-T File I/\-O Library}}
+\subsubsection[{Mat\-\_\-\-Var\-Get\-Size}]{\setlength{\rightskip}{0pt plus 5cm}size\-\_\-t Mat\-\_\-\-Var\-Get\-Size (
+\begin{DoxyParamCaption}
+\item[{{\bf matvar\-\_\-t} $\ast$}]{matvar}
+\end{DoxyParamCaption}
+)}}\label{group__MAT_gaeeb798fead2f765bddfb19016c7fdbcc}
+
+
+Calculates the size of a matlab variable in bytes. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em matvar} & matlab variable \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+size of the variable in bytes 
+\end{DoxyReturn}
+\hypertarget{group__MAT_ga7018bfe6934b96ae32e8f2a1712eefab}{\index{Matlab M\-A\-T File I/\-O Library@{Matlab M\-A\-T File I/\-O Library}!Mat\-\_\-\-Var\-Get\-Struct\-Field@{Mat\-\_\-\-Var\-Get\-Struct\-Field}}
+\index{Mat\-\_\-\-Var\-Get\-Struct\-Field@{Mat\-\_\-\-Var\-Get\-Struct\-Field}!Matlab MAT File I/O Library@{Matlab M\-A\-T File I/\-O Library}}
+\subsubsection[{Mat\-\_\-\-Var\-Get\-Struct\-Field}]{\setlength{\rightskip}{0pt plus 5cm}{\bf matvar\-\_\-t}$\ast$ Mat\-\_\-\-Var\-Get\-Struct\-Field (
+\begin{DoxyParamCaption}
+\item[{{\bf matvar\-\_\-t} $\ast$}]{matvar, }
+\item[{void $\ast$}]{name\-\_\-or\-\_\-index, }
+\item[{int}]{opt, }
+\item[{int}]{index}
+\end{DoxyParamCaption}
+)}}\label{group__MAT_ga7018bfe6934b96ae32e8f2a1712eefab}
+
+
+Finds a field of a structure. 
+
+Returns a pointer to the structure field at the given 0-\/relative index. M\-A\-T file version must be 5.
+
+
+\begin{DoxyParams}{Parameters}
+{\em matvar} & Pointer to the Structure M\-A\-T variable \\
+\hline
+{\em name\-\_\-or\-\_\-index} & Name of the field, or the 1-\/relative index of the field. If the index is used, it should be the address of an integer variable whose value is the index number. \\
+\hline
+{\em opt} & B\-Y\-\_\-\-N\-A\-M\-E if the name\-\_\-or\-\_\-index is the name or B\-Y\-\_\-\-I\-N\-D\-E\-X if the index was passed. \\
+\hline
+{\em index} & linear index of the structure to find the field of \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Pointer to the Structure Field on success, N\-U\-L\-L on error 
+\end{DoxyReturn}
+\hypertarget{group__MAT_ga509178d7dc15faf9f7cd0440df6009b9}{\index{Matlab M\-A\-T File I/\-O Library@{Matlab M\-A\-T File I/\-O Library}!Mat\-\_\-\-Var\-Get\-Structs@{Mat\-\_\-\-Var\-Get\-Structs}}
+\index{Mat\-\_\-\-Var\-Get\-Structs@{Mat\-\_\-\-Var\-Get\-Structs}!Matlab MAT File I/O Library@{Matlab M\-A\-T File I/\-O Library}}
+\subsubsection[{Mat\-\_\-\-Var\-Get\-Structs}]{\setlength{\rightskip}{0pt plus 5cm}{\bf matvar\-\_\-t}$\ast$ Mat\-\_\-\-Var\-Get\-Structs (
+\begin{DoxyParamCaption}
+\item[{{\bf matvar\-\_\-t} $\ast$}]{matvar, }
+\item[{int $\ast$}]{start, }
+\item[{int $\ast$}]{stride, }
+\item[{int $\ast$}]{edge, }
+\item[{int}]{copy\-\_\-fields}
+\end{DoxyParamCaption}
+)}}\label{group__MAT_ga509178d7dc15faf9f7cd0440df6009b9}
+
+
+Indexes a structure. 
+
+Finds structures of a structure array given a start, stride, and edge for each dimension. The structures are placed in a new structure array. If copy\-\_\-fields is non-\/zero, the indexed structures are copied and should be freed, but if copy\-\_\-fields is zero, the indexed structures are pointers to the original, but should still be freed since the mem\-\_\-conserve flag is set so that the structures are not freed. M\-A\-T File version must be 5.
+
+
+\begin{DoxyParams}{Parameters}
+{\em matvar} & Structure matlab variable \\
+\hline
+{\em start} & vector of length rank with 0-\/relative starting coordinates for each diemnsion. \\
+\hline
+{\em stride} & vector of length rank with strides for each diemnsion. \\
+\hline
+{\em edge} & vector of length rank with the number of elements to read in each diemnsion. \\
+\hline
+{\em copy\-\_\-fields} & 1 to copy the fields, 0 to just set pointers to them. If 0 is used, the fields should not be freed themselves. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A new structure with fields indexed from matvar. 
+\end{DoxyReturn}
+\hypertarget{group__MAT_gaa56680fb7b2cd3d410f659e945da8141}{\index{Matlab M\-A\-T File I/\-O Library@{Matlab M\-A\-T File I/\-O Library}!Mat\-\_\-\-Var\-Get\-Structs\-Linear@{Mat\-\_\-\-Var\-Get\-Structs\-Linear}}
+\index{Mat\-\_\-\-Var\-Get\-Structs\-Linear@{Mat\-\_\-\-Var\-Get\-Structs\-Linear}!Matlab MAT File I/O Library@{Matlab M\-A\-T File I/\-O Library}}
+\subsubsection[{Mat\-\_\-\-Var\-Get\-Structs\-Linear}]{\setlength{\rightskip}{0pt plus 5cm}{\bf matvar\-\_\-t}$\ast$ Mat\-\_\-\-Var\-Get\-Structs\-Linear (
+\begin{DoxyParamCaption}
+\item[{{\bf matvar\-\_\-t} $\ast$}]{matvar, }
+\item[{int}]{start, }
+\item[{int}]{stride, }
+\item[{int}]{edge, }
+\item[{int}]{copy\-\_\-fields}
+\end{DoxyParamCaption}
+)}}\label{group__MAT_gaa56680fb7b2cd3d410f659e945da8141}
+
+
+Indexes a structure. 
+
+Finds structures of a structure array given a single (linear)start, stride, and edge. The structures are placed in a new structure array. If copy\-\_\-fields is non-\/zero, the indexed structures are copied and should be freed, but if copy\-\_\-fields is zero, the indexed structures are pointers to the original, but should still be freed since the mem\-\_\-conserve flag is set so that the structures are not freed. M\-A\-T File version must be 5.
+
+
+\begin{DoxyParams}{Parameters}
+{\em matvar} & Structure matlab variable \\
+\hline
+{\em start} & starting index \\
+\hline
+{\em stride} & stride \\
+\hline
+{\em edge} & Number of structures to get \\
+\hline
+{\em copy\-\_\-fields} & 1 to copy the fields, 0 to just set pointers to them. If 0 is used, the fields should not be freed themselves. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A new structure with fields indexed from matvar 
+\end{DoxyReturn}
+\hypertarget{group__MAT_ga9100c145e338b84b55d5d0795d5d390a}{\index{Matlab M\-A\-T File I/\-O Library@{Matlab M\-A\-T File I/\-O Library}!Mat\-\_\-\-Var\-Print@{Mat\-\_\-\-Var\-Print}}
+\index{Mat\-\_\-\-Var\-Print@{Mat\-\_\-\-Var\-Print}!Matlab MAT File I/O Library@{Matlab M\-A\-T File I/\-O Library}}
+\subsubsection[{Mat\-\_\-\-Var\-Print}]{\setlength{\rightskip}{0pt plus 5cm}void Mat\-\_\-\-Var\-Print (
+\begin{DoxyParamCaption}
+\item[{{\bf matvar\-\_\-t} $\ast$}]{matvar, }
+\item[{int}]{printdata}
+\end{DoxyParamCaption}
+)}}\label{group__MAT_ga9100c145e338b84b55d5d0795d5d390a}
+
+
+Prints the variable information. 
+
+Prints to stdout the values of the \hyperlink{structmatvar__t}{matvar\-\_\-t} structure
+
+
+\begin{DoxyParams}{Parameters}
+{\em matvar} & Pointer to the \hyperlink{structmatvar__t}{matvar\-\_\-t} structure \\
+\hline
+{\em printdata} & set to 1 if the Variables data should be printed, else 0 \\
+\hline
+\end{DoxyParams}
+\hypertarget{group__MAT_ga3505f63029763eaa73d5a19f1115eb42}{\index{Matlab M\-A\-T File I/\-O Library@{Matlab M\-A\-T File I/\-O Library}!Mat\-\_\-\-Var\-Read@{Mat\-\_\-\-Var\-Read}}
+\index{Mat\-\_\-\-Var\-Read@{Mat\-\_\-\-Var\-Read}!Matlab MAT File I/O Library@{Matlab M\-A\-T File I/\-O Library}}
+\subsubsection[{Mat\-\_\-\-Var\-Read}]{\setlength{\rightskip}{0pt plus 5cm}{\bf matvar\-\_\-t}$\ast$ Mat\-\_\-\-Var\-Read (
+\begin{DoxyParamCaption}
+\item[{{\bf mat\-\_\-t} $\ast$}]{mat, }
+\item[{const char $\ast$}]{name}
+\end{DoxyParamCaption}
+)}}\label{group__MAT_ga3505f63029763eaa73d5a19f1115eb42}
+
+
+Reads the variable with the given name from a M\-A\-T file. 
+
+Reads the next variable in the Matlab M\-A\-T file
+
+
+\begin{DoxyParams}{Parameters}
+{\em mat} & Pointer to the M\-A\-T file \\
+\hline
+{\em name} & Name of the variable to read \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Pointer to the \hyperlink{structmatvar__t}{matvar\-\_\-t} structure containing the M\-A\-T variable information 
+\end{DoxyReturn}
+\hypertarget{group__MAT_ga1845000f4fc6252ec5ff11c4b9f0759f}{\index{Matlab M\-A\-T File I/\-O Library@{Matlab M\-A\-T File I/\-O Library}!Mat\-\_\-\-Var\-Read\-Data@{Mat\-\_\-\-Var\-Read\-Data}}
+\index{Mat\-\_\-\-Var\-Read\-Data@{Mat\-\_\-\-Var\-Read\-Data}!Matlab MAT File I/O Library@{Matlab M\-A\-T File I/\-O Library}}
+\subsubsection[{Mat\-\_\-\-Var\-Read\-Data}]{\setlength{\rightskip}{0pt plus 5cm}int Mat\-\_\-\-Var\-Read\-Data (
+\begin{DoxyParamCaption}
+\item[{{\bf mat\-\_\-t} $\ast$}]{mat, }
+\item[{{\bf matvar\-\_\-t} $\ast$}]{matvar, }
+\item[{void $\ast$}]{data, }
+\item[{int $\ast$}]{start, }
+\item[{int $\ast$}]{stride, }
+\item[{int $\ast$}]{edge}
+\end{DoxyParamCaption}
+)}}\label{group__MAT_ga1845000f4fc6252ec5ff11c4b9f0759f}
+
+
+Reads M\-A\-T variable data from a file. 
+
+Reads data from a M\-A\-T variable. The variable must have been read by Mat\-\_\-\-Var\-Read\-Info.
+
+
+\begin{DoxyParams}{Parameters}
+{\em mat} & M\-A\-T file to read data from \\
+\hline
+{\em matvar} & M\-A\-T variable information \\
+\hline
+{\em data} & pointer to store data in (must be pre-\/allocated) \\
+\hline
+{\em start} & array of starting indeces \\
+\hline
+{\em stride} & stride of data \\
+\hline
+{\em edge} & array specifying the number to read in each direction \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em 0} & on success \\
+\hline
+\end{DoxyRetVals}
+\hypertarget{group__MAT_gaa8060d7c8e5da0aa9ee5f96e5f1eb30a}{\index{Matlab M\-A\-T File I/\-O Library@{Matlab M\-A\-T File I/\-O Library}!Mat\-\_\-\-Var\-Read\-Data\-All@{Mat\-\_\-\-Var\-Read\-Data\-All}}
+\index{Mat\-\_\-\-Var\-Read\-Data\-All@{Mat\-\_\-\-Var\-Read\-Data\-All}!Matlab MAT File I/O Library@{Matlab M\-A\-T File I/\-O Library}}
+\subsubsection[{Mat\-\_\-\-Var\-Read\-Data\-All}]{\setlength{\rightskip}{0pt plus 5cm}int Mat\-\_\-\-Var\-Read\-Data\-All (
+\begin{DoxyParamCaption}
+\item[{{\bf mat\-\_\-t} $\ast$}]{mat, }
+\item[{{\bf matvar\-\_\-t} $\ast$}]{matvar}
+\end{DoxyParamCaption}
+)}}\label{group__MAT_gaa8060d7c8e5da0aa9ee5f96e5f1eb30a}
+
+
+Reads all the data for a matlab variable. 
+
+Allocates memory for an reads the data for a given matlab variable.
+
+
+\begin{DoxyParams}{Parameters}
+{\em mat} & Matlab M\-A\-T file structure pointer \\
+\hline
+{\em matvar} & Variable whose data is to be read \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+non-\/zero on error 
+\end{DoxyReturn}
+\hypertarget{group__MAT_gaad61c8449a2106afa697280ff0ee9dd8}{\index{Matlab M\-A\-T File I/\-O Library@{Matlab M\-A\-T File I/\-O Library}!Mat\-\_\-\-Var\-Read\-Data\-Linear@{Mat\-\_\-\-Var\-Read\-Data\-Linear}}
+\index{Mat\-\_\-\-Var\-Read\-Data\-Linear@{Mat\-\_\-\-Var\-Read\-Data\-Linear}!Matlab MAT File I/O Library@{Matlab M\-A\-T File I/\-O Library}}
+\subsubsection[{Mat\-\_\-\-Var\-Read\-Data\-Linear}]{\setlength{\rightskip}{0pt plus 5cm}int Mat\-\_\-\-Var\-Read\-Data\-Linear (
+\begin{DoxyParamCaption}
+\item[{{\bf mat\-\_\-t} $\ast$}]{mat, }
+\item[{{\bf matvar\-\_\-t} $\ast$}]{matvar, }
+\item[{void $\ast$}]{data, }
+\item[{int}]{start, }
+\item[{int}]{stride, }
+\item[{int}]{edge}
+\end{DoxyParamCaption}
+)}}\label{group__MAT_gaad61c8449a2106afa697280ff0ee9dd8}
+
+
+Reads M\-A\-T variable data from a file. 
+
+Reads data from a M\-A\-T variable using a linear indexingmode. The variable must have been read by Mat\-\_\-\-Var\-Read\-Info.
+
+
+\begin{DoxyParams}{Parameters}
+{\em mat} & M\-A\-T file to read data from \\
+\hline
+{\em matvar} & M\-A\-T variable information \\
+\hline
+{\em data} & pointer to store data in (must be pre-\/allocated) \\
+\hline
+{\em start} & starting index \\
+\hline
+{\em stride} & stride of data \\
+\hline
+{\em edge} & number of elements to read \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em 0} & on success \\
+\hline
+\end{DoxyRetVals}
+\hypertarget{group__MAT_ga46da2e45ed96d3f1a6ec643757f2b086}{\index{Matlab M\-A\-T File I/\-O Library@{Matlab M\-A\-T File I/\-O Library}!Mat\-\_\-\-Var\-Read\-Info@{Mat\-\_\-\-Var\-Read\-Info}}
+\index{Mat\-\_\-\-Var\-Read\-Info@{Mat\-\_\-\-Var\-Read\-Info}!Matlab MAT File I/O Library@{Matlab M\-A\-T File I/\-O Library}}
+\subsubsection[{Mat\-\_\-\-Var\-Read\-Info}]{\setlength{\rightskip}{0pt plus 5cm}{\bf matvar\-\_\-t}$\ast$ Mat\-\_\-\-Var\-Read\-Info (
+\begin{DoxyParamCaption}
+\item[{{\bf mat\-\_\-t} $\ast$}]{mat, }
+\item[{const char $\ast$}]{name}
+\end{DoxyParamCaption}
+)}}\label{group__MAT_ga46da2e45ed96d3f1a6ec643757f2b086}
+
+
+Reads the information of a variable with the given name from a M\-A\-T file. 
+
+Reads the named variable (or the next variable if name is N\-U\-L\-L) information (class,flags-\/complex/global/logical,rank,dimensions,and name) from the Matlab M\-A\-T file
+
+
+\begin{DoxyParams}{Parameters}
+{\em mat} & Pointer to the M\-A\-T file \\
+\hline
+{\em name} & Name of the variable to read \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Pointer to the \hyperlink{structmatvar__t}{matvar\-\_\-t} structure containing the M\-A\-T variable information 
+\end{DoxyReturn}
+\hypertarget{group__MAT_ga7c321d6aafd93916ba6c5655ad78e9ca}{\index{Matlab M\-A\-T File I/\-O Library@{Matlab M\-A\-T File I/\-O Library}!Mat\-\_\-\-Var\-Read\-Next@{Mat\-\_\-\-Var\-Read\-Next}}
+\index{Mat\-\_\-\-Var\-Read\-Next@{Mat\-\_\-\-Var\-Read\-Next}!Matlab MAT File I/O Library@{Matlab M\-A\-T File I/\-O Library}}
+\subsubsection[{Mat\-\_\-\-Var\-Read\-Next}]{\setlength{\rightskip}{0pt plus 5cm}{\bf matvar\-\_\-t}$\ast$ Mat\-\_\-\-Var\-Read\-Next (
+\begin{DoxyParamCaption}
+\item[{{\bf mat\-\_\-t} $\ast$}]{mat}
+\end{DoxyParamCaption}
+)}}\label{group__MAT_ga7c321d6aafd93916ba6c5655ad78e9ca}
+
+
+Reads the next variable in a M\-A\-T file. 
+
+Reads the next variable in the Matlab M\-A\-T file
+
+
+\begin{DoxyParams}{Parameters}
+{\em mat} & Pointer to the M\-A\-T file \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Pointer to the \hyperlink{structmatvar__t}{matvar\-\_\-t} structure containing the M\-A\-T variable information 
+\end{DoxyReturn}
+\hypertarget{group__MAT_ga72dd99330507b17177e22f9ed3bea5e6}{\index{Matlab M\-A\-T File I/\-O Library@{Matlab M\-A\-T File I/\-O Library}!Mat\-\_\-\-Var\-Read\-Next\-Info@{Mat\-\_\-\-Var\-Read\-Next\-Info}}
+\index{Mat\-\_\-\-Var\-Read\-Next\-Info@{Mat\-\_\-\-Var\-Read\-Next\-Info}!Matlab MAT File I/O Library@{Matlab M\-A\-T File I/\-O Library}}
+\subsubsection[{Mat\-\_\-\-Var\-Read\-Next\-Info}]{\setlength{\rightskip}{0pt plus 5cm}{\bf matvar\-\_\-t}$\ast$ Mat\-\_\-\-Var\-Read\-Next\-Info (
+\begin{DoxyParamCaption}
+\item[{{\bf mat\-\_\-t} $\ast$}]{mat}
+\end{DoxyParamCaption}
+)}}\label{group__MAT_ga72dd99330507b17177e22f9ed3bea5e6}
+
+
+Reads the information of the next variable in a M\-A\-T file. 
+
+Reads the next variable's information (class,flags-\/complex/global/logical, rank,dimensions, name, etc) from the Matlab M\-A\-T file. After reading, the M\-A\-T file is positioned past the current variable.
+
+
+\begin{DoxyParams}{Parameters}
+{\em mat} & Pointer to the M\-A\-T file \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Pointer to the \hyperlink{structmatvar__t}{matvar\-\_\-t} structure containing the M\-A\-T variable information 
+\end{DoxyReturn}
+\hypertarget{group__MAT_ga77c5ad24d45047830046fe3ed25da8ad}{\index{Matlab M\-A\-T File I/\-O Library@{Matlab M\-A\-T File I/\-O Library}!Mat\-\_\-\-Var\-Write@{Mat\-\_\-\-Var\-Write}}
+\index{Mat\-\_\-\-Var\-Write@{Mat\-\_\-\-Var\-Write}!Matlab MAT File I/O Library@{Matlab M\-A\-T File I/\-O Library}}
+\subsubsection[{Mat\-\_\-\-Var\-Write}]{\setlength{\rightskip}{0pt plus 5cm}int Mat\-\_\-\-Var\-Write (
+\begin{DoxyParamCaption}
+\item[{{\bf mat\-\_\-t} $\ast$}]{mat, }
+\item[{{\bf matvar\-\_\-t} $\ast$}]{matvar, }
+\item[{int}]{compress}
+\end{DoxyParamCaption}
+)}}\label{group__MAT_ga77c5ad24d45047830046fe3ed25da8ad}
+
+
+Writes the given M\-A\-T variable to a M\-A\-T file. 
+
+Writes the M\-A\-T variable information stored in matvar to the given M\-A\-T file. The variable will be written to the end of the file.
+
+
+\begin{DoxyParams}{Parameters}
+{\em mat} & M\-A\-T file to write to \\
+\hline
+{\em matvar} & M\-A\-T variable information to write \\
+\hline
+{\em compress} & Whether or not to compress the data (Only valid for version 5 M\-A\-T files and variables with numeric data) \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em 0} & on success \\
+\hline
+\end{DoxyRetVals}
+\hypertarget{group__MAT_ga43179b930fb30c025a153a55a083a98a}{\index{Matlab M\-A\-T File I/\-O Library@{Matlab M\-A\-T File I/\-O Library}!Mat\-\_\-\-Var\-Write\-Data@{Mat\-\_\-\-Var\-Write\-Data}}
+\index{Mat\-\_\-\-Var\-Write\-Data@{Mat\-\_\-\-Var\-Write\-Data}!Matlab MAT File I/O Library@{Matlab M\-A\-T File I/\-O Library}}
+\subsubsection[{Mat\-\_\-\-Var\-Write\-Data}]{\setlength{\rightskip}{0pt plus 5cm}int Mat\-\_\-\-Var\-Write\-Data (
+\begin{DoxyParamCaption}
+\item[{{\bf mat\-\_\-t} $\ast$}]{mat, }
+\item[{{\bf matvar\-\_\-t} $\ast$}]{matvar, }
+\item[{void $\ast$}]{data, }
+\item[{int $\ast$}]{start, }
+\item[{int $\ast$}]{stride, }
+\item[{int $\ast$}]{edge}
+\end{DoxyParamCaption}
+)}}\label{group__MAT_ga43179b930fb30c025a153a55a083a98a}
+
+
+Writes the given data to the M\-A\-T variable. 
+
+Writes data to a M\-A\-T variable. The variable must have previously been written with Mat\-\_\-\-Var\-Write\-Info.
+
+
+\begin{DoxyParams}{Parameters}
+{\em mat} & M\-A\-T file to write to \\
+\hline
+{\em matvar} & M\-A\-T variable information to write \\
+\hline
+{\em data} & pointer to the data to write \\
+\hline
+{\em start} & array of starting indeces \\
+\hline
+{\em stride} & stride of data \\
+\hline
+{\em edge} & array specifying the number to read in each direction \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em 0} & on success \\
+\hline
+\end{DoxyRetVals}
+\hypertarget{group__MAT_ga1ae164415dfd98cdf48ad07033b6e0bb}{\index{Matlab M\-A\-T File I/\-O Library@{Matlab M\-A\-T File I/\-O Library}!Mat\-\_\-\-Var\-Write\-Info@{Mat\-\_\-\-Var\-Write\-Info}}
+\index{Mat\-\_\-\-Var\-Write\-Info@{Mat\-\_\-\-Var\-Write\-Info}!Matlab MAT File I/O Library@{Matlab M\-A\-T File I/\-O Library}}
+\subsubsection[{Mat\-\_\-\-Var\-Write\-Info}]{\setlength{\rightskip}{0pt plus 5cm}int Mat\-\_\-\-Var\-Write\-Info (
+\begin{DoxyParamCaption}
+\item[{{\bf mat\-\_\-t} $\ast$}]{mat, }
+\item[{{\bf matvar\-\_\-t} $\ast$}]{matvar}
+\end{DoxyParamCaption}
+)}}\label{group__MAT_ga1ae164415dfd98cdf48ad07033b6e0bb}
+
+
+Writes the given M\-A\-T variable to a M\-A\-T file. 
+
+Writes the M\-A\-T variable information stored in matvar to the given M\-A\-T file. The variable will be written to the end of the file.
+
+
+\begin{DoxyParams}{Parameters}
+{\em mat} & M\-A\-T file to write to \\
+\hline
+{\em matvar} & M\-A\-T variable information to write \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em 0} & on success \\
+\hline
+\end{DoxyRetVals}
