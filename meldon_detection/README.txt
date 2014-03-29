@@ -9,27 +9,21 @@ opencv
 cv_bridge
 image_transport
 
-
-
-
+export PKG_CONFIG_PATH=$CATKIN_WS/src/meldon_detection/src/kdes/dependencies/matio:$PKG_CONFIG_PATH
 cd $CATKIN_WS/src/meldon_detection/src/kdes/dependencies/matio
 make CFLAGS=-DH5_USE_16_API
-cd ../KernelDescriptors_CPU/
+export LD_LIBRARY_PATH=$CATKIN_WS/src/meldon_detection/src/kdes/dependencies/matio/src/.libs:$LD_LIBRARY_PATH
+cd ../../KernelDescriptors_CPU/
 make
 cd $CATKIN_WS
-make
+catkin_make
 
+<Everything should now be built>
 
-NOTE: Building matio will result in errors. These errors are from building documentation in a random dependency for matio. It doesn't matter as long as the terminal looks like:
-lookup cache used 276/65536 hits=1951 misses=286
-finished...
-cd latex;.././../format_api.sh;.././../textopdf.sh
-/bin/bash: .././../format_api.sh: No such file or directory
-/bin/bash: .././../textopdf.sh: No such file or directory
-make[2]: *** [../../doxygen/user_api/latex/libmatio.pdf] Error 127
-make[2]: Leaving directory `/home/meldon/catkin_ws/src/meldon_detection/src/kdes/dependencies/matio/doxygen/user_api'
-make[1]: *** [all-recursive] Error 1
-make[1]: Leaving directory `/home/meldon/catkin_ws/src/meldon_detection/src/kdes/dependencies/matio/doxygen'
-make: *** [all-recursive] Error 1
+To run:
+rosrun meldon_detection talker $CATKIN_WS
+roslaunch baxter_ork detection.launch
+rosrun object_recognition_ros client
 
-At the end.
+The last step must be performed every time you wish to receive a labeling.
+Labeled clusters are published to /labeled_objects in the form of RecognizedObjectArray.msg
