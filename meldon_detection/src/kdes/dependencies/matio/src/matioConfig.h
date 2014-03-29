@@ -38,7 +38,7 @@
 #define HAVE_GETOPT_LONG_ONLY 1
 
 /* Have HDF5 */
-#define HAVE_HDF5 /**/
+/* #undef HAVE_HDF5 */
 
 /* Define to 1 if you have the `m' library (-lm). */
 #define HAVE_LIBM 1
@@ -114,7 +114,7 @@
 #define LT_OBJDIR ".libs/"
 
 /* MAT v7.3 file support */
-#define MAT73 1
+#define MAT73 0
 
 /* Matio major version number */
 #define MATIO_MAJOR_VERSION 1
