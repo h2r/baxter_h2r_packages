@@ -5,9 +5,11 @@ import yaml
 import sys
 import rospy
 import os
+import actionlib
 
 from std_msgs.msg import String
 from moveit_msgs.msg import Grasp
+from grasp_server.msg import GraspServiceRequest, GraspServiceResponse
 
 class grasp_server:
 	
@@ -16,7 +18,7 @@ class grasp_server:
 		files = self.get_files(grasp_dir)
 		for name, filename in files.iteritems():
 			self.grasps[name] = self.load_grasps(filename)
-		self.subscriber = rospy.Subscriber("/grasp_server", String, self.graspCallback)
+		rospy.Service('/grasp_server', GraspServiceRequest, grasp_callback)
 		rospy.spin()
 	
 	def get_files(self, grasp_dir):
@@ -35,9 +37,10 @@ class grasp_server:
 		genpy.message.fill_message_args(grasp, args)
 		return grasp
 
-	def graspCallback(self, msg):
-		if (msg.data in self.grasps.keys()):
-			print(str(self.grasps[msg.data]))
+	def grasp_callback(self, request):
+		if (request.name in self.grasps.keys()):
+			return GraspServiceResponse(success=true, grasps=self.grasps[request.name])
+		return GraspServiceResponse(success=false)
 
 def usage():
 	print("""
