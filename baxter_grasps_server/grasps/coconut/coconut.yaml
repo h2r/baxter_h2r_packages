@@ -1,0 +1,41 @@
+id: 0
+pre_grasp_posture:
+    joint_names: ["left_gripper_l_finger_joint"]
+    points:
+        - positions: [0.0095]
+            
+grasp_posture:
+    joint_names: ["left_gripper_l_finger_joint"]
+    points: 
+        - positions: [-0.0125]
+grasp_pose:
+    header:
+        frame_id: "left_gripper"
+    pose:
+        orientation:
+            w: 1.0
+pre_grasp_approach:
+    direction:
+        header:
+            frame_id: "left_gripper"
+        vector:
+            x: 1.0
+    desired_distance: 0.3
+    min_distance: 0.05
+post_grasp_retreat:
+    direction:
+        header:
+            frame_id: "world"
+        vector:
+            z: 1.0
+    desired_distance: 0.3
+    min_distance: 0.1
+post_place_retreat:
+    direction:
+        header:
+            frame_id: "world"
+        vector:
+            z: 1.0
+    desired_distance: 0.3
+    min_distance: 0.1
+

@@ -139,7 +139,7 @@ def move_group_python_interface_tutorial():
   
   print robot.has_group("left_hand")
   left.open()
-  rospy.sleep(1)
+  #rospy.sleep(1)
 
   ## Now, we call the planner to compute the plan
   ## and visualize it if successful
@@ -152,11 +152,11 @@ def move_group_python_interface_tutorial():
   p.pose.position.x = 0.85
   p.pose.position.y = 0.3
   p.pose.position.z = -0.1
-  scene.add_box("cube", p, (0.05, 0.05, 0.05))
+  #scene.add_box("cube", p, (0.05, 0.05, 0.05))
   
   p.pose.position.y = 0.5
   p.pose.position.z = -0.3
-  scene.add_box("table", p, (0.5, 1.5, 0.35))
+  #scene.add_box("table", p, (0.5, 1.5, 0.35))
   # pick an object
 
   ## Planning to a Pose goal
@@ -179,8 +179,9 @@ def move_group_python_interface_tutorial():
   group.set_pose_target(pose_target)
   group.plan()
   print "\n here now 1"
-  rospy.sleep(5)
+  #rospy.sleep(5)
   group.go()
+  quit()
   print "\n here now 2"
   rospy.sleep(2)
   pose_target = geometry_msgs.msg.PoseStamped()

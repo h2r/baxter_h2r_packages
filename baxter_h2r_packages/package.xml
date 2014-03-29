@@ -12,8 +12,11 @@
 
   <buildtool_depend>catkin</buildtool_depend>
   <run_depend>baxter_kinect_calibration</run_depend>
-  <run_depend>baxter_stt</run_depend>
-  <run_depend>baxter_ork</run_depend>
+  <run_depend>baxter_speech_command</run_depend>
+  <run_depend>baxter_grasps_server</run_depend>
+  <run_depend>baxter_hackathon_demos</run_depend>
+  <run_depend>h2r_moveit_config</run_depend>
+  <run_depend>listen_and_grasp</run_depend>
   <export>
    <metapackage/>
  </export>

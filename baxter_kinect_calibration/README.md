@@ -17,15 +17,15 @@ roslaunch openni_launch openni.launch depth_registration:=true
 
 Enable the robot
 ```
-$ cd ~/baxter_ws/
-$ ./baxter.sh
-$ rosrun baxter_tools enable_robot -e
+cd ~/baxter_ws/
+./baxter.sh
+rosrun baxter_tools enable_robot -e
 ```
 
 Grab the left cuff and move the camera to view the alvar bundle printout. Run calibration
 
 ```
-$ roslaunch baxter_kinect_calibration baxter_bundle_calibrate.launch
+roslaunch baxter_kinect_calibration baxter_bundle_calibrate.launch
 ```
 
 This publishes a transform to /camera_link. In order to make use of the transform, you will need to create your own static transform publisher.
