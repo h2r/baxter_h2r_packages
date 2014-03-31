@@ -127,11 +127,11 @@ def main():
 
 	r = rospy.Rate(10) #1hz
 
-	publishWait = 40
+	publishWait = 0
 
 	#filePath = sys.argv[1]
 
-
+	print 'waiting for user'
 	while not rospy.is_shutdown():
 		now = rospy.Time(0)
 
@@ -153,7 +153,8 @@ def main():
 			except tf.Exception:
 				print "waiting for user"
 		else:
-			print 'waiting for user'
+			pass
+			#print 'waiting for user'
 
 		r.sleep()
 		

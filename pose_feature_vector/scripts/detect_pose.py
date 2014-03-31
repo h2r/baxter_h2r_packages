@@ -124,7 +124,7 @@ def main():
 
 
 if __name__ == '__main__':
-	if len(sys.argv) != 2:
-		print 'requires single parameter of path to pose training data; exiting'
+	if len(sys.argv) < 2:
+		print "usage: detect_pose.py <training data file>"
 		sys.exit()
 	main()
