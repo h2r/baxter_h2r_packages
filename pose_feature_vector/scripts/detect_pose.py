@@ -67,8 +67,13 @@ def callback(data):
 		elif curRecognizedPose != 3 and curRecognizedPose != 4:
 
 			if numConsecutiveInPose < 15:
+				#TODO NAKUL publish "Detected <className> image, please hold pose"
 				numConsecutiveInPose += 1
-				print 'num consecutive', className, numConsecutiveInPose
+				rospy.loginfo("Detected " + className + ". Please hold pose")
+
+			#if numConsecutiveInPose < 15:
+			#	numConsecutiveInPose += 1
+			#	print 'num consecutive', className, numConsecutiveInPose
 
 			else:
 
@@ -79,21 +84,29 @@ def callback(data):
 				try:
 
 					if classId == 0:
+						rospy.loginfo("Robot is hugging")
+						#TODO NAKUL publish "executing hug image"
 						props.hug(0.4, 10.0)
 					elif classId == 1:
+						rospy.loginfo("Robot is high fiving")
+						#TODO NAKUL publish "executing high five image"
 						props.five(Point(x=0.56, y=0.81, z=0.86), "left")
 					elif classId == 2:
+						rospy.loginfo("Robot is fist bumping")
+						#TODO NAKUL publish "executing fist bump image"
 						props.bump(Point(x=0.9, y=0.7, z=0.25), "left")
 
 				except:
 					print 'Could not process request'
-				
-				
+		else:
+			rospy.loginfo("Please pose with either hug/high five/fist bump")
+			#TODO NAKUL publish "Pose suggestion image"
+			pass
 
 		behaviorOccurring = False
 
 	else:
-		print 'skipping'
+		pass
 
 
 
@@ -102,7 +115,7 @@ def main():
 	global logreg
 	global props
 
-	print 'loading classifier'
+	rospy.loginfo("Loading classifier")
 	data = np.genfromtxt(sys.argv[1], delimiter=',')
 	X = data[:, 1:]
 	Y = data[:, 0]
@@ -110,9 +123,8 @@ def main():
 	logreg = linear_model.LogisticRegression(C=1e5)
 	logreg.fit(X, Y)
 
-	print 'ready for inputs'
+	rospy.loginfo("Ready for inputs")
 
-	
 
 	rospy.init_node('pose_detector')
 

@@ -154,7 +154,8 @@ def main():
 				print "waiting for user"
 		else:
 			pass
-			#print 'waiting for user'
+			#TODO NAKUL publish "Waiting for user, calibration how to image"
+			rospy.loginfo("Waiting for user")
 
 		r.sleep()
 		
