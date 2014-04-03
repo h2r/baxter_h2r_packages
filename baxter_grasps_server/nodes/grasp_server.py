@@ -9,7 +9,7 @@ import actionlib
 
 from std_msgs.msg import String
 from moveit_msgs.msg import Grasp
-from grasp_server.msg import GraspServiceRequest, GraspServiceResponse
+from baxter_grasps_server.srv import GraspService, GraspServiceResponse
 
 class grasp_server:
 	
@@ -17,8 +17,9 @@ class grasp_server:
 		self.grasps = dict()
 		files = self.get_files(grasp_dir)
 		for name, filename in files.iteritems():
+			#self.grasps[name] = list()
 			self.grasps[name] = self.load_grasps(filename)
-		rospy.Service('/grasp_server', GraspServiceRequest, grasp_callback)
+		rospy.Service('/grasp_server', GraspService, self.grasp_callback)
 		rospy.spin()
 	
 	def get_files(self, grasp_dir):
@@ -38,9 +39,17 @@ class grasp_server:
 		return grasp
 
 	def grasp_callback(self, request):
+		rospy.loginfo("Received request for " + str(request))
 		if (request.name in self.grasps.keys()):
-			return GraspServiceResponse(success=true, grasps=self.grasps[request.name])
-		return GraspServiceResponse(success=false)
+			rospy.loginfo(self.grasps[request.name])
+			response = GraspServiceResponse()
+			response.success = True
+			response.grasps = self.grasps[request.name]
+
+
+			return response
+		rospy.loginfo("No valid grasps found for " + request.name)
+		return GraspServiceResponse(success=False)
 
 def usage():
 	print("""
