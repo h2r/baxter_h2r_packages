@@ -8,6 +8,8 @@ from geometry_msgs.msg import PoseStamped,  Pose, Point, Quaternion, Vector3
 from tf.transformations import quaternion_from_euler
 from pose_feature_vector.msg import PersonFVMsg
 from std_msgs.msg import Header, String
+import rospkg
+from subprocess import call
 
 global tfListener
 global frameID
@@ -155,6 +157,9 @@ def main():
 		else:
 			pass
 			#TODO NAKUL publish "Waiting for user, calibration how to image"
+			imagePath=rospack.get_path('pose_feature_vector')
+			imageStr="--file="+imagePath+"/images/psi.png"
+			call(["rosrun", "baxter_examples", "xdisplay_image.py", imageStr])
 			rospy.loginfo("Waiting for user")
 
 		r.sleep()
