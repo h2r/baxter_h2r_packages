@@ -1,7 +1,11 @@
 #!/usr/bin/env python
 
 import sys
+import roslib
+roslib.load_manifest("pose_feature_vector")
+
 import rospy
+
 import tf
 import math
 from geometry_msgs.msg import PoseStamped,  Pose, Point, Quaternion, Vector3
@@ -98,17 +102,16 @@ def setMostRecentUser():
 	onlyUsers = set([line for line in allFramesString if 'right_elbow_' in line])
 	n = len('right_elbow_')
 	userIDs = [el[n:] for el in onlyUsers]
+	userID = ''
 	if len(userIDs) > 0:
 		mostRecentUID = userIDs[0]
-		mostRecentTime = tfListener.getLatestCommonTime(frameID, 'right_elbow_' + mostRecentUID).secs
+		mostRecentTime = tfListener.getLatestCommonTime(frameID, 'right_elbow_' + mostRecentUID).to_sec()
 		for uid in userIDs:
-			compTime = tfListener.getLatestCommonTime(frameID, 'right_elbow_' + uid).secs
-			if compTime > mostRecentTime:
-				mostRecentUID = uid
+			compTime = tfListener.getLatestCommonTime(frameID, 'right_elbow_' + uid).to_sec()
+			#rospy.loginfo("Diff time " + str(rospy.get_rostime().to_sec() - compTime))
+			if compTime >= mostRecentTime and rospy.get_rostime().to_sec() - compTime < 5:
+				userID = uid
 				mostRecentTime = compTime
-		userID = mostRecentUID
-	else:
-		userID = ''
 			
 
 
@@ -157,7 +160,7 @@ def main():
 		else:
 			pass
 			#TODO NAKUL publish "Waiting for user, calibration how to image"
-			imagePath=rospack.get_path('pose_feature_vector')
+			imagePath = roslib.packages.get_pkg_dir('pose_feature_vector')
 			imageStr="--file="+imagePath+"/images/psi.png"
 			call(["rosrun", "baxter_examples", "xdisplay_image.py", imageStr])
 			rospy.loginfo("Waiting for user")

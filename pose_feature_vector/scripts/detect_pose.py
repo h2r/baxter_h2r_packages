@@ -2,7 +2,10 @@
 
 
 import sys
+import roslib
+roslib.load_manifest("pose_feature_vector")
 import rospy
+
 import tf
 import math
 import numpy as np
@@ -68,76 +71,62 @@ def callback(data):
 
 		elif curRecognizedPose != 3 and curRecognizedPose != 4:
 
-			if numConsecutiveInPose < 15:
+			if numConsecutiveInPose < 2:
 				#TODO NAKUL publish "Detected <className> image, please hold pose"
-				try:
-					if classId == 0:
-						rospy.loginfo("Robot hugging prep")
-						#TODO NAKUL publish "executing hug image"
-						imagePath=rospack.get_path('pose_feature_vector')
-						imageStr="--file="+imagePath+"/images/hugPrep.png"
-						call(["rosrun", "baxter_examples", "xdisplay_image.py", imageStr])
-						
-					elif classId == 1:
-						rospy.loginfo("Robot high fiving prep")
-						#TODO NAKUL publish "executing high five image"
-						imagePath=rospack.get_path('pose_feature_vector')
-						imageStr="--file="+imagePath+"/images/highFivePrep.png"
-						call(["rosrun", "baxter_examples", "xdisplay_image.py", imageStr])
-						
-					elif classId == 2:
-						rospy.loginfo("Robot fist bumping prep")
-						#TODO NAKUL publish "executing fist bump image"
-						imagePath=rospack.get_path('pose_feature_vector')
-						imageStr="--file="+imagePath+"/images/fistBumpPrep.png"
-						call(["rosrun", "baxter_examples", "xdisplay_image.py", imageStr])
-						
+				if classId == 0:
+					rospy.loginfo("Robot hugging prep")
+					#TODO NAKUL publish "executing hug image"
+					imagePath=roslib.packages.get_pkg_dir('pose_feature_vector')
+					imageStr="--file="+imagePath+"/images/hugPrep.png"
+					call(["rosrun", "baxter_examples", "xdisplay_image.py", imageStr])
+					
+				elif classId == 1:
+					rospy.loginfo("Robot high fiving prep")
+					#TODO NAKUL publish "executing high five image"
+					imagePath=roslib.packages.get_pkg_dir('pose_feature_vector')
+					imageStr="--file="+imagePath+"/images/highFivePrep.png"
+					call(["rosrun", "baxter_examples", "xdisplay_image.py", imageStr])
+					
+				elif classId == 2:
+					rospy.loginfo("Robot fist bumping prep")
+					#TODO NAKUL publish "executing fist bump image"
+					imagePath=roslib.packages.get_pkg_dir('pose_feature_vector')
+					imageStr="--file="+imagePath+"/images/fistBumpPrep.png"
+					call(["rosrun", "baxter_examples", "xdisplay_image.py", imageStr])
 
-				except:
-					print 'Could not process request'
-				
 				numConsecutiveInPose += 1
 				rospy.loginfo("Detected " + className + ". Please hold pose")
-
-			#if numConsecutiveInPose < 15:
-			#	numConsecutiveInPose += 1
-			#	print 'num consecutive', className, numConsecutiveInPose
 
 			else:
 
 				print 'performing:', className
-				numConsecutiveInPose = 0
-
+				numConsecutiveInPose +=1
+				if classId == 0:
+					rospy.loginfo("Robot is hugging")
+					#TODO NAKUL publish "executing hug image"
+					imagePath=roslib.packages.get_pkg_dir('pose_feature_vector')
+					imageStr="--file="+imagePath+"/images/hug.png"
+					call(["rosrun", "baxter_examples", "xdisplay_image.py", imageStr])
+					props.hug(0.4, 10.0)
+				elif classId == 1:
+					rospy.loginfo("Robot is high fiving")
+					#TODO NAKUL publish "executing high five image"
+					imagePath=roslib.packages.get_pkg_dir('pose_feature_vector')
+					imageStr="--file="+imagePath+"/images/highFive.png"
+					call(["rosrun", "baxter_examples", "xdisplay_image.py", imageStr])
+					props.five(Point(x=0.56, y=0.81, z=0.86), "left")
+				elif classId == 2:
+					rospy.loginfo("Robot is fist bumping")
+					#TODO NAKUL publish "executing fist bump image"
+					imagePath=roslib.packages.get_pkg_dir('pose_feature_vector')
+					imageStr="--file="+imagePath+"/images/fistBump.png"
+					call(["rosrun", "baxter_examples", "xdisplay_image.py", imageStr])
+					props.bump(Point(x=0.9, y=0.7, z=0.25), "left")
+			
 				
-				try:
-
-					if classId == 0:
-						rospy.loginfo("Robot is hugging")
-						#TODO NAKUL publish "executing hug image"
-						imagePath=rospack.get_path('pose_feature_vector')
-						imageStr="--file="+imagePath+"/images/hug.png"
-						call(["rosrun", "baxter_examples", "xdisplay_image.py", imageStr])
-						props.hug(0.4, 10.0)
-					elif classId == 1:
-						rospy.loginfo("Robot is high fiving")
-						#TODO NAKUL publish "executing high five image"
-						imagePath=rospack.get_path('pose_feature_vector')
-						imageStr="--file="+imagePath+"/images/highFive.png"
-						call(["rosrun", "baxter_examples", "xdisplay_image.py", imageStr])
-						props.five(Point(x=0.56, y=0.81, z=0.86), "left")
-					elif classId == 2:
-						rospy.loginfo("Robot is fist bumping")
-						#TODO NAKUL publish "executing fist bump image"
-						imagePath=rospack.get_path('pose_feature_vector')
-						imageStr="--file="+imagePath+"/images/fistBump.png"
-						call(["rosrun", "baxter_examples", "xdisplay_image.py", imageStr])
-						props.bump(Point(x=0.9, y=0.7, z=0.25), "left")
-
-				except:
-					print 'Could not process request'
 		else:
 			rospy.loginfo("Please pose with either hug/high five/fist bump")
-			imagePath=rospack.get_path('pose_feature_vector')
+			imagePath=roslib.packages.get_pkg_dir('pose_feature_vector')
 			imageStr="--file="+imagePath+"/images/prepAll.png"
 			call(["rosrun", "baxter_examples", "xdisplay_image.py", imageStr])
 			#TODO NAKUL publish "Pose suggestion image"
