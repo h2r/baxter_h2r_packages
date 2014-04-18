@@ -24,26 +24,15 @@ cd $CATKIN_WS
 catkin_make
 ```
 
+<Everything should now be built>
  
-
- <Everything should now be built>
-
- 
-
- To run:
+To run:
 
 ```
-
- rosrun meldon_detection talker $CATKIN_WS
-
- roslaunch baxter_ork detection.launch
-
- rosrun object_recognition_ros client
-
+rosrun meldon_detection talker $CATKIN_WS
+roslaunch baxter_ork detection.launch
+rosrun object_recognition_ros client
 ```
 
- 
-
- The last step must be performed every time you wish to receive a labeling.
-
- Labeled clusters are published to /labeled_objects in the form of RecognizedObjectArray.msg
+The last step must be performed every time you wish to receive a labeling.
+Labeled clusters are published to /labeled_objects in the form of RecognizedObjectArray.msg
