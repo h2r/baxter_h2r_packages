@@ -9,7 +9,7 @@
 #include <sensor_msgs/image_encodings.h>
 #include <meldon_detection/RecognizedObjectArray.h>
 #include <cv.h>
-static unsigned int LOC_MODEL_TYPE=0; //or 0
+static unsigned int LOC_MODEL_TYPE=3; //0 or 3
 const char* model_name = model_names[LOC_MODEL_TYPE];
 const char* model_file = model_files[LOC_MODEL_TYPE];
 const char* model_var = model_vars[LOC_MODEL_TYPE];
@@ -56,6 +56,7 @@ void clusterCallback(const visualization_msgs::MarkerArray& msg){
 		IplImage temp = cam_img;
 		int height = cam_img.size().height;
 		int width = cam_img.size().width;
+		ROS_INFO("(%d,%d)", height, width);
 		float minx, miny, maxx, maxy, px, py;
 		cv::Rect bound;
 		cv::Mat boxed;
@@ -93,7 +94,7 @@ void clusterCallback(const visualization_msgs::MarkerArray& msg){
 			else if(bottom[i].x > width - 1){bottom[i].x = width-1;}
 			if(bottom[i].y < 0) bottom[i].y = 0;
 			else if(bottom[i].y > height-1){bottom[i].y = height-1;}
-		}
+		}/*
 		for(int i=0; i<top.size(); i++){
 			ROS_INFO("BOXED: (%d, %d) to (%d, %d)", top[i].x, top[i].y, bottom[i].x, bottom[i].y);
 			bound = cv::Rect(top[i].x, top[i].y, bottom[i].x - top[i].x, bottom[i].y - top[i].y);
@@ -107,7 +108,10 @@ void clusterCallback(const visualization_msgs::MarkerArray& msg){
 			to_add.points = msg.markers[i].points;
 			to_add.name = res.c_str();
 			to_send.objects[i] = to_add;
-		}
+		}*/
+		temp = cam_img;
+		kdm->Process(imfea2, &temp);
+		kdm->Classify(scores, imfea2);
 		rec_objs.publish(to_send);
 	}
 	ROS_INFO("Identification complete");
