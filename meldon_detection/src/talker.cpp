@@ -120,7 +120,7 @@ int main(int argc, char **argv){
 	ros::init(argc, argv, "meldon_detection");
 	if(argc < 2){
 		ROS_ERROR("Please provide the location the meldon_detection package so that the model files can be located");
-		return 1;
+		exit(0);
 	}
 	ros::NodeHandle n;
 	std::string s;
