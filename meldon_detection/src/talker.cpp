@@ -121,7 +121,7 @@ int main(int argc, char **argv){
 	ros::NodeHandle n;
 	std::string s;
 	image_transport::Subscriber image_sub;
-	kdm = new KernelDescManager(argv[1] + string("/src/meldon_detection/src/kdes/KernelDescriptors_CPU"),string(model_name), string(model_file), string(model_var), string(param_file), LOC_MODEL_TYPE, MAX_IMAGE_SIZE);
+	kdm = new KernelDescManager(argv[1] + string("/src/kdes/KernelDescriptors_CPU"),string(model_name), string(model_file), string(model_var), string(param_file), LOC_MODEL_TYPE, MAX_IMAGE_SIZE);
 	image_transport::ImageTransport it(n);
 	ros::Subscriber clusters = n.subscribe("/tabletop/clusters", 1, clusterCallback);
 	rec_objs = n.advertise<meldon_detection::RecognizedObjectArray>("labeled_objects", 10);
