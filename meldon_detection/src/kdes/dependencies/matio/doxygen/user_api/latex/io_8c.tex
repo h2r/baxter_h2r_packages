@@ -1,0 +1,46 @@
+\hypertarget{io_8c}{
+\section{/home/xren/work/kerneldescriptor/KernelDescriptors\_\-CPU/dependencies/matio/src/io.c File Reference}
+\label{io_8c}\index{/home/xren/work/kerneldescriptor/KernelDescriptors\_\-CPU/dependencies/matio/src/io.c@{/home/xren/work/kerneldescriptor/KernelDescriptors\_\-CPU/dependencies/matio/src/io.c}}
+}
+{\ttfamily \#include $<$stdlib.h$>$}\par
+{\ttfamily \#include $<$stdarg.h$>$}\par
+{\ttfamily \#include $<$stdio.h$>$}\par
+{\ttfamily \#include $<$string.h$>$}\par
+{\ttfamily \#include \char`\"{}matio\_\-private.h\char`\"{}}\par
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+char $\ast$ \hyperlink{group__mat__util_ga2b342987d3b664345cb233640b611fe9}{strdup\_\-vprintf} (const char $\ast$format, va\_\-list ap)
+\begin{DoxyCompactList}\small\item\em Allocates and prints to a new string. \item\end{DoxyCompactList}\item 
+char $\ast$ \hyperlink{group__mat__util_ga291b08f933c75fb70e3736b669896ebd}{strdup\_\-printf} (const char $\ast$format,...)
+\begin{DoxyCompactList}\small\item\em Allocates and prints to a new string using printf format. \item\end{DoxyCompactList}\item 
+int \hyperlink{group__mat__util_gaf348b811ee26bfc923924878cea3c9ba}{Mat\_\-SetVerbose} (int verb, int s)
+\begin{DoxyCompactList}\small\item\em Sets verbose parameters. \item\end{DoxyCompactList}\item 
+int \hyperlink{group__mat__util_gad75e2962dcaf2ac366f2420bb5b13094}{Mat\_\-SetDebug} (int d)
+\begin{DoxyCompactList}\small\item\em Sets verbose parameters. \item\end{DoxyCompactList}\item 
+int \hyperlink{group__mat__util_gae7dfa394b111bc908a616f8f5bddaa97}{Mat\_\-Message} (const char $\ast$format,...)
+\begin{DoxyCompactList}\small\item\em Log a message unless silent. \item\end{DoxyCompactList}\item 
+int \hyperlink{group__mat__util_ga26e00cfb07551be5201fd9e0f04066d9}{Mat\_\-DebugMessage} (int level, const char $\ast$format,...)
+\begin{DoxyCompactList}\small\item\em Log a message based on verbose level. \item\end{DoxyCompactList}\item 
+int \hyperlink{group__mat__util_ga64a176ea7e27e38d4242a24f3e3bad24}{Mat\_\-VerbMessage} (int level, const char $\ast$format,...)
+\begin{DoxyCompactList}\small\item\em Log a message based on verbose level. \item\end{DoxyCompactList}\item 
+void \hyperlink{group__mat__util_gaf51f2bfbb5580f575e4dd79757e2b80c}{Mat\_\-Critical} (const char $\ast$format,...)
+\begin{DoxyCompactList}\small\item\em Logs a Critical message and returns to the user. \item\end{DoxyCompactList}\item 
+void \hyperlink{group__mat__util_ga058b1cb9a4ca36712857d2b3c4de7ffc}{Mat\_\-Error} (const char $\ast$format,...)
+\begin{DoxyCompactList}\small\item\em Logs a Critical message and aborts the program. \item\end{DoxyCompactList}\item 
+void \hyperlink{group__mat__util_gaa4039c185e807ed2e9682b66fe2ea331}{Mat\_\-Help} (const char $\ast$helpstr\mbox{[}$\,$\mbox{]})
+\begin{DoxyCompactList}\small\item\em Prints a helpstring to stdout and exits with status 1. \item\end{DoxyCompactList}\item 
+int \hyperlink{group__mat__util_ga333d15dbd2e7a691621a2af8fc7adc3d}{Mat\_\-LogClose} (void)
+\begin{DoxyCompactList}\small\item\em Closes the logging system. \item\end{DoxyCompactList}\item 
+int \hyperlink{group__mat__util_ga0d30e03216ceaab7c0a4ff878b26f89f}{Mat\_\-LogInit} (const char $\ast$prog\_\-name)
+\begin{DoxyCompactList}\small\item\em Intializes the logging system. \item\end{DoxyCompactList}\item 
+int \hyperlink{group__mat__util_ga93f4dd8d36413ae7f49260d757e3ab9f}{Mat\_\-LogInitFunc} (const char $\ast$prog\_\-name, void($\ast$log\_\-func)(int log\_\-level, char $\ast$message))
+\begin{DoxyCompactList}\small\item\em Intializes the logging system. \item\end{DoxyCompactList}\item 
+void \hyperlink{group__mat__util_gafcedc83eb7e4759a8ea5c974c4f801c3}{Mat\_\-Warning} (const char $\ast$format,...)
+\begin{DoxyCompactList}\small\item\em Prints a warning message to stdout. \item\end{DoxyCompactList}\item 
+size\_\-t \hyperlink{group__mat__util_gab6774aabdc124c540c1e7686d0804940}{Mat\_\-SizeOf} (enum \hyperlink{group__MAT_gacf7b3b879282b7ab3a51190e49bf3453}{matio\_\-types} data\_\-type)
+\begin{DoxyCompactList}\small\item\em Calculate the size of MAT data types. \item\end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+MAT File I/O Utility Functions 

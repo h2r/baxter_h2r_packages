@@ -1,0 +1,189 @@
+\hypertarget{mat5_8c}{
+\section{/home/xren/work/kerneldescriptor/KernelDescriptors\_\-CPU/dependencies/matio/src/mat5.c File Reference}
+\label{mat5_8c}\index{/home/xren/work/kerneldescriptor/KernelDescriptors\_\-CPU/dependencies/matio/src/mat5.c@{/home/xren/work/kerneldescriptor/KernelDescriptors\_\-CPU/dependencies/matio/src/mat5.c}}
+}
+{\ttfamily \#include $<$stdlib.h$>$}\par
+{\ttfamily \#include $<$string.h$>$}\par
+{\ttfamily \#include $<$stdio.h$>$}\par
+{\ttfamily \#include $<$math.h$>$}\par
+{\ttfamily \#include $<$time.h$>$}\par
+{\ttfamily \#include \char`\"{}matio\_\-private.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}mat5.h\char`\"{}}\par
+\subsection*{Defines}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{mat5_8c_a82bacecc4afc633b61bc3dc8ef88d1ed}{
+\#define {\bfseries TYPE\_\-FROM\_\-TAG}(a)~(enum \hyperlink{group__MAT_gacf7b3b879282b7ab3a51190e49bf3453}{matio\_\-types})((a) \& 0x000000ff)}
+\label{mat5_8c_a82bacecc4afc633b61bc3dc8ef88d1ed}
+
+\item 
+\hypertarget{mat5_8c_a85a616d27707e89bda9fd2e9bbb6a586}{
+\#define {\bfseries CLASS\_\-FROM\_\-ARRAY\_\-FLAGS}(a)~(enum \hyperlink{group__MAT_gad4d60ae7b709fc81bfd744fb4c857c40}{matio\_\-classes})((a) \& 0x000000ff)}
+\label{mat5_8c_a85a616d27707e89bda9fd2e9bbb6a586}
+
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{struct__mat__t}{mat\_\-t} $\ast$ \hyperlink{mat5_8c_aacff52cdf3427b35a54c111fa3d7bb21}{Mat\_\-Create5} (const char $\ast$matname, const char $\ast$hdr\_\-str)
+\item 
+int \hyperlink{mat5_8c_ab391ca08249b5e5738b88fd791022610}{WriteCharData} (\hyperlink{struct__mat__t}{mat\_\-t} $\ast$mat, void $\ast$data, int N, enum \hyperlink{group__MAT_gacf7b3b879282b7ab3a51190e49bf3453}{matio\_\-types} data\_\-type)
+\item 
+int \hyperlink{mat5_8c_a04eba34668a0de871c4f245702f802f7}{WriteDataSlab2} (\hyperlink{struct__mat__t}{mat\_\-t} $\ast$mat, void $\ast$data, enum \hyperlink{group__MAT_gacf7b3b879282b7ab3a51190e49bf3453}{matio\_\-types} data\_\-type, size\_\-t $\ast$dims, int $\ast$start, int $\ast$stride, int $\ast$edge)
+\item 
+int \hyperlink{mat5_8c_a5afeaabef5e10f73a5805ce6de4acc8b}{WriteCharDataSlab2} (\hyperlink{struct__mat__t}{mat\_\-t} $\ast$mat, void $\ast$data, enum \hyperlink{group__MAT_gacf7b3b879282b7ab3a51190e49bf3453}{matio\_\-types} data\_\-type, size\_\-t $\ast$dims, int $\ast$start, int $\ast$stride, int $\ast$edge)
+\item 
+int \hyperlink{mat5_8c_a1bec2ccf2a3b48706edd32e63744d364}{WriteData} (\hyperlink{struct__mat__t}{mat\_\-t} $\ast$mat, void $\ast$data, int N, enum \hyperlink{group__MAT_gacf7b3b879282b7ab3a51190e49bf3453}{matio\_\-types} data\_\-type)
+\begin{DoxyCompactList}\small\item\em Writes the data buffer to the file. \item\end{DoxyCompactList}\item 
+void \hyperlink{mat5_8c_abd8669832a02e759fe190bf2724f60ae}{Read5} (\hyperlink{struct__mat__t}{mat\_\-t} $\ast$mat, \hyperlink{structmatvar__t}{matvar\_\-t} $\ast$matvar)
+\item 
+int \hyperlink{mat5_8c_af8a259573b7b3a89555c5a9bc1860e19}{ReadData5} (\hyperlink{struct__mat__t}{mat\_\-t} $\ast$mat, \hyperlink{structmatvar__t}{matvar\_\-t} $\ast$matvar, void $\ast$data, int $\ast$start, int $\ast$stride, int $\ast$edge)
+\item 
+int \hyperlink{mat5_8c_a4d546a62c4b429d9b94fe873015e6a24}{Mat\_\-VarWrite5} (\hyperlink{struct__mat__t}{mat\_\-t} $\ast$mat, \hyperlink{structmatvar__t}{matvar\_\-t} $\ast$matvar, int compress)
+\item 
+void \hyperlink{mat5_8c_a80e4ba45ec110d05657f8f39ffd9ee27}{WriteInfo5} (\hyperlink{struct__mat__t}{mat\_\-t} $\ast$mat, \hyperlink{structmatvar__t}{matvar\_\-t} $\ast$matvar)
+\item 
+\hyperlink{structmatvar__t}{matvar\_\-t} $\ast$ \hyperlink{mat5_8c_a5defc934cf088b13347e50ea7f276ea3}{Mat\_\-VarReadNextInfo5} (\hyperlink{struct__mat__t}{mat\_\-t} $\ast$mat)
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Matlab MAT version 5 file functions 
+
+\subsection{Function Documentation}
+\hypertarget{mat5_8c_aacff52cdf3427b35a54c111fa3d7bb21}{
+\index{mat5.c@{mat5.c}!Mat\_\-Create5@{Mat\_\-Create5}}
+\index{Mat\_\-Create5@{Mat\_\-Create5}!mat5.c@{mat5.c}}
+\subsubsection[{Mat\_\-Create5}]{\setlength{\rightskip}{0pt plus 5cm}{\bf mat\_\-t}$\ast$ Mat\_\-Create5 (
+\begin{DoxyParamCaption}
+\item[{const char $\ast$}]{matname, }
+\item[{const char $\ast$}]{hdr\_\-str}
+\end{DoxyParamCaption}
+)}}
+\label{mat5_8c_aacff52cdf3427b35a54c111fa3d7bb21}
+\hypertarget{mat5_8c_a5defc934cf088b13347e50ea7f276ea3}{
+\index{mat5.c@{mat5.c}!Mat\_\-VarReadNextInfo5@{Mat\_\-VarReadNextInfo5}}
+\index{Mat\_\-VarReadNextInfo5@{Mat\_\-VarReadNextInfo5}!mat5.c@{mat5.c}}
+\subsubsection[{Mat\_\-VarReadNextInfo5}]{\setlength{\rightskip}{0pt plus 5cm}{\bf matvar\_\-t}$\ast$ Mat\_\-VarReadNextInfo5 (
+\begin{DoxyParamCaption}
+\item[{{\bf mat\_\-t} $\ast$}]{mat}
+\end{DoxyParamCaption}
+)}}
+\label{mat5_8c_a5defc934cf088b13347e50ea7f276ea3}
+\hypertarget{mat5_8c_a4d546a62c4b429d9b94fe873015e6a24}{
+\index{mat5.c@{mat5.c}!Mat\_\-VarWrite5@{Mat\_\-VarWrite5}}
+\index{Mat\_\-VarWrite5@{Mat\_\-VarWrite5}!mat5.c@{mat5.c}}
+\subsubsection[{Mat\_\-VarWrite5}]{\setlength{\rightskip}{0pt plus 5cm}int Mat\_\-VarWrite5 (
+\begin{DoxyParamCaption}
+\item[{{\bf mat\_\-t} $\ast$}]{mat, }
+\item[{{\bf matvar\_\-t} $\ast$}]{matvar, }
+\item[{int}]{compress}
+\end{DoxyParamCaption}
+)}}
+\label{mat5_8c_a4d546a62c4b429d9b94fe873015e6a24}
+\hypertarget{mat5_8c_abd8669832a02e759fe190bf2724f60ae}{
+\index{mat5.c@{mat5.c}!Read5@{Read5}}
+\index{Read5@{Read5}!mat5.c@{mat5.c}}
+\subsubsection[{Read5}]{\setlength{\rightskip}{0pt plus 5cm}void Read5 (
+\begin{DoxyParamCaption}
+\item[{{\bf mat\_\-t} $\ast$}]{mat, }
+\item[{{\bf matvar\_\-t} $\ast$}]{matvar}
+\end{DoxyParamCaption}
+)}}
+\label{mat5_8c_abd8669832a02e759fe190bf2724f60ae}
+\hypertarget{mat5_8c_af8a259573b7b3a89555c5a9bc1860e19}{
+\index{mat5.c@{mat5.c}!ReadData5@{ReadData5}}
+\index{ReadData5@{ReadData5}!mat5.c@{mat5.c}}
+\subsubsection[{ReadData5}]{\setlength{\rightskip}{0pt plus 5cm}int ReadData5 (
+\begin{DoxyParamCaption}
+\item[{{\bf mat\_\-t} $\ast$}]{mat, }
+\item[{{\bf matvar\_\-t} $\ast$}]{matvar, }
+\item[{void $\ast$}]{data, }
+\item[{int $\ast$}]{start, }
+\item[{int $\ast$}]{stride, }
+\item[{int $\ast$}]{edge}
+\end{DoxyParamCaption}
+)}}
+\label{mat5_8c_af8a259573b7b3a89555c5a9bc1860e19}
+\hypertarget{mat5_8c_ab391ca08249b5e5738b88fd791022610}{
+\index{mat5.c@{mat5.c}!WriteCharData@{WriteCharData}}
+\index{WriteCharData@{WriteCharData}!mat5.c@{mat5.c}}
+\subsubsection[{WriteCharData}]{\setlength{\rightskip}{0pt plus 5cm}int WriteCharData (
+\begin{DoxyParamCaption}
+\item[{{\bf mat\_\-t} $\ast$}]{mat, }
+\item[{void $\ast$}]{data, }
+\item[{int}]{N, }
+\item[{enum {\bf matio\_\-types}}]{data\_\-type}
+\end{DoxyParamCaption}
+)}}
+\label{mat5_8c_ab391ca08249b5e5738b88fd791022610}
+\hypertarget{mat5_8c_a5afeaabef5e10f73a5805ce6de4acc8b}{
+\index{mat5.c@{mat5.c}!WriteCharDataSlab2@{WriteCharDataSlab2}}
+\index{WriteCharDataSlab2@{WriteCharDataSlab2}!mat5.c@{mat5.c}}
+\subsubsection[{WriteCharDataSlab2}]{\setlength{\rightskip}{0pt plus 5cm}int WriteCharDataSlab2 (
+\begin{DoxyParamCaption}
+\item[{{\bf mat\_\-t} $\ast$}]{mat, }
+\item[{void $\ast$}]{data, }
+\item[{enum {\bf matio\_\-types}}]{data\_\-type, }
+\item[{size\_\-t $\ast$}]{dims, }
+\item[{int $\ast$}]{start, }
+\item[{int $\ast$}]{stride, }
+\item[{int $\ast$}]{edge}
+\end{DoxyParamCaption}
+)}}
+\label{mat5_8c_a5afeaabef5e10f73a5805ce6de4acc8b}
+\hypertarget{mat5_8c_a1bec2ccf2a3b48706edd32e63744d364}{
+\index{mat5.c@{mat5.c}!WriteData@{WriteData}}
+\index{WriteData@{WriteData}!mat5.c@{mat5.c}}
+\subsubsection[{WriteData}]{\setlength{\rightskip}{0pt plus 5cm}int WriteData (
+\begin{DoxyParamCaption}
+\item[{{\bf mat\_\-t} $\ast$}]{mat, }
+\item[{void $\ast$}]{data, }
+\item[{int}]{N, }
+\item[{enum {\bf matio\_\-types}}]{data\_\-type}
+\end{DoxyParamCaption}
+)}}
+\label{mat5_8c_a1bec2ccf2a3b48706edd32e63744d364}
+
+
+Writes the data buffer to the file. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em mat} & MAT file pointer \\
+\hline
+{\em data} & pointer to the data to write \\
+\hline
+{\em N} & number of elements to write \\
+\hline
+{\em data\_\-type} & data type of the data \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+number of bytes written 
+\end{DoxyReturn}
+\hypertarget{mat5_8c_a04eba34668a0de871c4f245702f802f7}{
+\index{mat5.c@{mat5.c}!WriteDataSlab2@{WriteDataSlab2}}
+\index{WriteDataSlab2@{WriteDataSlab2}!mat5.c@{mat5.c}}
+\subsubsection[{WriteDataSlab2}]{\setlength{\rightskip}{0pt plus 5cm}int WriteDataSlab2 (
+\begin{DoxyParamCaption}
+\item[{{\bf mat\_\-t} $\ast$}]{mat, }
+\item[{void $\ast$}]{data, }
+\item[{enum {\bf matio\_\-types}}]{data\_\-type, }
+\item[{size\_\-t $\ast$}]{dims, }
+\item[{int $\ast$}]{start, }
+\item[{int $\ast$}]{stride, }
+\item[{int $\ast$}]{edge}
+\end{DoxyParamCaption}
+)}}
+\label{mat5_8c_a04eba34668a0de871c4f245702f802f7}
+\hypertarget{mat5_8c_a80e4ba45ec110d05657f8f39ffd9ee27}{
+\index{mat5.c@{mat5.c}!WriteInfo5@{WriteInfo5}}
+\index{WriteInfo5@{WriteInfo5}!mat5.c@{mat5.c}}
+\subsubsection[{WriteInfo5}]{\setlength{\rightskip}{0pt plus 5cm}void WriteInfo5 (
+\begin{DoxyParamCaption}
+\item[{{\bf mat\_\-t} $\ast$}]{mat, }
+\item[{{\bf matvar\_\-t} $\ast$}]{matvar}
+\end{DoxyParamCaption}
+)}}
+\label{mat5_8c_a80e4ba45ec110d05657f8f39ffd9ee27}

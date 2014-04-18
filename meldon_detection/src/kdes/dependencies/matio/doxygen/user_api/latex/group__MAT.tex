@@ -1,0 +1,1456 @@
+\hypertarget{group__MAT}{
+\section{Matlab MAT File I/O Library}
+\label{group__MAT}\index{Matlab MAT File I/O Library@{Matlab MAT File I/O Library}}
+}
+\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structComplexSplit}{ComplexSplit}
+\begin{DoxyCompactList}\small\item\em Complex data type using split storage. \item\end{DoxyCompactList}\item 
+struct \hyperlink{structmatvar__t}{matvar\_\-t}
+\begin{DoxyCompactList}\small\item\em Matlab variable information. \item\end{DoxyCompactList}\item 
+struct \hyperlink{structsparse__t}{sparse\_\-t}
+\begin{DoxyCompactList}\small\item\em sparse data information \item\end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Files}
+\begin{DoxyCompactItemize}
+\item 
+file \hyperlink{inflate_8c}{inflate.c}
+
+
+\begin{DoxyCompactList}\small\item\em Functions to inflate data/tags. \item\end{DoxyCompactList}
+
+\item 
+file \hyperlink{mat_8c}{mat.c}
+\item 
+file \hyperlink{mat4_8c}{mat4.c}
+\item 
+file \hyperlink{mat5_8c}{mat5.c}
+\item 
+file \hyperlink{mat5_8c}{mat5.c}
+\item 
+file \hyperlink{matio_8h}{matio.h}
+\item 
+file \hyperlink{read__data_8c}{read\_\-data.c}
+\end{DoxyCompactItemize}
+\subsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{group__MAT_gab0fc888f5a5d79943b16284b1f91c2e8}{
+typedef struct \hyperlink{struct__mat__t}{\_\-mat\_\-t} \hyperlink{group__MAT_gab0fc888f5a5d79943b16284b1f91c2e8}{mat\_\-t}}
+\label{group__MAT_gab0fc888f5a5d79943b16284b1f91c2e8}
+
+\begin{DoxyCompactList}\small\item\em Matlab MAT File information Contains information about a Matlab MAT file. \item\end{DoxyCompactList}\item 
+typedef struct \hyperlink{structmatvar__t}{matvar\_\-t} \hyperlink{group__MAT_ga24775c96a2a6d073581639c780b7896c}{matvar\_\-t}
+\begin{DoxyCompactList}\small\item\em Matlab variable information. \item\end{DoxyCompactList}\item 
+typedef struct \hyperlink{structsparse__t}{sparse\_\-t} \hyperlink{group__MAT_ga3ce6ed53a1909e27e92f3eaffc2f92ed}{sparse\_\-t}
+\begin{DoxyCompactList}\small\item\em sparse data information \item\end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{group__MAT_gaa9dcbc70f538af79bd557593ff6b5cdb}{mat\_\-acc} \{ \hyperlink{group__MAT_ggaa9dcbc70f538af79bd557593ff6b5cdba8dd1457651b27ba9bea6cfba158c037c}{MAT\_\-ACC\_\-RDONLY} =  0, 
+\hyperlink{group__MAT_ggaa9dcbc70f538af79bd557593ff6b5cdba0f65f27ea42fde32d62b702b82329c1f}{MAT\_\-ACC\_\-RDWR} =  1
+ \}
+\begin{DoxyCompactList}\small\item\em MAT file access types. \item\end{DoxyCompactList}\item 
+enum \hyperlink{group__MAT_gad03442b8378999189d510e3745c702b7}{mat\_\-ft} \{ \hyperlink{group__MAT_ggad03442b8378999189d510e3745c702b7a765c5d1d5038947646260dc82483517e}{MAT\_\-FT\_\-MAT73} =  0x0200, 
+\hyperlink{group__MAT_ggad03442b8378999189d510e3745c702b7a31ade1f6989411dc0299007e2c7d33b2}{MAT\_\-FT\_\-MAT5} =  0x0100, 
+\hyperlink{group__MAT_ggad03442b8378999189d510e3745c702b7a858b4f5da65548219b1c3ad47aa478d3}{MAT\_\-FT\_\-MAT4} =  0x0010
+ \}
+\begin{DoxyCompactList}\small\item\em MAT file versions. \item\end{DoxyCompactList}\item 
+enum \hyperlink{group__MAT_gacf7b3b879282b7ab3a51190e49bf3453}{matio\_\-types} \{ \par
+\hyperlink{group__MAT_ggacf7b3b879282b7ab3a51190e49bf3453a2a7318fe8bf9464935e7ed8902618293}{MAT\_\-T\_\-UNKNOWN} =  0, 
+\hyperlink{group__MAT_ggacf7b3b879282b7ab3a51190e49bf3453a9807f5033ed4f9b548953742d9fd1658}{MAT\_\-T\_\-INT8} =  1, 
+\hyperlink{group__MAT_ggacf7b3b879282b7ab3a51190e49bf3453a01c1bd7db68f90552862eb5d311be408}{MAT\_\-T\_\-UINT8} =  2, 
+\hyperlink{group__MAT_ggacf7b3b879282b7ab3a51190e49bf3453a8c5b2e381946e95ea8d81ac216743302}{MAT\_\-T\_\-INT16} =  3, 
+\par
+\hyperlink{group__MAT_ggacf7b3b879282b7ab3a51190e49bf3453a05bc7af7680aa68be95126ae0a4c2e31}{MAT\_\-T\_\-UINT16} =  4, 
+\hyperlink{group__MAT_ggacf7b3b879282b7ab3a51190e49bf3453a83e06a68320726c6572bfbb9f3addb1d}{MAT\_\-T\_\-INT32} =  5, 
+\hyperlink{group__MAT_ggacf7b3b879282b7ab3a51190e49bf3453aa397e285a23fe240368b752897652c6a}{MAT\_\-T\_\-UINT32} =  6, 
+\hyperlink{group__MAT_ggacf7b3b879282b7ab3a51190e49bf3453a3a3657d40e9212c923d9b9d03531b64c}{MAT\_\-T\_\-SINGLE} =  7, 
+\par
+\hyperlink{group__MAT_ggacf7b3b879282b7ab3a51190e49bf3453a31e721ecf7e188196f83c32838288797}{MAT\_\-T\_\-DOUBLE} =  9, 
+\hyperlink{group__MAT_ggacf7b3b879282b7ab3a51190e49bf3453a9e825b5d18b8f946eaf2b4b57e51c145}{MAT\_\-T\_\-INT64} =  12, 
+\hyperlink{group__MAT_ggacf7b3b879282b7ab3a51190e49bf3453a45547932c46be27118abe08302d7e29f}{MAT\_\-T\_\-UINT64} =  13, 
+\hyperlink{group__MAT_ggacf7b3b879282b7ab3a51190e49bf3453a32985fee89a4df8db4b3f5d3a48823d3}{MAT\_\-T\_\-MATRIX} =  14, 
+\par
+\hyperlink{group__MAT_ggacf7b3b879282b7ab3a51190e49bf3453a30437f2eb3becc2fa6e5d96599d7f724}{MAT\_\-T\_\-COMPRESSED} =  15, 
+\hyperlink{group__MAT_ggacf7b3b879282b7ab3a51190e49bf3453ac34ad81f5cbd3b7d0d95e57e5be0149b}{MAT\_\-T\_\-UTF8} =  16, 
+\hyperlink{group__MAT_ggacf7b3b879282b7ab3a51190e49bf3453a87ffc0412143c326a1fcc759d5d81bdc}{MAT\_\-T\_\-UTF16} =  17, 
+\hyperlink{group__MAT_ggacf7b3b879282b7ab3a51190e49bf3453a11e43c0e0be79b1983090e02ae583109}{MAT\_\-T\_\-UTF32} =  18, 
+\par
+\hyperlink{group__MAT_ggacf7b3b879282b7ab3a51190e49bf3453a9456a83c0b22022af42461a09d63cdb2}{MAT\_\-T\_\-STRING} =  20, 
+\hyperlink{group__MAT_ggacf7b3b879282b7ab3a51190e49bf3453a07599cf2cca6d2b2d059378563318ba5}{MAT\_\-T\_\-CELL} =  21, 
+\hyperlink{group__MAT_ggacf7b3b879282b7ab3a51190e49bf3453a4f4d5a6e1d42c6aa81ffb810e5da5c85}{MAT\_\-T\_\-STRUCT} =  22, 
+\hyperlink{group__MAT_ggacf7b3b879282b7ab3a51190e49bf3453acf106b0c23021582375f59bc9fce89b1}{MAT\_\-T\_\-ARRAY} =  23, 
+\par
+\hyperlink{group__MAT_ggacf7b3b879282b7ab3a51190e49bf3453ae76686f267dd1641cd55dce306af6d10}{MAT\_\-T\_\-FUNCTION} =  24
+ \}
+\begin{DoxyCompactList}\small\item\em Matlab data types. \item\end{DoxyCompactList}\item 
+enum \hyperlink{group__MAT_gad4d60ae7b709fc81bfd744fb4c857c40}{matio\_\-classes} \{ \par
+\hyperlink{group__MAT_ggad4d60ae7b709fc81bfd744fb4c857c40a5c76eef0ca0373d25abe49053be6fa9a}{MAT\_\-C\_\-EMPTY} =  0, 
+\hyperlink{group__MAT_ggad4d60ae7b709fc81bfd744fb4c857c40a2f7abb47a1c51e248bd4e5e03cc81b08}{MAT\_\-C\_\-CELL} =  1, 
+\hyperlink{group__MAT_ggad4d60ae7b709fc81bfd744fb4c857c40acb467c7749c80902b798134c729bb521}{MAT\_\-C\_\-STRUCT} =  2, 
+\hyperlink{group__MAT_ggad4d60ae7b709fc81bfd744fb4c857c40afe45104b68b044c83a2f99e349fa1ea6}{MAT\_\-C\_\-OBJECT} =  3, 
+\par
+\hyperlink{group__MAT_ggad4d60ae7b709fc81bfd744fb4c857c40aacdec5834df0861130b393697646119c}{MAT\_\-C\_\-CHAR} =  4, 
+\hyperlink{group__MAT_ggad4d60ae7b709fc81bfd744fb4c857c40a0d5655b7e6178a2242cb3bb56ff4c8d2}{MAT\_\-C\_\-SPARSE} =  5, 
+\hyperlink{group__MAT_ggad4d60ae7b709fc81bfd744fb4c857c40a5d70e0862e5bdb7bd86bf7ba5948f307}{MAT\_\-C\_\-DOUBLE} =  6, 
+\hyperlink{group__MAT_ggad4d60ae7b709fc81bfd744fb4c857c40a2825631e26a961cbe0f79db50a39cea2}{MAT\_\-C\_\-SINGLE} =  7, 
+\par
+\hyperlink{group__MAT_ggad4d60ae7b709fc81bfd744fb4c857c40a984ff310f9e906100fcff95f704f43c5}{MAT\_\-C\_\-INT8} =  8, 
+\hyperlink{group__MAT_ggad4d60ae7b709fc81bfd744fb4c857c40a81270f8093cb4808e992c1d29d84d4e3}{MAT\_\-C\_\-UINT8} =  9, 
+\hyperlink{group__MAT_ggad4d60ae7b709fc81bfd744fb4c857c40a40370e9de516c5036a67a5865c071006}{MAT\_\-C\_\-INT16} =  10, 
+\hyperlink{group__MAT_ggad4d60ae7b709fc81bfd744fb4c857c40a8bede21dbf6c1edc0bbccc1481bccae7}{MAT\_\-C\_\-UINT16} =  11, 
+\par
+\hyperlink{group__MAT_ggad4d60ae7b709fc81bfd744fb4c857c40adb44fc39694e3152ae5e69470a2fefe8}{MAT\_\-C\_\-INT32} =  12, 
+\hyperlink{group__MAT_ggad4d60ae7b709fc81bfd744fb4c857c40a9a17a7edd45b19ef68197db81b27e816}{MAT\_\-C\_\-UINT32} =  13, 
+\hyperlink{group__MAT_ggad4d60ae7b709fc81bfd744fb4c857c40a1ea83bcde49b35477494412973f82409}{MAT\_\-C\_\-INT64} =  14, 
+\hyperlink{group__MAT_ggad4d60ae7b709fc81bfd744fb4c857c40a86470e25c3763d9a24623f04326195dd}{MAT\_\-C\_\-UINT64} =  15, 
+\par
+\hyperlink{group__MAT_ggad4d60ae7b709fc81bfd744fb4c857c40aaa9bf08312779cd1ab8e504a162ddcea}{MAT\_\-C\_\-FUNCTION} =  16
+ \}
+\begin{DoxyCompactList}\small\item\em Matlab variable classes. \item\end{DoxyCompactList}\item 
+enum \hyperlink{group__MAT_gab9d6ef9e3ddca78a317b173f01d53fbb}{matio\_\-flags} \{ \hyperlink{group__MAT_ggab9d6ef9e3ddca78a317b173f01d53fbbacd7b091a11184aad7fc6078c04470780}{MAT\_\-F\_\-COMPLEX} =  0x0800, 
+\hyperlink{group__MAT_ggab9d6ef9e3ddca78a317b173f01d53fbba49084e0c796aa7963e53f7539525d40d}{MAT\_\-F\_\-GLOBAL} =  0x0400, 
+\hyperlink{group__MAT_ggab9d6ef9e3ddca78a317b173f01d53fbba57eb5c6e200bcbc0f1b7982f29a169c2}{MAT\_\-F\_\-LOGICAL} =  0x0200, 
+\hyperlink{group__MAT_ggab9d6ef9e3ddca78a317b173f01d53fbba3a88beaec448e0485ffe21b18a540c1d}{MAT\_\-F\_\-CLASS\_\-T} =  0x00ff
+ \}
+\begin{DoxyCompactList}\small\item\em Matlab array flags. \item\end{DoxyCompactList}\item 
+enum \hyperlink{group__MAT_ga768c318af97bd2567758ecb001ceb7f4}{matio\_\-compression} \{ \hyperlink{group__MAT_gga768c318af97bd2567758ecb001ceb7f4ac549b871996d1ef05d40056bf5bb52e5}{COMPRESSION\_\-NONE} =  0, 
+\hyperlink{group__MAT_gga768c318af97bd2567758ecb001ceb7f4a1f453c9a2c01b52294b37a1226837f86}{COMPRESSION\_\-ZLIB} =  1
+ \}
+\begin{DoxyCompactList}\small\item\em Matlab compression options. \item\end{DoxyCompactList}\item 
+enum \{ \hyperlink{group__MAT_gga06fc87d81c62e9abb8790b6e5713c55ba8938378c70879fe916177141cce0417e}{BY\_\-NAME} =  1, 
+\hyperlink{group__MAT_gga06fc87d81c62e9abb8790b6e5713c55ba5f4d5606de1ec27f80f4a50186909005}{BY\_\-INDEX} =  2
+ \}
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{struct__mat__t}{mat\_\-t} $\ast$ \hyperlink{group__MAT_ga22d404f203af7869c841400e7ad247cf}{Mat\_\-CreateVer} (const char $\ast$matname, const char $\ast$hdr\_\-str, enum \hyperlink{group__MAT_gad03442b8378999189d510e3745c702b7}{mat\_\-ft} mat\_\-file\_\-ver)
+\begin{DoxyCompactList}\small\item\em Creates a new Matlab MAT file. \item\end{DoxyCompactList}\item 
+\hyperlink{struct__mat__t}{mat\_\-t} $\ast$ \hyperlink{group__MAT_gafbfedb5636a99f0ef867520c47f77d18}{Mat\_\-Open} (const char $\ast$matname, int mode)
+\begin{DoxyCompactList}\small\item\em Opens an existing Matlab MAT file. \item\end{DoxyCompactList}\item 
+int \hyperlink{group__MAT_ga101c92ff7bde4a2d4615661beba09262}{Mat\_\-Close} (\hyperlink{struct__mat__t}{mat\_\-t} $\ast$mat)
+\begin{DoxyCompactList}\small\item\em Closes an open Matlab MAT file. \item\end{DoxyCompactList}\item 
+int \hyperlink{group__MAT_ga4d6e3892d2e216c507a744ba0e070d0b}{Mat\_\-Rewind} (\hyperlink{struct__mat__t}{mat\_\-t} $\ast$mat)
+\begin{DoxyCompactList}\small\item\em Rewinds a Matlab MAT file to the first variable. \item\end{DoxyCompactList}\item 
+size\_\-t \hyperlink{group__MAT_ga2bf682f015b22fa796a8885e997661e7}{Mat\_\-SizeOfClass} (int class\_\-type)
+\begin{DoxyCompactList}\small\item\em Returns the size of a Matlab Class. \item\end{DoxyCompactList}\item 
+\hyperlink{structmatvar__t}{matvar\_\-t} $\ast$ \hyperlink{group__MAT_gae7c9c3699f6e9c31a9c490300013098c}{Mat\_\-VarCalloc} (void)
+\begin{DoxyCompactList}\small\item\em Allocates memory for a new \hyperlink{structmatvar__t}{matvar\_\-t} and initializes all the fields. \item\end{DoxyCompactList}\item 
+\hyperlink{structmatvar__t}{matvar\_\-t} $\ast$ \hyperlink{group__MAT_ga1c54a84bb4d810c6fccdb8869489eac4}{Mat\_\-VarCreate} (const char $\ast$name, enum \hyperlink{group__MAT_gad4d60ae7b709fc81bfd744fb4c857c40}{matio\_\-classes} class\_\-type, enum \hyperlink{group__MAT_gacf7b3b879282b7ab3a51190e49bf3453}{matio\_\-types} data\_\-type, int rank, size\_\-t $\ast$dims, void $\ast$data, int opt)
+\begin{DoxyCompactList}\small\item\em Creates a MAT Variable with the given name and (optionally) data. \item\end{DoxyCompactList}\item 
+int \hyperlink{group__MAT_gabf139e48d48177e5069338fa2919c60a}{Mat\_\-VarDelete} (\hyperlink{struct__mat__t}{mat\_\-t} $\ast$mat, const char $\ast$name)
+\begin{DoxyCompactList}\small\item\em Deletes a variable from a file. \item\end{DoxyCompactList}\item 
+\hyperlink{structmatvar__t}{matvar\_\-t} $\ast$ \hyperlink{group__MAT_ga7ef80c5d99d7918b2b09db3bea106ecc}{Mat\_\-VarDuplicate} (const \hyperlink{structmatvar__t}{matvar\_\-t} $\ast$in, int opt)
+\begin{DoxyCompactList}\small\item\em Duplicates a \hyperlink{structmatvar__t}{matvar\_\-t} structure. \item\end{DoxyCompactList}\item 
+void \hyperlink{group__MAT_ga1d14716f7450530fd1c9d02413787f0e}{Mat\_\-VarFree} (\hyperlink{structmatvar__t}{matvar\_\-t} $\ast$matvar)
+\begin{DoxyCompactList}\small\item\em Frees all the allocated memory associated with the structure. \item\end{DoxyCompactList}\item 
+int \hyperlink{group__MAT_ga9b8d09f631538b14ca29792e0334e349}{Mat\_\-CalcSingleSubscript} (int rank, int $\ast$dims, int $\ast$subs)
+\begin{DoxyCompactList}\small\item\em Calculate a single subscript from a set of subscript values. \item\end{DoxyCompactList}\item 
+int $\ast$ \hyperlink{group__MAT_gabe2571a4b9b6cff3b31aa6f152deba61}{Mat\_\-CalcSubscripts} (int rank, int $\ast$dims, int index)
+\begin{DoxyCompactList}\small\item\em Calculate a set of subscript values from a single(linear) subscript. \item\end{DoxyCompactList}\item 
+\hyperlink{structmatvar__t}{matvar\_\-t} $\ast$ \hyperlink{group__MAT_gac1e15063439c0bd3eb0c986514c742dc}{Mat\_\-VarGetCell} (\hyperlink{structmatvar__t}{matvar\_\-t} $\ast$matvar, int index)
+\begin{DoxyCompactList}\small\item\em Returns a pointer to the Cell array at a specific index. \item\end{DoxyCompactList}\item 
+\hyperlink{structmatvar__t}{matvar\_\-t} $\ast$$\ast$ \hyperlink{group__MAT_ga0732b0a6c40975b036068b9a14422d45}{Mat\_\-VarGetCells} (\hyperlink{structmatvar__t}{matvar\_\-t} $\ast$matvar, int $\ast$start, int $\ast$stride, int $\ast$edge)
+\begin{DoxyCompactList}\small\item\em Indexes a cell array. \item\end{DoxyCompactList}\item 
+\hyperlink{structmatvar__t}{matvar\_\-t} $\ast$$\ast$ \hyperlink{group__MAT_ga004987d665654409f74eaf8e82bb1380}{Mat\_\-VarGetCellsLinear} (\hyperlink{structmatvar__t}{matvar\_\-t} $\ast$matvar, int start, int stride, int edge)
+\begin{DoxyCompactList}\small\item\em Indexes a cell array. \item\end{DoxyCompactList}\item 
+size\_\-t \hyperlink{group__MAT_gaeeb798fead2f765bddfb19016c7fdbcc}{Mat\_\-VarGetSize} (\hyperlink{structmatvar__t}{matvar\_\-t} $\ast$matvar)
+\begin{DoxyCompactList}\small\item\em Calculates the size of a matlab variable in bytes. \item\end{DoxyCompactList}\item 
+int \hyperlink{group__MAT_ga9f8ab8a7e4206c16cb20437acc6960d2}{Mat\_\-VarAddStructField} (\hyperlink{structmatvar__t}{matvar\_\-t} $\ast$matvar, \hyperlink{structmatvar__t}{matvar\_\-t} $\ast$$\ast$fields)
+\begin{DoxyCompactList}\small\item\em Adds a field to a structure. \item\end{DoxyCompactList}\item 
+int \hyperlink{group__MAT_ga56b9a545990a0f253164018e37111741}{Mat\_\-VarGetNumberOfFields} (\hyperlink{structmatvar__t}{matvar\_\-t} $\ast$matvar)
+\begin{DoxyCompactList}\small\item\em Returns the number of fields in a structure variable. \item\end{DoxyCompactList}\item 
+\hyperlink{structmatvar__t}{matvar\_\-t} $\ast$ \hyperlink{group__MAT_ga7018bfe6934b96ae32e8f2a1712eefab}{Mat\_\-VarGetStructField} (\hyperlink{structmatvar__t}{matvar\_\-t} $\ast$matvar, void $\ast$name\_\-or\_\-index, int opt, int index)
+\begin{DoxyCompactList}\small\item\em Finds a field of a structure. \item\end{DoxyCompactList}\item 
+\hyperlink{structmatvar__t}{matvar\_\-t} $\ast$ \hyperlink{group__MAT_ga509178d7dc15faf9f7cd0440df6009b9}{Mat\_\-VarGetStructs} (\hyperlink{structmatvar__t}{matvar\_\-t} $\ast$matvar, int $\ast$start, int $\ast$stride, int $\ast$edge, int copy\_\-fields)
+\begin{DoxyCompactList}\small\item\em Indexes a structure. \item\end{DoxyCompactList}\item 
+\hyperlink{structmatvar__t}{matvar\_\-t} $\ast$ \hyperlink{group__MAT_gaa56680fb7b2cd3d410f659e945da8141}{Mat\_\-VarGetStructsLinear} (\hyperlink{structmatvar__t}{matvar\_\-t} $\ast$matvar, int start, int stride, int edge, int copy\_\-fields)
+\begin{DoxyCompactList}\small\item\em Indexes a structure. \item\end{DoxyCompactList}\item 
+void \hyperlink{group__MAT_ga9100c145e338b84b55d5d0795d5d390a}{Mat\_\-VarPrint} (\hyperlink{structmatvar__t}{matvar\_\-t} $\ast$matvar, int printdata)
+\begin{DoxyCompactList}\small\item\em Prints the variable information. \item\end{DoxyCompactList}\item 
+int \hyperlink{group__MAT_ga1845000f4fc6252ec5ff11c4b9f0759f}{Mat\_\-VarReadData} (\hyperlink{struct__mat__t}{mat\_\-t} $\ast$mat, \hyperlink{structmatvar__t}{matvar\_\-t} $\ast$matvar, void $\ast$data, int $\ast$start, int $\ast$stride, int $\ast$edge)
+\begin{DoxyCompactList}\small\item\em Reads MAT variable data from a file. \item\end{DoxyCompactList}\item 
+int \hyperlink{group__MAT_gaa8060d7c8e5da0aa9ee5f96e5f1eb30a}{Mat\_\-VarReadDataAll} (\hyperlink{struct__mat__t}{mat\_\-t} $\ast$mat, \hyperlink{structmatvar__t}{matvar\_\-t} $\ast$matvar)
+\begin{DoxyCompactList}\small\item\em Reads all the data for a matlab variable. \item\end{DoxyCompactList}\item 
+int \hyperlink{group__MAT_gaad61c8449a2106afa697280ff0ee9dd8}{Mat\_\-VarReadDataLinear} (\hyperlink{struct__mat__t}{mat\_\-t} $\ast$mat, \hyperlink{structmatvar__t}{matvar\_\-t} $\ast$matvar, void $\ast$data, int start, int stride, int edge)
+\begin{DoxyCompactList}\small\item\em Reads MAT variable data from a file. \item\end{DoxyCompactList}\item 
+\hyperlink{structmatvar__t}{matvar\_\-t} $\ast$ \hyperlink{group__MAT_ga72dd99330507b17177e22f9ed3bea5e6}{Mat\_\-VarReadNextInfo} (\hyperlink{struct__mat__t}{mat\_\-t} $\ast$mat)
+\begin{DoxyCompactList}\small\item\em Reads the information of the next variable in a MAT file. \item\end{DoxyCompactList}\item 
+\hyperlink{structmatvar__t}{matvar\_\-t} $\ast$ \hyperlink{group__MAT_ga46da2e45ed96d3f1a6ec643757f2b086}{Mat\_\-VarReadInfo} (\hyperlink{struct__mat__t}{mat\_\-t} $\ast$mat, const char $\ast$name)
+\begin{DoxyCompactList}\small\item\em Reads the information of a variable with the given name from a MAT file. \item\end{DoxyCompactList}\item 
+\hyperlink{structmatvar__t}{matvar\_\-t} $\ast$ \hyperlink{group__MAT_ga3505f63029763eaa73d5a19f1115eb42}{Mat\_\-VarRead} (\hyperlink{struct__mat__t}{mat\_\-t} $\ast$mat, const char $\ast$name)
+\begin{DoxyCompactList}\small\item\em Reads the variable with the given name from a MAT file. \item\end{DoxyCompactList}\item 
+\hyperlink{structmatvar__t}{matvar\_\-t} $\ast$ \hyperlink{group__MAT_ga7c321d6aafd93916ba6c5655ad78e9ca}{Mat\_\-VarReadNext} (\hyperlink{struct__mat__t}{mat\_\-t} $\ast$mat)
+\begin{DoxyCompactList}\small\item\em Reads the next variable in a MAT file. \item\end{DoxyCompactList}\item 
+int \hyperlink{group__MAT_ga1ae164415dfd98cdf48ad07033b6e0bb}{Mat\_\-VarWriteInfo} (\hyperlink{struct__mat__t}{mat\_\-t} $\ast$mat, \hyperlink{structmatvar__t}{matvar\_\-t} $\ast$matvar)
+\begin{DoxyCompactList}\small\item\em Writes the given MAT variable to a MAT file. \item\end{DoxyCompactList}\item 
+int \hyperlink{group__MAT_ga43179b930fb30c025a153a55a083a98a}{Mat\_\-VarWriteData} (\hyperlink{struct__mat__t}{mat\_\-t} $\ast$mat, \hyperlink{structmatvar__t}{matvar\_\-t} $\ast$matvar, void $\ast$data, int $\ast$start, int $\ast$stride, int $\ast$edge)
+\begin{DoxyCompactList}\small\item\em Writes the given data to the MAT variable. \item\end{DoxyCompactList}\item 
+int \hyperlink{group__MAT_ga77c5ad24d45047830046fe3ed25da8ad}{Mat\_\-VarWrite} (\hyperlink{struct__mat__t}{mat\_\-t} $\ast$mat, \hyperlink{structmatvar__t}{matvar\_\-t} $\ast$matvar, int compress)
+\begin{DoxyCompactList}\small\item\em Writes the given MAT variable to a MAT file. \item\end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Typedef Documentation}
+\hypertarget{group__MAT_ga24775c96a2a6d073581639c780b7896c}{
+\index{MAT@{MAT}!matvar\_\-t@{matvar\_\-t}}
+\index{matvar\_\-t@{matvar\_\-t}!MAT@{MAT}}
+\subsubsection[{matvar\_\-t}]{\setlength{\rightskip}{0pt plus 5cm}typedef struct {\bf matvar\_\-t}  {\bf matvar\_\-t}}}
+\label{group__MAT_ga24775c96a2a6d073581639c780b7896c}
+
+
+Matlab variable information. 
+
+Contains information about a Matlab variable \hypertarget{group__MAT_ga3ce6ed53a1909e27e92f3eaffc2f92ed}{
+\index{MAT@{MAT}!sparse\_\-t@{sparse\_\-t}}
+\index{sparse\_\-t@{sparse\_\-t}!MAT@{MAT}}
+\subsubsection[{sparse\_\-t}]{\setlength{\rightskip}{0pt plus 5cm}typedef struct {\bf sparse\_\-t}  {\bf sparse\_\-t}}}
+\label{group__MAT_ga3ce6ed53a1909e27e92f3eaffc2f92ed}
+
+
+sparse data information 
+
+Contains information and data for a sparse matrix 
+
+\subsection{Enumeration Type Documentation}
+\hypertarget{group__MAT_ga06fc87d81c62e9abb8790b6e5713c55b}{
+\subsubsection[{"@0}]{\setlength{\rightskip}{0pt plus 5cm}anonymous enum}}
+\label{group__MAT_ga06fc87d81c62e9abb8790b6e5713c55b}
+matio lookup type \begin{Desc}
+\item[Enumerator: ]\par
+\begin{description}
+\index{BY\_\-NAME@{BY\_\-NAME}!MAT@{MAT}}\index{MAT@{MAT}!BY\_\-NAME@{BY\_\-NAME}}\item[{\em 
+\hypertarget{group__MAT_gga06fc87d81c62e9abb8790b6e5713c55ba8938378c70879fe916177141cce0417e}{
+BY\_\-NAME}
+\label{group__MAT_gga06fc87d81c62e9abb8790b6e5713c55ba8938378c70879fe916177141cce0417e}
+}]Lookup by name \index{BY\_\-INDEX@{BY\_\-INDEX}!MAT@{MAT}}\index{MAT@{MAT}!BY\_\-INDEX@{BY\_\-INDEX}}\item[{\em 
+\hypertarget{group__MAT_gga06fc87d81c62e9abb8790b6e5713c55ba5f4d5606de1ec27f80f4a50186909005}{
+BY\_\-INDEX}
+\label{group__MAT_gga06fc87d81c62e9abb8790b6e5713c55ba5f4d5606de1ec27f80f4a50186909005}
+}]Lookup by index \end{description}
+\end{Desc}
+
+\hypertarget{group__MAT_gaa9dcbc70f538af79bd557593ff6b5cdb}{
+\index{MAT@{MAT}!mat\_\-acc@{mat\_\-acc}}
+\index{mat\_\-acc@{mat\_\-acc}!MAT@{MAT}}
+\subsubsection[{mat\_\-acc}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf mat\_\-acc}}}
+\label{group__MAT_gaa9dcbc70f538af79bd557593ff6b5cdb}
+
+
+MAT file access types. 
+
+MAT file access types \begin{Desc}
+\item[Enumerator: ]\par
+\begin{description}
+\index{MAT\_\-ACC\_\-RDONLY@{MAT\_\-ACC\_\-RDONLY}!MAT@{MAT}}\index{MAT@{MAT}!MAT\_\-ACC\_\-RDONLY@{MAT\_\-ACC\_\-RDONLY}}\item[{\em 
+\hypertarget{group__MAT_ggaa9dcbc70f538af79bd557593ff6b5cdba8dd1457651b27ba9bea6cfba158c037c}{
+MAT\_\-ACC\_\-RDONLY}
+\label{group__MAT_ggaa9dcbc70f538af79bd557593ff6b5cdba8dd1457651b27ba9bea6cfba158c037c}
+}]Read only file access. \index{MAT\_\-ACC\_\-RDWR@{MAT\_\-ACC\_\-RDWR}!MAT@{MAT}}\index{MAT@{MAT}!MAT\_\-ACC\_\-RDWR@{MAT\_\-ACC\_\-RDWR}}\item[{\em 
+\hypertarget{group__MAT_ggaa9dcbc70f538af79bd557593ff6b5cdba0f65f27ea42fde32d62b702b82329c1f}{
+MAT\_\-ACC\_\-RDWR}
+\label{group__MAT_ggaa9dcbc70f538af79bd557593ff6b5cdba0f65f27ea42fde32d62b702b82329c1f}
+}]Read/Write file access. \end{description}
+\end{Desc}
+
+\hypertarget{group__MAT_gad03442b8378999189d510e3745c702b7}{
+\index{MAT@{MAT}!mat\_\-ft@{mat\_\-ft}}
+\index{mat\_\-ft@{mat\_\-ft}!MAT@{MAT}}
+\subsubsection[{mat\_\-ft}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf mat\_\-ft}}}
+\label{group__MAT_gad03442b8378999189d510e3745c702b7}
+
+
+MAT file versions. 
+
+MAT file versions \begin{Desc}
+\item[Enumerator: ]\par
+\begin{description}
+\index{MAT\_\-FT\_\-MAT73@{MAT\_\-FT\_\-MAT73}!MAT@{MAT}}\index{MAT@{MAT}!MAT\_\-FT\_\-MAT73@{MAT\_\-FT\_\-MAT73}}\item[{\em 
+\hypertarget{group__MAT_ggad03442b8378999189d510e3745c702b7a765c5d1d5038947646260dc82483517e}{
+MAT\_\-FT\_\-MAT73}
+\label{group__MAT_ggad03442b8378999189d510e3745c702b7a765c5d1d5038947646260dc82483517e}
+}]Matlab version 7.3 file. \index{MAT\_\-FT\_\-MAT5@{MAT\_\-FT\_\-MAT5}!MAT@{MAT}}\index{MAT@{MAT}!MAT\_\-FT\_\-MAT5@{MAT\_\-FT\_\-MAT5}}\item[{\em 
+\hypertarget{group__MAT_ggad03442b8378999189d510e3745c702b7a31ade1f6989411dc0299007e2c7d33b2}{
+MAT\_\-FT\_\-MAT5}
+\label{group__MAT_ggad03442b8378999189d510e3745c702b7a31ade1f6989411dc0299007e2c7d33b2}
+}]Matlab level-\/5 file. \index{MAT\_\-FT\_\-MAT4@{MAT\_\-FT\_\-MAT4}!MAT@{MAT}}\index{MAT@{MAT}!MAT\_\-FT\_\-MAT4@{MAT\_\-FT\_\-MAT4}}\item[{\em 
+\hypertarget{group__MAT_ggad03442b8378999189d510e3745c702b7a858b4f5da65548219b1c3ad47aa478d3}{
+MAT\_\-FT\_\-MAT4}
+\label{group__MAT_ggad03442b8378999189d510e3745c702b7a858b4f5da65548219b1c3ad47aa478d3}
+}]Version 4 file. \end{description}
+\end{Desc}
+
+\hypertarget{group__MAT_gad4d60ae7b709fc81bfd744fb4c857c40}{
+\index{MAT@{MAT}!matio\_\-classes@{matio\_\-classes}}
+\index{matio\_\-classes@{matio\_\-classes}!MAT@{MAT}}
+\subsubsection[{matio\_\-classes}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf matio\_\-classes}}}
+\label{group__MAT_gad4d60ae7b709fc81bfd744fb4c857c40}
+
+
+Matlab variable classes. 
+
+Matlab variable classes \begin{Desc}
+\item[Enumerator: ]\par
+\begin{description}
+\index{MAT\_\-C\_\-EMPTY@{MAT\_\-C\_\-EMPTY}!MAT@{MAT}}\index{MAT@{MAT}!MAT\_\-C\_\-EMPTY@{MAT\_\-C\_\-EMPTY}}\item[{\em 
+\hypertarget{group__MAT_ggad4d60ae7b709fc81bfd744fb4c857c40a5c76eef0ca0373d25abe49053be6fa9a}{
+MAT\_\-C\_\-EMPTY}
+\label{group__MAT_ggad4d60ae7b709fc81bfd744fb4c857c40a5c76eef0ca0373d25abe49053be6fa9a}
+}]Empty array. \index{MAT\_\-C\_\-CELL@{MAT\_\-C\_\-CELL}!MAT@{MAT}}\index{MAT@{MAT}!MAT\_\-C\_\-CELL@{MAT\_\-C\_\-CELL}}\item[{\em 
+\hypertarget{group__MAT_ggad4d60ae7b709fc81bfd744fb4c857c40a2f7abb47a1c51e248bd4e5e03cc81b08}{
+MAT\_\-C\_\-CELL}
+\label{group__MAT_ggad4d60ae7b709fc81bfd744fb4c857c40a2f7abb47a1c51e248bd4e5e03cc81b08}
+}]Matlab cell array class. \index{MAT\_\-C\_\-STRUCT@{MAT\_\-C\_\-STRUCT}!MAT@{MAT}}\index{MAT@{MAT}!MAT\_\-C\_\-STRUCT@{MAT\_\-C\_\-STRUCT}}\item[{\em 
+\hypertarget{group__MAT_ggad4d60ae7b709fc81bfd744fb4c857c40acb467c7749c80902b798134c729bb521}{
+MAT\_\-C\_\-STRUCT}
+\label{group__MAT_ggad4d60ae7b709fc81bfd744fb4c857c40acb467c7749c80902b798134c729bb521}
+}]Matlab structure class. \index{MAT\_\-C\_\-OBJECT@{MAT\_\-C\_\-OBJECT}!MAT@{MAT}}\index{MAT@{MAT}!MAT\_\-C\_\-OBJECT@{MAT\_\-C\_\-OBJECT}}\item[{\em 
+\hypertarget{group__MAT_ggad4d60ae7b709fc81bfd744fb4c857c40afe45104b68b044c83a2f99e349fa1ea6}{
+MAT\_\-C\_\-OBJECT}
+\label{group__MAT_ggad4d60ae7b709fc81bfd744fb4c857c40afe45104b68b044c83a2f99e349fa1ea6}
+}]Matlab object class. \index{MAT\_\-C\_\-CHAR@{MAT\_\-C\_\-CHAR}!MAT@{MAT}}\index{MAT@{MAT}!MAT\_\-C\_\-CHAR@{MAT\_\-C\_\-CHAR}}\item[{\em 
+\hypertarget{group__MAT_ggad4d60ae7b709fc81bfd744fb4c857c40aacdec5834df0861130b393697646119c}{
+MAT\_\-C\_\-CHAR}
+\label{group__MAT_ggad4d60ae7b709fc81bfd744fb4c857c40aacdec5834df0861130b393697646119c}
+}]Matlab character array class. \index{MAT\_\-C\_\-SPARSE@{MAT\_\-C\_\-SPARSE}!MAT@{MAT}}\index{MAT@{MAT}!MAT\_\-C\_\-SPARSE@{MAT\_\-C\_\-SPARSE}}\item[{\em 
+\hypertarget{group__MAT_ggad4d60ae7b709fc81bfd744fb4c857c40a0d5655b7e6178a2242cb3bb56ff4c8d2}{
+MAT\_\-C\_\-SPARSE}
+\label{group__MAT_ggad4d60ae7b709fc81bfd744fb4c857c40a0d5655b7e6178a2242cb3bb56ff4c8d2}
+}]Matlab sparse array class. \index{MAT\_\-C\_\-DOUBLE@{MAT\_\-C\_\-DOUBLE}!MAT@{MAT}}\index{MAT@{MAT}!MAT\_\-C\_\-DOUBLE@{MAT\_\-C\_\-DOUBLE}}\item[{\em 
+\hypertarget{group__MAT_ggad4d60ae7b709fc81bfd744fb4c857c40a5d70e0862e5bdb7bd86bf7ba5948f307}{
+MAT\_\-C\_\-DOUBLE}
+\label{group__MAT_ggad4d60ae7b709fc81bfd744fb4c857c40a5d70e0862e5bdb7bd86bf7ba5948f307}
+}]Matlab double-\/precision class. \index{MAT\_\-C\_\-SINGLE@{MAT\_\-C\_\-SINGLE}!MAT@{MAT}}\index{MAT@{MAT}!MAT\_\-C\_\-SINGLE@{MAT\_\-C\_\-SINGLE}}\item[{\em 
+\hypertarget{group__MAT_ggad4d60ae7b709fc81bfd744fb4c857c40a2825631e26a961cbe0f79db50a39cea2}{
+MAT\_\-C\_\-SINGLE}
+\label{group__MAT_ggad4d60ae7b709fc81bfd744fb4c857c40a2825631e26a961cbe0f79db50a39cea2}
+}]Matlab single-\/precision class. \index{MAT\_\-C\_\-INT8@{MAT\_\-C\_\-INT8}!MAT@{MAT}}\index{MAT@{MAT}!MAT\_\-C\_\-INT8@{MAT\_\-C\_\-INT8}}\item[{\em 
+\hypertarget{group__MAT_ggad4d60ae7b709fc81bfd744fb4c857c40a984ff310f9e906100fcff95f704f43c5}{
+MAT\_\-C\_\-INT8}
+\label{group__MAT_ggad4d60ae7b709fc81bfd744fb4c857c40a984ff310f9e906100fcff95f704f43c5}
+}]Matlab signed 8-\/bit integer class. \index{MAT\_\-C\_\-UINT8@{MAT\_\-C\_\-UINT8}!MAT@{MAT}}\index{MAT@{MAT}!MAT\_\-C\_\-UINT8@{MAT\_\-C\_\-UINT8}}\item[{\em 
+\hypertarget{group__MAT_ggad4d60ae7b709fc81bfd744fb4c857c40a81270f8093cb4808e992c1d29d84d4e3}{
+MAT\_\-C\_\-UINT8}
+\label{group__MAT_ggad4d60ae7b709fc81bfd744fb4c857c40a81270f8093cb4808e992c1d29d84d4e3}
+}]Matlab unsigned 8-\/bit integer class. \index{MAT\_\-C\_\-INT16@{MAT\_\-C\_\-INT16}!MAT@{MAT}}\index{MAT@{MAT}!MAT\_\-C\_\-INT16@{MAT\_\-C\_\-INT16}}\item[{\em 
+\hypertarget{group__MAT_ggad4d60ae7b709fc81bfd744fb4c857c40a40370e9de516c5036a67a5865c071006}{
+MAT\_\-C\_\-INT16}
+\label{group__MAT_ggad4d60ae7b709fc81bfd744fb4c857c40a40370e9de516c5036a67a5865c071006}
+}]Matlab signed 16-\/bit integer class. \index{MAT\_\-C\_\-UINT16@{MAT\_\-C\_\-UINT16}!MAT@{MAT}}\index{MAT@{MAT}!MAT\_\-C\_\-UINT16@{MAT\_\-C\_\-UINT16}}\item[{\em 
+\hypertarget{group__MAT_ggad4d60ae7b709fc81bfd744fb4c857c40a8bede21dbf6c1edc0bbccc1481bccae7}{
+MAT\_\-C\_\-UINT16}
+\label{group__MAT_ggad4d60ae7b709fc81bfd744fb4c857c40a8bede21dbf6c1edc0bbccc1481bccae7}
+}]Matlab unsigned 16-\/bit integer class. \index{MAT\_\-C\_\-INT32@{MAT\_\-C\_\-INT32}!MAT@{MAT}}\index{MAT@{MAT}!MAT\_\-C\_\-INT32@{MAT\_\-C\_\-INT32}}\item[{\em 
+\hypertarget{group__MAT_ggad4d60ae7b709fc81bfd744fb4c857c40adb44fc39694e3152ae5e69470a2fefe8}{
+MAT\_\-C\_\-INT32}
+\label{group__MAT_ggad4d60ae7b709fc81bfd744fb4c857c40adb44fc39694e3152ae5e69470a2fefe8}
+}]Matlab signed 32-\/bit integer class. \index{MAT\_\-C\_\-UINT32@{MAT\_\-C\_\-UINT32}!MAT@{MAT}}\index{MAT@{MAT}!MAT\_\-C\_\-UINT32@{MAT\_\-C\_\-UINT32}}\item[{\em 
+\hypertarget{group__MAT_ggad4d60ae7b709fc81bfd744fb4c857c40a9a17a7edd45b19ef68197db81b27e816}{
+MAT\_\-C\_\-UINT32}
+\label{group__MAT_ggad4d60ae7b709fc81bfd744fb4c857c40a9a17a7edd45b19ef68197db81b27e816}
+}]Matlab unsigned 32-\/bit integer class. \index{MAT\_\-C\_\-INT64@{MAT\_\-C\_\-INT64}!MAT@{MAT}}\index{MAT@{MAT}!MAT\_\-C\_\-INT64@{MAT\_\-C\_\-INT64}}\item[{\em 
+\hypertarget{group__MAT_ggad4d60ae7b709fc81bfd744fb4c857c40a1ea83bcde49b35477494412973f82409}{
+MAT\_\-C\_\-INT64}
+\label{group__MAT_ggad4d60ae7b709fc81bfd744fb4c857c40a1ea83bcde49b35477494412973f82409}
+}]Matlab unsigned 32-\/bit integer class. \index{MAT\_\-C\_\-UINT64@{MAT\_\-C\_\-UINT64}!MAT@{MAT}}\index{MAT@{MAT}!MAT\_\-C\_\-UINT64@{MAT\_\-C\_\-UINT64}}\item[{\em 
+\hypertarget{group__MAT_ggad4d60ae7b709fc81bfd744fb4c857c40a86470e25c3763d9a24623f04326195dd}{
+MAT\_\-C\_\-UINT64}
+\label{group__MAT_ggad4d60ae7b709fc81bfd744fb4c857c40a86470e25c3763d9a24623f04326195dd}
+}]Matlab unsigned 32-\/bit integer class. \index{MAT\_\-C\_\-FUNCTION@{MAT\_\-C\_\-FUNCTION}!MAT@{MAT}}\index{MAT@{MAT}!MAT\_\-C\_\-FUNCTION@{MAT\_\-C\_\-FUNCTION}}\item[{\em 
+\hypertarget{group__MAT_ggad4d60ae7b709fc81bfd744fb4c857c40aaa9bf08312779cd1ab8e504a162ddcea}{
+MAT\_\-C\_\-FUNCTION}
+\label{group__MAT_ggad4d60ae7b709fc81bfd744fb4c857c40aaa9bf08312779cd1ab8e504a162ddcea}
+}]Matlab unsigned 32-\/bit integer class. \end{description}
+\end{Desc}
+
+\hypertarget{group__MAT_ga768c318af97bd2567758ecb001ceb7f4}{
+\index{MAT@{MAT}!matio\_\-compression@{matio\_\-compression}}
+\index{matio\_\-compression@{matio\_\-compression}!MAT@{MAT}}
+\subsubsection[{matio\_\-compression}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf matio\_\-compression}}}
+\label{group__MAT_ga768c318af97bd2567758ecb001ceb7f4}
+
+
+Matlab compression options. 
+
+Matlab compression options \begin{Desc}
+\item[Enumerator: ]\par
+\begin{description}
+\index{COMPRESSION\_\-NONE@{COMPRESSION\_\-NONE}!MAT@{MAT}}\index{MAT@{MAT}!COMPRESSION\_\-NONE@{COMPRESSION\_\-NONE}}\item[{\em 
+\hypertarget{group__MAT_gga768c318af97bd2567758ecb001ceb7f4ac549b871996d1ef05d40056bf5bb52e5}{
+COMPRESSION\_\-NONE}
+\label{group__MAT_gga768c318af97bd2567758ecb001ceb7f4ac549b871996d1ef05d40056bf5bb52e5}
+}]No compression. \index{COMPRESSION\_\-ZLIB@{COMPRESSION\_\-ZLIB}!MAT@{MAT}}\index{MAT@{MAT}!COMPRESSION\_\-ZLIB@{COMPRESSION\_\-ZLIB}}\item[{\em 
+\hypertarget{group__MAT_gga768c318af97bd2567758ecb001ceb7f4a1f453c9a2c01b52294b37a1226837f86}{
+COMPRESSION\_\-ZLIB}
+\label{group__MAT_gga768c318af97bd2567758ecb001ceb7f4a1f453c9a2c01b52294b37a1226837f86}
+}]zlib compression \end{description}
+\end{Desc}
+
+\hypertarget{group__MAT_gab9d6ef9e3ddca78a317b173f01d53fbb}{
+\index{MAT@{MAT}!matio\_\-flags@{matio\_\-flags}}
+\index{matio\_\-flags@{matio\_\-flags}!MAT@{MAT}}
+\subsubsection[{matio\_\-flags}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf matio\_\-flags}}}
+\label{group__MAT_gab9d6ef9e3ddca78a317b173f01d53fbb}
+
+
+Matlab array flags. 
+
+Matlab array flags \begin{Desc}
+\item[Enumerator: ]\par
+\begin{description}
+\index{MAT\_\-F\_\-COMPLEX@{MAT\_\-F\_\-COMPLEX}!MAT@{MAT}}\index{MAT@{MAT}!MAT\_\-F\_\-COMPLEX@{MAT\_\-F\_\-COMPLEX}}\item[{\em 
+\hypertarget{group__MAT_ggab9d6ef9e3ddca78a317b173f01d53fbbacd7b091a11184aad7fc6078c04470780}{
+MAT\_\-F\_\-COMPLEX}
+\label{group__MAT_ggab9d6ef9e3ddca78a317b173f01d53fbbacd7b091a11184aad7fc6078c04470780}
+}]Complex bit flag. \index{MAT\_\-F\_\-GLOBAL@{MAT\_\-F\_\-GLOBAL}!MAT@{MAT}}\index{MAT@{MAT}!MAT\_\-F\_\-GLOBAL@{MAT\_\-F\_\-GLOBAL}}\item[{\em 
+\hypertarget{group__MAT_ggab9d6ef9e3ddca78a317b173f01d53fbba49084e0c796aa7963e53f7539525d40d}{
+MAT\_\-F\_\-GLOBAL}
+\label{group__MAT_ggab9d6ef9e3ddca78a317b173f01d53fbba49084e0c796aa7963e53f7539525d40d}
+}]Global bit flag. \index{MAT\_\-F\_\-LOGICAL@{MAT\_\-F\_\-LOGICAL}!MAT@{MAT}}\index{MAT@{MAT}!MAT\_\-F\_\-LOGICAL@{MAT\_\-F\_\-LOGICAL}}\item[{\em 
+\hypertarget{group__MAT_ggab9d6ef9e3ddca78a317b173f01d53fbba57eb5c6e200bcbc0f1b7982f29a169c2}{
+MAT\_\-F\_\-LOGICAL}
+\label{group__MAT_ggab9d6ef9e3ddca78a317b173f01d53fbba57eb5c6e200bcbc0f1b7982f29a169c2}
+}]Logical bit flag. \index{MAT\_\-F\_\-CLASS\_\-T@{MAT\_\-F\_\-CLASS\_\-T}!MAT@{MAT}}\index{MAT@{MAT}!MAT\_\-F\_\-CLASS\_\-T@{MAT\_\-F\_\-CLASS\_\-T}}\item[{\em 
+\hypertarget{group__MAT_ggab9d6ef9e3ddca78a317b173f01d53fbba3a88beaec448e0485ffe21b18a540c1d}{
+MAT\_\-F\_\-CLASS\_\-T}
+\label{group__MAT_ggab9d6ef9e3ddca78a317b173f01d53fbba3a88beaec448e0485ffe21b18a540c1d}
+}]Class-\/Type bits flag. \end{description}
+\end{Desc}
+
+\hypertarget{group__MAT_gacf7b3b879282b7ab3a51190e49bf3453}{
+\index{MAT@{MAT}!matio\_\-types@{matio\_\-types}}
+\index{matio\_\-types@{matio\_\-types}!MAT@{MAT}}
+\subsubsection[{matio\_\-types}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf matio\_\-types}}}
+\label{group__MAT_gacf7b3b879282b7ab3a51190e49bf3453}
+
+
+Matlab data types. 
+
+Matlab data types \begin{Desc}
+\item[Enumerator: ]\par
+\begin{description}
+\index{MAT\_\-T\_\-UNKNOWN@{MAT\_\-T\_\-UNKNOWN}!MAT@{MAT}}\index{MAT@{MAT}!MAT\_\-T\_\-UNKNOWN@{MAT\_\-T\_\-UNKNOWN}}\item[{\em 
+\hypertarget{group__MAT_ggacf7b3b879282b7ab3a51190e49bf3453a2a7318fe8bf9464935e7ed8902618293}{
+MAT\_\-T\_\-UNKNOWN}
+\label{group__MAT_ggacf7b3b879282b7ab3a51190e49bf3453a2a7318fe8bf9464935e7ed8902618293}
+}]UNKOWN data type. \index{MAT\_\-T\_\-INT8@{MAT\_\-T\_\-INT8}!MAT@{MAT}}\index{MAT@{MAT}!MAT\_\-T\_\-INT8@{MAT\_\-T\_\-INT8}}\item[{\em 
+\hypertarget{group__MAT_ggacf7b3b879282b7ab3a51190e49bf3453a9807f5033ed4f9b548953742d9fd1658}{
+MAT\_\-T\_\-INT8}
+\label{group__MAT_ggacf7b3b879282b7ab3a51190e49bf3453a9807f5033ed4f9b548953742d9fd1658}
+}]8-\/bit signed integer data type \index{MAT\_\-T\_\-UINT8@{MAT\_\-T\_\-UINT8}!MAT@{MAT}}\index{MAT@{MAT}!MAT\_\-T\_\-UINT8@{MAT\_\-T\_\-UINT8}}\item[{\em 
+\hypertarget{group__MAT_ggacf7b3b879282b7ab3a51190e49bf3453a01c1bd7db68f90552862eb5d311be408}{
+MAT\_\-T\_\-UINT8}
+\label{group__MAT_ggacf7b3b879282b7ab3a51190e49bf3453a01c1bd7db68f90552862eb5d311be408}
+}]8-\/bit unsigned integer data type \index{MAT\_\-T\_\-INT16@{MAT\_\-T\_\-INT16}!MAT@{MAT}}\index{MAT@{MAT}!MAT\_\-T\_\-INT16@{MAT\_\-T\_\-INT16}}\item[{\em 
+\hypertarget{group__MAT_ggacf7b3b879282b7ab3a51190e49bf3453a8c5b2e381946e95ea8d81ac216743302}{
+MAT\_\-T\_\-INT16}
+\label{group__MAT_ggacf7b3b879282b7ab3a51190e49bf3453a8c5b2e381946e95ea8d81ac216743302}
+}]16-\/bit signed integer data type \index{MAT\_\-T\_\-UINT16@{MAT\_\-T\_\-UINT16}!MAT@{MAT}}\index{MAT@{MAT}!MAT\_\-T\_\-UINT16@{MAT\_\-T\_\-UINT16}}\item[{\em 
+\hypertarget{group__MAT_ggacf7b3b879282b7ab3a51190e49bf3453a05bc7af7680aa68be95126ae0a4c2e31}{
+MAT\_\-T\_\-UINT16}
+\label{group__MAT_ggacf7b3b879282b7ab3a51190e49bf3453a05bc7af7680aa68be95126ae0a4c2e31}
+}]16-\/bit unsigned integer data type \index{MAT\_\-T\_\-INT32@{MAT\_\-T\_\-INT32}!MAT@{MAT}}\index{MAT@{MAT}!MAT\_\-T\_\-INT32@{MAT\_\-T\_\-INT32}}\item[{\em 
+\hypertarget{group__MAT_ggacf7b3b879282b7ab3a51190e49bf3453a83e06a68320726c6572bfbb9f3addb1d}{
+MAT\_\-T\_\-INT32}
+\label{group__MAT_ggacf7b3b879282b7ab3a51190e49bf3453a83e06a68320726c6572bfbb9f3addb1d}
+}]32-\/bit signed integer data type \index{MAT\_\-T\_\-UINT32@{MAT\_\-T\_\-UINT32}!MAT@{MAT}}\index{MAT@{MAT}!MAT\_\-T\_\-UINT32@{MAT\_\-T\_\-UINT32}}\item[{\em 
+\hypertarget{group__MAT_ggacf7b3b879282b7ab3a51190e49bf3453aa397e285a23fe240368b752897652c6a}{
+MAT\_\-T\_\-UINT32}
+\label{group__MAT_ggacf7b3b879282b7ab3a51190e49bf3453aa397e285a23fe240368b752897652c6a}
+}]32-\/bit unsigned integer data type \index{MAT\_\-T\_\-SINGLE@{MAT\_\-T\_\-SINGLE}!MAT@{MAT}}\index{MAT@{MAT}!MAT\_\-T\_\-SINGLE@{MAT\_\-T\_\-SINGLE}}\item[{\em 
+\hypertarget{group__MAT_ggacf7b3b879282b7ab3a51190e49bf3453a3a3657d40e9212c923d9b9d03531b64c}{
+MAT\_\-T\_\-SINGLE}
+\label{group__MAT_ggacf7b3b879282b7ab3a51190e49bf3453a3a3657d40e9212c923d9b9d03531b64c}
+}]IEEE 754 single precision data type. \index{MAT\_\-T\_\-DOUBLE@{MAT\_\-T\_\-DOUBLE}!MAT@{MAT}}\index{MAT@{MAT}!MAT\_\-T\_\-DOUBLE@{MAT\_\-T\_\-DOUBLE}}\item[{\em 
+\hypertarget{group__MAT_ggacf7b3b879282b7ab3a51190e49bf3453a31e721ecf7e188196f83c32838288797}{
+MAT\_\-T\_\-DOUBLE}
+\label{group__MAT_ggacf7b3b879282b7ab3a51190e49bf3453a31e721ecf7e188196f83c32838288797}
+}]IEEE 754 double precision data type. \index{MAT\_\-T\_\-INT64@{MAT\_\-T\_\-INT64}!MAT@{MAT}}\index{MAT@{MAT}!MAT\_\-T\_\-INT64@{MAT\_\-T\_\-INT64}}\item[{\em 
+\hypertarget{group__MAT_ggacf7b3b879282b7ab3a51190e49bf3453a9e825b5d18b8f946eaf2b4b57e51c145}{
+MAT\_\-T\_\-INT64}
+\label{group__MAT_ggacf7b3b879282b7ab3a51190e49bf3453a9e825b5d18b8f946eaf2b4b57e51c145}
+}]64-\/bit signed integer data type \index{MAT\_\-T\_\-UINT64@{MAT\_\-T\_\-UINT64}!MAT@{MAT}}\index{MAT@{MAT}!MAT\_\-T\_\-UINT64@{MAT\_\-T\_\-UINT64}}\item[{\em 
+\hypertarget{group__MAT_ggacf7b3b879282b7ab3a51190e49bf3453a45547932c46be27118abe08302d7e29f}{
+MAT\_\-T\_\-UINT64}
+\label{group__MAT_ggacf7b3b879282b7ab3a51190e49bf3453a45547932c46be27118abe08302d7e29f}
+}]64-\/bit unsigned integer data type \index{MAT\_\-T\_\-MATRIX@{MAT\_\-T\_\-MATRIX}!MAT@{MAT}}\index{MAT@{MAT}!MAT\_\-T\_\-MATRIX@{MAT\_\-T\_\-MATRIX}}\item[{\em 
+\hypertarget{group__MAT_ggacf7b3b879282b7ab3a51190e49bf3453a32985fee89a4df8db4b3f5d3a48823d3}{
+MAT\_\-T\_\-MATRIX}
+\label{group__MAT_ggacf7b3b879282b7ab3a51190e49bf3453a32985fee89a4df8db4b3f5d3a48823d3}
+}]matrix data type \index{MAT\_\-T\_\-COMPRESSED@{MAT\_\-T\_\-COMPRESSED}!MAT@{MAT}}\index{MAT@{MAT}!MAT\_\-T\_\-COMPRESSED@{MAT\_\-T\_\-COMPRESSED}}\item[{\em 
+\hypertarget{group__MAT_ggacf7b3b879282b7ab3a51190e49bf3453a30437f2eb3becc2fa6e5d96599d7f724}{
+MAT\_\-T\_\-COMPRESSED}
+\label{group__MAT_ggacf7b3b879282b7ab3a51190e49bf3453a30437f2eb3becc2fa6e5d96599d7f724}
+}]compressed data type \index{MAT\_\-T\_\-UTF8@{MAT\_\-T\_\-UTF8}!MAT@{MAT}}\index{MAT@{MAT}!MAT\_\-T\_\-UTF8@{MAT\_\-T\_\-UTF8}}\item[{\em 
+\hypertarget{group__MAT_ggacf7b3b879282b7ab3a51190e49bf3453ac34ad81f5cbd3b7d0d95e57e5be0149b}{
+MAT\_\-T\_\-UTF8}
+\label{group__MAT_ggacf7b3b879282b7ab3a51190e49bf3453ac34ad81f5cbd3b7d0d95e57e5be0149b}
+}]8-\/bit unicode text data type \index{MAT\_\-T\_\-UTF16@{MAT\_\-T\_\-UTF16}!MAT@{MAT}}\index{MAT@{MAT}!MAT\_\-T\_\-UTF16@{MAT\_\-T\_\-UTF16}}\item[{\em 
+\hypertarget{group__MAT_ggacf7b3b879282b7ab3a51190e49bf3453a87ffc0412143c326a1fcc759d5d81bdc}{
+MAT\_\-T\_\-UTF16}
+\label{group__MAT_ggacf7b3b879282b7ab3a51190e49bf3453a87ffc0412143c326a1fcc759d5d81bdc}
+}]16-\/bit unicode text data type \index{MAT\_\-T\_\-UTF32@{MAT\_\-T\_\-UTF32}!MAT@{MAT}}\index{MAT@{MAT}!MAT\_\-T\_\-UTF32@{MAT\_\-T\_\-UTF32}}\item[{\em 
+\hypertarget{group__MAT_ggacf7b3b879282b7ab3a51190e49bf3453a11e43c0e0be79b1983090e02ae583109}{
+MAT\_\-T\_\-UTF32}
+\label{group__MAT_ggacf7b3b879282b7ab3a51190e49bf3453a11e43c0e0be79b1983090e02ae583109}
+}]32-\/bit unicode text data type \index{MAT\_\-T\_\-STRING@{MAT\_\-T\_\-STRING}!MAT@{MAT}}\index{MAT@{MAT}!MAT\_\-T\_\-STRING@{MAT\_\-T\_\-STRING}}\item[{\em 
+\hypertarget{group__MAT_ggacf7b3b879282b7ab3a51190e49bf3453a9456a83c0b22022af42461a09d63cdb2}{
+MAT\_\-T\_\-STRING}
+\label{group__MAT_ggacf7b3b879282b7ab3a51190e49bf3453a9456a83c0b22022af42461a09d63cdb2}
+}]String data type. \index{MAT\_\-T\_\-CELL@{MAT\_\-T\_\-CELL}!MAT@{MAT}}\index{MAT@{MAT}!MAT\_\-T\_\-CELL@{MAT\_\-T\_\-CELL}}\item[{\em 
+\hypertarget{group__MAT_ggacf7b3b879282b7ab3a51190e49bf3453a07599cf2cca6d2b2d059378563318ba5}{
+MAT\_\-T\_\-CELL}
+\label{group__MAT_ggacf7b3b879282b7ab3a51190e49bf3453a07599cf2cca6d2b2d059378563318ba5}
+}]Cell array data type. \index{MAT\_\-T\_\-STRUCT@{MAT\_\-T\_\-STRUCT}!MAT@{MAT}}\index{MAT@{MAT}!MAT\_\-T\_\-STRUCT@{MAT\_\-T\_\-STRUCT}}\item[{\em 
+\hypertarget{group__MAT_ggacf7b3b879282b7ab3a51190e49bf3453a4f4d5a6e1d42c6aa81ffb810e5da5c85}{
+MAT\_\-T\_\-STRUCT}
+\label{group__MAT_ggacf7b3b879282b7ab3a51190e49bf3453a4f4d5a6e1d42c6aa81ffb810e5da5c85}
+}]Structure data type. \index{MAT\_\-T\_\-ARRAY@{MAT\_\-T\_\-ARRAY}!MAT@{MAT}}\index{MAT@{MAT}!MAT\_\-T\_\-ARRAY@{MAT\_\-T\_\-ARRAY}}\item[{\em 
+\hypertarget{group__MAT_ggacf7b3b879282b7ab3a51190e49bf3453acf106b0c23021582375f59bc9fce89b1}{
+MAT\_\-T\_\-ARRAY}
+\label{group__MAT_ggacf7b3b879282b7ab3a51190e49bf3453acf106b0c23021582375f59bc9fce89b1}
+}]Array data type. \index{MAT\_\-T\_\-FUNCTION@{MAT\_\-T\_\-FUNCTION}!MAT@{MAT}}\index{MAT@{MAT}!MAT\_\-T\_\-FUNCTION@{MAT\_\-T\_\-FUNCTION}}\item[{\em 
+\hypertarget{group__MAT_ggacf7b3b879282b7ab3a51190e49bf3453ae76686f267dd1641cd55dce306af6d10}{
+MAT\_\-T\_\-FUNCTION}
+\label{group__MAT_ggacf7b3b879282b7ab3a51190e49bf3453ae76686f267dd1641cd55dce306af6d10}
+}]Function data type. \end{description}
+\end{Desc}
+
+
+
+\subsection{Function Documentation}
+\hypertarget{group__MAT_ga9b8d09f631538b14ca29792e0334e349}{
+\index{MAT@{MAT}!Mat\_\-CalcSingleSubscript@{Mat\_\-CalcSingleSubscript}}
+\index{Mat\_\-CalcSingleSubscript@{Mat\_\-CalcSingleSubscript}!MAT@{MAT}}
+\subsubsection[{Mat\_\-CalcSingleSubscript}]{\setlength{\rightskip}{0pt plus 5cm}int Mat\_\-CalcSingleSubscript (
+\begin{DoxyParamCaption}
+\item[{int}]{rank, }
+\item[{int $\ast$}]{dims, }
+\item[{int $\ast$}]{subs}
+\end{DoxyParamCaption}
+)}}
+\label{group__MAT_ga9b8d09f631538b14ca29792e0334e349}
+
+
+Calculate a single subscript from a set of subscript values. 
+
+Calculates a single linear subscript (0-\/relative) given a 1-\/relative subscript for each dimension. The calculation uses the formula below where index is the linear index, s is an array of length RANK where each element is the subscript for the correspondind dimension, D is an array whose elements are the dimensions of the variable. \[ index = \sum\limits_{k=0}^{RANK-1} [(s_k - 1) \prod\limits_{l=0}^{k} D_l ] \]
+
+
+\begin{DoxyParams}{Parameters}
+{\em rank} & Rank of the variable \\
+\hline
+{\em dims} & dimensions of the variable \\
+\hline
+{\em subs} & Dimension subscripts \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Single (linear) subscript 
+\end{DoxyReturn}
+\hypertarget{group__MAT_gabe2571a4b9b6cff3b31aa6f152deba61}{
+\index{MAT@{MAT}!Mat\_\-CalcSubscripts@{Mat\_\-CalcSubscripts}}
+\index{Mat\_\-CalcSubscripts@{Mat\_\-CalcSubscripts}!MAT@{MAT}}
+\subsubsection[{Mat\_\-CalcSubscripts}]{\setlength{\rightskip}{0pt plus 5cm}int$\ast$ Mat\_\-CalcSubscripts (
+\begin{DoxyParamCaption}
+\item[{int}]{rank, }
+\item[{int $\ast$}]{dims, }
+\item[{int}]{index}
+\end{DoxyParamCaption}
+)}}
+\label{group__MAT_gabe2571a4b9b6cff3b31aa6f152deba61}
+
+
+Calculate a set of subscript values from a single(linear) subscript. 
+
+Calculates 1-\/relative subscripts for each dimension given a 0-\/relative linear index. Subscripts are calculated as follows where s is the array of dimension subscripts, D is the array of dimensions, and index is the linear index. \[ s_k = \lfloor\frac{1}{L} \prod\limits_{l = 0}^{k} D_l\rfloor + 1 \] \[ L = index - \sum\limits_{l = k}^{RANK - 1} s_k \prod\limits_{m = 0}^{k} D_m \]
+
+
+\begin{DoxyParams}{Parameters}
+{\em rank} & Rank of the variable \\
+\hline
+{\em dims} & dimensions of the variable \\
+\hline
+{\em index} & linear index \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Array of dimension subscripts 
+\end{DoxyReturn}
+\hypertarget{group__MAT_ga101c92ff7bde4a2d4615661beba09262}{
+\index{MAT@{MAT}!Mat\_\-Close@{Mat\_\-Close}}
+\index{Mat\_\-Close@{Mat\_\-Close}!MAT@{MAT}}
+\subsubsection[{Mat\_\-Close}]{\setlength{\rightskip}{0pt plus 5cm}int Mat\_\-Close (
+\begin{DoxyParamCaption}
+\item[{{\bf mat\_\-t} $\ast$}]{mat}
+\end{DoxyParamCaption}
+)}}
+\label{group__MAT_ga101c92ff7bde4a2d4615661beba09262}
+
+
+Closes an open Matlab MAT file. 
+
+Closes the given Matlab MAT file and frees any memory with it.
+
+
+\begin{DoxyParams}{Parameters}
+{\em mat} & Pointer to the MAT file \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em 0} & \\
+\hline
+\end{DoxyRetVals}
+\hypertarget{group__MAT_ga22d404f203af7869c841400e7ad247cf}{
+\index{MAT@{MAT}!Mat\_\-CreateVer@{Mat\_\-CreateVer}}
+\index{Mat\_\-CreateVer@{Mat\_\-CreateVer}!MAT@{MAT}}
+\subsubsection[{Mat\_\-CreateVer}]{\setlength{\rightskip}{0pt plus 5cm}{\bf mat\_\-t}$\ast$ Mat\_\-CreateVer (
+\begin{DoxyParamCaption}
+\item[{const char $\ast$}]{matname, }
+\item[{const char $\ast$}]{hdr\_\-str, }
+\item[{enum {\bf mat\_\-ft}}]{mat\_\-file\_\-ver}
+\end{DoxyParamCaption}
+)}}
+\label{group__MAT_ga22d404f203af7869c841400e7ad247cf}
+
+
+Creates a new Matlab MAT file. 
+
+Tries to create a new Matlab MAT file with the given name and optional header string. If no header string is given, the default string is used containing the software, version, and date in it. If a header string is given, at most the first 116 characters is written to the file. The given header string need not be the full 116 characters, but MUST be NULL terminated.
+
+
+\begin{DoxyParams}{Parameters}
+{\em matname} & Name of MAT file to create \\
+\hline
+{\em hdr\_\-str} & Optional header string, NULL to use default \\
+\hline
+{\em mat\_\-file\_\-ver} & MAT file version to create \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A pointer to the MAT file or NULL if it failed. This is not a simple FILE $\ast$ and should not be used as one. 
+\end{DoxyReturn}
+\hypertarget{group__MAT_gafbfedb5636a99f0ef867520c47f77d18}{
+\index{MAT@{MAT}!Mat\_\-Open@{Mat\_\-Open}}
+\index{Mat\_\-Open@{Mat\_\-Open}!MAT@{MAT}}
+\subsubsection[{Mat\_\-Open}]{\setlength{\rightskip}{0pt plus 5cm}{\bf mat\_\-t}$\ast$ Mat\_\-Open (
+\begin{DoxyParamCaption}
+\item[{const char $\ast$}]{matname, }
+\item[{int}]{mode}
+\end{DoxyParamCaption}
+)}}
+\label{group__MAT_gafbfedb5636a99f0ef867520c47f77d18}
+
+
+Opens an existing Matlab MAT file. 
+
+Tries to open a Matlab MAT file with the given name
+
+
+\begin{DoxyParams}{Parameters}
+{\em matname} & Name of MAT file to open \\
+\hline
+{\em mode} & File access mode (MAT\_\-ACC\_\-RDONLY,MAT\_\-ACC\_\-RDWR,etc). \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A pointer to the MAT file or NULL if it failed. This is not a simple FILE $\ast$ and should not be used as one. 
+\end{DoxyReturn}
+\hypertarget{group__MAT_ga4d6e3892d2e216c507a744ba0e070d0b}{
+\index{MAT@{MAT}!Mat\_\-Rewind@{Mat\_\-Rewind}}
+\index{Mat\_\-Rewind@{Mat\_\-Rewind}!MAT@{MAT}}
+\subsubsection[{Mat\_\-Rewind}]{\setlength{\rightskip}{0pt plus 5cm}int Mat\_\-Rewind (
+\begin{DoxyParamCaption}
+\item[{{\bf mat\_\-t} $\ast$}]{mat}
+\end{DoxyParamCaption}
+)}}
+\label{group__MAT_ga4d6e3892d2e216c507a744ba0e070d0b}
+
+
+Rewinds a Matlab MAT file to the first variable. 
+
+Rewinds a Matlab MAT file to the first variable
+
+
+\begin{DoxyParams}{Parameters}
+{\em mat} & Pointer to the MAT file \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em 0} & on success \\
+\hline
+\end{DoxyRetVals}
+\hypertarget{group__MAT_ga2bf682f015b22fa796a8885e997661e7}{
+\index{MAT@{MAT}!Mat\_\-SizeOfClass@{Mat\_\-SizeOfClass}}
+\index{Mat\_\-SizeOfClass@{Mat\_\-SizeOfClass}!MAT@{MAT}}
+\subsubsection[{Mat\_\-SizeOfClass}]{\setlength{\rightskip}{0pt plus 5cm}size\_\-t Mat\_\-SizeOfClass (
+\begin{DoxyParamCaption}
+\item[{int}]{class\_\-type}
+\end{DoxyParamCaption}
+)}}
+\label{group__MAT_ga2bf682f015b22fa796a8885e997661e7}
+
+
+Returns the size of a Matlab Class. 
+
+Returns the size (in bytes) of the matlab class class\_\-type
+
+
+\begin{DoxyParams}{Parameters}
+{\em class\_\-type} & Matlab class type (MAT\_\-C\_\-$\ast$) \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Size of the class 
+\end{DoxyReturn}
+\hypertarget{group__MAT_ga9f8ab8a7e4206c16cb20437acc6960d2}{
+\index{MAT@{MAT}!Mat\_\-VarAddStructField@{Mat\_\-VarAddStructField}}
+\index{Mat\_\-VarAddStructField@{Mat\_\-VarAddStructField}!MAT@{MAT}}
+\subsubsection[{Mat\_\-VarAddStructField}]{\setlength{\rightskip}{0pt plus 5cm}int Mat\_\-VarAddStructField (
+\begin{DoxyParamCaption}
+\item[{{\bf matvar\_\-t} $\ast$}]{matvar, }
+\item[{{\bf matvar\_\-t} $\ast$$\ast$}]{fields}
+\end{DoxyParamCaption}
+)}}
+\label{group__MAT_ga9f8ab8a7e4206c16cb20437acc6960d2}
+
+
+Adds a field to a structure. 
+
+Adds the given field to the structure. fields should be an array of \hyperlink{structmatvar__t}{matvar\_\-t} pointers of the same size as the structure (i.e. 1 field per structure element).
+
+
+\begin{DoxyParams}{Parameters}
+{\em matvar} & Pointer to the Structure MAT variable \\
+\hline
+{\em fields} & Array of fields to be added \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em 0} & on success \\
+\hline
+\end{DoxyRetVals}
+\hypertarget{group__MAT_gae7c9c3699f6e9c31a9c490300013098c}{
+\index{MAT@{MAT}!Mat\_\-VarCalloc@{Mat\_\-VarCalloc}}
+\index{Mat\_\-VarCalloc@{Mat\_\-VarCalloc}!MAT@{MAT}}
+\subsubsection[{Mat\_\-VarCalloc}]{\setlength{\rightskip}{0pt plus 5cm}{\bf matvar\_\-t}$\ast$ Mat\_\-VarCalloc (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}
+\label{group__MAT_gae7c9c3699f6e9c31a9c490300013098c}
+
+
+Allocates memory for a new \hyperlink{structmatvar__t}{matvar\_\-t} and initializes all the fields. 
+
+\begin{DoxyReturn}{Returns}
+A newly allocated \hyperlink{structmatvar__t}{matvar\_\-t} 
+\end{DoxyReturn}
+\hypertarget{group__MAT_ga1c54a84bb4d810c6fccdb8869489eac4}{
+\index{MAT@{MAT}!Mat\_\-VarCreate@{Mat\_\-VarCreate}}
+\index{Mat\_\-VarCreate@{Mat\_\-VarCreate}!MAT@{MAT}}
+\subsubsection[{Mat\_\-VarCreate}]{\setlength{\rightskip}{0pt plus 5cm}{\bf matvar\_\-t}$\ast$ Mat\_\-VarCreate (
+\begin{DoxyParamCaption}
+\item[{const char $\ast$}]{name, }
+\item[{enum {\bf matio\_\-classes}}]{class\_\-type, }
+\item[{enum {\bf matio\_\-types}}]{data\_\-type, }
+\item[{int}]{rank, }
+\item[{size\_\-t $\ast$}]{dims, }
+\item[{void $\ast$}]{data, }
+\item[{int}]{opt}
+\end{DoxyParamCaption}
+)}}
+\label{group__MAT_ga1c54a84bb4d810c6fccdb8869489eac4}
+
+
+Creates a MAT Variable with the given name and (optionally) data. 
+
+Creates a MAT variable that can be written to a Matlab MAT file with the given name, data type, dimensions and data. Rank should always be 2 or more. i.e. Scalar values would have rank=2 and dims\mbox{[}2\mbox{]} = \{1,1\}. Data type is one of the MAT\_\-T types. MAT adds MAT\_\-T\_\-STRUCT and MAT\_\-T\_\-CELL to create Structures and Cell Arrays respectively. For MAT\_\-T\_\-STRUCT, data should be a NULL terminated array of \hyperlink{structmatvar__t}{matvar\_\-t} $\ast$ variables (i.e. for a 3x2 structure with 10 fields, there should be 61 \hyperlink{structmatvar__t}{matvar\_\-t} $\ast$ variables where the last one is NULL). For cell arrays, the NULL termination isn't necessary. So to create a cell array of size 3x2, data would be the address of an array of 6 \hyperlink{structmatvar__t}{matvar\_\-t} $\ast$ variables.
+
+EXAMPLE: To create a struct of size 3x2 with 3 fields: 
+\begin{DoxyCode}
+     int rank=2, dims[2] = {3,2}, nfields = 3;
+     matvar_t **vars;
+
+     vars = malloc((3*2*nfields+1)*sizeof(matvar_t *));
+     vars[0]             = Mat_VarCreate(...);
+        :
+     vars[3*2*nfields-1] = Mat_VarCreate(...);
+     vars[3*2*nfields]   = NULL;
+\end{DoxyCode}
+
+
+EXAMPLE: To create a cell array of size 3x2: 
+\begin{DoxyCode}
+     int rank=2, dims[2] = {3,2};
+     matvar_t **vars;
+
+     vars = malloc(3*2*sizeof(matvar_t *));
+     vars[0]             = Mat_VarCreate(...);
+        :
+     vars[5] = Mat_VarCreate(...);
+\end{DoxyCode}
+
+
+
+\begin{DoxyParams}{Parameters}
+{\em name} & Name of the variable to create \\
+\hline
+{\em class\_\-type} & class type of the variable in Matlab(one of the mx Classes) \\
+\hline
+{\em data\_\-type} & data type of the variable (one of the MAT\_\-T\_\- Types) \\
+\hline
+{\em rank} & Rank of the variable \\
+\hline
+{\em dims} & array of dimensions of the variable of size rank \\
+\hline
+{\em data} & pointer to the data \\
+\hline
+{\em opt} & 0, or bitwise or of the following options:
+\begin{DoxyItemize}
+\item MEM\_\-CONSERVE to just use the pointer to the data and not copy the data itself. Note that the pointer should not be freed until you are done with the mat variable. The Mat\_\-VarFree function will NOT free data that was created with MEM\_\-CONSERVE, so free it yourself.
+\item MAT\_\-F\_\-COMPLEX to specify that the data is complex. The data variable should be a pointer to a struct \hyperlink{structComplexSplit}{ComplexSplit} type.
+\item MAT\_\-F\_\-GLOBAL to assign the variable as a global variable
+\item MAT\_\-F\_\-LOGICAL to specify that it is a logical variable 
+\end{DoxyItemize}\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A MAT variable that can be written to a file or otherwise used 
+\end{DoxyReturn}
+\hypertarget{group__MAT_gabf139e48d48177e5069338fa2919c60a}{
+\index{MAT@{MAT}!Mat\_\-VarDelete@{Mat\_\-VarDelete}}
+\index{Mat\_\-VarDelete@{Mat\_\-VarDelete}!MAT@{MAT}}
+\subsubsection[{Mat\_\-VarDelete}]{\setlength{\rightskip}{0pt plus 5cm}int Mat\_\-VarDelete (
+\begin{DoxyParamCaption}
+\item[{{\bf mat\_\-t} $\ast$}]{mat, }
+\item[{const char $\ast$}]{name}
+\end{DoxyParamCaption}
+)}}
+\label{group__MAT_gabf139e48d48177e5069338fa2919c60a}
+
+
+Deletes a variable from a file. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em mat} & Pointer to the mat\_\-t file structure \\
+\hline
+{\em name} & Name of the variable to delete \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+0 on success 
+\end{DoxyReturn}
+\hypertarget{group__MAT_ga7ef80c5d99d7918b2b09db3bea106ecc}{
+\index{MAT@{MAT}!Mat\_\-VarDuplicate@{Mat\_\-VarDuplicate}}
+\index{Mat\_\-VarDuplicate@{Mat\_\-VarDuplicate}!MAT@{MAT}}
+\subsubsection[{Mat\_\-VarDuplicate}]{\setlength{\rightskip}{0pt plus 5cm}{\bf matvar\_\-t}$\ast$ Mat\_\-VarDuplicate (
+\begin{DoxyParamCaption}
+\item[{const {\bf matvar\_\-t} $\ast$}]{in, }
+\item[{int}]{opt}
+\end{DoxyParamCaption}
+)}}
+\label{group__MAT_ga7ef80c5d99d7918b2b09db3bea106ecc}
+
+
+Duplicates a \hyperlink{structmatvar__t}{matvar\_\-t} structure. 
+
+Provides a clean function for duplicating a \hyperlink{structmatvar__t}{matvar\_\-t} structure.
+
+
+\begin{DoxyParams}{Parameters}
+{\em in} & pointer to the \hyperlink{structmatvar__t}{matvar\_\-t} structure to be duplicated \\
+\hline
+{\em opt} & 0 does a shallow duplicate and only assigns the data pointer to the duplicated array. 1 will do a deep duplicate and actually duplicate the contents of the data. Warning: If you do a shallow copy and free both structures, the data will be freed twice and memory will be corrupted. This may be fixed in a later release. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Pointer to the duplicated \hyperlink{structmatvar__t}{matvar\_\-t} structure. 
+\end{DoxyReturn}
+\hypertarget{group__MAT_ga1d14716f7450530fd1c9d02413787f0e}{
+\index{MAT@{MAT}!Mat\_\-VarFree@{Mat\_\-VarFree}}
+\index{Mat\_\-VarFree@{Mat\_\-VarFree}!MAT@{MAT}}
+\subsubsection[{Mat\_\-VarFree}]{\setlength{\rightskip}{0pt plus 5cm}void Mat\_\-VarFree (
+\begin{DoxyParamCaption}
+\item[{{\bf matvar\_\-t} $\ast$}]{matvar}
+\end{DoxyParamCaption}
+)}}
+\label{group__MAT_ga1d14716f7450530fd1c9d02413787f0e}
+
+
+Frees all the allocated memory associated with the structure. 
+
+Frees memory used by a MAT variable. Frees the data associated with a MAT variable if it's non-\/NULL and MEM\_\-CONSERVE was not used.
+
+
+\begin{DoxyParams}{Parameters}
+{\em matvar} & Pointer to the \hyperlink{structmatvar__t}{matvar\_\-t} structure \\
+\hline
+\end{DoxyParams}
+\hypertarget{group__MAT_gac1e15063439c0bd3eb0c986514c742dc}{
+\index{MAT@{MAT}!Mat\_\-VarGetCell@{Mat\_\-VarGetCell}}
+\index{Mat\_\-VarGetCell@{Mat\_\-VarGetCell}!MAT@{MAT}}
+\subsubsection[{Mat\_\-VarGetCell}]{\setlength{\rightskip}{0pt plus 5cm}{\bf matvar\_\-t}$\ast$ Mat\_\-VarGetCell (
+\begin{DoxyParamCaption}
+\item[{{\bf matvar\_\-t} $\ast$}]{matvar, }
+\item[{int}]{index}
+\end{DoxyParamCaption}
+)}}
+\label{group__MAT_gac1e15063439c0bd3eb0c986514c742dc}
+
+
+Returns a pointer to the Cell array at a specific index. 
+
+Returns a pointer to the Cell Array Field at the given 1-\/relative index. MAT file must be a version 5 matlab file.
+
+
+\begin{DoxyParams}{Parameters}
+{\em matvar} & Pointer to the Cell Array MAT variable \\
+\hline
+{\em index} & linear index of cell to return \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Pointer to the Cell Array Field on success, NULL on error 
+\end{DoxyReturn}
+\hypertarget{group__MAT_ga0732b0a6c40975b036068b9a14422d45}{
+\index{MAT@{MAT}!Mat\_\-VarGetCells@{Mat\_\-VarGetCells}}
+\index{Mat\_\-VarGetCells@{Mat\_\-VarGetCells}!MAT@{MAT}}
+\subsubsection[{Mat\_\-VarGetCells}]{\setlength{\rightskip}{0pt plus 5cm}{\bf matvar\_\-t}$\ast$$\ast$ Mat\_\-VarGetCells (
+\begin{DoxyParamCaption}
+\item[{{\bf matvar\_\-t} $\ast$}]{matvar, }
+\item[{int $\ast$}]{start, }
+\item[{int $\ast$}]{stride, }
+\item[{int $\ast$}]{edge}
+\end{DoxyParamCaption}
+)}}
+\label{group__MAT_ga0732b0a6c40975b036068b9a14422d45}
+
+
+Indexes a cell array. 
+
+Finds cells of a cell array given a start, stride, and edge for each. dimension. The cells are placed in a pointer array. The cells should not be freed, but the array of pointers should be. If copies are needed, use Mat\_\-VarDuplicate on each cell. MAT File version must be 5.
+
+
+\begin{DoxyParams}{Parameters}
+{\em matvar} & Cell Array matlab variable \\
+\hline
+{\em start} & vector of length rank with 0-\/relative starting coordinates for each diemnsion. \\
+\hline
+{\em stride} & vector of length rank with strides for each diemnsion. \\
+\hline
+{\em edge} & vector of length rank with the number of elements to read in each diemnsion. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+an array of pointers to the cells 
+\end{DoxyReturn}
+\hypertarget{group__MAT_ga004987d665654409f74eaf8e82bb1380}{
+\index{MAT@{MAT}!Mat\_\-VarGetCellsLinear@{Mat\_\-VarGetCellsLinear}}
+\index{Mat\_\-VarGetCellsLinear@{Mat\_\-VarGetCellsLinear}!MAT@{MAT}}
+\subsubsection[{Mat\_\-VarGetCellsLinear}]{\setlength{\rightskip}{0pt plus 5cm}{\bf matvar\_\-t}$\ast$$\ast$ Mat\_\-VarGetCellsLinear (
+\begin{DoxyParamCaption}
+\item[{{\bf matvar\_\-t} $\ast$}]{matvar, }
+\item[{int}]{start, }
+\item[{int}]{stride, }
+\item[{int}]{edge}
+\end{DoxyParamCaption}
+)}}
+\label{group__MAT_ga004987d665654409f74eaf8e82bb1380}
+
+
+Indexes a cell array. 
+
+Finds cells of a cell array given a linear indexed start, stride, and edge. The cells are placed in a pointer array. The cells themself should not be freed as they are part of the original cell array, but the pointer array should be. If copies are needed, use Mat\_\-VarDuplicate on each of the cells. MAT file version must be 5.
+
+
+\begin{DoxyParams}{Parameters}
+{\em matvar} & Cell Array matlab variable \\
+\hline
+{\em start} & starting index \\
+\hline
+{\em stride} & stride \\
+\hline
+{\em edge} & Number of cells to get \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+an array of pointers to the cells 
+\end{DoxyReturn}
+\hypertarget{group__MAT_ga56b9a545990a0f253164018e37111741}{
+\index{MAT@{MAT}!Mat\_\-VarGetNumberOfFields@{Mat\_\-VarGetNumberOfFields}}
+\index{Mat\_\-VarGetNumberOfFields@{Mat\_\-VarGetNumberOfFields}!MAT@{MAT}}
+\subsubsection[{Mat\_\-VarGetNumberOfFields}]{\setlength{\rightskip}{0pt plus 5cm}int Mat\_\-VarGetNumberOfFields (
+\begin{DoxyParamCaption}
+\item[{{\bf matvar\_\-t} $\ast$}]{matvar}
+\end{DoxyParamCaption}
+)}}
+\label{group__MAT_ga56b9a545990a0f253164018e37111741}
+
+
+Returns the number of fields in a structure variable. 
+
+Returns the number of fields in the given structure. MAT file version must be 5.
+
+
+\begin{DoxyParams}{Parameters}
+{\em matvar} & Structure matlab variable \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Number of fields, or a negative number on error 
+\end{DoxyReturn}
+\hypertarget{group__MAT_gaeeb798fead2f765bddfb19016c7fdbcc}{
+\index{MAT@{MAT}!Mat\_\-VarGetSize@{Mat\_\-VarGetSize}}
+\index{Mat\_\-VarGetSize@{Mat\_\-VarGetSize}!MAT@{MAT}}
+\subsubsection[{Mat\_\-VarGetSize}]{\setlength{\rightskip}{0pt plus 5cm}size\_\-t Mat\_\-VarGetSize (
+\begin{DoxyParamCaption}
+\item[{{\bf matvar\_\-t} $\ast$}]{matvar}
+\end{DoxyParamCaption}
+)}}
+\label{group__MAT_gaeeb798fead2f765bddfb19016c7fdbcc}
+
+
+Calculates the size of a matlab variable in bytes. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em matvar} & matlab variable \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+size of the variable in bytes 
+\end{DoxyReturn}
+\hypertarget{group__MAT_ga7018bfe6934b96ae32e8f2a1712eefab}{
+\index{MAT@{MAT}!Mat\_\-VarGetStructField@{Mat\_\-VarGetStructField}}
+\index{Mat\_\-VarGetStructField@{Mat\_\-VarGetStructField}!MAT@{MAT}}
+\subsubsection[{Mat\_\-VarGetStructField}]{\setlength{\rightskip}{0pt plus 5cm}{\bf matvar\_\-t}$\ast$ Mat\_\-VarGetStructField (
+\begin{DoxyParamCaption}
+\item[{{\bf matvar\_\-t} $\ast$}]{matvar, }
+\item[{void $\ast$}]{name\_\-or\_\-index, }
+\item[{int}]{opt, }
+\item[{int}]{index}
+\end{DoxyParamCaption}
+)}}
+\label{group__MAT_ga7018bfe6934b96ae32e8f2a1712eefab}
+
+
+Finds a field of a structure. 
+
+Returns a pointer to the structure field at the given 0-\/relative index. MAT file version must be 5.
+
+
+\begin{DoxyParams}{Parameters}
+{\em matvar} & Pointer to the Structure MAT variable \\
+\hline
+{\em name\_\-or\_\-index} & Name of the field, or the 1-\/relative index of the field. If the index is used, it should be the address of an integer variable whose value is the index number. \\
+\hline
+{\em opt} & BY\_\-NAME if the name\_\-or\_\-index is the name or BY\_\-INDEX if the index was passed. \\
+\hline
+{\em index} & linear index of the structure to find the field of \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Pointer to the Structure Field on success, NULL on error 
+\end{DoxyReturn}
+\hypertarget{group__MAT_ga509178d7dc15faf9f7cd0440df6009b9}{
+\index{MAT@{MAT}!Mat\_\-VarGetStructs@{Mat\_\-VarGetStructs}}
+\index{Mat\_\-VarGetStructs@{Mat\_\-VarGetStructs}!MAT@{MAT}}
+\subsubsection[{Mat\_\-VarGetStructs}]{\setlength{\rightskip}{0pt plus 5cm}{\bf matvar\_\-t}$\ast$ Mat\_\-VarGetStructs (
+\begin{DoxyParamCaption}
+\item[{{\bf matvar\_\-t} $\ast$}]{matvar, }
+\item[{int $\ast$}]{start, }
+\item[{int $\ast$}]{stride, }
+\item[{int $\ast$}]{edge, }
+\item[{int}]{copy\_\-fields}
+\end{DoxyParamCaption}
+)}}
+\label{group__MAT_ga509178d7dc15faf9f7cd0440df6009b9}
+
+
+Indexes a structure. 
+
+Finds structures of a structure array given a start, stride, and edge for each dimension. The structures are placed in a new structure array. If copy\_\-fields is non-\/zero, the indexed structures are copied and should be freed, but if copy\_\-fields is zero, the indexed structures are pointers to the original, but should still be freed since the mem\_\-conserve flag is set so that the structures are not freed. MAT File version must be 5.
+
+
+\begin{DoxyParams}{Parameters}
+{\em matvar} & Structure matlab variable \\
+\hline
+{\em start} & vector of length rank with 0-\/relative starting coordinates for each diemnsion. \\
+\hline
+{\em stride} & vector of length rank with strides for each diemnsion. \\
+\hline
+{\em edge} & vector of length rank with the number of elements to read in each diemnsion. \\
+\hline
+{\em copy\_\-fields} & 1 to copy the fields, 0 to just set pointers to them. If 0 is used, the fields should not be freed themselves. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A new structure with fields indexed from matvar. 
+\end{DoxyReturn}
+\hypertarget{group__MAT_gaa56680fb7b2cd3d410f659e945da8141}{
+\index{MAT@{MAT}!Mat\_\-VarGetStructsLinear@{Mat\_\-VarGetStructsLinear}}
+\index{Mat\_\-VarGetStructsLinear@{Mat\_\-VarGetStructsLinear}!MAT@{MAT}}
+\subsubsection[{Mat\_\-VarGetStructsLinear}]{\setlength{\rightskip}{0pt plus 5cm}{\bf matvar\_\-t}$\ast$ Mat\_\-VarGetStructsLinear (
+\begin{DoxyParamCaption}
+\item[{{\bf matvar\_\-t} $\ast$}]{matvar, }
+\item[{int}]{start, }
+\item[{int}]{stride, }
+\item[{int}]{edge, }
+\item[{int}]{copy\_\-fields}
+\end{DoxyParamCaption}
+)}}
+\label{group__MAT_gaa56680fb7b2cd3d410f659e945da8141}
+
+
+Indexes a structure. 
+
+Finds structures of a structure array given a single (linear)start, stride, and edge. The structures are placed in a new structure array. If copy\_\-fields is non-\/zero, the indexed structures are copied and should be freed, but if copy\_\-fields is zero, the indexed structures are pointers to the original, but should still be freed since the mem\_\-conserve flag is set so that the structures are not freed. MAT File version must be 5.
+
+
+\begin{DoxyParams}{Parameters}
+{\em matvar} & Structure matlab variable \\
+\hline
+{\em start} & starting index \\
+\hline
+{\em stride} & stride \\
+\hline
+{\em edge} & Number of structures to get \\
+\hline
+{\em copy\_\-fields} & 1 to copy the fields, 0 to just set pointers to them. If 0 is used, the fields should not be freed themselves. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A new structure with fields indexed from matvar 
+\end{DoxyReturn}
+\hypertarget{group__MAT_ga9100c145e338b84b55d5d0795d5d390a}{
+\index{MAT@{MAT}!Mat\_\-VarPrint@{Mat\_\-VarPrint}}
+\index{Mat\_\-VarPrint@{Mat\_\-VarPrint}!MAT@{MAT}}
+\subsubsection[{Mat\_\-VarPrint}]{\setlength{\rightskip}{0pt plus 5cm}void Mat\_\-VarPrint (
+\begin{DoxyParamCaption}
+\item[{{\bf matvar\_\-t} $\ast$}]{matvar, }
+\item[{int}]{printdata}
+\end{DoxyParamCaption}
+)}}
+\label{group__MAT_ga9100c145e338b84b55d5d0795d5d390a}
+
+
+Prints the variable information. 
+
+Prints to stdout the values of the \hyperlink{structmatvar__t}{matvar\_\-t} structure
+
+
+\begin{DoxyParams}{Parameters}
+{\em matvar} & Pointer to the \hyperlink{structmatvar__t}{matvar\_\-t} structure \\
+\hline
+{\em printdata} & set to 1 if the Variables data should be printed, else 0 \\
+\hline
+\end{DoxyParams}
+\hypertarget{group__MAT_ga3505f63029763eaa73d5a19f1115eb42}{
+\index{MAT@{MAT}!Mat\_\-VarRead@{Mat\_\-VarRead}}
+\index{Mat\_\-VarRead@{Mat\_\-VarRead}!MAT@{MAT}}
+\subsubsection[{Mat\_\-VarRead}]{\setlength{\rightskip}{0pt plus 5cm}{\bf matvar\_\-t}$\ast$ Mat\_\-VarRead (
+\begin{DoxyParamCaption}
+\item[{{\bf mat\_\-t} $\ast$}]{mat, }
+\item[{const char $\ast$}]{name}
+\end{DoxyParamCaption}
+)}}
+\label{group__MAT_ga3505f63029763eaa73d5a19f1115eb42}
+
+
+Reads the variable with the given name from a MAT file. 
+
+Reads the next variable in the Matlab MAT file
+
+
+\begin{DoxyParams}{Parameters}
+{\em mat} & Pointer to the MAT file \\
+\hline
+{\em name} & Name of the variable to read \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Pointer to the \hyperlink{structmatvar__t}{matvar\_\-t} structure containing the MAT variable information 
+\end{DoxyReturn}
+\hypertarget{group__MAT_ga1845000f4fc6252ec5ff11c4b9f0759f}{
+\index{MAT@{MAT}!Mat\_\-VarReadData@{Mat\_\-VarReadData}}
+\index{Mat\_\-VarReadData@{Mat\_\-VarReadData}!MAT@{MAT}}
+\subsubsection[{Mat\_\-VarReadData}]{\setlength{\rightskip}{0pt plus 5cm}int Mat\_\-VarReadData (
+\begin{DoxyParamCaption}
+\item[{{\bf mat\_\-t} $\ast$}]{mat, }
+\item[{{\bf matvar\_\-t} $\ast$}]{matvar, }
+\item[{void $\ast$}]{data, }
+\item[{int $\ast$}]{start, }
+\item[{int $\ast$}]{stride, }
+\item[{int $\ast$}]{edge}
+\end{DoxyParamCaption}
+)}}
+\label{group__MAT_ga1845000f4fc6252ec5ff11c4b9f0759f}
+
+
+Reads MAT variable data from a file. 
+
+Reads data from a MAT variable. The variable must have been read by Mat\_\-VarReadInfo.
+
+
+\begin{DoxyParams}{Parameters}
+{\em mat} & MAT file to read data from \\
+\hline
+{\em matvar} & MAT variable information \\
+\hline
+{\em data} & pointer to store data in (must be pre-\/allocated) \\
+\hline
+{\em start} & array of starting indeces \\
+\hline
+{\em stride} & stride of data \\
+\hline
+{\em edge} & array specifying the number to read in each direction \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em 0} & on success \\
+\hline
+\end{DoxyRetVals}
+\hypertarget{group__MAT_gaa8060d7c8e5da0aa9ee5f96e5f1eb30a}{
+\index{MAT@{MAT}!Mat\_\-VarReadDataAll@{Mat\_\-VarReadDataAll}}
+\index{Mat\_\-VarReadDataAll@{Mat\_\-VarReadDataAll}!MAT@{MAT}}
+\subsubsection[{Mat\_\-VarReadDataAll}]{\setlength{\rightskip}{0pt plus 5cm}int Mat\_\-VarReadDataAll (
+\begin{DoxyParamCaption}
+\item[{{\bf mat\_\-t} $\ast$}]{mat, }
+\item[{{\bf matvar\_\-t} $\ast$}]{matvar}
+\end{DoxyParamCaption}
+)}}
+\label{group__MAT_gaa8060d7c8e5da0aa9ee5f96e5f1eb30a}
+
+
+Reads all the data for a matlab variable. 
+
+Allocates memory for an reads the data for a given matlab variable.
+
+
+\begin{DoxyParams}{Parameters}
+{\em mat} & Matlab MAT file structure pointer \\
+\hline
+{\em matvar} & Variable whose data is to be read \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+non-\/zero on error 
+\end{DoxyReturn}
+\hypertarget{group__MAT_gaad61c8449a2106afa697280ff0ee9dd8}{
+\index{MAT@{MAT}!Mat\_\-VarReadDataLinear@{Mat\_\-VarReadDataLinear}}
+\index{Mat\_\-VarReadDataLinear@{Mat\_\-VarReadDataLinear}!MAT@{MAT}}
+\subsubsection[{Mat\_\-VarReadDataLinear}]{\setlength{\rightskip}{0pt plus 5cm}int Mat\_\-VarReadDataLinear (
+\begin{DoxyParamCaption}
+\item[{{\bf mat\_\-t} $\ast$}]{mat, }
+\item[{{\bf matvar\_\-t} $\ast$}]{matvar, }
+\item[{void $\ast$}]{data, }
+\item[{int}]{start, }
+\item[{int}]{stride, }
+\item[{int}]{edge}
+\end{DoxyParamCaption}
+)}}
+\label{group__MAT_gaad61c8449a2106afa697280ff0ee9dd8}
+
+
+Reads MAT variable data from a file. 
+
+Reads data from a MAT variable using a linear indexingmode. The variable must have been read by Mat\_\-VarReadInfo.
+
+
+\begin{DoxyParams}{Parameters}
+{\em mat} & MAT file to read data from \\
+\hline
+{\em matvar} & MAT variable information \\
+\hline
+{\em data} & pointer to store data in (must be pre-\/allocated) \\
+\hline
+{\em start} & starting index \\
+\hline
+{\em stride} & stride of data \\
+\hline
+{\em edge} & number of elements to read \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em 0} & on success \\
+\hline
+\end{DoxyRetVals}
+\hypertarget{group__MAT_ga46da2e45ed96d3f1a6ec643757f2b086}{
+\index{MAT@{MAT}!Mat\_\-VarReadInfo@{Mat\_\-VarReadInfo}}
+\index{Mat\_\-VarReadInfo@{Mat\_\-VarReadInfo}!MAT@{MAT}}
+\subsubsection[{Mat\_\-VarReadInfo}]{\setlength{\rightskip}{0pt plus 5cm}{\bf matvar\_\-t}$\ast$ Mat\_\-VarReadInfo (
+\begin{DoxyParamCaption}
+\item[{{\bf mat\_\-t} $\ast$}]{mat, }
+\item[{const char $\ast$}]{name}
+\end{DoxyParamCaption}
+)}}
+\label{group__MAT_ga46da2e45ed96d3f1a6ec643757f2b086}
+
+
+Reads the information of a variable with the given name from a MAT file. 
+
+Reads the named variable (or the next variable if name is NULL) information (class,flags-\/complex/global/logical,rank,dimensions,and name) from the Matlab MAT file
+
+
+\begin{DoxyParams}{Parameters}
+{\em mat} & Pointer to the MAT file \\
+\hline
+{\em name} & Name of the variable to read \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Pointer to the \hyperlink{structmatvar__t}{matvar\_\-t} structure containing the MAT variable information 
+\end{DoxyReturn}
+\hypertarget{group__MAT_ga7c321d6aafd93916ba6c5655ad78e9ca}{
+\index{MAT@{MAT}!Mat\_\-VarReadNext@{Mat\_\-VarReadNext}}
+\index{Mat\_\-VarReadNext@{Mat\_\-VarReadNext}!MAT@{MAT}}
+\subsubsection[{Mat\_\-VarReadNext}]{\setlength{\rightskip}{0pt plus 5cm}{\bf matvar\_\-t}$\ast$ Mat\_\-VarReadNext (
+\begin{DoxyParamCaption}
+\item[{{\bf mat\_\-t} $\ast$}]{mat}
+\end{DoxyParamCaption}
+)}}
+\label{group__MAT_ga7c321d6aafd93916ba6c5655ad78e9ca}
+
+
+Reads the next variable in a MAT file. 
+
+Reads the next variable in the Matlab MAT file
+
+
+\begin{DoxyParams}{Parameters}
+{\em mat} & Pointer to the MAT file \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Pointer to the \hyperlink{structmatvar__t}{matvar\_\-t} structure containing the MAT variable information 
+\end{DoxyReturn}
+\hypertarget{group__MAT_ga72dd99330507b17177e22f9ed3bea5e6}{
+\index{MAT@{MAT}!Mat\_\-VarReadNextInfo@{Mat\_\-VarReadNextInfo}}
+\index{Mat\_\-VarReadNextInfo@{Mat\_\-VarReadNextInfo}!MAT@{MAT}}
+\subsubsection[{Mat\_\-VarReadNextInfo}]{\setlength{\rightskip}{0pt plus 5cm}{\bf matvar\_\-t}$\ast$ Mat\_\-VarReadNextInfo (
+\begin{DoxyParamCaption}
+\item[{{\bf mat\_\-t} $\ast$}]{mat}
+\end{DoxyParamCaption}
+)}}
+\label{group__MAT_ga72dd99330507b17177e22f9ed3bea5e6}
+
+
+Reads the information of the next variable in a MAT file. 
+
+Reads the next variable's information (class,flags-\/complex/global/logical, rank,dimensions, name, etc) from the Matlab MAT file. After reading, the MAT file is positioned past the current variable.
+
+
+\begin{DoxyParams}{Parameters}
+{\em mat} & Pointer to the MAT file \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Pointer to the \hyperlink{structmatvar__t}{matvar\_\-t} structure containing the MAT variable information 
+\end{DoxyReturn}
+\hypertarget{group__MAT_ga77c5ad24d45047830046fe3ed25da8ad}{
+\index{MAT@{MAT}!Mat\_\-VarWrite@{Mat\_\-VarWrite}}
+\index{Mat\_\-VarWrite@{Mat\_\-VarWrite}!MAT@{MAT}}
+\subsubsection[{Mat\_\-VarWrite}]{\setlength{\rightskip}{0pt plus 5cm}int Mat\_\-VarWrite (
+\begin{DoxyParamCaption}
+\item[{{\bf mat\_\-t} $\ast$}]{mat, }
+\item[{{\bf matvar\_\-t} $\ast$}]{matvar, }
+\item[{int}]{compress}
+\end{DoxyParamCaption}
+)}}
+\label{group__MAT_ga77c5ad24d45047830046fe3ed25da8ad}
+
+
+Writes the given MAT variable to a MAT file. 
+
+Writes the MAT variable information stored in matvar to the given MAT file. The variable will be written to the end of the file.
+
+
+\begin{DoxyParams}{Parameters}
+{\em mat} & MAT file to write to \\
+\hline
+{\em matvar} & MAT variable information to write \\
+\hline
+{\em compress} & Whether or not to compress the data (Only valid for version 5 MAT files and variables with numeric data) \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em 0} & on success \\
+\hline
+\end{DoxyRetVals}
+\hypertarget{group__MAT_ga43179b930fb30c025a153a55a083a98a}{
+\index{MAT@{MAT}!Mat\_\-VarWriteData@{Mat\_\-VarWriteData}}
+\index{Mat\_\-VarWriteData@{Mat\_\-VarWriteData}!MAT@{MAT}}
+\subsubsection[{Mat\_\-VarWriteData}]{\setlength{\rightskip}{0pt plus 5cm}int Mat\_\-VarWriteData (
+\begin{DoxyParamCaption}
+\item[{{\bf mat\_\-t} $\ast$}]{mat, }
+\item[{{\bf matvar\_\-t} $\ast$}]{matvar, }
+\item[{void $\ast$}]{data, }
+\item[{int $\ast$}]{start, }
+\item[{int $\ast$}]{stride, }
+\item[{int $\ast$}]{edge}
+\end{DoxyParamCaption}
+)}}
+\label{group__MAT_ga43179b930fb30c025a153a55a083a98a}
+
+
+Writes the given data to the MAT variable. 
+
+Writes data to a MAT variable. The variable must have previously been written with Mat\_\-VarWriteInfo.
+
+
+\begin{DoxyParams}{Parameters}
+{\em mat} & MAT file to write to \\
+\hline
+{\em matvar} & MAT variable information to write \\
+\hline
+{\em data} & pointer to the data to write \\
+\hline
+{\em start} & array of starting indeces \\
+\hline
+{\em stride} & stride of data \\
+\hline
+{\em edge} & array specifying the number to read in each direction \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em 0} & on success \\
+\hline
+\end{DoxyRetVals}
+\hypertarget{group__MAT_ga1ae164415dfd98cdf48ad07033b6e0bb}{
+\index{MAT@{MAT}!Mat\_\-VarWriteInfo@{Mat\_\-VarWriteInfo}}
+\index{Mat\_\-VarWriteInfo@{Mat\_\-VarWriteInfo}!MAT@{MAT}}
+\subsubsection[{Mat\_\-VarWriteInfo}]{\setlength{\rightskip}{0pt plus 5cm}int Mat\_\-VarWriteInfo (
+\begin{DoxyParamCaption}
+\item[{{\bf mat\_\-t} $\ast$}]{mat, }
+\item[{{\bf matvar\_\-t} $\ast$}]{matvar}
+\end{DoxyParamCaption}
+)}}
+\label{group__MAT_ga1ae164415dfd98cdf48ad07033b6e0bb}
+
+
+Writes the given MAT variable to a MAT file. 
+
+Writes the MAT variable information stored in matvar to the given MAT file. The variable will be written to the end of the file.
+
+
+\begin{DoxyParams}{Parameters}
+{\em mat} & MAT file to write to \\
+\hline
+{\em matvar} & MAT variable information to write \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em 0} & on success \\
+\hline
+\end{DoxyRetVals}

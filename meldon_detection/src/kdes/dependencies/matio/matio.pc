@@ -1,0 +1,10 @@
+prefix=/usr/local
+exec_prefix=${prefix}
+libdir=${exec_prefix}/lib
+includedir=${prefix}/include
+
+Name: MATIO
+Description: MATIO Library
+Version: 1.5.0
+Libs: -L${libdir} -lmatio -lhdf5 -lz
+Cflags: -I${includedir}  
