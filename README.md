@@ -1,12 +1,16 @@
 To make and install
 -------------------
 
-Clone this package into the src directory of your catkin workspace
+This is now installable via a rosinstall file. It requires access to the RethinkRobotics github repos.
+```
+mkdir -p ~/catkin_ws/src
+cd ~/catkin_ws/src
+wstool init .
+wstool merge https://raw.githubusercontent.com/RethinkRobotics/baxter/release-0.7.0/baxter_sdk.rosinstall
+wstool merge https://raw.githubusercontent.com/h2r/baxter_h2r_packages/master/h2r.rosinstall
+wstool update
+```
 
-```
-$ git clone -b hydro-devel http://github.com/sniekum/ar_track_alvar
-$ git clone http://github.com/h2r/baxter_h2r_packages
-```
 Install ros object recognition packages
 
 ```
@@ -17,7 +21,7 @@ $ sudo apt-get install ros-hydro-object-recognition-*
 Build it
 ```
 $ cd .. 
-$ source devel/setup.bash
+$ source /opt/ros/hydro/setup.bash
 $ catkin_make
 $ catkin_make install
 ```
