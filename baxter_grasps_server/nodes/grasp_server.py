@@ -19,7 +19,7 @@ class grasp_server:
 		for name, filename in files.iteritems():
 			#self.grasps[name] = list()
 			self.grasps[name] = self.load_grasps(filename)
-		rospy.Service('/grasp_server', GraspService, self.grasp_callback)
+		rospy.Service('/grasp_service', GraspService, self.grasp_callback)
 		rospy.spin()
 	
 	def get_files(self, grasp_dir):
@@ -34,20 +34,26 @@ class grasp_server:
 	def load_grasps(self, filename):
 		f = open(filename)
 		args = yaml.load(f)
-		grasp = Grasp()
-		genpy.message.fill_message_args(grasp, args)
-		return grasp
+		grasps = []
+		for arg in args:
+			grasp = Grasp()
+			genpy.message.fill_message_args(grasp, arg)
+			grasps.append(grasp)
+		return grasps
 
 	def grasp_callback(self, request):
 		rospy.loginfo("Received request for " + str(request))
 		if (request.name in self.grasps.keys()):
-			rospy.loginfo(self.grasps[request.name])
-			response = GraspServiceResponse()
-			response.success = True
-			response.grasps = self.grasps[request.name]
+			#rospy.loginfo(self.grasps[request.name])
+			return GraspServiceResponse(success=True, grasps=self.grasps[request.name])
+			#response = GraspServiceResponse()
+			#response.success = True
 
 
-			return response
+			#response.grasps = self.grasps[request.name]
+
+
+			#return response
 		rospy.loginfo("No valid grasps found for " + request.name)
 		return GraspServiceResponse(success=False)
 

@@ -1,0 +1,2269 @@
+- allowed_touch_objects: []
+  grasp_pose:
+    header:
+      frame_id: left_gripper
+      seq: 0
+      stamp: {nsecs: 0, secs: 0}
+    pose:
+      orientation: {w: 0.707106781187, x: 0, y: 0.707106781187, z: 0.0}
+      position: {x: 0, y: 0, z: 0}
+  grasp_posture:
+    header:
+      frame_id: ''
+      seq: 0
+      stamp: {nsecs: 0, secs: 0}
+    joint_names: [left_gripper_l_finger_joint]
+    points:
+    - accelerations: []
+      effort: []
+      positions: [-0.0125]
+      time_from_start: {nsecs: 0, secs: 0}
+      velocities: []
+  grasp_quality: 0.0
+  id: 0
+  max_contact_force: 0.0
+  post_grasp_retreat:
+    desired_distance: 0.3
+    direction:
+      header:
+        frame_id: world
+        seq: 0
+        stamp: {nsecs: 0, secs: 0}
+      vector: {x: 0, y: 0, z: 1.0}
+    min_distance: 0.001
+  post_place_retreat:
+    desired_distance: 0.3
+    direction:
+      header:
+        frame_id: world
+        seq: 0
+        stamp: {nsecs: 0, secs: 0}
+      vector: {x: 0, y: 0, z: 1.0}
+    min_distance: 0.001
+  pre_grasp_approach:
+    desired_distance: 0.3
+    direction:
+      header:
+        frame_id: left_gripper
+        seq: 0
+        stamp: {nsecs: 0, secs: 0}
+      vector: {x: 1.0, y: 0, z: 0}
+    min_distance: 0.001
+  pre_grasp_posture:
+    header:
+      frame_id: ''
+      seq: 0
+      stamp: {nsecs: 0, secs: 0}
+    joint_names: [left_gripper_l_finger_joint]
+    points:
+    - accelerations: []
+      effort: []
+      positions: [0.095]
+      time_from_start: {nsecs: 0, secs: 0}
+      velocities: []
+- allowed_touch_objects: []
+  grasp_pose:
+    header:
+      frame_id: left_gripper
+      seq: 0
+      stamp: {nsecs: 0, secs: 0}
+    pose:
+      orientation: {w: 0.673019382909, x: -0.0642579539007, y: 0.734471773953, z: 0.0588815663378}
+      position: {x: 0, y: 0, z: 0}
+  grasp_posture:
+    header:
+      frame_id: ''
+      seq: 0
+      stamp: {nsecs: 0, secs: 0}
+    joint_names: [left_gripper_l_finger_joint]
+    points:
+    - accelerations: []
+      effort: []
+      positions: [-0.0125]
+      time_from_start: {nsecs: 0, secs: 0}
+      velocities: []
+  grasp_quality: 0.0
+  id: 1
+  max_contact_force: 0.0
+  post_grasp_retreat:
+    desired_distance: 0.3
+    direction:
+      header:
+        frame_id: world
+        seq: 0
+        stamp: {nsecs: 0, secs: 0}
+      vector: {x: 0, y: 0, z: 1.0}
+    min_distance: 0.001
+  post_place_retreat:
+    desired_distance: 0.3
+    direction:
+      header:
+        frame_id: world
+        seq: 0
+        stamp: {nsecs: 0, secs: 0}
+      vector: {x: 0, y: 0, z: 1.0}
+    min_distance: 0.001
+  pre_grasp_approach:
+    desired_distance: 0.3
+    direction:
+      header:
+        frame_id: left_gripper
+        seq: 0
+        stamp: {nsecs: 0, secs: 0}
+      vector: {x: 1.0, y: 0, z: 0}
+    min_distance: 0.001
+  pre_grasp_posture:
+    header:
+      frame_id: ''
+      seq: 0
+      stamp: {nsecs: 0, secs: 0}
+    joint_names: [left_gripper_l_finger_joint]
+    points:
+    - accelerations: []
+      effort: []
+      positions: [0.095]
+      time_from_start: {nsecs: 0, secs: 0}
+      velocities: []
+- allowed_touch_objects: []
+  grasp_pose:
+    header:
+      frame_id: left_gripper
+      seq: 0
+      stamp: {nsecs: 0, secs: 0}
+    pose:
+      orientation: {w: 0.633022221559, x: -0.133022221559, y: 0.754406506735, z: 0.111618897049}
+      position: {x: 0, y: 0, z: 0}
+  grasp_posture:
+    header:
+      frame_id: ''
+      seq: 0
+      stamp: {nsecs: 0, secs: 0}
+    joint_names: [left_gripper_l_finger_joint]
+    points:
+    - accelerations: []
+      effort: []
+      positions: [-0.0125]
+      time_from_start: {nsecs: 0, secs: 0}
+      velocities: []
+  grasp_quality: 0.0
+  id: 2
+  max_contact_force: 0.0
+  post_grasp_retreat:
+    desired_distance: 0.3
+    direction:
+      header:
+        frame_id: world
+        seq: 0
+        stamp: {nsecs: 0, secs: 0}
+      vector: {x: 0, y: 0, z: 1.0}
+    min_distance: 0.001
+  post_place_retreat:
+    desired_distance: 0.3
+    direction:
+      header:
+        frame_id: world
+        seq: 0
+        stamp: {nsecs: 0, secs: 0}
+      vector: {x: 0, y: 0, z: 1.0}
+    min_distance: 0.001
+  pre_grasp_approach:
+    desired_distance: 0.3
+    direction:
+      header:
+        frame_id: left_gripper
+        seq: 0
+        stamp: {nsecs: 0, secs: 0}
+      vector: {x: 1.0, y: 0, z: 0}
+    min_distance: 0.001
+  pre_grasp_posture:
+    header:
+      frame_id: ''
+      seq: 0
+      stamp: {nsecs: 0, secs: 0}
+    joint_names: [left_gripper_l_finger_joint]
+    points:
+    - accelerations: []
+      effort: []
+      positions: [0.095]
+      time_from_start: {nsecs: 0, secs: 0}
+      velocities: []
+- allowed_touch_objects: []
+  grasp_pose:
+    header:
+      frame_id: left_gripper
+      seq: 0
+      stamp: {nsecs: 0, secs: 0}
+    pose:
+      orientation: {w: 0.588018386328, x: -0.205334953963, y: 0.76632048076, z: 0.157559051751}
+      position: {x: 0, y: 0, z: 0}
+  grasp_posture:
+    header:
+      frame_id: ''
+      seq: 0
+      stamp: {nsecs: 0, secs: 0}
+    joint_names: [left_gripper_l_finger_joint]
+    points:
+    - accelerations: []
+      effort: []
+      positions: [-0.0125]
+      time_from_start: {nsecs: 0, secs: 0}
+      velocities: []
+  grasp_quality: 0.0
+  id: 3
+  max_contact_force: 0.0
+  post_grasp_retreat:
+    desired_distance: 0.3
+    direction:
+      header:
+        frame_id: world
+        seq: 0
+        stamp: {nsecs: 0, secs: 0}
+      vector: {x: 0, y: 0, z: 1.0}
+    min_distance: 0.001
+  post_place_retreat:
+    desired_distance: 0.3
+    direction:
+      header:
+        frame_id: world
+        seq: 0
+        stamp: {nsecs: 0, secs: 0}
+      vector: {x: 0, y: 0, z: 1.0}
+    min_distance: 0.001
+  pre_grasp_approach:
+    desired_distance: 0.3
+    direction:
+      header:
+        frame_id: left_gripper
+        seq: 0
+        stamp: {nsecs: 0, secs: 0}
+      vector: {x: 1.0, y: 0, z: 0}
+    min_distance: 0.001
+  pre_grasp_posture:
+    header:
+      frame_id: ''
+      seq: 0
+      stamp: {nsecs: 0, secs: 0}
+    joint_names: [left_gripper_l_finger_joint]
+    points:
+    - accelerations: []
+      effort: []
+      positions: [0.095]
+      time_from_start: {nsecs: 0, secs: 0}
+      velocities: []
+- allowed_touch_objects: []
+  grasp_pose:
+    header:
+      frame_id: left_gripper
+      seq: 0
+      stamp: {nsecs: 0, secs: 0}
+    pose:
+      orientation: {w: 0.538985544696, x: -0.280166499593, y: 0.76975113132, z: 0.196174694969}
+      position: {x: 0, y: 0, z: 0}
+  grasp_posture:
+    header:
+      frame_id: ''
+      seq: 0
+      stamp: {nsecs: 0, secs: 0}
+    joint_names: [left_gripper_l_finger_joint]
+    points:
+    - accelerations: []
+      effort: []
+      positions: [-0.0125]
+      time_from_start: {nsecs: 0, secs: 0}
+      velocities: []
+  grasp_quality: 0.0
+  id: 4
+  max_contact_force: 0.0
+  post_grasp_retreat:
+    desired_distance: 0.3
+    direction:
+      header:
+        frame_id: world
+        seq: 0
+        stamp: {nsecs: 0, secs: 0}
+      vector: {x: 0, y: 0, z: 1.0}
+    min_distance: 0.001
+  post_place_retreat:
+    desired_distance: 0.3
+    direction:
+      header:
+        frame_id: world
+        seq: 0
+        stamp: {nsecs: 0, secs: 0}
+      vector: {x: 0, y: 0, z: 1.0}
+    min_distance: 0.001
+  pre_grasp_approach:
+    desired_distance: 0.3
+    direction:
+      header:
+        frame_id: left_gripper
+        seq: 0
+        stamp: {nsecs: 0, secs: 0}
+      vector: {x: 1.0, y: 0, z: 0}
+    min_distance: 0.001
+  pre_grasp_posture:
+    header:
+      frame_id: ''
+      seq: 0
+      stamp: {nsecs: 0, secs: 0}
+    joint_names: [left_gripper_l_finger_joint]
+    points:
+    - accelerations: []
+      effort: []
+      positions: [0.095]
+      time_from_start: {nsecs: 0, secs: 0}
+      velocities: []
+- allowed_touch_objects: []
+  grasp_pose:
+    header:
+      frame_id: left_gripper
+      seq: 0
+      stamp: {nsecs: 0, secs: 0}
+    pose:
+      orientation: {w: 0.486958819016, x: -0.356432626796, y: 0.76437223486, z: 0.227072626513}
+      position: {x: 0, y: 0, z: 0}
+  grasp_posture:
+    header:
+      frame_id: ''
+      seq: 0
+      stamp: {nsecs: 0, secs: 0}
+    joint_names: [left_gripper_l_finger_joint]
+    points:
+    - accelerations: []
+      effort: []
+      positions: [-0.0125]
+      time_from_start: {nsecs: 0, secs: 0}
+      velocities: []
+  grasp_quality: 0.0
+  id: 5
+  max_contact_force: 0.0
+  post_grasp_retreat:
+    desired_distance: 0.3
+    direction:
+      header:
+        frame_id: world
+        seq: 0
+        stamp: {nsecs: 0, secs: 0}
+      vector: {x: 0, y: 0, z: 1.0}
+    min_distance: 0.001
+  post_place_retreat:
+    desired_distance: 0.3
+    direction:
+      header:
+        frame_id: world
+        seq: 0
+        stamp: {nsecs: 0, secs: 0}
+      vector: {x: 0, y: 0, z: 1.0}
+    min_distance: 0.001
+  pre_grasp_approach:
+    desired_distance: 0.3
+    direction:
+      header:
+        frame_id: left_gripper
+        seq: 0
+        stamp: {nsecs: 0, secs: 0}
+      vector: {x: 1.0, y: 0, z: 0}
+    min_distance: 0.001
+  pre_grasp_posture:
+    header:
+      frame_id: ''
+      seq: 0
+      stamp: {nsecs: 0, secs: 0}
+    joint_names: [left_gripper_l_finger_joint]
+    points:
+    - accelerations: []
+      effort: []
+      positions: [0.095]
+      time_from_start: {nsecs: 0, secs: 0}
+      velocities: []
+- allowed_touch_objects: []
+  grasp_pose:
+    header:
+      frame_id: left_gripper
+      seq: 0
+      stamp: {nsecs: 0, secs: 0}
+    pose:
+      orientation: {w: 0.433012701892, x: -0.433012701892, y: 0.75, z: 0.25}
+      position: {x: 0, y: 0, z: 0}
+  grasp_posture:
+    header:
+      frame_id: ''
+      seq: 0
+      stamp: {nsecs: 0, secs: 0}
+    joint_names: [left_gripper_l_finger_joint]
+    points:
+    - accelerations: []
+      effort: []
+      positions: [-0.0125]
+      time_from_start: {nsecs: 0, secs: 0}
+      velocities: []
+  grasp_quality: 0.0
+  id: 6
+  max_contact_force: 0.0
+  post_grasp_retreat:
+    desired_distance: 0.3
+    direction:
+      header:
+        frame_id: world
+        seq: 0
+        stamp: {nsecs: 0, secs: 0}
+      vector: {x: 0, y: 0, z: 1.0}
+    min_distance: 0.001
+  post_place_retreat:
+    desired_distance: 0.3
+    direction:
+      header:
+        frame_id: world
+        seq: 0
+        stamp: {nsecs: 0, secs: 0}
+      vector: {x: 0, y: 0, z: 1.0}
+    min_distance: 0.001
+  pre_grasp_approach:
+    desired_distance: 0.3
+    direction:
+      header:
+        frame_id: left_gripper
+        seq: 0
+        stamp: {nsecs: 0, secs: 0}
+      vector: {x: 1.0, y: 0, z: 0}
+    min_distance: 0.001
+  pre_grasp_posture:
+    header:
+      frame_id: ''
+      seq: 0
+      stamp: {nsecs: 0, secs: 0}
+    joint_names: [left_gripper_l_finger_joint]
+    points:
+    - accelerations: []
+      effort: []
+      positions: [0.095]
+      time_from_start: {nsecs: 0, secs: 0}
+      velocities: []
+- allowed_touch_objects: []
+  grasp_pose:
+    header:
+      frame_id: left_gripper
+      seq: 0
+      stamp: {nsecs: 0, secs: 0}
+    pose:
+      orientation: {w: 0.378242320479, x: -0.508768512699, y: 0.726596737304, z: 0.264848124069}
+      position: {x: 0, y: 0, z: 0}
+  grasp_posture:
+    header:
+      frame_id: ''
+      seq: 0
+      stamp: {nsecs: 0, secs: 0}
+    joint_names: [left_gripper_l_finger_joint]
+    points:
+    - accelerations: []
+      effort: []
+      positions: [-0.0125]
+      time_from_start: {nsecs: 0, secs: 0}
+      velocities: []
+  grasp_quality: 0.0
+  id: 7
+  max_contact_force: 0.0
+  post_grasp_retreat:
+    desired_distance: 0.3
+    direction:
+      header:
+        frame_id: world
+        seq: 0
+        stamp: {nsecs: 0, secs: 0}
+      vector: {x: 0, y: 0, z: 1.0}
+    min_distance: 0.001
+  post_place_retreat:
+    desired_distance: 0.3
+    direction:
+      header:
+        frame_id: world
+        seq: 0
+        stamp: {nsecs: 0, secs: 0}
+      vector: {x: 0, y: 0, z: 1.0}
+    min_distance: 0.001
+  pre_grasp_approach:
+    desired_distance: 0.3
+    direction:
+      header:
+        frame_id: left_gripper
+        seq: 0
+        stamp: {nsecs: 0, secs: 0}
+      vector: {x: 1.0, y: 0, z: 0}
+    min_distance: 0.001
+  pre_grasp_posture:
+    header:
+      frame_id: ''
+      seq: 0
+      stamp: {nsecs: 0, secs: 0}
+    joint_names: [left_gripper_l_finger_joint]
+    points:
+    - accelerations: []
+      effort: []
+      positions: [0.095]
+      time_from_start: {nsecs: 0, secs: 0}
+      velocities: []
+- allowed_touch_objects: []
+  grasp_pose:
+    header:
+      frame_id: left_gripper
+      seq: 0
+      stamp: {nsecs: 0, secs: 0}
+    pose:
+      orientation: {w: 0.323744370967, x: -0.58256341607, y: 0.694272044015, z: 0.271653782274}
+      position: {x: 0, y: 0, z: 0}
+  grasp_posture:
+    header:
+      frame_id: ''
+      seq: 0
+      stamp: {nsecs: 0, secs: 0}
+    joint_names: [left_gripper_l_finger_joint]
+    points:
+    - accelerations: []
+      effort: []
+      positions: [-0.0125]
+      time_from_start: {nsecs: 0, secs: 0}
+      velocities: []
+  grasp_quality: 0.0
+  id: 8
+  max_contact_force: 0.0
+  post_grasp_retreat:
+    desired_distance: 0.3
+    direction:
+      header:
+        frame_id: world
+        seq: 0
+        stamp: {nsecs: 0, secs: 0}
+      vector: {x: 0, y: 0, z: 1.0}
+    min_distance: 0.001
+  post_place_retreat:
+    desired_distance: 0.3
+    direction:
+      header:
+        frame_id: world
+        seq: 0
+        stamp: {nsecs: 0, secs: 0}
+      vector: {x: 0, y: 0, z: 1.0}
+    min_distance: 0.001
+  pre_grasp_approach:
+    desired_distance: 0.3
+    direction:
+      header:
+        frame_id: left_gripper
+        seq: 0
+        stamp: {nsecs: 0, secs: 0}
+      vector: {x: 1.0, y: 0, z: 0}
+    min_distance: 0.001
+  pre_grasp_posture:
+    header:
+      frame_id: ''
+      seq: 0
+      stamp: {nsecs: 0, secs: 0}
+    joint_names: [left_gripper_l_finger_joint]
+    points:
+    - accelerations: []
+      effort: []
+      positions: [0.095]
+      time_from_start: {nsecs: 0, secs: 0}
+      velocities: []
+- allowed_touch_objects: []
+  grasp_pose:
+    header:
+      frame_id: left_gripper
+      seq: 0
+      stamp: {nsecs: 0, secs: 0}
+    pose:
+      orientation: {w: 0.270598050073, x: -0.653281482438, y: 0.653281482438, z: 0.270598050073}
+      position: {x: 0, y: 0, z: 0}
+  grasp_posture:
+    header:
+      frame_id: ''
+      seq: 0
+      stamp: {nsecs: 0, secs: 0}
+    joint_names: [left_gripper_l_finger_joint]
+    points:
+    - accelerations: []
+      effort: []
+      positions: [-0.0125]
+      time_from_start: {nsecs: 0, secs: 0}
+      velocities: []
+  grasp_quality: 0.0
+  id: 9
+  max_contact_force: 0.0
+  post_grasp_retreat:
+    desired_distance: 0.3
+    direction:
+      header:
+        frame_id: world
+        seq: 0
+        stamp: {nsecs: 0, secs: 0}
+      vector: {x: 0, y: 0, z: 1.0}
+    min_distance: 0.001
+  post_place_retreat:
+    desired_distance: 0.3
+    direction:
+      header:
+        frame_id: world
+        seq: 0
+        stamp: {nsecs: 0, secs: 0}
+      vector: {x: 0, y: 0, z: 1.0}
+    min_distance: 0.001
+  pre_grasp_approach:
+    desired_distance: 0.3
+    direction:
+      header:
+        frame_id: left_gripper
+        seq: 0
+        stamp: {nsecs: 0, secs: 0}
+      vector: {x: 1.0, y: 0, z: 0}
+    min_distance: 0.001
+  pre_grasp_posture:
+    header:
+      frame_id: ''
+      seq: 0
+      stamp: {nsecs: 0, secs: 0}
+    joint_names: [left_gripper_l_finger_joint]
+    points:
+    - accelerations: []
+      effort: []
+      positions: [0.095]
+      time_from_start: {nsecs: 0, secs: 0}
+      velocities: []
+- allowed_touch_objects: []
+  grasp_pose:
+    header:
+      frame_id: left_gripper
+      seq: 0
+      stamp: {nsecs: 0, secs: 0}
+    pose:
+      orientation: {w: 0.219846310393, x: -0.719846310393, y: 0.604022773555, z: 0.262002630229}
+      position: {x: 0, y: 0, z: 0}
+  grasp_posture:
+    header:
+      frame_id: ''
+      seq: 0
+      stamp: {nsecs: 0, secs: 0}
+    joint_names: [left_gripper_l_finger_joint]
+    points:
+    - accelerations: []
+      effort: []
+      positions: [-0.0125]
+      time_from_start: {nsecs: 0, secs: 0}
+      velocities: []
+  grasp_quality: 0.0
+  id: 10
+  max_contact_force: 0.0
+  post_grasp_retreat:
+    desired_distance: 0.3
+    direction:
+      header:
+        frame_id: world
+        seq: 0
+        stamp: {nsecs: 0, secs: 0}
+      vector: {x: 0, y: 0, z: 1.0}
+    min_distance: 0.001
+  post_place_retreat:
+    desired_distance: 0.3
+    direction:
+      header:
+        frame_id: world
+        seq: 0
+        stamp: {nsecs: 0, secs: 0}
+      vector: {x: 0, y: 0, z: 1.0}
+    min_distance: 0.001
+  pre_grasp_approach:
+    desired_distance: 0.3
+    direction:
+      header:
+        frame_id: left_gripper
+        seq: 0
+        stamp: {nsecs: 0, secs: 0}
+      vector: {x: 1.0, y: 0, z: 0}
+    min_distance: 0.001
+  pre_grasp_posture:
+    header:
+      frame_id: ''
+      seq: 0
+      stamp: {nsecs: 0, secs: 0}
+    joint_names: [left_gripper_l_finger_joint]
+    points:
+    - accelerations: []
+      effort: []
+      positions: [0.095]
+      time_from_start: {nsecs: 0, secs: 0}
+      velocities: []
+- allowed_touch_objects: []
+  grasp_pose:
+    header:
+      frame_id: left_gripper
+      seq: 0
+      stamp: {nsecs: 0, secs: 0}
+    pose:
+      orientation: {w: 0.17247776087, x: -0.781239189878, y: 0.547029569898, z: 0.246323770393}
+      position: {x: 0, y: 0, z: 0}
+  grasp_posture:
+    header:
+      frame_id: ''
+      seq: 0
+      stamp: {nsecs: 0, secs: 0}
+    joint_names: [left_gripper_l_finger_joint]
+    points:
+    - accelerations: []
+      effort: []
+      positions: [-0.0125]
+      time_from_start: {nsecs: 0, secs: 0}
+      velocities: []
+  grasp_quality: 0.0
+  id: 11
+  max_contact_force: 0.0
+  post_grasp_retreat:
+    desired_distance: 0.3
+    direction:
+      header:
+        frame_id: world
+        seq: 0
+        stamp: {nsecs: 0, secs: 0}
+      vector: {x: 0, y: 0, z: 1.0}
+    min_distance: 0.001
+  post_place_retreat:
+    desired_distance: 0.3
+    direction:
+      header:
+        frame_id: world
+        seq: 0
+        stamp: {nsecs: 0, secs: 0}
+      vector: {x: 0, y: 0, z: 1.0}
+    min_distance: 0.001
+  pre_grasp_approach:
+    desired_distance: 0.3
+    direction:
+      header:
+        frame_id: left_gripper
+        seq: 0
+        stamp: {nsecs: 0, secs: 0}
+      vector: {x: 1.0, y: 0, z: 0}
+    min_distance: 0.001
+  pre_grasp_posture:
+    header:
+      frame_id: ''
+      seq: 0
+      stamp: {nsecs: 0, secs: 0}
+    joint_names: [left_gripper_l_finger_joint]
+    points:
+    - accelerations: []
+      effort: []
+      positions: [0.095]
+      time_from_start: {nsecs: 0, secs: 0}
+      velocities: []
+- allowed_touch_objects: []
+  grasp_pose:
+    header:
+      frame_id: left_gripper
+      seq: 0
+      stamp: {nsecs: 0, secs: 0}
+    pose:
+      orientation: {w: 0.129409522551, x: -0.836516303738, y: 0.482962913145, z: 0.224143868042}
+      position: {x: 0, y: 0, z: 0}
+  grasp_posture:
+    header:
+      frame_id: ''
+      seq: 0
+      stamp: {nsecs: 0, secs: 0}
+    joint_names: [left_gripper_l_finger_joint]
+    points:
+    - accelerations: []
+      effort: []
+      positions: [-0.0125]
+      time_from_start: {nsecs: 0, secs: 0}
+      velocities: []
+  grasp_quality: 0.0
+  id: 12
+  max_contact_force: 0.0
+  post_grasp_retreat:
+    desired_distance: 0.3
+    direction:
+      header:
+        frame_id: world
+        seq: 0
+        stamp: {nsecs: 0, secs: 0}
+      vector: {x: 0, y: 0, z: 1.0}
+    min_distance: 0.001
+  post_place_retreat:
+    desired_distance: 0.3
+    direction:
+      header:
+        frame_id: world
+        seq: 0
+        stamp: {nsecs: 0, secs: 0}
+      vector: {x: 0, y: 0, z: 1.0}
+    min_distance: 0.001
+  pre_grasp_approach:
+    desired_distance: 0.3
+    direction:
+      header:
+        frame_id: left_gripper
+        seq: 0
+        stamp: {nsecs: 0, secs: 0}
+      vector: {x: 1.0, y: 0, z: 0}
+    min_distance: 0.001
+  pre_grasp_posture:
+    header:
+      frame_id: ''
+      seq: 0
+      stamp: {nsecs: 0, secs: 0}
+    joint_names: [left_gripper_l_finger_joint]
+    points:
+    - accelerations: []
+      effort: []
+      positions: [0.095]
+      time_from_start: {nsecs: 0, secs: 0}
+      velocities: []
+- allowed_touch_objects: []
+  grasp_pose:
+    header:
+      frame_id: left_gripper
+      seq: 0
+      stamp: {nsecs: 0, secs: 0}
+    pose:
+      orientation: {w: 0.0914713334143, x: -0.884824673706, y: 0.412600521473, z: 0.196160907535}
+      position: {x: 0, y: 0, z: 0}
+  grasp_posture:
+    header:
+      frame_id: ''
+      seq: 0
+      stamp: {nsecs: 0, secs: 0}
+    joint_names: [left_gripper_l_finger_joint]
+    points:
+    - accelerations: []
+      effort: []
+      positions: [-0.0125]
+      time_from_start: {nsecs: 0, secs: 0}
+      velocities: []
+  grasp_quality: 0.0
+  id: 13
+  max_contact_force: 0.0
+  post_grasp_retreat:
+    desired_distance: 0.3
+    direction:
+      header:
+        frame_id: world
+        seq: 0
+        stamp: {nsecs: 0, secs: 0}
+      vector: {x: 0, y: 0, z: 1.0}
+    min_distance: 0.001
+  post_place_retreat:
+    desired_distance: 0.3
+    direction:
+      header:
+        frame_id: world
+        seq: 0
+        stamp: {nsecs: 0, secs: 0}
+      vector: {x: 0, y: 0, z: 1.0}
+    min_distance: 0.001
+  pre_grasp_approach:
+    desired_distance: 0.3
+    direction:
+      header:
+        frame_id: left_gripper
+        seq: 0
+        stamp: {nsecs: 0, secs: 0}
+      vector: {x: 1.0, y: 0, z: 0}
+    min_distance: 0.001
+  pre_grasp_posture:
+    header:
+      frame_id: ''
+      seq: 0
+      stamp: {nsecs: 0, secs: 0}
+    joint_names: [left_gripper_l_finger_joint]
+    points:
+    - accelerations: []
+      effort: []
+      positions: [0.095]
+      time_from_start: {nsecs: 0, secs: 0}
+      velocities: []
+- allowed_touch_objects: []
+  grasp_pose:
+    header:
+      frame_id: left_gripper
+      seq: 0
+      stamp: {nsecs: 0, secs: 0}
+    pose:
+      orientation: {w: 0.0593911746139, x: -0.925416578398, y: 0.336824088833, z: 0.163175911167}
+      position: {x: 0, y: 0, z: 0}
+  grasp_posture:
+    header:
+      frame_id: ''
+      seq: 0
+      stamp: {nsecs: 0, secs: 0}
+    joint_names: [left_gripper_l_finger_joint]
+    points:
+    - accelerations: []
+      effort: []
+      positions: [-0.0125]
+      time_from_start: {nsecs: 0, secs: 0}
+      velocities: []
+  grasp_quality: 0.0
+  id: 14
+  max_contact_force: 0.0
+  post_grasp_retreat:
+    desired_distance: 0.3
+    direction:
+      header:
+        frame_id: world
+        seq: 0
+        stamp: {nsecs: 0, secs: 0}
+      vector: {x: 0, y: 0, z: 1.0}
+    min_distance: 0.001
+  post_place_retreat:
+    desired_distance: 0.3
+    direction:
+      header:
+        frame_id: world
+        seq: 0
+        stamp: {nsecs: 0, secs: 0}
+      vector: {x: 0, y: 0, z: 1.0}
+    min_distance: 0.001
+  pre_grasp_approach:
+    desired_distance: 0.3
+    direction:
+      header:
+        frame_id: left_gripper
+        seq: 0
+        stamp: {nsecs: 0, secs: 0}
+      vector: {x: 1.0, y: 0, z: 0}
+    min_distance: 0.001
+  pre_grasp_posture:
+    header:
+      frame_id: ''
+      seq: 0
+      stamp: {nsecs: 0, secs: 0}
+    joint_names: [left_gripper_l_finger_joint]
+    points:
+    - accelerations: []
+      effort: []
+      positions: [0.095]
+      time_from_start: {nsecs: 0, secs: 0}
+      velocities: []
+- allowed_touch_objects: []
+  grasp_pose:
+    header:
+      frame_id: left_gripper
+      seq: 0
+      stamp: {nsecs: 0, secs: 0}
+    pose:
+      orientation: {w: 0.0337826644313, x: -0.957662196943, y: 0.256604812293, z: 0.126078620073}
+      position: {x: 0, y: 0, z: 0}
+  grasp_posture:
+    header:
+      frame_id: ''
+      seq: 0
+      stamp: {nsecs: 0, secs: 0}
+    joint_names: [left_gripper_l_finger_joint]
+    points:
+    - accelerations: []
+      effort: []
+      positions: [-0.0125]
+      time_from_start: {nsecs: 0, secs: 0}
+      velocities: []
+  grasp_quality: 0.0
+  id: 15
+  max_contact_force: 0.0
+  post_grasp_retreat:
+    desired_distance: 0.3
+    direction:
+      header:
+        frame_id: world
+        seq: 0
+        stamp: {nsecs: 0, secs: 0}
+      vector: {x: 0, y: 0, z: 1.0}
+    min_distance: 0.001
+  post_place_retreat:
+    desired_distance: 0.3
+    direction:
+      header:
+        frame_id: world
+        seq: 0
+        stamp: {nsecs: 0, secs: 0}
+      vector: {x: 0, y: 0, z: 1.0}
+    min_distance: 0.001
+  pre_grasp_approach:
+    desired_distance: 0.3
+    direction:
+      header:
+        frame_id: left_gripper
+        seq: 0
+        stamp: {nsecs: 0, secs: 0}
+      vector: {x: 1.0, y: 0, z: 0}
+    min_distance: 0.001
+  pre_grasp_posture:
+    header:
+      frame_id: ''
+      seq: 0
+      stamp: {nsecs: 0, secs: 0}
+    joint_names: [left_gripper_l_finger_joint]
+    points:
+    - accelerations: []
+      effort: []
+      positions: [0.095]
+      time_from_start: {nsecs: 0, secs: 0}
+      velocities: []
+- allowed_touch_objects: []
+  grasp_pose:
+    header:
+      frame_id: left_gripper
+      seq: 0
+      stamp: {nsecs: 0, secs: 0}
+    pose:
+      orientation: {w: 0.0151344359013, x: -0.98106026219, y: 0.172987393925, z: 0.0858316511774}
+      position: {x: 0, y: 0, z: 0}
+  grasp_posture:
+    header:
+      frame_id: ''
+      seq: 0
+      stamp: {nsecs: 0, secs: 0}
+    joint_names: [left_gripper_l_finger_joint]
+    points:
+    - accelerations: []
+      effort: []
+      positions: [-0.0125]
+      time_from_start: {nsecs: 0, secs: 0}
+      velocities: []
+  grasp_quality: 0.0
+  id: 16
+  max_contact_force: 0.0
+  post_grasp_retreat:
+    desired_distance: 0.3
+    direction:
+      header:
+        frame_id: world
+        seq: 0
+        stamp: {nsecs: 0, secs: 0}
+      vector: {x: 0, y: 0, z: 1.0}
+    min_distance: 0.001
+  post_place_retreat:
+    desired_distance: 0.3
+    direction:
+      header:
+        frame_id: world
+        seq: 0
+        stamp: {nsecs: 0, secs: 0}
+      vector: {x: 0, y: 0, z: 1.0}
+    min_distance: 0.001
+  pre_grasp_approach:
+    desired_distance: 0.3
+    direction:
+      header:
+        frame_id: left_gripper
+        seq: 0
+        stamp: {nsecs: 0, secs: 0}
+      vector: {x: 1.0, y: 0, z: 0}
+    min_distance: 0.001
+  pre_grasp_posture:
+    header:
+      frame_id: ''
+      seq: 0
+      stamp: {nsecs: 0, secs: 0}
+    joint_names: [left_gripper_l_finger_joint]
+    points:
+    - accelerations: []
+      effort: []
+      positions: [0.095]
+      time_from_start: {nsecs: 0, secs: 0}
+      velocities: []
+- allowed_touch_objects: []
+  grasp_pose:
+    header:
+      frame_id: left_gripper
+      seq: 0
+      stamp: {nsecs: 0, secs: 0}
+    pose:
+      orientation: {w: 0.00380168010402, x: -0.995246541478, y: 0.0870727897927, z: 0.0434534024274}
+      position: {x: 0, y: 0, z: 0}
+  grasp_posture:
+    header:
+      frame_id: ''
+      seq: 0
+      stamp: {nsecs: 0, secs: 0}
+    joint_names: [left_gripper_l_finger_joint]
+    points:
+    - accelerations: []
+      effort: []
+      positions: [-0.0125]
+      time_from_start: {nsecs: 0, secs: 0}
+      velocities: []
+  grasp_quality: 0.0
+  id: 17
+  max_contact_force: 0.0
+  post_grasp_retreat:
+    desired_distance: 0.3
+    direction:
+      header:
+        frame_id: world
+        seq: 0
+        stamp: {nsecs: 0, secs: 0}
+      vector: {x: 0, y: 0, z: 1.0}
+    min_distance: 0.001
+  post_place_retreat:
+    desired_distance: 0.3
+    direction:
+      header:
+        frame_id: world
+        seq: 0
+        stamp: {nsecs: 0, secs: 0}
+      vector: {x: 0, y: 0, z: 1.0}
+    min_distance: 0.001
+  pre_grasp_approach:
+    desired_distance: 0.3
+    direction:
+      header:
+        frame_id: left_gripper
+        seq: 0
+        stamp: {nsecs: 0, secs: 0}
+      vector: {x: 1.0, y: 0, z: 0}
+    min_distance: 0.001
+  pre_grasp_posture:
+    header:
+      frame_id: ''
+      seq: 0
+      stamp: {nsecs: 0, secs: 0}
+    joint_names: [left_gripper_l_finger_joint]
+    points:
+    - accelerations: []
+      effort: []
+      positions: [0.095]
+      time_from_start: {nsecs: 0, secs: 0}
+      velocities: []
+- allowed_touch_objects: []
+  grasp_pose:
+    header:
+      frame_id: left_gripper
+      seq: 0
+      stamp: {nsecs: 0, secs: 0}
+    pose:
+      orientation: {w: 3.74939945665e-33, x: -1.0, y: 6.12323399574e-17, z: 6.12323399574e-17}
+      position: {x: 0, y: 0, z: 0}
+  grasp_posture:
+    header:
+      frame_id: ''
+      seq: 0
+      stamp: {nsecs: 0, secs: 0}
+    joint_names: [left_gripper_l_finger_joint]
+    points:
+    - accelerations: []
+      effort: []
+      positions: [-0.0125]
+      time_from_start: {nsecs: 0, secs: 0}
+      velocities: []
+  grasp_quality: 0.0
+  id: 18
+  max_contact_force: 0.0
+  post_grasp_retreat:
+    desired_distance: 0.3
+    direction:
+      header:
+        frame_id: world
+        seq: 0
+        stamp: {nsecs: 0, secs: 0}
+      vector: {x: 0, y: 0, z: 1.0}
+    min_distance: 0.001
+  post_place_retreat:
+    desired_distance: 0.3
+    direction:
+      header:
+        frame_id: world
+        seq: 0
+        stamp: {nsecs: 0, secs: 0}
+      vector: {x: 0, y: 0, z: 1.0}
+    min_distance: 0.001
+  pre_grasp_approach:
+    desired_distance: 0.3
+    direction:
+      header:
+        frame_id: left_gripper
+        seq: 0
+        stamp: {nsecs: 0, secs: 0}
+      vector: {x: 1.0, y: 0, z: 0}
+    min_distance: 0.001
+  pre_grasp_posture:
+    header:
+      frame_id: ''
+      seq: 0
+      stamp: {nsecs: 0, secs: 0}
+    joint_names: [left_gripper_l_finger_joint]
+    points:
+    - accelerations: []
+      effort: []
+      positions: [0.095]
+      time_from_start: {nsecs: 0, secs: 0}
+      velocities: []
+- allowed_touch_objects: []
+  grasp_pose:
+    header:
+      frame_id: left_gripper
+      seq: 0
+      stamp: {nsecs: 0, secs: 0}
+    pose:
+      orientation: {w: 0.00380168010402, x: -0.995246541478, y: -0.0870727897927,
+        z: -0.0434534024274}
+      position: {x: 0, y: 0, z: 0}
+  grasp_posture:
+    header:
+      frame_id: ''
+      seq: 0
+      stamp: {nsecs: 0, secs: 0}
+    joint_names: [left_gripper_l_finger_joint]
+    points:
+    - accelerations: []
+      effort: []
+      positions: [-0.0125]
+      time_from_start: {nsecs: 0, secs: 0}
+      velocities: []
+  grasp_quality: 0.0
+  id: 19
+  max_contact_force: 0.0
+  post_grasp_retreat:
+    desired_distance: 0.3
+    direction:
+      header:
+        frame_id: world
+        seq: 0
+        stamp: {nsecs: 0, secs: 0}
+      vector: {x: 0, y: 0, z: 1.0}
+    min_distance: 0.001
+  post_place_retreat:
+    desired_distance: 0.3
+    direction:
+      header:
+        frame_id: world
+        seq: 0
+        stamp: {nsecs: 0, secs: 0}
+      vector: {x: 0, y: 0, z: 1.0}
+    min_distance: 0.001
+  pre_grasp_approach:
+    desired_distance: 0.3
+    direction:
+      header:
+        frame_id: left_gripper
+        seq: 0
+        stamp: {nsecs: 0, secs: 0}
+      vector: {x: 1.0, y: 0, z: 0}
+    min_distance: 0.001
+  pre_grasp_posture:
+    header:
+      frame_id: ''
+      seq: 0
+      stamp: {nsecs: 0, secs: 0}
+    joint_names: [left_gripper_l_finger_joint]
+    points:
+    - accelerations: []
+      effort: []
+      positions: [0.095]
+      time_from_start: {nsecs: 0, secs: 0}
+      velocities: []
+- allowed_touch_objects: []
+  grasp_pose:
+    header:
+      frame_id: left_gripper
+      seq: 0
+      stamp: {nsecs: 0, secs: 0}
+    pose:
+      orientation: {w: 0.0151344359013, x: -0.98106026219, y: -0.172987393925, z: -0.0858316511774}
+      position: {x: 0, y: 0, z: 0}
+  grasp_posture:
+    header:
+      frame_id: ''
+      seq: 0
+      stamp: {nsecs: 0, secs: 0}
+    joint_names: [left_gripper_l_finger_joint]
+    points:
+    - accelerations: []
+      effort: []
+      positions: [-0.0125]
+      time_from_start: {nsecs: 0, secs: 0}
+      velocities: []
+  grasp_quality: 0.0
+  id: 20
+  max_contact_force: 0.0
+  post_grasp_retreat:
+    desired_distance: 0.3
+    direction:
+      header:
+        frame_id: world
+        seq: 0
+        stamp: {nsecs: 0, secs: 0}
+      vector: {x: 0, y: 0, z: 1.0}
+    min_distance: 0.001
+  post_place_retreat:
+    desired_distance: 0.3
+    direction:
+      header:
+        frame_id: world
+        seq: 0
+        stamp: {nsecs: 0, secs: 0}
+      vector: {x: 0, y: 0, z: 1.0}
+    min_distance: 0.001
+  pre_grasp_approach:
+    desired_distance: 0.3
+    direction:
+      header:
+        frame_id: left_gripper
+        seq: 0
+        stamp: {nsecs: 0, secs: 0}
+      vector: {x: 1.0, y: 0, z: 0}
+    min_distance: 0.001
+  pre_grasp_posture:
+    header:
+      frame_id: ''
+      seq: 0
+      stamp: {nsecs: 0, secs: 0}
+    joint_names: [left_gripper_l_finger_joint]
+    points:
+    - accelerations: []
+      effort: []
+      positions: [0.095]
+      time_from_start: {nsecs: 0, secs: 0}
+      velocities: []
+- allowed_touch_objects: []
+  grasp_pose:
+    header:
+      frame_id: left_gripper
+      seq: 0
+      stamp: {nsecs: 0, secs: 0}
+    pose:
+      orientation: {w: 0.0337826644313, x: -0.957662196943, y: -0.256604812293, z: -0.126078620073}
+      position: {x: 0, y: 0, z: 0}
+  grasp_posture:
+    header:
+      frame_id: ''
+      seq: 0
+      stamp: {nsecs: 0, secs: 0}
+    joint_names: [left_gripper_l_finger_joint]
+    points:
+    - accelerations: []
+      effort: []
+      positions: [-0.0125]
+      time_from_start: {nsecs: 0, secs: 0}
+      velocities: []
+  grasp_quality: 0.0
+  id: 21
+  max_contact_force: 0.0
+  post_grasp_retreat:
+    desired_distance: 0.3
+    direction:
+      header:
+        frame_id: world
+        seq: 0
+        stamp: {nsecs: 0, secs: 0}
+      vector: {x: 0, y: 0, z: 1.0}
+    min_distance: 0.001
+  post_place_retreat:
+    desired_distance: 0.3
+    direction:
+      header:
+        frame_id: world
+        seq: 0
+        stamp: {nsecs: 0, secs: 0}
+      vector: {x: 0, y: 0, z: 1.0}
+    min_distance: 0.001
+  pre_grasp_approach:
+    desired_distance: 0.3
+    direction:
+      header:
+        frame_id: left_gripper
+        seq: 0
+        stamp: {nsecs: 0, secs: 0}
+      vector: {x: 1.0, y: 0, z: 0}
+    min_distance: 0.001
+  pre_grasp_posture:
+    header:
+      frame_id: ''
+      seq: 0
+      stamp: {nsecs: 0, secs: 0}
+    joint_names: [left_gripper_l_finger_joint]
+    points:
+    - accelerations: []
+      effort: []
+      positions: [0.095]
+      time_from_start: {nsecs: 0, secs: 0}
+      velocities: []
+- allowed_touch_objects: []
+  grasp_pose:
+    header:
+      frame_id: left_gripper
+      seq: 0
+      stamp: {nsecs: 0, secs: 0}
+    pose:
+      orientation: {w: 0.0593911746139, x: -0.925416578398, y: -0.336824088833, z: -0.163175911167}
+      position: {x: 0, y: 0, z: 0}
+  grasp_posture:
+    header:
+      frame_id: ''
+      seq: 0
+      stamp: {nsecs: 0, secs: 0}
+    joint_names: [left_gripper_l_finger_joint]
+    points:
+    - accelerations: []
+      effort: []
+      positions: [-0.0125]
+      time_from_start: {nsecs: 0, secs: 0}
+      velocities: []
+  grasp_quality: 0.0
+  id: 22
+  max_contact_force: 0.0
+  post_grasp_retreat:
+    desired_distance: 0.3
+    direction:
+      header:
+        frame_id: world
+        seq: 0
+        stamp: {nsecs: 0, secs: 0}
+      vector: {x: 0, y: 0, z: 1.0}
+    min_distance: 0.001
+  post_place_retreat:
+    desired_distance: 0.3
+    direction:
+      header:
+        frame_id: world
+        seq: 0
+        stamp: {nsecs: 0, secs: 0}
+      vector: {x: 0, y: 0, z: 1.0}
+    min_distance: 0.001
+  pre_grasp_approach:
+    desired_distance: 0.3
+    direction:
+      header:
+        frame_id: left_gripper
+        seq: 0
+        stamp: {nsecs: 0, secs: 0}
+      vector: {x: 1.0, y: 0, z: 0}
+    min_distance: 0.001
+  pre_grasp_posture:
+    header:
+      frame_id: ''
+      seq: 0
+      stamp: {nsecs: 0, secs: 0}
+    joint_names: [left_gripper_l_finger_joint]
+    points:
+    - accelerations: []
+      effort: []
+      positions: [0.095]
+      time_from_start: {nsecs: 0, secs: 0}
+      velocities: []
+- allowed_touch_objects: []
+  grasp_pose:
+    header:
+      frame_id: left_gripper
+      seq: 0
+      stamp: {nsecs: 0, secs: 0}
+    pose:
+      orientation: {w: 0.0914713334143, x: -0.884824673706, y: -0.412600521473, z: -0.196160907535}
+      position: {x: 0, y: 0, z: 0}
+  grasp_posture:
+    header:
+      frame_id: ''
+      seq: 0
+      stamp: {nsecs: 0, secs: 0}
+    joint_names: [left_gripper_l_finger_joint]
+    points:
+    - accelerations: []
+      effort: []
+      positions: [-0.0125]
+      time_from_start: {nsecs: 0, secs: 0}
+      velocities: []
+  grasp_quality: 0.0
+  id: 23
+  max_contact_force: 0.0
+  post_grasp_retreat:
+    desired_distance: 0.3
+    direction:
+      header:
+        frame_id: world
+        seq: 0
+        stamp: {nsecs: 0, secs: 0}
+      vector: {x: 0, y: 0, z: 1.0}
+    min_distance: 0.001
+  post_place_retreat:
+    desired_distance: 0.3
+    direction:
+      header:
+        frame_id: world
+        seq: 0
+        stamp: {nsecs: 0, secs: 0}
+      vector: {x: 0, y: 0, z: 1.0}
+    min_distance: 0.001
+  pre_grasp_approach:
+    desired_distance: 0.3
+    direction:
+      header:
+        frame_id: left_gripper
+        seq: 0
+        stamp: {nsecs: 0, secs: 0}
+      vector: {x: 1.0, y: 0, z: 0}
+    min_distance: 0.001
+  pre_grasp_posture:
+    header:
+      frame_id: ''
+      seq: 0
+      stamp: {nsecs: 0, secs: 0}
+    joint_names: [left_gripper_l_finger_joint]
+    points:
+    - accelerations: []
+      effort: []
+      positions: [0.095]
+      time_from_start: {nsecs: 0, secs: 0}
+      velocities: []
+- allowed_touch_objects: []
+  grasp_pose:
+    header:
+      frame_id: left_gripper
+      seq: 0
+      stamp: {nsecs: 0, secs: 0}
+    pose:
+      orientation: {w: 0.129409522551, x: -0.836516303738, y: -0.482962913145, z: -0.224143868042}
+      position: {x: 0, y: 0, z: 0}
+  grasp_posture:
+    header:
+      frame_id: ''
+      seq: 0
+      stamp: {nsecs: 0, secs: 0}
+    joint_names: [left_gripper_l_finger_joint]
+    points:
+    - accelerations: []
+      effort: []
+      positions: [-0.0125]
+      time_from_start: {nsecs: 0, secs: 0}
+      velocities: []
+  grasp_quality: 0.0
+  id: 24
+  max_contact_force: 0.0
+  post_grasp_retreat:
+    desired_distance: 0.3
+    direction:
+      header:
+        frame_id: world
+        seq: 0
+        stamp: {nsecs: 0, secs: 0}
+      vector: {x: 0, y: 0, z: 1.0}
+    min_distance: 0.001
+  post_place_retreat:
+    desired_distance: 0.3
+    direction:
+      header:
+        frame_id: world
+        seq: 0
+        stamp: {nsecs: 0, secs: 0}
+      vector: {x: 0, y: 0, z: 1.0}
+    min_distance: 0.001
+  pre_grasp_approach:
+    desired_distance: 0.3
+    direction:
+      header:
+        frame_id: left_gripper
+        seq: 0
+        stamp: {nsecs: 0, secs: 0}
+      vector: {x: 1.0, y: 0, z: 0}
+    min_distance: 0.001
+  pre_grasp_posture:
+    header:
+      frame_id: ''
+      seq: 0
+      stamp: {nsecs: 0, secs: 0}
+    joint_names: [left_gripper_l_finger_joint]
+    points:
+    - accelerations: []
+      effort: []
+      positions: [0.095]
+      time_from_start: {nsecs: 0, secs: 0}
+      velocities: []
+- allowed_touch_objects: []
+  grasp_pose:
+    header:
+      frame_id: left_gripper
+      seq: 0
+      stamp: {nsecs: 0, secs: 0}
+    pose:
+      orientation: {w: 0.17247776087, x: -0.781239189878, y: -0.547029569898, z: -0.246323770393}
+      position: {x: 0, y: 0, z: 0}
+  grasp_posture:
+    header:
+      frame_id: ''
+      seq: 0
+      stamp: {nsecs: 0, secs: 0}
+    joint_names: [left_gripper_l_finger_joint]
+    points:
+    - accelerations: []
+      effort: []
+      positions: [-0.0125]
+      time_from_start: {nsecs: 0, secs: 0}
+      velocities: []
+  grasp_quality: 0.0
+  id: 25
+  max_contact_force: 0.0
+  post_grasp_retreat:
+    desired_distance: 0.3
+    direction:
+      header:
+        frame_id: world
+        seq: 0
+        stamp: {nsecs: 0, secs: 0}
+      vector: {x: 0, y: 0, z: 1.0}
+    min_distance: 0.001
+  post_place_retreat:
+    desired_distance: 0.3
+    direction:
+      header:
+        frame_id: world
+        seq: 0
+        stamp: {nsecs: 0, secs: 0}
+      vector: {x: 0, y: 0, z: 1.0}
+    min_distance: 0.001
+  pre_grasp_approach:
+    desired_distance: 0.3
+    direction:
+      header:
+        frame_id: left_gripper
+        seq: 0
+        stamp: {nsecs: 0, secs: 0}
+      vector: {x: 1.0, y: 0, z: 0}
+    min_distance: 0.001
+  pre_grasp_posture:
+    header:
+      frame_id: ''
+      seq: 0
+      stamp: {nsecs: 0, secs: 0}
+    joint_names: [left_gripper_l_finger_joint]
+    points:
+    - accelerations: []
+      effort: []
+      positions: [0.095]
+      time_from_start: {nsecs: 0, secs: 0}
+      velocities: []
+- allowed_touch_objects: []
+  grasp_pose:
+    header:
+      frame_id: left_gripper
+      seq: 0
+      stamp: {nsecs: 0, secs: 0}
+    pose:
+      orientation: {w: 0.219846310393, x: -0.719846310393, y: -0.604022773555, z: -0.262002630229}
+      position: {x: 0, y: 0, z: 0}
+  grasp_posture:
+    header:
+      frame_id: ''
+      seq: 0
+      stamp: {nsecs: 0, secs: 0}
+    joint_names: [left_gripper_l_finger_joint]
+    points:
+    - accelerations: []
+      effort: []
+      positions: [-0.0125]
+      time_from_start: {nsecs: 0, secs: 0}
+      velocities: []
+  grasp_quality: 0.0
+  id: 26
+  max_contact_force: 0.0
+  post_grasp_retreat:
+    desired_distance: 0.3
+    direction:
+      header:
+        frame_id: world
+        seq: 0
+        stamp: {nsecs: 0, secs: 0}
+      vector: {x: 0, y: 0, z: 1.0}
+    min_distance: 0.001
+  post_place_retreat:
+    desired_distance: 0.3
+    direction:
+      header:
+        frame_id: world
+        seq: 0
+        stamp: {nsecs: 0, secs: 0}
+      vector: {x: 0, y: 0, z: 1.0}
+    min_distance: 0.001
+  pre_grasp_approach:
+    desired_distance: 0.3
+    direction:
+      header:
+        frame_id: left_gripper
+        seq: 0
+        stamp: {nsecs: 0, secs: 0}
+      vector: {x: 1.0, y: 0, z: 0}
+    min_distance: 0.001
+  pre_grasp_posture:
+    header:
+      frame_id: ''
+      seq: 0
+      stamp: {nsecs: 0, secs: 0}
+    joint_names: [left_gripper_l_finger_joint]
+    points:
+    - accelerations: []
+      effort: []
+      positions: [0.095]
+      time_from_start: {nsecs: 0, secs: 0}
+      velocities: []
+- allowed_touch_objects: []
+  grasp_pose:
+    header:
+      frame_id: left_gripper
+      seq: 0
+      stamp: {nsecs: 0, secs: 0}
+    pose:
+      orientation: {w: 0.270598050073, x: -0.653281482438, y: -0.653281482438, z: -0.270598050073}
+      position: {x: 0, y: 0, z: 0}
+  grasp_posture:
+    header:
+      frame_id: ''
+      seq: 0
+      stamp: {nsecs: 0, secs: 0}
+    joint_names: [left_gripper_l_finger_joint]
+    points:
+    - accelerations: []
+      effort: []
+      positions: [-0.0125]
+      time_from_start: {nsecs: 0, secs: 0}
+      velocities: []
+  grasp_quality: 0.0
+  id: 27
+  max_contact_force: 0.0
+  post_grasp_retreat:
+    desired_distance: 0.3
+    direction:
+      header:
+        frame_id: world
+        seq: 0
+        stamp: {nsecs: 0, secs: 0}
+      vector: {x: 0, y: 0, z: 1.0}
+    min_distance: 0.001
+  post_place_retreat:
+    desired_distance: 0.3
+    direction:
+      header:
+        frame_id: world
+        seq: 0
+        stamp: {nsecs: 0, secs: 0}
+      vector: {x: 0, y: 0, z: 1.0}
+    min_distance: 0.001
+  pre_grasp_approach:
+    desired_distance: 0.3
+    direction:
+      header:
+        frame_id: left_gripper
+        seq: 0
+        stamp: {nsecs: 0, secs: 0}
+      vector: {x: 1.0, y: 0, z: 0}
+    min_distance: 0.001
+  pre_grasp_posture:
+    header:
+      frame_id: ''
+      seq: 0
+      stamp: {nsecs: 0, secs: 0}
+    joint_names: [left_gripper_l_finger_joint]
+    points:
+    - accelerations: []
+      effort: []
+      positions: [0.095]
+      time_from_start: {nsecs: 0, secs: 0}
+      velocities: []
+- allowed_touch_objects: []
+  grasp_pose:
+    header:
+      frame_id: left_gripper
+      seq: 0
+      stamp: {nsecs: 0, secs: 0}
+    pose:
+      orientation: {w: 0.323744370967, x: -0.58256341607, y: -0.694272044015, z: -0.271653782274}
+      position: {x: 0, y: 0, z: 0}
+  grasp_posture:
+    header:
+      frame_id: ''
+      seq: 0
+      stamp: {nsecs: 0, secs: 0}
+    joint_names: [left_gripper_l_finger_joint]
+    points:
+    - accelerations: []
+      effort: []
+      positions: [-0.0125]
+      time_from_start: {nsecs: 0, secs: 0}
+      velocities: []
+  grasp_quality: 0.0
+  id: 28
+  max_contact_force: 0.0
+  post_grasp_retreat:
+    desired_distance: 0.3
+    direction:
+      header:
+        frame_id: world
+        seq: 0
+        stamp: {nsecs: 0, secs: 0}
+      vector: {x: 0, y: 0, z: 1.0}
+    min_distance: 0.001
+  post_place_retreat:
+    desired_distance: 0.3
+    direction:
+      header:
+        frame_id: world
+        seq: 0
+        stamp: {nsecs: 0, secs: 0}
+      vector: {x: 0, y: 0, z: 1.0}
+    min_distance: 0.001
+  pre_grasp_approach:
+    desired_distance: 0.3
+    direction:
+      header:
+        frame_id: left_gripper
+        seq: 0
+        stamp: {nsecs: 0, secs: 0}
+      vector: {x: 1.0, y: 0, z: 0}
+    min_distance: 0.001
+  pre_grasp_posture:
+    header:
+      frame_id: ''
+      seq: 0
+      stamp: {nsecs: 0, secs: 0}
+    joint_names: [left_gripper_l_finger_joint]
+    points:
+    - accelerations: []
+      effort: []
+      positions: [0.095]
+      time_from_start: {nsecs: 0, secs: 0}
+      velocities: []
+- allowed_touch_objects: []
+  grasp_pose:
+    header:
+      frame_id: left_gripper
+      seq: 0
+      stamp: {nsecs: 0, secs: 0}
+    pose:
+      orientation: {w: 0.378242320479, x: -0.508768512699, y: -0.726596737304, z: -0.264848124069}
+      position: {x: 0, y: 0, z: 0}
+  grasp_posture:
+    header:
+      frame_id: ''
+      seq: 0
+      stamp: {nsecs: 0, secs: 0}
+    joint_names: [left_gripper_l_finger_joint]
+    points:
+    - accelerations: []
+      effort: []
+      positions: [-0.0125]
+      time_from_start: {nsecs: 0, secs: 0}
+      velocities: []
+  grasp_quality: 0.0
+  id: 29
+  max_contact_force: 0.0
+  post_grasp_retreat:
+    desired_distance: 0.3
+    direction:
+      header:
+        frame_id: world
+        seq: 0
+        stamp: {nsecs: 0, secs: 0}
+      vector: {x: 0, y: 0, z: 1.0}
+    min_distance: 0.001
+  post_place_retreat:
+    desired_distance: 0.3
+    direction:
+      header:
+        frame_id: world
+        seq: 0
+        stamp: {nsecs: 0, secs: 0}
+      vector: {x: 0, y: 0, z: 1.0}
+    min_distance: 0.001
+  pre_grasp_approach:
+    desired_distance: 0.3
+    direction:
+      header:
+        frame_id: left_gripper
+        seq: 0
+        stamp: {nsecs: 0, secs: 0}
+      vector: {x: 1.0, y: 0, z: 0}
+    min_distance: 0.001
+  pre_grasp_posture:
+    header:
+      frame_id: ''
+      seq: 0
+      stamp: {nsecs: 0, secs: 0}
+    joint_names: [left_gripper_l_finger_joint]
+    points:
+    - accelerations: []
+      effort: []
+      positions: [0.095]
+      time_from_start: {nsecs: 0, secs: 0}
+      velocities: []
+- allowed_touch_objects: []
+  grasp_pose:
+    header:
+      frame_id: left_gripper
+      seq: 0
+      stamp: {nsecs: 0, secs: 0}
+    pose:
+      orientation: {w: 0.433012701892, x: -0.433012701892, y: -0.75, z: -0.25}
+      position: {x: 0, y: 0, z: 0}
+  grasp_posture:
+    header:
+      frame_id: ''
+      seq: 0
+      stamp: {nsecs: 0, secs: 0}
+    joint_names: [left_gripper_l_finger_joint]
+    points:
+    - accelerations: []
+      effort: []
+      positions: [-0.0125]
+      time_from_start: {nsecs: 0, secs: 0}
+      velocities: []
+  grasp_quality: 0.0
+  id: 30
+  max_contact_force: 0.0
+  post_grasp_retreat:
+    desired_distance: 0.3
+    direction:
+      header:
+        frame_id: world
+        seq: 0
+        stamp: {nsecs: 0, secs: 0}
+      vector: {x: 0, y: 0, z: 1.0}
+    min_distance: 0.001
+  post_place_retreat:
+    desired_distance: 0.3
+    direction:
+      header:
+        frame_id: world
+        seq: 0
+        stamp: {nsecs: 0, secs: 0}
+      vector: {x: 0, y: 0, z: 1.0}
+    min_distance: 0.001
+  pre_grasp_approach:
+    desired_distance: 0.3
+    direction:
+      header:
+        frame_id: left_gripper
+        seq: 0
+        stamp: {nsecs: 0, secs: 0}
+      vector: {x: 1.0, y: 0, z: 0}
+    min_distance: 0.001
+  pre_grasp_posture:
+    header:
+      frame_id: ''
+      seq: 0
+      stamp: {nsecs: 0, secs: 0}
+    joint_names: [left_gripper_l_finger_joint]
+    points:
+    - accelerations: []
+      effort: []
+      positions: [0.095]
+      time_from_start: {nsecs: 0, secs: 0}
+      velocities: []
+- allowed_touch_objects: []
+  grasp_pose:
+    header:
+      frame_id: left_gripper
+      seq: 0
+      stamp: {nsecs: 0, secs: 0}
+    pose:
+      orientation: {w: 0.486958819016, x: -0.356432626796, y: -0.76437223486, z: -0.227072626513}
+      position: {x: 0, y: 0, z: 0}
+  grasp_posture:
+    header:
+      frame_id: ''
+      seq: 0
+      stamp: {nsecs: 0, secs: 0}
+    joint_names: [left_gripper_l_finger_joint]
+    points:
+    - accelerations: []
+      effort: []
+      positions: [-0.0125]
+      time_from_start: {nsecs: 0, secs: 0}
+      velocities: []
+  grasp_quality: 0.0
+  id: 31
+  max_contact_force: 0.0
+  post_grasp_retreat:
+    desired_distance: 0.3
+    direction:
+      header:
+        frame_id: world
+        seq: 0
+        stamp: {nsecs: 0, secs: 0}
+      vector: {x: 0, y: 0, z: 1.0}
+    min_distance: 0.001
+  post_place_retreat:
+    desired_distance: 0.3
+    direction:
+      header:
+        frame_id: world
+        seq: 0
+        stamp: {nsecs: 0, secs: 0}
+      vector: {x: 0, y: 0, z: 1.0}
+    min_distance: 0.001
+  pre_grasp_approach:
+    desired_distance: 0.3
+    direction:
+      header:
+        frame_id: left_gripper
+        seq: 0
+        stamp: {nsecs: 0, secs: 0}
+      vector: {x: 1.0, y: 0, z: 0}
+    min_distance: 0.001
+  pre_grasp_posture:
+    header:
+      frame_id: ''
+      seq: 0
+      stamp: {nsecs: 0, secs: 0}
+    joint_names: [left_gripper_l_finger_joint]
+    points:
+    - accelerations: []
+      effort: []
+      positions: [0.095]
+      time_from_start: {nsecs: 0, secs: 0}
+      velocities: []
+- allowed_touch_objects: []
+  grasp_pose:
+    header:
+      frame_id: left_gripper
+      seq: 0
+      stamp: {nsecs: 0, secs: 0}
+    pose:
+      orientation: {w: 0.538985544696, x: -0.280166499593, y: -0.76975113132, z: -0.196174694969}
+      position: {x: 0, y: 0, z: 0}
+  grasp_posture:
+    header:
+      frame_id: ''
+      seq: 0
+      stamp: {nsecs: 0, secs: 0}
+    joint_names: [left_gripper_l_finger_joint]
+    points:
+    - accelerations: []
+      effort: []
+      positions: [-0.0125]
+      time_from_start: {nsecs: 0, secs: 0}
+      velocities: []
+  grasp_quality: 0.0
+  id: 32
+  max_contact_force: 0.0
+  post_grasp_retreat:
+    desired_distance: 0.3
+    direction:
+      header:
+        frame_id: world
+        seq: 0
+        stamp: {nsecs: 0, secs: 0}
+      vector: {x: 0, y: 0, z: 1.0}
+    min_distance: 0.001
+  post_place_retreat:
+    desired_distance: 0.3
+    direction:
+      header:
+        frame_id: world
+        seq: 0
+        stamp: {nsecs: 0, secs: 0}
+      vector: {x: 0, y: 0, z: 1.0}
+    min_distance: 0.001
+  pre_grasp_approach:
+    desired_distance: 0.3
+    direction:
+      header:
+        frame_id: left_gripper
+        seq: 0
+        stamp: {nsecs: 0, secs: 0}
+      vector: {x: 1.0, y: 0, z: 0}
+    min_distance: 0.001
+  pre_grasp_posture:
+    header:
+      frame_id: ''
+      seq: 0
+      stamp: {nsecs: 0, secs: 0}
+    joint_names: [left_gripper_l_finger_joint]
+    points:
+    - accelerations: []
+      effort: []
+      positions: [0.095]
+      time_from_start: {nsecs: 0, secs: 0}
+      velocities: []
+- allowed_touch_objects: []
+  grasp_pose:
+    header:
+      frame_id: left_gripper
+      seq: 0
+      stamp: {nsecs: 0, secs: 0}
+    pose:
+      orientation: {w: 0.588018386328, x: -0.205334953963, y: -0.76632048076, z: -0.157559051751}
+      position: {x: 0, y: 0, z: 0}
+  grasp_posture:
+    header:
+      frame_id: ''
+      seq: 0
+      stamp: {nsecs: 0, secs: 0}
+    joint_names: [left_gripper_l_finger_joint]
+    points:
+    - accelerations: []
+      effort: []
+      positions: [-0.0125]
+      time_from_start: {nsecs: 0, secs: 0}
+      velocities: []
+  grasp_quality: 0.0
+  id: 33
+  max_contact_force: 0.0
+  post_grasp_retreat:
+    desired_distance: 0.3
+    direction:
+      header:
+        frame_id: world
+        seq: 0
+        stamp: {nsecs: 0, secs: 0}
+      vector: {x: 0, y: 0, z: 1.0}
+    min_distance: 0.001
+  post_place_retreat:
+    desired_distance: 0.3
+    direction:
+      header:
+        frame_id: world
+        seq: 0
+        stamp: {nsecs: 0, secs: 0}
+      vector: {x: 0, y: 0, z: 1.0}
+    min_distance: 0.001
+  pre_grasp_approach:
+    desired_distance: 0.3
+    direction:
+      header:
+        frame_id: left_gripper
+        seq: 0
+        stamp: {nsecs: 0, secs: 0}
+      vector: {x: 1.0, y: 0, z: 0}
+    min_distance: 0.001
+  pre_grasp_posture:
+    header:
+      frame_id: ''
+      seq: 0
+      stamp: {nsecs: 0, secs: 0}
+    joint_names: [left_gripper_l_finger_joint]
+    points:
+    - accelerations: []
+      effort: []
+      positions: [0.095]
+      time_from_start: {nsecs: 0, secs: 0}
+      velocities: []
+- allowed_touch_objects: []
+  grasp_pose:
+    header:
+      frame_id: left_gripper
+      seq: 0
+      stamp: {nsecs: 0, secs: 0}
+    pose:
+      orientation: {w: 0.633022221559, x: -0.133022221559, y: -0.754406506735, z: -0.111618897049}
+      position: {x: 0, y: 0, z: 0}
+  grasp_posture:
+    header:
+      frame_id: ''
+      seq: 0
+      stamp: {nsecs: 0, secs: 0}
+    joint_names: [left_gripper_l_finger_joint]
+    points:
+    - accelerations: []
+      effort: []
+      positions: [-0.0125]
+      time_from_start: {nsecs: 0, secs: 0}
+      velocities: []
+  grasp_quality: 0.0
+  id: 34
+  max_contact_force: 0.0
+  post_grasp_retreat:
+    desired_distance: 0.3
+    direction:
+      header:
+        frame_id: world
+        seq: 0
+        stamp: {nsecs: 0, secs: 0}
+      vector: {x: 0, y: 0, z: 1.0}
+    min_distance: 0.001
+  post_place_retreat:
+    desired_distance: 0.3
+    direction:
+      header:
+        frame_id: world
+        seq: 0
+        stamp: {nsecs: 0, secs: 0}
+      vector: {x: 0, y: 0, z: 1.0}
+    min_distance: 0.001
+  pre_grasp_approach:
+    desired_distance: 0.3
+    direction:
+      header:
+        frame_id: left_gripper
+        seq: 0
+        stamp: {nsecs: 0, secs: 0}
+      vector: {x: 1.0, y: 0, z: 0}
+    min_distance: 0.001
+  pre_grasp_posture:
+    header:
+      frame_id: ''
+      seq: 0
+      stamp: {nsecs: 0, secs: 0}
+    joint_names: [left_gripper_l_finger_joint]
+    points:
+    - accelerations: []
+      effort: []
+      positions: [0.095]
+      time_from_start: {nsecs: 0, secs: 0}
+      velocities: []
+- allowed_touch_objects: []
+  grasp_pose:
+    header:
+      frame_id: left_gripper
+      seq: 0
+      stamp: {nsecs: 0, secs: 0}
+    pose:
+      orientation: {w: 0.673019382909, x: -0.0642579539007, y: -0.734471773953, z: -0.0588815663378}
+      position: {x: 0, y: 0, z: 0}
+  grasp_posture:
+    header:
+      frame_id: ''
+      seq: 0
+      stamp: {nsecs: 0, secs: 0}
+    joint_names: [left_gripper_l_finger_joint]
+    points:
+    - accelerations: []
+      effort: []
+      positions: [-0.0125]
+      time_from_start: {nsecs: 0, secs: 0}
+      velocities: []
+  grasp_quality: 0.0
+  id: 35
+  max_contact_force: 0.0
+  post_grasp_retreat:
+    desired_distance: 0.3
+    direction:
+      header:
+        frame_id: world
+        seq: 0
+        stamp: {nsecs: 0, secs: 0}
+      vector: {x: 0, y: 0, z: 1.0}
+    min_distance: 0.001
+  post_place_retreat:
+    desired_distance: 0.3
+    direction:
+      header:
+        frame_id: world
+        seq: 0
+        stamp: {nsecs: 0, secs: 0}
+      vector: {x: 0, y: 0, z: 1.0}
+    min_distance: 0.001
+  pre_grasp_approach:
+    desired_distance: 0.3
+    direction:
+      header:
+        frame_id: left_gripper
+        seq: 0
+        stamp: {nsecs: 0, secs: 0}
+      vector: {x: 1.0, y: 0, z: 0}
+    min_distance: 0.001
+  pre_grasp_posture:
+    header:
+      frame_id: ''
+      seq: 0
+      stamp: {nsecs: 0, secs: 0}
+    joint_names: [left_gripper_l_finger_joint]
+    points:
+    - accelerations: []
+      effort: []
+      positions: [0.095]
+      time_from_start: {nsecs: 0, secs: 0}
+      velocities: []
