@@ -1,3 +1,0 @@
-if [ -d ../openni_tracker ]; then
-	cp misc_files/openni_tracker/CMakeLists.txt ../openni_tracker/
-fi
