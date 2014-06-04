@@ -38,13 +38,16 @@
 ##
 ## To use the python interface to move_group, import the moveit_commander
 ## module.  We also import rospy and some messages that we will use.
+import roslib
+roslib.load_manifest("listen_and_grasp")
+
 import sys
 import copy
 import rospy
 import moveit_commander
 import moveit_msgs.msg
 import geometry_msgs.msg
-import baxter_interface
+#import baxter_interface
 
 
 ## END_SUB_TUTORIAL
@@ -53,8 +56,8 @@ from std_msgs.msg import String
 from geometry_msgs.msg import PoseStamped
 from trajectory_msgs.msg import JointTrajectoryPoint
 from moveit_msgs.msg import Grasp
-from meldon_detection.msg import MarkerObjectArray, MarkerObject
-from baxter_grasp_server.srv import GraspService
+#from meldon_detection.msg import MarkerObjectArray, MarkerObject
+from baxter_grasps_server.srv import GraspService
 
 class Pick:
 	def __init__(self):

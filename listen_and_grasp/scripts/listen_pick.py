@@ -57,7 +57,7 @@ from std_msgs.msg import String
 from geometry_msgs.msg import PoseStamped
 from trajectory_msgs.msg import JointTrajectoryPoint
 from moveit_msgs.msg import Grasp
-from object_recognition_msgs import RecognizedObjectArray
+from object_recognition_msgs.msg import RecognizedObjectArray
 #from meldon_detection.msg import MarkerObjectArray, MarkerObject
 from baxter_grasps_server.srv import GraspService
 
