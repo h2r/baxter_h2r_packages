@@ -12,6 +12,7 @@
 
   <include file="$(find h2r_moveit_config)/launch/move_group.launch">
     <arg name="allow_trajectory_execution" value="true"/>
+    <arg name="publish_monitored_planning_scene" value="true" />
   </include>
 
   <!--<include file="$(find baxter_moveit_config)/launch/moveit_rviz.launch">

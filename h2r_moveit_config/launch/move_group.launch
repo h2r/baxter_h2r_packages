@@ -15,11 +15,11 @@
   <arg name="jiggle_fraction" default="0.05" />
   <arg name="publish_monitored_planning_scene" default="true"/>
 
-  <include ns="move_group" file="$(find baxter_moveit_config)/launch/planning_pipeline.launch">
+  <include ns="move_group" file="$(find h2r_moveit_config)/launch/planning_pipeline.launch">
     <arg name="pipeline" value="ompl" />
   </include>
 
-  <include ns="move_group" file="$(find baxter_moveit_config)/launch/trajectory_execution.launch" if="$(arg allow_trajectory_execution)">
+  <include ns="move_group" file="$(find h2r_moveit_config)/launch/trajectory_execution.launch" if="$(arg allow_trajectory_execution)">
     <arg name="moveit_controller_manager" value="baxter" /> 
     <arg name="moveit_manage_controllers" value="true" />
   </include>
