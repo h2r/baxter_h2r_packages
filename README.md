@@ -12,6 +12,11 @@ wstool merge --merge-replace -y https://raw.githubusercontent.com/h2r/baxter_h2r
 wstool update
 ```
 
+Need to remove one package that doesn't build without a lot of other dependencies
+```
+rm -rf checkerboard_detector
+```
+
 Install ros object recognition packages
 
 ```
