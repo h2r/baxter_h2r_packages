@@ -6,8 +6,9 @@ This is now installable via a rosinstall file. It requires access to the Rethink
 mkdir -p ~/catkin_ws/src
 cd ~/catkin_ws/src
 wstool init .
-wstool merge https://raw.githubusercontent.com/RethinkRobotics/baxter/release-0.7.0/baxter_sdk.rosinstall
-wstool merge https://raw.githubusercontent.com/h2r/baxter_h2r_packages/master/h2r.rosinstall
+wstool merge https://raw.githubusercontent.com/RethinkRobotics/baxter/master/baxter_sdk.rosinstall
+wstool merge --merge-replace -y https://raw.githubusercontent.com/davetcoleman/baxter_cpp/hydro-devel/baxter.rosinstall
+wstool merge --merge-replace -y https://raw.githubusercontent.com/h2r/baxter_h2r_packages/master/h2r.wstool
 wstool update
 ```
 
