@@ -20,10 +20,11 @@ $ sudo apt-get install ros-hydro-object-recognition-*
 
 Build it
 ```
-$ cd .. 
-$ source /opt/ros/hydro/setup.bash
-$ catkin_make
-$ catkin_make install
+cd .. 
+source /opt/ros/hydro/setup.bash
+rosdep update
+rosdep install --from-paths . --ignore-src --rosdistro hydro -y
+catkin_make
 ```
 
 
