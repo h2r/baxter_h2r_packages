@@ -58,6 +58,7 @@ from geometry_msgs.msg import PoseStamped
 from trajectory_msgs.msg import JointTrajectoryPoint
 from moveit_msgs.msg import Grasp
 from object_recognition_msgs.msg import RecognizedObjectArray
+from tf import TransformListener, LookupException, ConnectivityException, ExtrapolationException
 #from meldon_detection.msg import MarkerObjectArray, MarkerObject
 from baxter_grasps_server.srv import GraspService
 
@@ -71,7 +72,10 @@ class Pick:
 		self.scene = moveit_commander.PlanningSceneInterface()
 		self.robot = moveit_commander.RobotCommander()
 		self.group = moveit_commander.MoveGroupCommander("left_arm")
-
+		self.left_arm = baxter_interface.limb.Limb("left")
+		
+		self.transformer = TransformListener()
+		
 		self.markers_publisher = rospy.Publisher("/grasp_markers", Marker)
 		
 
@@ -108,24 +112,36 @@ class Pick:
 		self.scene.add_box(name, pose, (dim_x, dim_y, dim_z))
 
 	def addBoundingBoxAtPose(self, name):
-		self.scene.add_box(name, self.objectPoses[name], (0.05, 0.05, 0.1))
+		pose = self.objectPoses[name]
+		pose.pose.position.z += 0.1
+		self.scene.add_box(name, pose, (0.02, 0.02, 0.2))
 
 	def getPoseStampedFromPoseWithCovariance(self, pose):
 		pose_stamped = PoseStamped()
 		pose_stamped.header= copy.deepcopy(pose.header)
-		pose_stamped.pose.position = copy.deepcopy(pose.pose.position)
-		pose_stamped.pose.orientation = copy.deepcopy(pose.pose.orientation)
-		return pose_stamped
+		pose_stamped.pose.position = copy.deepcopy(pose.pose.pose.position)
+		pose_stamped.pose.position.z -= 0
+		pose_stamped.pose.orientation = copy.deepcopy(pose.pose.pose.orientation)
+		now = rospy.Time.now()
+		self.transformer.waitForTransform("world", pose_stamped.header.frame_id, now, rospy.Duration(4.0))
+		t = self.transformer.getLatestCommonTime("world", pose_stamped.header.frame_id)
+		pose_stamped.header.stamp = t
+		transformedPose = self.transformer.transformPose("world", pose_stamped)
+		return transformedPose
+		
 
 	def objectsCallback(self, msg):
 		for object in self.objects:
 			self.scene.remove_world_object(object)
-		self.objects.clear()
-		self.objectPoses.clear()
+		self.objects = []
+		self.objectPoses = dict()
 		for object in msg.objects:
-			self.objects.add(object.type.key)
-			self.objectPoses[object.type.key] = getPoseStampedFromPoseWithCovariance(object.pose)
+			self.objects.append(object.type.key)
+			newPose = self.getPoseStampedFromPoseWithCovariance(object.pose)
+			self.objectPoses[object.type.key] = newPose
 			self.addBoundingBoxAtPose(object.type.key)
+			self.pick(object.type.key)
+			self.place(object.type.key)
 
 	def objectRequestCallback(self, msg):
 		if msg.data not in self.objects:
@@ -139,26 +155,19 @@ class Pick:
 		self.group.set_start_state_to_current_state()
 		robot.left_arm.pick(msg.data, graspResponse.grasps)
 
-	def addCylinder(self, x, y ,z, dim_x, dim_y, dim_z):
+	def addTable(self):
 		scene = moveit_commander.PlanningSceneInterface()
 		p = PoseStamped()
  		p.header.frame_id = "/base"
-   		p.pose.position.x = 0.85
-  		p.pose.position.y = 0.3
-  		p.pose.position.z = -0.1
-  		scene.add_box("cube", p, (0.05, 0.05, 0.05))
-  
+   		p.pose.position.x = 0.85  
   		p.pose.position.y = 0.5
   		p.pose.position.z = -0.3
   		scene.add_box("table", p, (0.5, 1.5, 0.35))
-		#pose = PoseStamped()
-		#pose.header.frame_id = "/base"
-		#pose.pose.position.x = x
-		#pose.pose.position.y = y
-		#pose.pose.position.z = z
-		#self.scene.add_box("coconut", pose, (dim_x, dim_y, dim_z))
 
-	def pick(self):
+	def pick(self, obj):
+		for object in self.objects:
+			self.group.detach_object(object)
+
 		graspResponse = self.graspService("coconut")
 		if not graspResponse.success:
 			rospy.logerr("No grasps were found for object coconut")
@@ -166,19 +175,24 @@ class Pick:
 		#self.addCylinder(0.8, 0, 0.3, 0.01, 0.01, 0.01)
 		self.publishMarkers(graspResponse.grasps, "coconut")
 		self.group.set_planning_time(20)
-		rospy.loginfo("Current planning time " + str(self.group.get_planning_time()))
-		rospy.loginfo("Robot planning time " + str(self.robot.left_arm.get_planning_time()))
 		self.group.set_start_state_to_current_state()
-		grasps = self.setGrasps("925c42faeac061f86fdbcf0b090efe57", graspResponse.grasps)
-		self.group.pick("925c42faeac061f86fdbcf0b090efe57", grasps)
-		rospy.sleep(10)
+		grasps = self.setGrasps(obj, graspResponse.grasps)
+		self.group.pick(obj, grasps)
+
+	def place(self, obj):
+		goal_pose = copy.deepcopy(self.objectPoses[obj])
+		goal_pose.pose.position.y += 0.1
+		self.group.place(obj, goal_pose)
 
 	def setGrasps(self, name, grasps):
 		pose = self.objectPoses[name]
-		correctedGrasps = []
 
+		correctedGrasps = []
+		index = 0
 		for grasp in grasps:
 			newGrasp = copy.deepcopy(grasp)
+			newGrasp.id = str(index)
+			index += 1
 			newGrasp.pre_grasp_posture.header.stamp = rospy.Time(0)
 			newGrasp.grasp_posture.header.stamp = rospy.Time(0)
 			newGrasp.grasp_pose.header.frame_id = 'world'
@@ -187,20 +201,18 @@ class Pick:
 			newGrasp.grasp_pose.pose.position.z += pose.pose.position.z
 			newGrasp.grasp_quality = 1.0
 			correctedGrasps.append(newGrasp)
-			rospy.loginfo(str(newGrasp))
 
 		return correctedGrasps
 
 	def publishMarkers(self, grasps, object_name):
 		for grasp in grasps:
 			marker = self.getMarker(grasp, object_name)
-			#rospy.loginfo( genpy.message.strify_message(marker))
 			self.markers_publisher.publish(marker)
 		
 
 	def getMarker(self, grasp, object_name):
 		marker = Marker()
-		marker.id = grasp.id
+		marker.id = int(grasp.id)
 		marker.header = grasp.grasp_pose.header
 		marker.pose = grasp.grasp_pose.pose
 		marker.ns = object_name + "_grasp_"
@@ -217,13 +229,16 @@ class Pick:
 
 
 	def go(self, args):
+		#self.left_arm.move_to_neutral()
+
 		moveit_commander.roscpp_initialize(args)
-		rospy.Subscriber("/recognized_object_array", RecognizedObjectArray, objectsCallback)
+		rospy.Subscriber("/recognized_object_array", RecognizedObjectArray, self.objectsCallback, None, 1)
 		#rospy.Subscriber("/labeled_objects", MarkerObjectArray, objectsCallback)
 		
 		#rospy.Service('/pick_place_server', String, objectRequestCallback)
-		self.pick()
-		#rospy.spin()
+		#self.pick()
+		self.addTable()
+		rospy.spin()
 
 if __name__=='__main__':
 	rospy.init_node("Pick_object")

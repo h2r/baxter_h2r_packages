@@ -6,7 +6,7 @@
       stamp: {nsecs: 0, secs: 0}
     pose:
       orientation: {w: 0.707106781187, x: 0, y: 0.707106781187, z: 0.0}
-      position: {x: -0.3, y: 0.0, z: 0}
+      position: {x: -0.51, y: 0.0, z: 0}
   grasp_posture:
     header:
       frame_id: ''
@@ -19,7 +19,7 @@
       positions: [-0.0125]
       time_from_start: {nsecs: 0, secs: 0}
       velocities: []
-  grasp_quality: 0.0
+  grasp_quality: 1.0
   id: '0'
   max_contact_force: 0.0
   post_grasp_retreat:
@@ -48,7 +48,7 @@
         seq: 0
         stamp: {nsecs: 0, secs: 0}
       vector: {x: 1.0, y: 0, z: 0}
-    min_distance: 0.001
+    min_distance: 0.1
   pre_grasp_posture:
     header:
       frame_id: ''
@@ -69,7 +69,7 @@
       stamp: {nsecs: 0, secs: 0}
     pose:
       orientation: {w: 0.653281482438, x: -0.270598050073, y: 0.653281482438, z: 0.270598050073}
-      position: {x: -0.212132034356, y: -0.212132034356, z: 0}
+      position: {x: -0.422132034356, y: -0.212132034356, z: 0}
   grasp_posture:
     header:
       frame_id: ''
@@ -82,7 +82,7 @@
       positions: [-0.0125]
       time_from_start: {nsecs: 0, secs: 0}
       velocities: []
-  grasp_quality: 0.0
+  grasp_quality: 1.0
   id: '1'
   max_contact_force: 0.0
   post_grasp_retreat:
@@ -111,7 +111,7 @@
         seq: 0
         stamp: {nsecs: 0, secs: 0}
       vector: {x: 1.0, y: 0, z: 0}
-    min_distance: 0.001
+    min_distance: 0.1
   pre_grasp_posture:
     header:
       frame_id: ''
@@ -132,7 +132,7 @@
       stamp: {nsecs: 0, secs: 0}
     pose:
       orientation: {w: 0.5, x: -0.5, y: 0.5, z: 0.5}
-      position: {x: -1.83697019872e-17, y: -0.3, z: 0}
+      position: {x: -0.21, y: -0.3, z: 0}
   grasp_posture:
     header:
       frame_id: ''
@@ -145,7 +145,7 @@
       positions: [-0.0125]
       time_from_start: {nsecs: 0, secs: 0}
       velocities: []
-  grasp_quality: 0.0
+  grasp_quality: 1.0
   id: '2'
   max_contact_force: 0.0
   post_grasp_retreat:
@@ -174,7 +174,7 @@
         seq: 0
         stamp: {nsecs: 0, secs: 0}
       vector: {x: 1.0, y: 0, z: 0}
-    min_distance: 0.001
+    min_distance: 0.1
   pre_grasp_posture:
     header:
       frame_id: ''
@@ -195,7 +195,7 @@
       stamp: {nsecs: 0, secs: 0}
     pose:
       orientation: {w: 0.270598050073, x: -0.653281482438, y: 0.270598050073, z: 0.653281482438}
-      position: {x: 0.212132034356, y: -0.212132034356, z: 0}
+      position: {x: 0.00213203435596, y: -0.212132034356, z: 0}
   grasp_posture:
     header:
       frame_id: ''
@@ -208,7 +208,7 @@
       positions: [-0.0125]
       time_from_start: {nsecs: 0, secs: 0}
       velocities: []
-  grasp_quality: 0.0
+  grasp_quality: 1.0
   id: '3'
   max_contact_force: 0.0
   post_grasp_retreat:
@@ -237,7 +237,7 @@
         seq: 0
         stamp: {nsecs: 0, secs: 0}
       vector: {x: 1.0, y: 0, z: 0}
-    min_distance: 0.001
+    min_distance: 0.1
   pre_grasp_posture:
     header:
       frame_id: ''
@@ -259,7 +259,7 @@
     pose:
       orientation: {w: 4.32978028118e-17, x: -0.707106781187, y: 4.32978028118e-17,
         z: 0.707106781187}
-      position: {x: 0.3, y: -3.67394039744e-17, z: 0}
+      position: {x: 0.09, y: -3.67394039744e-17, z: 0}
   grasp_posture:
     header:
       frame_id: ''
@@ -272,7 +272,7 @@
       positions: [-0.0125]
       time_from_start: {nsecs: 0, secs: 0}
       velocities: []
-  grasp_quality: 0.0
+  grasp_quality: 1.0
   id: '4'
   max_contact_force: 0.0
   post_grasp_retreat:
@@ -301,7 +301,7 @@
         seq: 0
         stamp: {nsecs: 0, secs: 0}
       vector: {x: 1.0, y: 0, z: 0}
-    min_distance: 0.001
+    min_distance: 0.1
   pre_grasp_posture:
     header:
       frame_id: ''
@@ -322,7 +322,7 @@
       stamp: {nsecs: 0, secs: 0}
     pose:
       orientation: {w: -0.270598050073, x: -0.653281482438, y: -0.270598050073, z: 0.653281482438}
-      position: {x: 0.212132034356, y: 0.212132034356, z: 0}
+      position: {x: 0.00213203435596, y: 0.212132034356, z: 0}
   grasp_posture:
     header:
       frame_id: ''
@@ -335,7 +335,7 @@
       positions: [-0.0125]
       time_from_start: {nsecs: 0, secs: 0}
       velocities: []
-  grasp_quality: 0.0
+  grasp_quality: 1.0
   id: '5'
   max_contact_force: 0.0
   post_grasp_retreat:
@@ -364,7 +364,7 @@
         seq: 0
         stamp: {nsecs: 0, secs: 0}
       vector: {x: 1.0, y: 0, z: 0}
-    min_distance: 0.001
+    min_distance: 0.1
   pre_grasp_posture:
     header:
       frame_id: ''
@@ -385,7 +385,7 @@
       stamp: {nsecs: 0, secs: 0}
     pose:
       orientation: {w: -0.5, x: -0.5, y: -0.5, z: 0.5}
-      position: {x: 5.51091059616e-17, y: 0.3, z: 0}
+      position: {x: -0.21, y: 0.3, z: 0}
   grasp_posture:
     header:
       frame_id: ''
@@ -398,7 +398,7 @@
       positions: [-0.0125]
       time_from_start: {nsecs: 0, secs: 0}
       velocities: []
-  grasp_quality: 0.0
+  grasp_quality: 1.0
   id: '6'
   max_contact_force: 0.0
   post_grasp_retreat:
@@ -427,7 +427,7 @@
         seq: 0
         stamp: {nsecs: 0, secs: 0}
       vector: {x: 1.0, y: 0, z: 0}
-    min_distance: 0.001
+    min_distance: 0.1
   pre_grasp_posture:
     header:
       frame_id: ''
@@ -448,7 +448,7 @@
       stamp: {nsecs: 0, secs: 0}
     pose:
       orientation: {w: -0.653281482438, x: -0.270598050073, y: -0.653281482438, z: 0.270598050073}
-      position: {x: -0.212132034356, y: 0.212132034356, z: 0}
+      position: {x: -0.422132034356, y: 0.212132034356, z: 0}
   grasp_posture:
     header:
       frame_id: ''
@@ -461,7 +461,7 @@
       positions: [-0.0125]
       time_from_start: {nsecs: 0, secs: 0}
       velocities: []
-  grasp_quality: 0.0
+  grasp_quality: 1.0
   id: '7'
   max_contact_force: 0.0
   post_grasp_retreat:
@@ -490,7 +490,7 @@
         seq: 0
         stamp: {nsecs: 0, secs: 0}
       vector: {x: 1.0, y: 0, z: 0}
-    min_distance: 0.001
+    min_distance: 0.1
   pre_grasp_posture:
     header:
       frame_id: ''
