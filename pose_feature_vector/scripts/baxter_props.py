@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 import roslib
-roslib.load_manifest("baxter_props")
+roslib.load_manifest("pose_feature_vector")
 
 import argparse
 import sys
