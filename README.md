@@ -64,6 +64,12 @@ roslaunch baxter_hackathon_demos ork_pick.launch x:=0.0 y:=0.0 z:=0.0 qx:=0.0 qy
 
 Replace the values for x,y,z,qx,qy,qz, and qw from the transform you found in the previous step.
 
+The listen_pick node dies due to a race condition. You'll have to start it manually
+
+```
+rosrun listen_and_grasp listen_pick.py
+```
+
 Running speech2moveit
 ------------------------
 
