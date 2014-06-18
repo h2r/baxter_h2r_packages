@@ -8,7 +8,8 @@ cd ~/catkin_ws/src
 wstool init .
 wstool merge https://raw.githubusercontent.com/RethinkRobotics/baxter/master/baxter_sdk.rosinstall
 wstool merge --merge-replace -y https://raw.githubusercontent.com/davetcoleman/baxter_cpp/hydro-devel/baxter.rosinstall
-wstool merge --merge-replace -y https://raw.githubusercontent.com/h2r/baxter_h2r_packages/master/h2r.wstool
+wstool merge --merge-replace -y https://raw.githubusercontent.com/h2r/baxter_h2r_packages/master/h2r.rosinstall
+wstool merge -y https://raw.githubusercontent.com/h2r/baxter_h2r_packages/master/ork.rosinstall
 wstool update
 ```
 
@@ -16,13 +17,6 @@ Need to remove one package that doesn't build without a lot of other dependencie
 ```
 rm -rf checkerboard_detector
 ```
-
-Install ros object recognition packages
-
-```
-$ sudo apt-get install ros-hydro-object-recognition-*
-```
-
 
 Build it
 ```
@@ -34,7 +28,7 @@ catkin_make
 ```
 
 
-Running demo
+Running  demo
 -------------------
 This demo expects that you first calibrate your kinect. Print a copy of table8_9_10.png and place it on a table where the kinect can view it as well as the left arm camera (after moving it to the correct position)
 https://github.com/sniekum/ar_track_alvar/blob/groovy-devel/markers/table_8_9_10.png
@@ -44,16 +38,36 @@ https://github.com/sniekum/ar_track_alvar/blob/groovy-devel/markers/table_8_9_10
 ```
 $ cd ~/baxter_ws/
 $ ./baxter.sh
-$ rosrun baxter_tools enable_robot -e
+$ rosrun baxter_kinect_calibration setup_robot_left.sh
 ```
 
-Grab the left cuff and move the camera to view the alvar bundle printout.
+Grab the left cuff and move the camera to view the alvar bundle printout, as well as the kinect.
 
 ```
-$ roslaunch baxter_kinect_calibration baxter_bundle_calibrate.launch output_file:=$(rospack find baxter_kinect_calibration)/launch/kinect_publisher.launch
+$ roslaunch baxter_kinect_calibration baxter_bundle_calibrate.launch
 ```
 
-This demo launch file will expect to find a launch file that publishes the static transform between baxter and the kinect at the above location in baxter_kinect_calibration. 
+While this is running, view the transform so you can make use of it.
+
+```
+rosrun tf tf_echo /world /camera
+```
+
+Once satisfied with hte transform, kill the calibration launch file.
+
+
+Running ork_pick
+-----------------------
+```
+roslaunch baxter_hackathon_demos ork_pick.launch x:=0.0 y:=0.0 z:=0.0 qx:=0.0 qy:=0.0 qz:=0.0 qw:=1.0
+```
+
+Replace the values for x,y,z,qx,qy,qz, and qw from the transform you found in the previous step.
+
+Running speech2moveit
+------------------------
+
+This demo launch file will expect to find a launch file that publishes the static transform between baxter and the kinect in baxter_kinect_calibration/launch
 
 ```
 $ roslaunch baxter_hackathon_demos baxter_speech2moveit.launch
