@@ -6,7 +6,7 @@
       stamp: {nsecs: 0, secs: 0}
     pose:
       orientation: {w: 0.707106781187, x: 0, y: 0.707106781187, z: 0.0}
-      position: {x: -0.51, y: 0.0, z: 0}
+      position: {x: -0.21, y: 0.0, z: 0.02}
   grasp_posture:
     header:
       frame_id: ''
@@ -47,7 +47,7 @@
         frame_id: left_gripper
         seq: 0
         stamp: {nsecs: 0, secs: 0}
-      vector: {x: 1.0, y: 0, z: 0}
+      vector: {x: 0.0, y: 0, z: 1.0}
     min_distance: 0.1
   pre_grasp_posture:
     header:
@@ -69,7 +69,7 @@
       stamp: {nsecs: 0, secs: 0}
     pose:
       orientation: {w: 0.653281482438, x: -0.270598050073, y: 0.653281482438, z: 0.270598050073}
-      position: {x: -0.422132034356, y: -0.212132034356, z: 0}
+      position: {x: -0.148492424049, y: -0.148492424049, z: 0.02}
   grasp_posture:
     header:
       frame_id: ''
@@ -110,7 +110,7 @@
         frame_id: left_gripper
         seq: 0
         stamp: {nsecs: 0, secs: 0}
-      vector: {x: 1.0, y: 0, z: 0}
+      vector: {x: 0.0, y: 0, z: 1.0}
     min_distance: 0.1
   pre_grasp_posture:
     header:
@@ -132,7 +132,7 @@
       stamp: {nsecs: 0, secs: 0}
     pose:
       orientation: {w: 0.5, x: -0.5, y: 0.5, z: 0.5}
-      position: {x: -0.21, y: -0.3, z: 0}
+      position: {x: -1.2858791391e-17, y: -0.21, z: 0.02}
   grasp_posture:
     header:
       frame_id: ''
@@ -173,7 +173,7 @@
         frame_id: left_gripper
         seq: 0
         stamp: {nsecs: 0, secs: 0}
-      vector: {x: 1.0, y: 0, z: 0}
+      vector: {x: 0.0, y: 0, z: 1.0}
     min_distance: 0.1
   pre_grasp_posture:
     header:
@@ -195,7 +195,7 @@
       stamp: {nsecs: 0, secs: 0}
     pose:
       orientation: {w: 0.270598050073, x: -0.653281482438, y: 0.270598050073, z: 0.653281482438}
-      position: {x: 0.00213203435596, y: -0.212132034356, z: 0}
+      position: {x: 0.148492424049, y: -0.148492424049, z: 0.02}
   grasp_posture:
     header:
       frame_id: ''
@@ -236,7 +236,7 @@
         frame_id: left_gripper
         seq: 0
         stamp: {nsecs: 0, secs: 0}
-      vector: {x: 1.0, y: 0, z: 0}
+      vector: {x: 0.0, y: 0, z: 1.0}
     min_distance: 0.1
   pre_grasp_posture:
     header:
@@ -259,7 +259,7 @@
     pose:
       orientation: {w: 4.32978028118e-17, x: -0.707106781187, y: 4.32978028118e-17,
         z: 0.707106781187}
-      position: {x: 0.09, y: -3.67394039744e-17, z: 0}
+      position: {x: 0.21, y: -2.57175827821e-17, z: 0.02}
   grasp_posture:
     header:
       frame_id: ''
@@ -300,7 +300,7 @@
         frame_id: left_gripper
         seq: 0
         stamp: {nsecs: 0, secs: 0}
-      vector: {x: 1.0, y: 0, z: 0}
+      vector: {x: 0.0, y: 0, z: 1.0}
     min_distance: 0.1
   pre_grasp_posture:
     header:
@@ -322,7 +322,7 @@
       stamp: {nsecs: 0, secs: 0}
     pose:
       orientation: {w: -0.270598050073, x: -0.653281482438, y: -0.270598050073, z: 0.653281482438}
-      position: {x: 0.00213203435596, y: 0.212132034356, z: 0}
+      position: {x: 0.148492424049, y: 0.148492424049, z: 0.02}
   grasp_posture:
     header:
       frame_id: ''
@@ -363,7 +363,7 @@
         frame_id: left_gripper
         seq: 0
         stamp: {nsecs: 0, secs: 0}
-      vector: {x: 1.0, y: 0, z: 0}
+      vector: {x: 0.0, y: 0, z: 1.0}
     min_distance: 0.1
   pre_grasp_posture:
     header:
@@ -385,7 +385,7 @@
       stamp: {nsecs: 0, secs: 0}
     pose:
       orientation: {w: -0.5, x: -0.5, y: -0.5, z: 0.5}
-      position: {x: -0.21, y: 0.3, z: 0}
+      position: {x: 3.85763741731e-17, y: 0.21, z: 0.02}
   grasp_posture:
     header:
       frame_id: ''
@@ -426,7 +426,7 @@
         frame_id: left_gripper
         seq: 0
         stamp: {nsecs: 0, secs: 0}
-      vector: {x: 1.0, y: 0, z: 0}
+      vector: {x: 0.0, y: 0, z: 1.0}
     min_distance: 0.1
   pre_grasp_posture:
     header:
@@ -448,7 +448,7 @@
       stamp: {nsecs: 0, secs: 0}
     pose:
       orientation: {w: -0.653281482438, x: -0.270598050073, y: -0.653281482438, z: 0.270598050073}
-      position: {x: -0.422132034356, y: 0.212132034356, z: 0}
+      position: {x: -0.148492424049, y: 0.148492424049, z: 0.02}
   grasp_posture:
     header:
       frame_id: ''
@@ -489,7 +489,7 @@
         frame_id: left_gripper
         seq: 0
         stamp: {nsecs: 0, secs: 0}
-      vector: {x: 1.0, y: 0, z: 0}
+      vector: {x: 0.0, y: 0, z: 1.0}
     min_distance: 0.1
   pre_grasp_posture:
     header:

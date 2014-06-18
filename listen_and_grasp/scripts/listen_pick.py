@@ -77,6 +77,20 @@ class Pick:
 		self.transformer = TransformListener()
 		
 		self.markers_publisher = rospy.Publisher("/grasp_markers", Marker)
+
+	def goToNeutral(self):
+		pose_target = geometry_msgs.msg.PoseStamped()
+		pose_target.header.frame_id = "/base"
+		pose_target.pose.orientation.x = 0.
+		pose_target.pose.orientation.y = 0.707
+		pose_target.pose.orientation.z = 0
+		pose_target.pose.orientation.w = 0.707
+		pose_target.pose.position.x = 0.8
+		pose_target.pose.position.y = 0.3
+		pose_target.pose.position.z = 0.11
+		self.group.set_pose_target(pose_target)
+		self.group.plan()
+		self.group.go()
 		
 
 	def addBoundingBox(self, points, name):
@@ -123,10 +137,11 @@ class Pick:
 		pose_stamped.pose.position.z -= 0
 		pose_stamped.pose.orientation = copy.deepcopy(pose.pose.pose.orientation)
 		now = rospy.Time.now()
-		self.transformer.waitForTransform("world", pose_stamped.header.frame_id, now, rospy.Duration(4.0))
-		t = self.transformer.getLatestCommonTime("world", pose_stamped.header.frame_id)
-		pose_stamped.header.stamp = t
-		transformedPose = self.transformer.transformPose("world", pose_stamped)
+		#self.transformer.waitForTransform("world", pose_stamped.header.frame_id, now, rospy.Duration(4.0))
+		rospy.loginfo("stamped pose frame id " + str(pose_stamped.header.frame_id))
+		self.transformer.waitForTransform("/world", pose_stamped.header.frame_id, rospy.Time(), rospy.Duration(4,0))
+		pose_stamped.header.stamp = self.transformer.getLatestCommonTime("/world", pose_stamped.header.frame_id)
+		transformedPose = self.transformer.transformPose("/world", pose_stamped)
 		return transformedPose
 		
 
@@ -140,8 +155,11 @@ class Pick:
 			newPose = self.getPoseStampedFromPoseWithCovariance(object.pose)
 			self.objectPoses[object.type.key] = newPose
 			self.addBoundingBoxAtPose(object.type.key)
+			rospy.loginfo("Attempting to pickup object " + str(object.type.key))
 			self.pick(object.type.key)
+			rospy.loginfo("Attempting to place object " + str(object.type.key))
 			self.place(object.type.key)
+		#self.goToNeutral()
 
 	def objectRequestCallback(self, msg):
 		if msg.data not in self.objects:
@@ -159,14 +177,13 @@ class Pick:
 		scene = moveit_commander.PlanningSceneInterface()
 		p = PoseStamped()
  		p.header.frame_id = "/base"
-   		p.pose.position.x = 0.85  
-  		p.pose.position.y = 0.5
-  		p.pose.position.z = -0.3
-  		scene.add_box("table", p, (0.5, 1.5, 0.35))
+   		p.pose.position.x = 0.35  
+  		p.pose.position.y = 0
+  		p.pose.position.z = -0.75
+  		scene.add_box("table", p, (2.1, 2.0, 1.0))#0.35
 
 	def pick(self, obj):
-		for object in self.objects:
-			self.group.detach_object(object)
+		self.group.detach_object()			
 
 		graspResponse = self.graspService("coconut")
 		if not graspResponse.success:
@@ -183,6 +200,9 @@ class Pick:
 		goal_pose = copy.deepcopy(self.objectPoses[obj])
 		goal_pose.pose.position.y += 0.1
 		self.group.place(obj, goal_pose)
+		for object in self.objects:
+			self.scene.remove_world_object(object)
+		
 
 	def setGrasps(self, name, grasps):
 		pose = self.objectPoses[name]
@@ -237,6 +257,7 @@ class Pick:
 		
 		#rospy.Service('/pick_place_server', String, objectRequestCallback)
 		#self.pick()
+		rospy.sleep(5.0)
 		self.addTable()
 		rospy.spin()
 
