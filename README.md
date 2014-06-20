@@ -9,7 +9,7 @@ wstool init .
 wstool merge https://raw.githubusercontent.com/RethinkRobotics/baxter/master/baxter_sdk.rosinstall
 wstool merge --merge-replace -y https://raw.githubusercontent.com/davetcoleman/baxter_cpp/hydro-devel/baxter.rosinstall
 wstool merge --merge-replace -y https://raw.githubusercontent.com/h2r/baxter_h2r_packages/master/h2r.rosinstall
-wstool merge -y https://raw.githubusercontent.com/h2r/baxter_h2r_packages/master/ork.rosinstall
+wstool merge https://raw.githubusercontent.com/h2r/baxter_h2r_packages/master/ork.rosinstall
 wstool update
 ```
 
