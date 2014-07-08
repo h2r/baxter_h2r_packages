@@ -66,17 +66,6 @@ class BaxterProps:
         joints = self.getIntermediateJointPositions(start, end, numSteps=2500)
         self.moveOneArm(arm, joints, False)
         rospy.sleep(0.5)
-
-        #Translation: [0.165, 1.125, 0.479]
-        # Rotation: in Quaternion [0.296, 0.846, 0.328, 0.298]
-        '''
-        - Translation: [0.333, 1.036, 0.416]
-        - Rotation: in Quaternion [0.139, 0.752, 0.204, 0.612]
-            in RPY [1.910, 1.041, 2.006]
-        '''
-
-        #finalP = Pose(position=Point(x=-0.2,y=0.862,z=0.348), orientation=Quaternion(x=0.429,y=0.839,z=0.230,w=0.244))
-        #finalP = Pose(position=Point(x=point.x-.55,y=point.y+.35,z=point.z), orientation=Quaternion(x=0,y=0.707,z=0,w=0.707))
         finalP = Pose(position=Point(x=0.33,y=1.125,z=0.479), orientation=Quaternion(x=0.296,y=0.864,z=0.328,w=0.298))
         final = self.solveIK(finalP, limb)
 
@@ -88,9 +77,7 @@ class BaxterProps:
         print 'Entering high five method'
         baxter_interface.RobotEnable().enable()
         arm = baxter_interface.limb.Limb(limb)
-        #[0.056, 1.063, 0.757]
-        #[0.013, -0.009, 1.000, -0.026]
-        #prep = Pose(position=Point(x=point.x-0.2,y=point.y,z=point.z), orientation=Quaternion(x=0.0,y=0,z=0,w=1))
+        
         prep = Pose(position=Point(x=0.056,y=1.063,z=0.757), orientation=Quaternion(x=0.0,y=0,z=1,w=0))
         cur_angles = arm.joint_angles()
         start = self.solveIK(prep, limb)
@@ -102,8 +89,10 @@ class BaxterProps:
         #[-0.068, 0.039, 0.987, 0.138]
         #final = Pose(position=point, orientation=Quaternion(x=0,y=0,z=0,w=1)) 
         #final = Pose(position=Point(x=0.643,y=0.841,z=0.738), orientation=Quaternion(x=-0.068,y=0.039,z=0.987,w=0.138))
-        final = Pose(position=Point(x=0.643,y=0.841,z=0.738), orientation=Quaternion(x=0.0,y=0,z=1,w=0))    
+        final = Pose(position=Point(x=0.765,y=0.675,z=0.617), orientation=Quaternion(x=0.0,y=0,z=1,w=0))    
         end = self.solveIK(final, limb)
+        if end is None:
+        	return
         joints = self.getIntermediateJointPositions(start, end, numSteps=2500)
         self.moveOneArm(arm, joints, False)
         rospy.sleep(1.5)
@@ -165,7 +154,7 @@ class BaxterProps:
             t = float(i) / numSteps;
             jointState = dict()
             for key in start:
-               jointState[key] = start[key] + t*(end[key] - start[key])
+            	jointState[key] = start[key] + t*(end[key] - start[key])
             joints.append(jointState)
         return joints
 
@@ -196,6 +185,6 @@ class BaxterProps:
 if __name__ == '__main__':
     rospy.init_node("baxter_props")
     props = BaxterProps()
-    props.hug(0.4, 10.0)
+    #props.hug(0.4, 10.0)
     #props.bump(Point(x=0.9, y=0.7, z=0.25), "left")
-    #props.five(Point(x=0.5, y=0.7, z=0.5), "left")
+    props.five(Point(x=0.5, y=0.7, z=0.5), "left")
