@@ -390,7 +390,7 @@ void GetMultiMarkerPoses(IplImage *image, ARCloud &cloud) {
       //printf("\n--------------------------\n\n");
       for (size_t i=0; i<kinect_marker_detector.markers->size(); i++)
     	{
-	  vector<cv::Point> pixels;
+	  vector<cv::Point, Eigen::aligned_allocator<cv::Point> > pixels;
 	  Marker *m = &((*kinect_marker_detector.markers)[i]);
 	  int id = m->GetId();
 	  
