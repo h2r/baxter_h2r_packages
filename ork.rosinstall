@@ -3,6 +3,7 @@
 - git: {local-name: tod, uri: 'https://github.com/h2r/tod', version: master}
 - git: {local-name: object_recognition_core, uri: 'http://github.com/wg-perception/object_recognition_core',
     version: master}
+- git: {local-name: object_recognition_ros, uri: 'http://github.com/wg-perception/object_recognition_ros', version: master}
 - git: {local-name: capture, uri: 'http://github.com/wg-perception/capture', version: master}
 - git: {local-name: reconstruction, uri: 'http://github.com/wg-perception/reconstruction',
     version: master}
