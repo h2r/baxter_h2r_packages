@@ -49,6 +49,8 @@ import moveit_msgs.msg
 import geometry_msgs.msg
 import baxter_interface
 import genpy
+import random
+import math
 
 
 ## END_SUB_TUTORIAL
@@ -59,6 +61,7 @@ from trajectory_msgs.msg import JointTrajectoryPoint
 from moveit_msgs.msg import Grasp
 from object_recognition_msgs.msg import RecognizedObjectArray
 from tf import TransformListener, LookupException, ConnectivityException, ExtrapolationException
+from move_msgs.msg import moveAction, moveRegion
 #from meldon_detection.msg import MarkerObjectArray, MarkerObject
 from baxter_grasps_server.srv import GraspService
 
@@ -67,6 +70,7 @@ from visualization_msgs.msg import Marker
 class Pick:
 	def __init__(self):
 		self.objects = []
+		self.object_bounding_boxes = dict()
 		self.objectPoses = dict()
 		self.graspService = rospy.ServiceProxy('grasp_service', GraspService)
 		self.scene = moveit_commander.PlanningSceneInterface()
@@ -77,6 +81,8 @@ class Pick:
 		self.transformer = TransformListener()
 		
 		self.markers_publisher = rospy.Publisher("/grasp_markers", Marker)
+		self.is_picking = False
+		self.is_placing = False
 
 	def goToNeutral(self):
 		pose_target = geometry_msgs.msg.PoseStamped()
@@ -126,9 +132,13 @@ class Pick:
 		self.scene.add_box(name, pose, (dim_x, dim_y, dim_z))
 
 	def addBoundingBoxAtPose(self, name):
+		width = 0.03
 		pose = self.objectPoses[name]
 		pose.pose.position.z += 0.1
-		self.scene.add_box(name, pose, (0.02, 0.02, 0.2))
+		self.object_bounding_boxes[name] = dict()
+		self.object_bounding_boxes[name]["scale"] = [width, width, 0.2]
+		self.object_bounding_boxes[name]["pose"] = pose
+		self.scene.add_box(name, pose, (width, width, 0.2))
 
 	def getPoseStampedFromPoseWithCovariance(self, pose):
 		pose_stamped = PoseStamped()
@@ -137,8 +147,6 @@ class Pick:
 		pose_stamped.pose.position.z -= 0
 		pose_stamped.pose.orientation = copy.deepcopy(pose.pose.pose.orientation)
 		now = rospy.Time.now()
-		#self.transformer.waitForTransform("world", pose_stamped.header.frame_id, now, rospy.Duration(4.0))
-		rospy.loginfo("stamped pose frame id " + str(pose_stamped.header.frame_id))
 		self.transformer.waitForTransform("/world", pose_stamped.header.frame_id, rospy.Time(), rospy.Duration(4,0))
 		pose_stamped.header.stamp = self.transformer.getLatestCommonTime("/world", pose_stamped.header.frame_id)
 		transformedPose = self.transformer.transformPose("/world", pose_stamped)
@@ -146,20 +154,68 @@ class Pick:
 		
 
 	def objectsCallback(self, msg):
+		if self.is_picking or self.is_placing:
+			return
 		for object in self.objects:
 			self.scene.remove_world_object(object)
 		self.objects = []
+		rospy.loginfo(str(self.objectPoses))
 		self.objectPoses = dict()
+		self.object_bounding_boxes = dict()
 		for object in msg.objects:
 			self.objects.append(object.type.key)
 			newPose = self.getPoseStampedFromPoseWithCovariance(object.pose)
 			self.objectPoses[object.type.key] = newPose
 			self.addBoundingBoxAtPose(object.type.key)
-			rospy.loginfo("Attempting to pickup object " + str(object.type.key))
-			self.pick(object.type.key)
-			rospy.loginfo("Attempting to place object " + str(object.type.key))
-			self.place(object.type.key)
 		#self.goToNeutral()
+
+	def burlapObjectRequestCallback(self, msg):
+		if self.is_picking or self.is_placing:
+			return
+		
+
+		object_name = msg.object.name
+		object_id = msg.object.hashID
+
+		if object_id not in self.objects:
+			rospy.logerr("Object " + object_id + " (" + object_name +  ") is not in detected objects ")
+			
+			object_str = ""
+			for object in self.objects:
+				object_str += ", " + str(object)
+			rospy.logerr("Detected objects " + object_str)
+
+			return
+
+		rospy.loginfo("Getting grasp for object " + object_name)
+		graspResponse = self.graspService(object_name)
+		if not graspResponse.success:
+			rospy.logerr("No grasps were found for object " + object_name)
+			return
+
+		rospy.loginfo("Finding a valid place pose")
+		place_pose = self.getValidPlacePose(msg.region, msg.header.frame_id, object_id)
+		rospy.loginfo("place pose frame id " + str(place_pose.header.frame_id))
+		rospy.loginfo("object pose frame id " + str(self.objectPoses[object_id].header.frame_id))
+		
+		rospy.loginfo("Attempting to pick up object " + object_name)
+		self.is_picking = True
+		try:
+			self.pick(object_name, object_id)
+		except Exception, e:
+			raise e
+		finally:
+			self.is_picking = False
+			self.is_placing = True
+		
+		rospy.loginfo("Attempting to place object")
+		try:
+			self.place(object_id, place_pose)
+		except Exception, e:
+			raise e
+		finally:
+			self.is_placing = False
+		
 
 	def objectRequestCallback(self, msg):
 		if msg.data not in self.objects:
@@ -170,6 +226,7 @@ class Pick:
 		if not graspResponse.success:
 			rospy.logerr("No grasps were found for object " + msg.data)
 			return
+
 		self.group.set_start_state_to_current_state()
 		robot.left_arm.pick(msg.data, graspResponse.grasps)
 
@@ -182,27 +239,100 @@ class Pick:
   		p.pose.position.z = -0.75
   		scene.add_box("table", p, (2.1, 2.0, 1.0))#0.35
 
-	def pick(self, obj):
+	def pick(self, object_name, object_id):
 		self.group.detach_object()			
 
-		graspResponse = self.graspService("coconut")
+		graspResponse = self.graspService(object_name)
 		if not graspResponse.success:
-			rospy.logerr("No grasps were found for object coconut")
+			rospy.logerr("No grasps were found for object " + object_name + " with id: " + object_id)
 			return
-		#self.addCylinder(0.8, 0, 0.3, 0.01, 0.01, 0.01)
-		self.publishMarkers(graspResponse.grasps, "coconut")
+
 		self.group.set_planning_time(20)
 		self.group.set_start_state_to_current_state()
-		grasps = self.setGrasps(obj, graspResponse.grasps)
-		self.group.pick(obj, grasps)
 
-	def place(self, obj):
-		goal_pose = copy.deepcopy(self.objectPoses[obj])
-		goal_pose.pose.position.y += 0.1
-		self.group.place(obj, goal_pose)
-		for object in self.objects:
-			self.scene.remove_world_object(object)
+		grasps = self.setGrasps(object_id, graspResponse.grasps)
+		self.publishMarkers(grasps, object_name)
 		
+		self.group.pick(object_id, grasps)
+
+	def place(self, object_id, place_pose):
+		goal_pose = copy.deepcopy(self.objectPoses[object_id])
+		goal_pose.pose.position.x = place_pose.pose.position.x
+		goal_pose.pose.position.y = place_pose.pose.position.y
+		self.group.place(object_id, goal_pose)
+
+	def getValidPlacePose(self, move_region, frame_id, object_id):
+		rospy.loginfo("Finding valid open collision region")
+		open_collision_region = self.getOpenCollisionRegion(move_region)
+		bounding_box = self.object_bounding_boxes[object_id]
+		bb_width = bounding_box["scale"][0]
+		bb_depth = bounding_box["scale"][1]
+		bb_height = bounding_box["scale"][2]
+		radius = math.sqrt(bb_width * bb_width + bb_depth * bb_depth)
+		collision_map = self.getCollisionMap(open_collision_region, object_id, radius)
+
+		unnocupied_cells = self.getUnnocupiedCells(collision_map)
+		random_place = random.choice(unnocupied_cells)
+		place_pose = PoseStamped()
+		rospy.loginfo("place pose frame id " + str(frame_id))
+		place_pose.header.frame_id = "world"
+		place_pose.pose.position.x = random_place[0] / 100.0 #convert back to meters
+		place_pose.pose.position.y = random_place[1] / 100.0
+		return place_pose
+
+	def getUnnocupiedCells(self, collision_map):
+		unnocupied_cells = []
+		for y in range(len(collision_map)):
+			for x in range(len(collision_map[y])):
+				if (collision_map[y][x] == 0):
+					unnocupied_cells.append([x, y])
+		return unnocupied_cells
+
+	def getCollisionMap(self, collision_region, object_id, radius):
+		distance_from_edge = copy.deepcopy(collision_region)
+		for row in range(len(collision_region)):
+			for column in range(len(collision_region[row])):
+				occupancy = collision_region[row][column]
+				if (occupancy > 0):
+					for column_prime in range(int(column - radius), int(math.ceil(column + radius))):
+						if column_prime >= 0 and column_prime < len(collision_region[row]):
+							distance = math.fabs(column_prime - column)
+							distance_from_edge[row][column_prime] = max(radius - distance, 0)
+
+		reduced_collision_region = copy.deepcopy(distance_from_edge)
+		for row in range(len(distance_from_edge)):
+			for column in range(len(distance_from_edge[row])):
+				distance = distance_from_edge[row][column]
+				if (distance > 0):
+					for row_prime in range(int(row - radius), int(math.ceil(row + radius))):
+						if row_prime >= 0 and row_prime < len(distance_from_edge):
+							column_distance = radius - distance_from_edge[row][column]
+							row_distance = math.fabs(row_prime - row)
+							distance_squared = column_distance * column_distance + row_distance * row_distance
+							distance = math.sqrt(distance_squared)
+							reduced_collision_region[column][row_prime] = max(radius - distance, 0)
+
+
+		#full_collision_map = copy.deepcopy(collision_region)
+
+		#for object in self.objects:
+		#	if object != object_id:
+		#		bounding_box = self.object_bounding_boxes[object]
+		return [[min(1, value) for value in row] for row in reduced_collision_region]
+
+	def getOpenCollisionRegion(self, move_region):
+		region_width = move_region.scale.x * 100 #convert meters into cm squares
+		region_height = move_region.scale.y * 100
+
+		validity_function = {
+			moveRegion.SHAPE_SQUARE: lambda x, y: math.fabs(x) <= region_width / 2.0 and math.fabs(y) <= region_height,
+			moveRegion.SHAPE_CIRCLE: lambda x, y: x*x / region_width + y*y / region_height <= 1.0
+		}
+
+		isValid = validity_function[move_region.shape]
+
+		return [[int(isValid(x, y)) for x in range(100)] for y in range(100)]
+
 
 	def setGrasps(self, name, grasps):
 		pose = self.objectPoses[name]
@@ -234,31 +364,28 @@ class Pick:
 		marker = Marker()
 		marker.id = int(grasp.id)
 		marker.header = grasp.grasp_pose.header
+		marker.header.frame_id = grasp.grasp_pose.header.frame_id
 		marker.pose = grasp.grasp_pose.pose
 		marker.ns = object_name + "_grasp_"
-		marker.lifetime.secs = 10.0
+		marker.lifetime.secs = 1
 		marker.action = 0
 		marker.color.r = 1
 		marker.color.g = 1
 		marker.color.b = 1
 		marker.color.a = 1
-		marker.scale.x = 1
-		marker.scale.y = 1
-		marker.scale.z = 1
+		marker.scale.x = .1
+		marker.scale.y = .1
+		marker.scale.z = .1
 		return marker
 
 
 	def go(self, args):
-		#self.left_arm.move_to_neutral()
-
 		moveit_commander.roscpp_initialize(args)
 		rospy.Subscriber("/recognized_object_array", RecognizedObjectArray, self.objectsCallback, None, 1)
-		#rospy.Subscriber("/labeled_objects", MarkerObjectArray, objectsCallback)
-		
-		#rospy.Service('/pick_place_server', String, objectRequestCallback)
-		#self.pick()
-		rospy.sleep(5.0)
+		rospy.Subscriber("/move_Actions", moveAction, self.burlapObjectRequestCallback, None, 1)
+
 		self.addTable()
+		rospy.sleep(5.0)
 		rospy.spin()
 
 if __name__=='__main__':
