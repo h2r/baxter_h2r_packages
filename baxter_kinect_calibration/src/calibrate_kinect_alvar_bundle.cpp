@@ -503,11 +503,6 @@ void getPointCloudCallback (const sensor_msgs::PointCloud2ConstPtr &msg)
     ROS_ERROR ("ar_track_alvar: Image error: %s", image_msg->encoding.c_str ());
   }
 
-  //Get the estimated pose of the main markers by using all the markers in each bundle
-
-  // GetMultiMarkersPoses expects an IplImage*, but as of ros groovy, cv_bridge gives
-  // us a cv::Mat. I'm too lazy to change to cv::Mat throughout right now, so I
-  // do this conversion here -jbinney
   IplImage ipl_image = cv_ptr_->image;
   GetMultiMarkerPoses(&ipl_image, cloud);
   ros::Time now = ros::Time::now();
@@ -535,7 +530,7 @@ void getPointCloudCallback (const sensor_msgs::PointCloud2ConstPtr &msg)
    
     tf::Transform linkToMarker = camBaseToCamera * markerPose;
     addTransformToAverage(linkToMarker.inverse(), kinectTransforms, kinectTransform);
-    broadcastTransform(false, kinectBaseLinkFrameID, id, kinectTransform);
+    broadcastTransform(false, kinectBaseLinkFrameID, id, linkToMarker.inverse());
   }
 }
 
