@@ -352,16 +352,9 @@ void GetMultiMarkerPoses(IplImage *image) {
   }
 }
 
-
 // Updates the bundlePoses of the multi_marker_bundles by detecting markers and
 // using all markers in a bundle to infer the master tag's position
 void GetMultiMarkerPoses(IplImage *image, ARCloud &cloud) {
-
-  //for(int i=0; i<n_bundles; i++){
-  //  master_visible[i] = false;
-  //  bundles_seen[i] = 0;
-  //}
-  
   //Detect and track the markers
   if (kinect_marker_detector.Detect(image, kinectCam, true, false, max_new_marker_error,
            max_track_error, CVSEQ, true)) 
@@ -369,104 +362,62 @@ void GetMultiMarkerPoses(IplImage *image, ARCloud &cloud) {
       //printf("\n--------------------------\n\n");
       for (size_t i=0; i<kinect_marker_detector.markers->size(); i++)
       {
-    vector<cv::Point, Eigen::aligned_allocator<cv::Point> > pixels;
-    Marker *m = &((*kinect_marker_detector.markers)[i]);
-    int id = m->GetId();
-    
-          
-    //Get the 3D inner corner points - more stable than outer corners that can "fall off" object
-    int resol = m->GetRes();
-    int ori = m->ros_orientation;
+      vector<cv::Point, Eigen::aligned_allocator<cv::Point> > pixels;
+      Marker *m = &((*kinect_marker_detector.markers)[i]);
+      int id = m->GetId();
       
-    PointDouble pt1, pt2, pt3, pt4;
-    pt4 = m->ros_marker_points_img[0];
-    pt3 = m->ros_marker_points_img[resol-1];
-    pt1 = m->ros_marker_points_img[(resol*resol)-resol];
-    pt2 = m->ros_marker_points_img[(resol*resol)-1];
-    
-    m->ros_corners_3D[0] = cloud(pt1.x, pt1.y);
-    m->ros_corners_3D[1] = cloud(pt2.x, pt2.y);
-    m->ros_corners_3D[2] = cloud(pt3.x, pt3.y);
-    m->ros_corners_3D[3] = cloud(pt4.x, pt4.y);
-    
-    if(ori >= 0 && ori < 4){
-      if(ori != 0){
-        std::rotate(m->ros_corners_3D.begin(), m->ros_corners_3D.begin() + ori, m->ros_corners_3D.end());
-      }
-    }
-    else
-      ROS_ERROR("FindMarkerBundles: Bad Orientation: %i for ID: %i", ori, id);
-
-    //Check if we have spotted a master tag
-/*
-    int master_ind = -1;
-    for(int j=0; j<n_bundles; j++){
-      if(id == master_id[j])
-        master_visible[j] = true; 
-      master_ind = j;
-    }
-
-    //Mark the bundle that marker belongs to as "seen"
-    int bundle_ind = -1;
-    for(int j=0; j<n_bundles; j++){
-      for(int k=0; k<bundle_indices[j].size(); k++){
-        if(bundle_indices[j][k] == id){
-            bundle_ind = j;
-            bundles_seen[j] += 1;
-            break;
-          }
+            
+      //Get the 3D inner corner points - more stable than outer corners that can "fall off" object
+      int resol = m->GetRes();
+      int ori = m->ros_orientation;
+        
+      PointDouble pt1, pt2, pt3, pt4;
+      pt4 = m->ros_marker_points_img[0];
+      pt3 = m->ros_marker_points_img[resol-1];
+      pt1 = m->ros_marker_points_img[(resol*resol)-resol];
+      pt2 = m->ros_marker_points_img[(resol*resol)-1];
+      
+      m->ros_corners_3D[0] = cloud(pt1.x, pt1.y);
+      m->ros_corners_3D[1] = cloud(pt2.x, pt2.y);
+      m->ros_corners_3D[2] = cloud(pt3.x, pt3.y);
+      m->ros_corners_3D[3] = cloud(pt4.x, pt4.y);
+      
+      if(ori >= 0 && ori < 4){
+        if(ori != 0){
+          std::rotate(m->ros_corners_3D.begin(), m->ros_corners_3D.begin() + ori, m->ros_corners_3D.end());
         }
       }
-*/
-    //Get the 3D marker points
-    BOOST_FOREACH (const PointDouble& p, m->ros_marker_points_img)
-      pixels.push_back(cv::Point(p.x, p.y));    
-    ARCloud::Ptr selected_points = ata::filterCloud(cloud, pixels);
+      else
+        ROS_ERROR("FindMarkerBundles: Bad Orientation: %i for ID: %i", ori, id);
 
-    //Use the kinect data to find a plane and pose for the marker
-    int ret = PlaneFitPoseImprovement(i, m->ros_corners_3D, selected_points, cloud, m->pose);
-            
-    //If the plane fit fails...
-    if(ret < 0){
-    //Mark this tag as invalid
-    m->valid = false;
-      //If this was a master tag, reset its visibility
-      //if(master_ind >= 0)
-        //master_visible[master_ind] = false;
-      //decrement the number of markers seen in this bundle
-      //bundles_seen[bundle_ind] -= 1;
-        
-    }
-    else
-    m->valid = true;
+      //Get the 3D marker points
+      BOOST_FOREACH (const PointDouble& p, m->ros_marker_points_img)
+        pixels.push_back(cv::Point(p.x, p.y));    
+      ARCloud::Ptr selected_points = ata::filterCloud(cloud, pixels);
+
+      //Use the kinect data to find a plane and pose for the marker
+      int ret = PlaneFitPoseImprovement(i, m->ros_corners_3D, selected_points, cloud, m->pose);
+      m->valid = (ret >= 0);
     } 
 
-      //For each master tag, infer the 3D position of its corners from other visible tags
-      //Then, do a plane fit to those new corners     
-      ARCloud inferred_corners;
-      for(int i=0; i<n_bundles; i++){
-        if(bundles_seen[i] > 0){
-            //if(master_visible[i] == false){
-                //if(InferCorners(cloud, *(multi_marker_bundles[i]), inferred_corners) >= 0){
-                //    ARCloud::Ptr inferred_cloud(new ARCloud(inferred_corners));
-                //    PlaneFitPoseImprovement(i+5000, inferred_corners, inferred_cloud, cloud, bundlePoses[i]);
-                //}
-            //}
-            //If master is visible, use it directly instead of inferring pose
-            
-                for (size_t j=0; j<marker_detector.markers->size(); j++){
-                    Marker *m = &((*marker_detector.markers)[j]);                     
-                    if(m->GetId() == master_id[i])
-                        bundlePoses[i] = m->pose;
-                } 
+    //For each master tag, infer the 3D position of its corners from other visible tags
+    //Then, do a plane fit to those new corners     
+    ARCloud inferred_corners;
+    for(int i=0; i<n_bundles; i++){
+      if(bundles_seen[i] > 0){
+        for (size_t j=0; j<marker_detector.markers->size(); j++){
+            Marker *m = &((*marker_detector.markers)[j]);                     
+            if(m->GetId() == master_id[i])
+                bundlePoses[i] = m->pose;
+        } 
 
-            Pose ret_pose;
-            if(med_filt_size > 0){
-                med_filts[i]->addPose(bundlePoses[i]);
-                med_filts[i]->getMedian(ret_pose);
-                kinectBundlePoses[i] = ret_pose;
-            }   
+        Pose ret_pose;
+        if(med_filt_size > 0){
+            med_filts[i]->addPose(bundlePoses[i]);
+            med_filts[i]->getMedian(ret_pose);
+            kinectBundlePoses[i] = ret_pose;
         }   
+      }   
     }
   }
 }
