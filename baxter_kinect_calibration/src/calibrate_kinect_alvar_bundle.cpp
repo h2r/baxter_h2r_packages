@@ -481,6 +481,7 @@ void getPointCloudCallback (const sensor_msgs::PointCloud2ConstPtr &msg)
   //If we've already gotten the cam info, then go ahead
   if(!kinectCam->getCamInfo_){
     ROS_WARN_STREAM("Can't get kinect info on topic " << kinectInfoTopic);
+    return;
   }
 
   //Convert cloud to PCL 
@@ -514,18 +515,8 @@ void getPointCloudCallback (const sensor_msgs::PointCloud2ConstPtr &msg)
   {
     int id = (*(kinect_marker_detector.markers))[i].GetId();
     Pose p = (*(kinect_marker_detector.markers))[i].pose;
-    // Draw if id is valid
-    double px = p.translation[0]/100.0;
-    double py = p.translation[1]/100.0;
-    double pz = p.translation[2]/100.0;
-    double qx = p.quaternion[1];
-    double qy = p.quaternion[2];
-    double qz = p.quaternion[3];
-    double qw = p.quaternion[0];
-
-    tf::Quaternion rotation (qx, qy, qz, qw);
-    tf::Vector3 origin (px,py,pz);
-    tf::Transform t (rotation, origin);
+    
+    tf::Transform t = getTransformFromPose(p);
     tf::Vector3 markerOrigin (0, 0, 0);
     tf::Quaternion quat;
     quat.setRPY(0,0,-3.14159/2.0);
@@ -542,13 +533,9 @@ void getPointCloudCallback (const sensor_msgs::PointCloud2ConstPtr &msg)
       ROS_ERROR("%s",ex.what());
     }
    
-    std::stringstream out;
-    out << "ar_marker_" << id;
-    std::string markerFrame = out.str();
     tf::Transform linkToMarker = camBaseToCamera * markerPose;
     addTransformToAverage(linkToMarker.inverse(), kinectTransforms, kinectTransform);
-    tf::StampedTransform markerToCamera (kinectTransform, now, markerFrame, kinectBaseLinkFrameID);
-    tf_broadcaster->sendTransform(markerToCamera);
+    broadcastTransform(false, kinectBaseLinkFrameID, id, kinectTransform);
   }
 }
 
@@ -608,41 +595,41 @@ int makeMasterTransform (const CvPoint3D64f& p0, const CvPoint3D64f& p1,
 //This data is used for later estimation of the Master marker pose from the child poses
 int calcAndSaveMasterCoords(MultiMarkerBundle &master)
 {
-    int mast_id = master.master_id;
-    std::vector<tf::Vector3> rel_corner_coords;
+  int mast_id = master.master_id;
+  std::vector<tf::Vector3> rel_corner_coords;
+  
+  //Go through all the markers associated with this bundle
+  for (size_t i=0; i<master.marker_indices.size(); i++){
+    int mark_id = master.marker_indices[i];
+    rel_corner_coords.clear();
     
-    //Go through all the markers associated with this bundle
-    for (size_t i=0; i<master.marker_indices.size(); i++){
-        int mark_id = master.marker_indices[i];
-        rel_corner_coords.clear();
-        
-        //Get the coords of the corners of the child marker in the master frame
-        CvPoint3D64f mark_corners[4];
-        for(int j=0; j<4; j++){
-            mark_corners[j] = master.pointcloud[master.pointcloud_index(mark_id, j)];
-        }
-        
-        //Use them to find a transform from the master frame to the child frame
-        tf::Transform tform;
-        makeMasterTransform(mark_corners[0], mark_corners[1], mark_corners[2], mark_corners[3], tform);
-    
-        //Finally, find the coords of the corners of the master in the child frame
-        for(int j=0; j<4; j++){
-            
-            CvPoint3D64f corner_coord = master.pointcloud[master.pointcloud_index(mast_id, j)];
-            double px = corner_coord.x;
-            double py = corner_coord.y;
-            double pz = corner_coord.z;
-        
-            tf::Vector3 corner_vec (px, py, pz);
-            tf::Vector3 ans = (tform.inverse()) * corner_vec;
-            rel_corner_coords.push_back(ans);
-        }
-        
-        master.rel_corners.push_back(rel_corner_coords);
+    //Get the coords of the corners of the child marker in the master frame
+    CvPoint3D64f mark_corners[4];
+    for(int j=0; j<4; j++){
+        mark_corners[j] = master.pointcloud[master.pointcloud_index(mark_id, j)];
     }
     
-    return 0;
+    //Use them to find a transform from the master frame to the child frame
+    tf::Transform tform;
+    makeMasterTransform(mark_corners[0], mark_corners[1], mark_corners[2], mark_corners[3], tform);
+
+    //Finally, find the coords of the corners of the master in the child frame
+    for(int j=0; j<4; j++){
+        
+      CvPoint3D64f corner_coord = master.pointcloud[master.pointcloud_index(mast_id, j)];
+      double px = corner_coord.x;
+      double py = corner_coord.y;
+      double pz = corner_coord.z;
+  
+      tf::Vector3 corner_vec (px, py, pz);
+      tf::Vector3 ans = (tform.inverse()) * corner_vec;
+      rel_corner_coords.push_back(ans);
+    }
+    
+    master.rel_corners.push_back(rel_corner_coords);
+  }
+  
+  return 0;
 }
 
 
