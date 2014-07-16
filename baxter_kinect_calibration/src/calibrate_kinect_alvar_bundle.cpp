@@ -275,6 +275,28 @@ int InferCorners(const ARCloud &cloud, MultiMarkerBundle &master, ARCloud &bund_
   return 0;
 }
 
+bool isCornerNaN(const ARPoint &point)
+{
+  return isnan(point.x) || isnan(point.y) || isnan(point.z);
+}
+
+int *getTwoValidPoints(const ARCloud &corners_3D, int *dir1, int *dir2)
+{
+  if(isCornerNaN(corners_3D[dir1[0]]) || isCornerNaN(corners_3D[dir1[1]]))
+  {
+    if(isCornerNaN(corners_3D[dir2[0]]) || isCornerNaN(corners_3D[dir2[1]]))
+    {
+      return NULL;
+    }
+    else{
+      return dir2;
+    } 
+  }
+  else{
+    return dir1;
+  }
+}
+
 
 int PlaneFitPoseImprovement(int id, const ARCloud &corners_3D, ARCloud::Ptr selected_points, const ARCloud &cloud, Pose &p){
 
@@ -283,66 +305,25 @@ int PlaneFitPoseImprovement(int id, const ARCloud &corners_3D, ARCloud::Ptr sele
   pose.header.stamp = pcl_conversions::fromPCL(cloud.header).stamp;
   pose.header.frame_id = cloud.header.frame_id;
   pose.pose.position = ata::centroid(*res.inliers);
-
-  draw3dPoints(selected_points, cloud.header.frame_id, 1, id, 0.005);
-    
+ 
   //Get 2 points that point forward in marker x direction   
-  int i1,i2;
-  if(isnan(corners_3D[0].x) || isnan(corners_3D[0].y) || isnan(corners_3D[0].z) || 
-     isnan(corners_3D[3].x) || isnan(corners_3D[3].y) || isnan(corners_3D[3].z))
-    {
-      if(isnan(corners_3D[1].x) || isnan(corners_3D[1].y) || isnan(corners_3D[1].z) || 
-   isnan(corners_3D[2].x) || isnan(corners_3D[2].y) || isnan(corners_3D[2].z))
+  int *xPoints = getTwoValidPoints(corners_3D, new int[2]{0,3}, new int[2]{1,2});
+  int *yPoints = getTwoValidPoints(corners_3D, new int[2]{1,0}, new int[2]{2,3});  
+  
+  if (!xPoints || !yPoints)
   {
     return -1;
   }
-      else{
-  i1 = 1;
-  i2 = 2;
-      } 
-    }
-  else{
-    i1 = 0;
-    i2 = 3;
-  }
+  int i1 = xPoints[0], i2 = xPoints[1];
+  int i3 = yPoints[0], i4 = yPoints[1];
 
-  //Get 2 points the point forward in marker y direction   
-  int i3,i4;
-  if(isnan(corners_3D[0].x) || isnan(corners_3D[0].y) || isnan(corners_3D[0].z) || 
-     isnan(corners_3D[1].x) || isnan(corners_3D[1].y) || isnan(corners_3D[1].z))
-    {   
-      if(isnan(corners_3D[3].x) || isnan(corners_3D[3].y) || isnan(corners_3D[3].z) || 
-   isnan(corners_3D[2].x) || isnan(corners_3D[2].y) || isnan(corners_3D[2].z))
-  {   
-    return -1;
-  }
-      else{
-  i3 = 2;
-  i4 = 3;
-      } 
-    }
-  else{
-    i3 = 1;
-    i4 = 0;
-  }
-   
-  ARCloud::Ptr orient_points(new ARCloud());
-  orient_points->points.push_back(corners_3D[i1]);
-  draw3dPoints(orient_points, cloud.header.frame_id, 3, id+1000, 0.008);
-      
-  orient_points->clear();
-  orient_points->points.push_back(corners_3D[i2]);
-  draw3dPoints(orient_points, cloud.header.frame_id, 2, id+2000, 0.008);
- 
-  int succ;
-  succ = ata::extractOrientation(res.coeffs, corners_3D[i1], corners_3D[i2], corners_3D[i3], corners_3D[i4], pose.pose.orientation);
+  int succ = 
+    ata::extractOrientation(res.coeffs, corners_3D[i1], corners_3D[i2], corners_3D[i3], corners_3D[i4], pose.pose.orientation);
   if(succ < 0) return -1;
 
   tf::Matrix3x3 mat;
   succ = ata::extractFrame(res.coeffs, corners_3D[i1], corners_3D[i2], corners_3D[i3], corners_3D[i4], mat);
   if(succ < 0) return -1;
-
-  drawArrow(pose.pose.position, mat, cloud.header.frame_id, 1, id);
 
   p.translation[0] = pose.pose.position.x * 100.0;
   p.translation[1] = pose.pose.position.y * 100.0;
