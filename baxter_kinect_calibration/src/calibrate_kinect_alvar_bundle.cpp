@@ -380,38 +380,41 @@ void addTransformToAverage(tf::Transform incoming, std::deque<tf::Transform> &tr
 void getCapCallback (const sensor_msgs::ImageConstPtr & image_msg)
 {
   //If we've already gotten the cam info, then go ahead
-  if(calibratedCam->getCamInfo_){
-    try{
-      //Get the transformation from the Camera to the output frame for this image capture
-      tf::StampedTransform CamToOutput;
-      try{
-        ros::Time now = ros::Time::now();
-  tf_listener->waitForTransform(output_frame, image_msg->header.frame_id, now, ros::Duration(1.0));
-  tf_listener->lookupTransform(output_frame, image_msg->header.frame_id, now, CamToOutput);
-      }
-      catch (tf::TransformException ex){
-  ROS_ERROR("%s",ex.what());
-      }
+  if(!calibratedCam->getCamInfo_){
+    return;
+  }
+   
+  //Get the transformation from the Camera to the output frame for this image capture
+  tf::StampedTransform CamToOutput;
+  try{
+    ros::Time now = ros::Time::now();
+    tf_listener->waitForTransform(output_frame, image_msg->header.frame_id, now, ros::Duration(1.0));
+    tf_listener->lookupTransform(output_frame, image_msg->header.frame_id, now, CamToOutput);
+  }
+  catch (tf::TransformException ex){
+    ROS_ERROR("%s",ex.what());
+  }
 
-      visualization_msgs::Marker rvizMarker;
-      
-      //Convert the image
-      cv_ptr_ = cv_bridge::toCvCopy(image_msg, sensor_msgs::image_encodings::BGR8);
+  visualization_msgs::Marker rvizMarker;
+  
+  //Convert the image
+  try{
+    cv_ptr_ = cv_bridge::toCvCopy(image_msg, sensor_msgs::image_encodings::BGR8);
+  }
+  catch (cv_bridge::Exception& e){
+    ROS_ERROR ("Could not convert from '%s' to 'rgb8'.", image_msg->encoding.c_str ());
+  }
 
-      //Get the estimated pose of the main markers by using all the markers in each bundle
+  //Get the estimated pose of the main markers by using all the markers in each bundle
+  IplImage ipl_image = cv_ptr_->image;
+  GetMultiMarkerPoses(&ipl_image);
 
-      // GetMultiMarkersPoses expects an IplImage*, but as of ros groovy, cv_bridge gives
-      // us a cv::Mat. I'm too lazy to change to cv::Mat throughout right now, so I
-      // do this conversion here -jbinney
-      IplImage ipl_image = cv_ptr_->image;
-      GetMultiMarkerPoses(&ipl_image);
-    
-      //Draw the observed markers that are visible and note which bundles have at least 1 marker seen
-      for(int i=0; i<n_bundles; i++)
-      {
-  bundles_seen[i]++;
-      }
-      for (size_t i=0; i<marker_detector.markers->size(); i++)
+  //Draw the observed markers that are visible and note which bundles have at least 1 marker seen
+  for(int i=0; i<n_bundles; i++)
+  {
+    bundles_seen[i]++;
+  }
+  for (size_t i=0; i<marker_detector.markers->size(); i++)
   {
     int id = (*(marker_detector.markers))[i].GetId();
 
@@ -421,10 +424,10 @@ void getCapCallback (const sensor_msgs::ImageConstPtr & image_msg)
       //Mark the bundle that marker belongs to as "seen"
       for(int j=0; j<n_bundles; j++){
         for(int k=0; k<bundle_indices[j].size(); k++){
-    if(bundle_indices[j][k] == id){
-      bundles_seen[j]++;
-      break;
-    }
+          if(bundle_indices[j][k] == id){
+            bundles_seen[j]++;
+            break;
+          }
         }
       }
 
@@ -440,55 +443,33 @@ void getCapCallback (const sensor_msgs::ImageConstPtr & image_msg)
       }
     }
   }
-      
-      //Draw the main markers, whether they are visible or not -- but only if at least 1 marker from their bundle is currently seen
-      for(int i=0; i<n_bundles; i++)
+  
+  //Draw the main markers, whether they are visible or not -- but only if at least 1 marker from their bundle is currently seen
+  for(int i=0; i<n_bundles; i++)
   {
     if(bundles_seen[i] > 0){
       makeMarkerMsgs(MAIN_MARKER, master_id[i], bundlePoses[i], image_msg, CamToOutput, &rvizMarker);
       rvizMarkerPub_.publish (rvizMarker);
       
-            //Get the pose relative to the camera
-            int id = i;
-            Pose p = bundlePoses[i];
+      //Get the pose relative to the camera
+      int id = i;
 
-            double px = p.translation[0]/100.0;
-            double py = p.translation[1]/100.0;
-            double pz = p.translation[2]/100.0;
-            double qx = p.quaternion[1];
-            double qy = p.quaternion[2];
-            double qz = p.quaternion[3];
-            double qw = p.quaternion[0];
+      tf::Transform t = getTransformFromPose(bundlePoses[i]);
+      tf::Vector3 markerOrigin (0, 0, 0);
+      tf::Transform m (tf::Quaternion::getIdentity (), markerOrigin);
+      tf::Transform markerPose = t * m; // marker pose in the camera frame
 
-            tf::Quaternion rotation (qx,qy,qz,qw);
-            tf::Vector3 origin (px,py,pz);
-            tf::Transform t (rotation, origin);
-            tf::Vector3 markerOrigin (0, 0, 0);
-            tf::Transform m (tf::Quaternion::getIdentity (), markerOrigin);
-            tf::Transform markerPose = t * m; // marker pose in the camera frame
-
-            if (camTransforms.size() <= i)
-            {
-                std::deque<tf::Transform> transformDeque;
-                camTransforms.push_back(transformDeque);
-                tf::Quaternion p (0,0,0,1);
-                tf::Vector3 o (0,0,0);
-                tf::Transform t (p, o);
-                camTransform.push_back(t);
-            }
-            addTransformToAverage(markerPose, camTransforms[i], camTransform[i]);
-
-            std::stringstream out;
-            out << "ar_marker_" << id;
-            std::string markerFrame = out.str();
-            tf::StampedTransform camToMarker (camTransform[i], ros::Time::now(), calibratedFrameID.c_str(), markerFrame);
-            tf_broadcaster->sendTransform(camToMarker);
-            
-          }
-        }
-    }
-    catch (cv_bridge::Exception& e){
-      ROS_ERROR ("Could not convert from '%s' to 'rgb8'.", image_msg->encoding.c_str ());
+      if (camTransforms.size() <= i)
+      {
+          std::deque<tf::Transform> transformDeque;
+          camTransforms.push_back(transformDeque);
+          tf::Quaternion p (0,0,0,1);
+          tf::Vector3 o (0,0,0);
+          tf::Transform t (p, o);
+          camTransform.push_back(t);
+      }
+      addTransformToAverage(markerPose, camTransforms[i], camTransform[i]);
+      broadcastTransform(true, calibratedFrameID.c_str(), id, camTransform[i]);
     }
   }
 }
@@ -496,79 +477,78 @@ void getCapCallback (const sensor_msgs::ImageConstPtr & image_msg)
 //Callback to handle getting kinect point clouds and processing them
 void getPointCloudCallback (const sensor_msgs::PointCloud2ConstPtr &msg)
 {
-  sensor_msgs::ImagePtr image_msg(new sensor_msgs::Image);
-
+  
   //If we've already gotten the cam info, then go ahead
-  if(kinectCam->getCamInfo_){
-    try{
-      //Convert cloud to PCL 
-      ARCloud cloud;
-      pcl::fromROSMsg(*msg, cloud);
-
-      //Get an OpenCV image from the cloud
-      pcl::toROSMsg (*msg, *image_msg);
-      image_msg->header.stamp = msg->header.stamp;
-      image_msg->header.frame_id = msg->header.frame_id;
-            
-      //Convert the image
-      cv_ptr_ = cv_bridge::toCvCopy(image_msg, sensor_msgs::image_encodings::BGR8);
-
-      //Get the estimated pose of the main markers by using all the markers in each bundle
-
-      // GetMultiMarkersPoses expects an IplImage*, but as of ros groovy, cv_bridge gives
-      // us a cv::Mat. I'm too lazy to change to cv::Mat throughout right now, so I
-      // do this conversion here -jbinney
-      IplImage ipl_image = cv_ptr_->image;
-      GetMultiMarkerPoses(&ipl_image, cloud);
-      ros::Time now = ros::Time::now();
-      for (size_t i=0; i<kinect_marker_detector.markers->size(); i++)
-      {
-          int id = (*(kinect_marker_detector.markers))[i].GetId();
-                Pose p = (*(kinect_marker_detector.markers))[i].pose;
-          // Draw if id is valid
-          double px = p.translation[0]/100.0;
-          double py = p.translation[1]/100.0;
-          double pz = p.translation[2]/100.0;
-          double qx = p.quaternion[1];
-          double qy = p.quaternion[2];
-          double qz = p.quaternion[3];
-          double qw = p.quaternion[0];
- 
-          tf::Quaternion rotation (qx, qy, qz, qw);
-          tf::Vector3 origin (px,py,pz);
-          tf::Transform t (rotation, origin);
-          tf::Vector3 markerOrigin (0, 0, 0);
-          tf::Quaternion quat;
-          quat.setRPY(0,0,-3.14159/2.0);
-          tf::Transform m (quat, markerOrigin);
-          tf::Transform markerPose = t * m; // marker pose in the camera frame
-
-          tf::StampedTransform camBaseToCamera;
-          try{
-            
-            tf_listener->waitForTransform(kinectBaseLinkFrameID, image_msg->header.frame_id, now, ros::Duration(1.0));
-            tf_listener->lookupTransform(kinectBaseLinkFrameID, image_msg->header.frame_id, now, camBaseToCamera);
-          }
-          catch (tf::TransformException ex){
-            ROS_ERROR("%s",ex.what());
-          }
-         
-          std::stringstream out;
-          out << "ar_marker_" << id;
-          std::string markerFrame = out.str();
-          tf::Transform linkToMarker = camBaseToCamera * markerPose;
-          addTransformToAverage(linkToMarker.inverse(), kinectTransforms, kinectTransform);
-          tf::StampedTransform markerToCamera (kinectTransform, now, markerFrame, kinectBaseLinkFrameID);
-          tf_broadcaster->sendTransform(markerToCamera);
+  if(!kinectCam->getCamInfo_){
+    ROS_WARN_STREAM("Can't get kinect info on topic " << kinectInfoTopic);
   }
-    }
-    catch (cv_bridge::Exception& e){
-      ROS_ERROR ("ar_track_alvar: Image error: %s", image_msg->encoding.c_str ());
-    }
-  } 
-  else
+
+  //Convert cloud to PCL 
+  ARCloud cloud;
+  pcl::fromROSMsg(*msg, cloud);
+
+  //Get an OpenCV image from the cloud
+  sensor_msgs::ImagePtr image_msg(new sensor_msgs::Image);
+  pcl::toROSMsg (*msg, *image_msg);
+  image_msg->header.stamp = msg->header.stamp;
+  image_msg->header.frame_id = msg->header.frame_id;
+        
+  //Convert the image
+  try
   {
-     ROS_WARN_STREAM("Can't get kinect info on topic " << kinectInfoTopic);
+    cv_ptr_ = cv_bridge::toCvCopy(image_msg, sensor_msgs::image_encodings::BGR8); 
+  }
+  catch (cv_bridge::Exception& e){
+    ROS_ERROR ("ar_track_alvar: Image error: %s", image_msg->encoding.c_str ());
+  }
+
+  //Get the estimated pose of the main markers by using all the markers in each bundle
+
+  // GetMultiMarkersPoses expects an IplImage*, but as of ros groovy, cv_bridge gives
+  // us a cv::Mat. I'm too lazy to change to cv::Mat throughout right now, so I
+  // do this conversion here -jbinney
+  IplImage ipl_image = cv_ptr_->image;
+  GetMultiMarkerPoses(&ipl_image, cloud);
+  ros::Time now = ros::Time::now();
+  for (size_t i=0; i<kinect_marker_detector.markers->size(); i++)
+  {
+    int id = (*(kinect_marker_detector.markers))[i].GetId();
+    Pose p = (*(kinect_marker_detector.markers))[i].pose;
+    // Draw if id is valid
+    double px = p.translation[0]/100.0;
+    double py = p.translation[1]/100.0;
+    double pz = p.translation[2]/100.0;
+    double qx = p.quaternion[1];
+    double qy = p.quaternion[2];
+    double qz = p.quaternion[3];
+    double qw = p.quaternion[0];
+
+    tf::Quaternion rotation (qx, qy, qz, qw);
+    tf::Vector3 origin (px,py,pz);
+    tf::Transform t (rotation, origin);
+    tf::Vector3 markerOrigin (0, 0, 0);
+    tf::Quaternion quat;
+    quat.setRPY(0,0,-3.14159/2.0);
+    tf::Transform m (quat, markerOrigin);
+    tf::Transform markerPose = t * m; // marker pose in the camera frame
+
+    tf::StampedTransform camBaseToCamera;
+    try{
+      
+      tf_listener->waitForTransform(kinectBaseLinkFrameID, image_msg->header.frame_id, now, ros::Duration(1.0));
+      tf_listener->lookupTransform(kinectBaseLinkFrameID, image_msg->header.frame_id, now, camBaseToCamera);
+    }
+    catch (tf::TransformException ex){
+      ROS_ERROR("%s",ex.what());
+    }
+   
+    std::stringstream out;
+    out << "ar_marker_" << id;
+    std::string markerFrame = out.str();
+    tf::Transform linkToMarker = camBaseToCamera * markerPose;
+    addTransformToAverage(linkToMarker.inverse(), kinectTransforms, kinectTransform);
+    tf::StampedTransform markerToCamera (kinectTransform, now, markerFrame, kinectBaseLinkFrameID);
+    tf_broadcaster->sendTransform(markerToCamera);
   }
 }
 
