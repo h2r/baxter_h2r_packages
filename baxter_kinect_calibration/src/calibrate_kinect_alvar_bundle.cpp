@@ -98,183 +98,6 @@ std::deque<std::deque<tf::Transform> > camTransforms;
 std::vector<tf::Transform> camTransform;
 
 
-//Debugging utility function
-void draw3dPoints(ARCloud::Ptr cloud, string frame, int color, int id, double rad)
-{
-  visualization_msgs::Marker rvizMarker;
-
-  rvizMarker.header.frame_id = frame;
-  rvizMarker.header.stamp = ros::Time::now(); 
-  rvizMarker.id = id;
-  rvizMarker.ns = "3dpts";
-  
-  rvizMarker.scale.x = rad;
-  rvizMarker.scale.y = rad;
-  rvizMarker.scale.z = rad;
-  
-  rvizMarker.type = visualization_msgs::Marker::SPHERE_LIST;
-  rvizMarker.action = visualization_msgs::Marker::ADD;
-  
-  if(color==1){
-    rvizMarker.color.r = 0.0f;
-    rvizMarker.color.g = 1.0f;
-    rvizMarker.color.b = 1.0f;
-    rvizMarker.color.a = 1.0;
-  }
-  if(color==2){
-    rvizMarker.color.r = 1.0f;
-    rvizMarker.color.g = 0.0f;
-    rvizMarker.color.b = 1.0f;
-    rvizMarker.color.a = 1.0;
-  }
-  if(color==3){
-    rvizMarker.color.r = 1.0f;
-    rvizMarker.color.g = 1.0f;
-    rvizMarker.color.b = 0.0f;
-    rvizMarker.color.a = 1.0;
-  }
-  
-  gm::Point p;
-  for(int i=0; i<cloud->points.size(); i++){
-    p.x = cloud->points[i].x;
-    p.y = cloud->points[i].y;
-    p.z = cloud->points[i].z;
-    rvizMarker.points.push_back(p);
-  }
-  
-  rvizMarker.lifetime = ros::Duration (1.0);
-  rvizMarkerPub2_.publish (rvizMarker);
-}
-
-
-void drawArrow(gm::Point start, tf::Matrix3x3 mat, string frame, int color, int id)
-{
-  visualization_msgs::Marker rvizMarker;
-  
-  rvizMarker.header.frame_id = frame;
-  rvizMarker.header.stamp = ros::Time::now(); 
-  rvizMarker.id = id;
-  rvizMarker.ns = "arrow";
-  
-  rvizMarker.scale.x = 0.01;
-  rvizMarker.scale.y = 0.01;
-  rvizMarker.scale.z = 0.1;
-  
-  rvizMarker.type = visualization_msgs::Marker::ARROW;
-  rvizMarker.action = visualization_msgs::Marker::ADD;
-  
-  for(int i=0; i<3; i++){
-    rvizMarker.points.clear();  
-    rvizMarker.points.push_back(start);
-    gm::Point end;
-    end.x = start.x + mat[0][i];
-    end.y = start.y + mat[1][i];
-    end.z = start.z + mat[2][i];
-    rvizMarker.points.push_back(end);
-    rvizMarker.id += 10*i;
-    rvizMarker.lifetime = ros::Duration (1.0);
-
-    if(color==1){
-      rvizMarker.color.r = 1.0f;
-      rvizMarker.color.g = 0.0f;
-      rvizMarker.color.b = 0.0f;
-      rvizMarker.color.a = 1.0;
-    }
-    if(color==2){
-      rvizMarker.color.r = 0.0f;
-      rvizMarker.color.g = 1.0f;
-      rvizMarker.color.b = 0.0f;
-      rvizMarker.color.a = 1.0;
-    }
-    if(color==3){
-      rvizMarker.color.r = 0.0f;
-      rvizMarker.color.g = 0.0f;
-      rvizMarker.color.b = 1.0f;
-      rvizMarker.color.a = 1.0;
-    }
-    color += 1;
-
-    rvizMarkerPub2_.publish (rvizMarker);
-  }
-}
-
-
-// Infer the master tag corner positons from the other observed tags
-// Also does some of the bookkeeping for tracking that MultiMarker::_GetPose does 
-int InferCorners(const ARCloud &cloud, MultiMarkerBundle &master, ARCloud &bund_corners){
-  bund_corners.clear();
-  bund_corners.resize(4);
-  for(int i=0; i<4; i++){
-    bund_corners[i].x = 0;
-    bund_corners[i].y = 0;
-    bund_corners[i].z = 0;
-  }
-
-  // Reset the marker_status to 1 for all markers in point_cloud for tracking purposes
-  for (size_t i=0; i<master.marker_status.size(); i++) {
-    if (master.marker_status[i] > 0) master.marker_status[i]=1;
-  }
-
-  int n_est = 0;
-
-  // For every detected marker
-  for (size_t i=0; i<kinect_marker_detector.markers->size(); i++)
-    {
-      const Marker* marker = &((*kinect_marker_detector.markers)[i]);
-      int id = marker->GetId();
-      int index = master.get_id_index(id);
-      int mast_id = master.master_id;
-      if (index < 0) continue;
-
-      // But only if we have corresponding points in the pointcloud
-      if (master.marker_status[index] > 0 && marker->valid) {
-        n_est++;
-
-        std::string marker_frame = "ar_marker_";
-        std::stringstream mark_out;
-        mark_out << id;
-        std::string id_string = mark_out.str();
-        marker_frame += id_string;
-
-        //Grab the precomputed corner coords and correct for the weird Alvar coord system
-        for(int j = 0; j < 4; ++j)
-        {
-            tf::Vector3 corner_coord = master.rel_corners[index][j];
-            gm::PointStamped p, output_p;
-            p.header.frame_id = marker_frame;
-            p.point.x = corner_coord.y()/100.0;  
-            p.point.y = -corner_coord.x()/100.0;
-            p.point.z = corner_coord.z()/100.0;
-            
-            try{
-                tf_listener->waitForTransform(cloud.header.frame_id, marker_frame, ros::Time(0), ros::Duration(0.1));
-                tf_listener->transformPoint(cloud.header.frame_id, p, output_p);      
-            }
-            catch (tf::TransformException ex){
-                ROS_ERROR("ERROR InferCorners: %s",ex.what());
-                return -1;
-            }
-
-            bund_corners[j].x += output_p.point.x;
-            bund_corners[j].y += output_p.point.y;
-            bund_corners[j].z += output_p.point.z;
-        }
-        master.marker_status[index] = 2; // Used for tracking
-      }
-    }
-  
-  //Divide to take the average of the summed estimates
-  if(n_est > 0){
-    for(int i=0; i<4; i++){
-        bund_corners[i].x /= n_est;
-        bund_corners[i].y /= n_est;
-        bund_corners[i].z /= n_est;
-    }
-  }
-
-  return 0;
-}
-
 bool isCornerNaN(const ARPoint &point)
 {
   return isnan(point.x) || isnan(point.y) || isnan(point.z);
@@ -296,7 +119,6 @@ int *getTwoValidPoints(const ARCloud &corners_3D, int *dir1, int *dir2)
     return dir1;
   }
 }
-
 
 int PlaneFitPoseImprovement(int id, const ARCloud &corners_3D, ARCloud::Ptr selected_points, const ARCloud &cloud, Pose &p){
 
@@ -336,6 +158,31 @@ int PlaneFitPoseImprovement(int id, const ARCloud &corners_3D, ARCloud::Ptr sele
   return 0;
 }
 
+void inferCorners()
+{
+  //For each master tag, infer the 3D position of its corners from other visible tags
+    //Then, do a plane fit to those new corners     
+  ARCloud inferred_corners;
+  for(int i=0; i<n_bundles; i++)
+  {
+    if(bundles_seen[i] > 0){
+      for (size_t j=0; j<marker_detector.markers->size(); j++){
+        Marker *m = &((*marker_detector.markers)[j]);                     
+          if(m->GetId() == master_id[i])
+            bundlePoses[i] = m->pose;
+      } 
+
+      if(med_filt_size > 0)
+      {
+          Pose ret_pose;
+          med_filts[i]->addPose(bundlePoses[i]);
+          med_filts[i]->getMedian(ret_pose);
+          kinectBundlePoses[i] = ret_pose;
+      }   
+    }
+  }   
+}
+
 // Updates the bundlePoses of the multi_marker_bundles by detecting markers and using all markers in a bundle to infer the master tag's position
 void GetMultiMarkerPoses(IplImage *image) {
 
@@ -359,13 +206,11 @@ void GetMultiMarkerPoses(IplImage *image, ARCloud &cloud) {
   if (kinect_marker_detector.Detect(image, kinectCam, true, false, max_new_marker_error,
            max_track_error, CVSEQ, true)) 
     {
-      //printf("\n--------------------------\n\n");
       for (size_t i=0; i<kinect_marker_detector.markers->size(); i++)
       {
       vector<cv::Point, Eigen::aligned_allocator<cv::Point> > pixels;
       Marker *m = &((*kinect_marker_detector.markers)[i]);
       int id = m->GetId();
-      
             
       //Get the 3D inner corner points - more stable than outer corners that can "fall off" object
       int resol = m->GetRes();
@@ -400,25 +245,7 @@ void GetMultiMarkerPoses(IplImage *image, ARCloud &cloud) {
       m->valid = (ret >= 0);
     } 
 
-    //For each master tag, infer the 3D position of its corners from other visible tags
-    //Then, do a plane fit to those new corners     
-    ARCloud inferred_corners;
-    for(int i=0; i<n_bundles; i++){
-      if(bundles_seen[i] > 0){
-        for (size_t j=0; j<marker_detector.markers->size(); j++){
-            Marker *m = &((*marker_detector.markers)[j]);                     
-            if(m->GetId() == master_id[i])
-                bundlePoses[i] = m->pose;
-        } 
-
-        Pose ret_pose;
-        if(med_filt_size > 0){
-            med_filts[i]->addPose(bundlePoses[i]);
-            med_filts[i]->getMedian(ret_pose);
-            kinectBundlePoses[i] = ret_pose;
-        }   
-      }   
-    }
+    inferCorners();
   }
 }
 
