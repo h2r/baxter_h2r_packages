@@ -341,6 +341,21 @@ void makeMarkerMsgs(int type, int id, Pose &p, sensor_msgs::ImageConstPtr image_
 }
 
 
+bool isIdentityTransform(tf::Transform &transform)
+{
+  tf::Quaternion quat = transform.getRotation();
+  tf::Vector3 vec = transform.getOrigin();
+  if (quat.x() != 0.0 || quat.y() != 0.0 || quat.z() != 0.0 || quat.w() != 1.0)
+  {
+    return false;
+  }
+  if (vec.x() != 0.0 || vec.y() != 0.0 || quat.z() != 0.0)
+  {
+    return false;
+  }
+  return true;
+}
+
 // TODO cleanup
 void addTransformToAverage(tf::Transform incoming, std::deque<tf::Transform> &transforms, tf::Transform &transform)
 {
@@ -355,7 +370,7 @@ void addTransformToAverage(tf::Transform incoming, std::deque<tf::Transform> &tr
   tf::Quaternion quat = transform.getRotation();
   tf::Vector3 vec = transform.getOrigin();
   
-  if (n > 10)
+  if (n > 1000)
   {
     double t = 1.0 / (n - 1);
     tf::Transform outgoing = transforms.front();
@@ -363,15 +378,18 @@ void addTransformToAverage(tf::Transform incoming, std::deque<tf::Transform> &tr
 
     tf::Quaternion oQuat = outgoing.getRotation();
     tf::Vector3 oVec = outgoing.getOrigin();
-       
+    
+    quat.slerp(oQuat.inverse(), t);
     vec = (1+t) * vec - t * oVec;
     n--;
   }
   double t = 1.0 / (n-1);
-  ROS_INFO_STREAM("t: " << t);
+  //ROS_INFO_STREAM("t: " << t);
   tf::Quaternion iQuat = incoming.getRotation();
   tf::Vector3 iVec = incoming.getOrigin();
 
+  //ROS_INFO_STREAM("ivec: <" << iVec.x()<< ", " << iVec.y() << ", " << iVec.z() << ">");  
+  //ROS_INFO_STREAM("iquat: <" << iQuat.x()<< ", " << iQuat.y() << ", " << iQuat.z() << ", " << iQuat.w() << ">");
   transform.setOrigin((1 - t) * vec + t * iVec);
   transform.setRotation(quat.slerp(iQuat, t));
 }
@@ -470,8 +488,11 @@ void getCapCallback (const sensor_msgs::ImageConstPtr & image_msg)
           tf::Transform t (p, o);
           camTransform.push_back(t);
       }
-      addTransformToAverage(markerPose, camTransforms[i], camTransform[i]);
-      broadcastTransform(true, calibratedFrameID.c_str(), id, camTransform[i]);
+      if (!isIdentityTransform(markerPose))
+      {
+        addTransformToAverage(markerPose, camTransforms[i], camTransform[i]);
+        broadcastTransform(true, calibratedFrameID.c_str(), id, markerPose);
+      }     
     }
   }
 }
@@ -539,8 +560,11 @@ void getPointCloudCallback (const sensor_msgs::PointCloud2ConstPtr &msg)
     }
    
     tf::Transform linkToMarker = camBaseToCamera * markerPose;
-    addTransformToAverage(linkToMarker.inverse(), kinectTransforms, kinectTransform);
-    broadcastTransform(false, kinectBaseLinkFrameID, id, kinectTransform);
+    if (!isIdentityTransform(markerPose))
+    {
+      addTransformToAverage(linkToMarker.inverse(), kinectTransforms, kinectTransform);
+      broadcastTransform(false, kinectBaseLinkFrameID, id, linkToMarker.inverse());
+    }  
   }
 }
 
