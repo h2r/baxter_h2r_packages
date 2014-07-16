@@ -295,7 +295,7 @@ void makeMarkerMsgs(int type, int id, Pose &p, sensor_msgs::ImageConstPtr image_
     std::stringstream out;
     out << "ar_marker_" << id;
     tf::StampedTransform camToMarker (t, ros::Time::now(), image_msg->header.frame_id, out.str().c_str());
-    //tf_broadcaster->sendTransform(camToMarker);
+    tf_broadcaster->sendTransform(camToMarker);
   }
 
   //Create the rviz visualization message
@@ -340,6 +340,7 @@ void makeMarkerMsgs(int type, int id, Pose &p, sensor_msgs::ImageConstPtr image_
   rvizMarker->lifetime = ros::Duration (1.0);
 }
 
+<<<<<<< HEAD
 
 bool isIdentityTransform(tf::Transform &transform)
 {
@@ -392,6 +393,41 @@ void addTransformToAverage(tf::Transform incoming, std::deque<tf::Transform> &tr
   //ROS_INFO_STREAM("iquat: <" << iQuat.x()<< ", " << iQuat.y() << ", " << iQuat.z() << ", " << iQuat.w() << ">");
   transform.setOrigin((1 - t) * vec + t * iVec);
   transform.setRotation(quat.slerp(iQuat, t));
+=======
+void addTransformToAverage(tf::Transform incoming, std::deque<tf::Transform> &transforms, tf::Transform &transform)
+{
+    transforms.push_back(incoming); 
+    int n = transforms.size();
+    if (n <=1)
+    {
+         transform = tf::Transform(incoming);
+         return;
+    }
+    tf::Quaternion quat = transform.getRotation();
+    tf::Vector3 vec = transform.getOrigin();
+    
+    if (n > 100)
+    {
+        double t = 1.0 / (n - 1);
+        tf::Transform outgoing = transforms.front();
+        transforms.pop_front();
+
+        tf::Quaternion oQuat = outgoing.getRotation();
+        tf::Vector3 oVec = outgoing.getOrigin();
+           
+        
+        vec = (1+t) * vec - t * oVec;
+        n--;
+    }
+    double t = 1.0 / (n-1);
+    
+    
+    tf::Quaternion iQuat = incoming.getRotation();
+    tf::Vector3 iVec = incoming.getOrigin();
+
+    transform.setOrigin((1 - t) * vec + t * iVec);
+    transform.setRotation(quat.slerp(iQuat, t));
+>>>>>>> parent of c7a0223... calibration working with averaging, but a bug with the size of filter exists
 }
 
 
@@ -471,14 +507,13 @@ void getCapCallback (const sensor_msgs::ImageConstPtr & image_msg)
       rvizMarkerPub_.publish (rvizMarker);
       
       //Get the pose relative to the camera
-      int id = master_id[i];
+      int id = i;
 
       tf::Transform t = getTransformFromPose(bundlePoses[i]);
       tf::Vector3 markerOrigin (0, 0, 0);
-      tf::Transform m (tf::Quaternion::getIdentity(), markerOrigin);
+      tf::Transform m (tf::Quaternion::getIdentity (), markerOrigin);
       tf::Transform markerPose = t * m; // marker pose in the camera frame
 
-      //TODO What's going on here
       if (camTransforms.size() <= i)
       {
           std::deque<tf::Transform> transformDeque;
@@ -500,6 +535,7 @@ void getCapCallback (const sensor_msgs::ImageConstPtr & image_msg)
 //Callback to handle getting kinect point clouds and processing them
 void getPointCloudCallback (const sensor_msgs::PointCloud2ConstPtr &msg)
 {
+  
   //If we've already gotten the cam info, then go ahead
   if(!kinectCam->getCamInfo_){
     ROS_WARN_STREAM("Can't get kinect info on topic " << kinectInfoTopic);
@@ -531,15 +567,6 @@ void getPointCloudCallback (const sensor_msgs::PointCloud2ConstPtr &msg)
   for (size_t i=0; i<kinect_marker_detector.markers->size(); i++)
   {
     int id = (*(kinect_marker_detector.markers))[i].GetId();
-    
-    bool stop = true;
-    for(int j=0; j<n_bundles; j++){
-        if(id == master_id[j]) stop = false;
-      }
-    if (stop)
-    {
-      continue;
-    }
     Pose p = (*(kinect_marker_detector.markers))[i].pose;
     
     tf::Transform t = getTransformFromPose(p);
@@ -560,11 +587,16 @@ void getPointCloudCallback (const sensor_msgs::PointCloud2ConstPtr &msg)
     }
    
     tf::Transform linkToMarker = camBaseToCamera * markerPose;
+<<<<<<< HEAD
     if (!isIdentityTransform(markerPose))
     {
       addTransformToAverage(linkToMarker.inverse(), kinectTransforms, kinectTransform);
       broadcastTransform(false, kinectBaseLinkFrameID, id, linkToMarker.inverse());
     }  
+=======
+    addTransformToAverage(linkToMarker.inverse(), kinectTransforms, kinectTransform);
+    broadcastTransform(false, kinectBaseLinkFrameID, id, linkToMarker.inverse());
+>>>>>>> parent of c7a0223... calibration working with averaging, but a bug with the size of filter exists
   }
 }
 
