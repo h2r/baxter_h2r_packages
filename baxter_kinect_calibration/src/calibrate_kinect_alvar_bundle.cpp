@@ -249,7 +249,22 @@ void GetMultiMarkerPoses(IplImage *image, ARCloud &cloud) {
   }
 }
 
-void makeMarkerMsgs(int type, int id, Pose &p, sensor_msgs::ImageConstPtr image_msg, tf::StampedTransform &CamToOutput, visualization_msgs::Marker *rvizMarker, ar_track_alvar::AlvarMarker *ar_pose_marker){
+void broadcastTransform(bool calibrated, std::string sensorFrame, int id, tf::Transform t)
+{
+  std::stringstream out;
+  out << "ar_marker_" << id;
+  std::string markerFrame = out.str();
+
+  std::string parentFrame = (calibrated) ? sensorFrame : markerFrame;
+  std::string childFrame = (calibrated) ? markerFrame : sensorFrame;
+
+  tf::StampedTransform camToMarker (t, ros::Time::now(), parentFrame, childFrame);
+  tf_broadcaster->sendTransform(camToMarker);
+  ROS_INFO_STREAM("Publishing transform from " << parentFrame << " to " << childFrame);
+}
+
+tf::Transform getTransformFromPose(Pose &p)
+{
   double px,py,pz,qx,qy,qz,qw;
   
   px = p.translation[0]/100.0;
@@ -264,6 +279,12 @@ void makeMarkerMsgs(int type, int id, Pose &p, sensor_msgs::ImageConstPtr image_
   tf::Quaternion rotation (qx,qy,qz,qw);
   tf::Vector3 origin (px,py,pz);
   tf::Transform t (rotation, origin);  //transform from cam to marker
+  return t;
+}
+
+void makeMarkerMsgs(int type, int id, Pose &p, sensor_msgs::ImageConstPtr image_msg, tf::StampedTransform &CamToOutput, visualization_msgs::Marker *rvizMarker){
+  
+  tf::Transform t = getTransformFromPose(p);  //transform from cam to marker
 
   tf::Vector3 markerOrigin (0, 0, 0);
   tf::Transform m (tf::Quaternion::getIdentity (), markerOrigin);
@@ -271,12 +292,9 @@ void makeMarkerMsgs(int type, int id, Pose &p, sensor_msgs::ImageConstPtr image_
 
   //Publish the cam to marker transform for main marker in each bundle
   if(type==MAIN_MARKER){
-    std::string markerFrame = "ar_marker_";
     std::stringstream out;
-    out << id;
-    std::string id_string = out.str();
-    markerFrame += id_string;
-    tf::StampedTransform camToMarker (t, ros::Time::now(), image_msg->header.frame_id, markerFrame.c_str());
+    out << "ar_marker_" << id;
+    tf::StampedTransform camToMarker (t, ros::Time::now(), image_msg->header.frame_id, out.str().c_str());
     tf_broadcaster->sendTransform(camToMarker);
   }
 
@@ -320,20 +338,6 @@ void makeMarkerMsgs(int type, int id, Pose &p, sensor_msgs::ImageConstPtr image_
   }
 
   rvizMarker->lifetime = ros::Duration (1.0);
-
-  // Only publish the pose of the master tag in each bundle, since that's all we really care about aside from visualization 
-  if(type==MAIN_MARKER){
-    //Take the pose of the tag in the camera frame and convert to the output frame (usually torso_lift_link for the PR2)
-    tf::Transform tagPoseOutput = CamToOutput * markerPose;
-
-    //Create the pose marker message
-    tf::poseTFToMsg (tagPoseOutput, ar_pose_marker->pose.pose);
-    ar_pose_marker->header.frame_id = output_frame;
-    ar_pose_marker->header.stamp = image_msg->header.stamp;
-    ar_pose_marker->id = id;
-  }
-  else
-    ar_pose_marker = NULL;
 }
 
 void addTransformToAverage(tf::Transform incoming, std::deque<tf::Transform> &transforms, tf::Transform &transform)
@@ -390,7 +394,6 @@ void getCapCallback (const sensor_msgs::ImageConstPtr & image_msg)
       }
 
       visualization_msgs::Marker rvizMarker;
-      ar_track_alvar::AlvarMarker ar_pose_marker;
       
       //Convert the image
       cv_ptr_ = cv_bridge::toCvCopy(image_msg, sensor_msgs::image_encodings::BGR8);
@@ -432,7 +435,7 @@ void getCapCallback (const sensor_msgs::ImageConstPtr & image_msg)
       }
       if(should_draw){
         Pose p = (*(marker_detector.markers))[i].pose;
-        makeMarkerMsgs(VISIBLE_MARKER, id, p, image_msg, CamToOutput, &rvizMarker, &ar_pose_marker);
+        makeMarkerMsgs(VISIBLE_MARKER, id, p, image_msg, CamToOutput, &rvizMarker);
         rvizMarkerPub_.publish (rvizMarker);
       }
     }
@@ -442,7 +445,7 @@ void getCapCallback (const sensor_msgs::ImageConstPtr & image_msg)
       for(int i=0; i<n_bundles; i++)
   {
     if(bundles_seen[i] > 0){
-      makeMarkerMsgs(MAIN_MARKER, master_id[i], bundlePoses[i], image_msg, CamToOutput, &rvizMarker, &ar_pose_marker);
+      makeMarkerMsgs(MAIN_MARKER, master_id[i], bundlePoses[i], image_msg, CamToOutput, &rvizMarker);
       rvizMarkerPub_.publish (rvizMarker);
       
             //Get the pose relative to the camera
