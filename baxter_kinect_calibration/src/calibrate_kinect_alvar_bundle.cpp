@@ -716,7 +716,10 @@ void getCapCallback (const sensor_msgs::ImageConstPtr & image_msg)
             }
             addTransformToAverage(markerPose, camTransforms[i], camTransform[i]);
 
-            tf::StampedTransform camToMarker (camTransform[i], ros::Time::now(), calibratedFrameID.c_str(), "ar_marker_5");
+            std::stringstream out;
+            out << "ar_marker_" << id;
+            std::string markerFrame = out.str();
+            tf::StampedTransform camToMarker (camTransform[i], ros::Time::now(), calibratedFrameID.c_str(), markerFrame);
             tf_broadcaster->sendTransform(camToMarker);
             
           }
@@ -727,29 +730,6 @@ void getCapCallback (const sensor_msgs::ImageConstPtr & image_msg)
     }
   }
 }
-
-void writeFile(ros::Time stamp)
-{
-    tf::StampedTransform t;
-    try{
-        tf_listener->waitForTransform(output_frame, kinectBaseLinkFrameID, ros::Time(0), ros::Duration(1.0));
-        tf_listener->lookupTransform(output_frame, kinectBaseLinkFrameID, ros::Time(0), t);
-    }
-    catch (tf::TransformException ex){
-       ROS_ERROR("%s",ex.what());
-    }
-    tf::Vector3 vec = t.getOrigin();
-    tf::Quaternion quat = t.getRotation();
-    std::ofstream file;
-    file.open(launchFileName.c_str());
-    file << "<launch>\n"
-         << "  <node pkg=\"tf\" type=\"static_transform_publisher\" name=\"kinectTransformer\" \n"
-         << "      args=\"" << vec.x() << " " << vec.y() << " " << vec.z() << " " 
-         << quat.x() << " " << quat.y() << " " << quat.z() << " " << quat.w() << "\"/>\n"
-         << "</launch>";
-    file.close();
-}
-
 
 //Callback to handle getting kinect point clouds and processing them
 void getPointCloudCallback (const sensor_msgs::PointCloud2ConstPtr &msg)
@@ -780,11 +760,11 @@ void getPointCloudCallback (const sensor_msgs::PointCloud2ConstPtr &msg)
       GetMultiMarkerPoses(&ipl_image, cloud);
       ros::Time now = ros::Time::now();
       for (size_t i=0; i<kinect_marker_detector.markers->size(); i++)
-  {
-    int id = (*(kinect_marker_detector.markers))[i].GetId();
-          Pose p = (*(kinect_marker_detector.markers))[i].pose;
-    // Draw if id is valid
-    double px = p.translation[0]/100.0;
+      {
+          int id = (*(kinect_marker_detector.markers))[i].GetId();
+                Pose p = (*(kinect_marker_detector.markers))[i].pose;
+          // Draw if id is valid
+          double px = p.translation[0]/100.0;
           double py = p.translation[1]/100.0;
           double pz = p.translation[2]/100.0;
           double qx = p.quaternion[1];
@@ -811,12 +791,14 @@ void getPointCloudCallback (const sensor_msgs::PointCloud2ConstPtr &msg)
             ROS_ERROR("%s",ex.what());
           }
          
+          std::stringstream out;
+          out << "ar_marker_" << id;
+          std::string markerFrame = out.str();
           tf::Transform linkToMarker = camBaseToCamera * markerPose;
           addTransformToAverage(linkToMarker.inverse(), kinectTransforms, kinectTransform);
-          tf::StampedTransform markerToCamera (kinectTransform, now, "ar_marker_5", kinectBaseLinkFrameID);
+          tf::StampedTransform markerToCamera (kinectTransform, now, markerFrame, kinectBaseLinkFrameID);
           tf_broadcaster->sendTransform(markerToCamera);
   }
-         writeFile(now);
     }
     catch (cv_bridge::Exception& e){
       ROS_ERROR ("ar_track_alvar: Image error: %s", image_msg->encoding.c_str ());
