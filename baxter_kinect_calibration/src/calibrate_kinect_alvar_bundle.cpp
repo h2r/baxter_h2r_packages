@@ -492,7 +492,7 @@ void getCapCallback (const sensor_msgs::ImageConstPtr & image_msg)
       if (!isIdentityTransform(markerPose))
       {
         addTransformToAverage(markerPose, camTransforms[i], camTransform[i]);
-        broadcastTransform(true, calibratedFrameID.c_str(), id, markerPose);
+        broadcastTransform(true, calibratedFrameID.c_str(), id, camTransform[i]);
       }     
     }
   }
@@ -564,7 +564,7 @@ void getPointCloudCallback (const sensor_msgs::PointCloud2ConstPtr &msg)
     if (!isIdentityTransform(markerPose))
     {
       addTransformToAverage(linkToMarker.inverse(), kinectTransforms, kinectTransform);
-      broadcastTransform(false, kinectBaseLinkFrameID, id, linkToMarker.inverse());
+      broadcastTransform(false, kinectBaseLinkFrameID, id, kinectTransform);
     }  
   }
 }
@@ -723,35 +723,6 @@ int main(int argc, char *argv[])
     }
     else{
       cout<<"Cannot load file "<< argv[i + n_args_before_list] << endl; 
-      return 0;
-    }   
-  }  
-
-  // Set up camera, listeners, and broadcasters
-  kinectCam = new Camera(n, kinectInfoTopic);
-  calibratedCam = new Camera(n, calibratedInfoTopic);
-  tf_listener = new tf::TransformListener(n);
-  tf_broadcaster = new tf::TransformBroadcaster();
-  rvizMarkerPub_ = n.advertise < visualization_msgs::Marker > ("visualization_marker", 0);
-  rvizMarkerPub2_ = n.advertise < visualization_msgs::Marker > ("visualization_marker_calibrated", 0);
-  
-  //Give tf a chance to catch up before the camera callback starts asking for transforms
-  ros::Duration(1.0).sleep();
-  ros::spinOnce();      
-   
-  //Subscribe to topics and set up callbacks
-  ROS_INFO_STREAM ("Subscribing to kinect image topic '" << kinectImageTopic << "'");
-  cloud_sub_ = n.subscribe(kinectImageTopic, 1, &getPointCloudCallback);
-
-  image_transport::ImageTransport it_(n);
-//Subscribe to topics and set up callbacks
-  ROS_INFO_STREAM ("Subscribing to calibrated image topic '" << calibratedImageTopic << "'");
-  calibratedSub_ = it_.subscribe(calibratedImageTopic, 1, &getCapCallback);
-
-  ros::spin();
-
-  return 0;
-}"<< argv[i + n_args_before_list] << endl; 
       return 0;
     }   
   }  
