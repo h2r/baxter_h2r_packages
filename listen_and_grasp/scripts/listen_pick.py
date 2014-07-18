@@ -50,18 +50,20 @@ import geometry_msgs.msg
 import baxter_interface
 import genpy
 import random
+import traceback
 import math
 
 
 ## END_SUB_TUTORIAL
 
-from std_msgs.msg import String
+from std_msgs.msg import String, Header
 from geometry_msgs.msg import PoseStamped
 from trajectory_msgs.msg import JointTrajectoryPoint
 from moveit_msgs.msg import Grasp
 from object_recognition_msgs.msg import RecognizedObjectArray
 from tf import TransformListener, LookupException, ConnectivityException, ExtrapolationException
 from move_msgs.msg import moveAction, moveRegion
+from baxter_core_msgs.srv import SolvePositionIK, SolvePositionIKRequest
 #from meldon_detection.msg import MarkerObjectArray, MarkerObject
 from baxter_grasps_server.srv import GraspService
 
@@ -70,6 +72,7 @@ from visualization_msgs.msg import Marker
 class Pick:
 	def __init__(self):
 		self.objects = []
+		self.iksvc = None
 		self.object_bounding_boxes = dict()
 		self.objectPoses = dict()
 		self.graspService = rospy.ServiceProxy('grasp_service', GraspService)
@@ -159,15 +162,19 @@ class Pick:
 		for object in self.objects:
 			self.scene.remove_world_object(object)
 		self.objects = []
-		rospy.loginfo(str(self.objectPoses))
 		self.objectPoses = dict()
 		self.object_bounding_boxes = dict()
 		for object in msg.objects:
-			self.objects.append(object.type.key)
 			newPose = self.getPoseStampedFromPoseWithCovariance(object.pose)
-			self.objectPoses[object.type.key] = newPose
-			self.addBoundingBoxAtPose(object.type.key)
-		#self.goToNeutral()
+			x = newPose.pose.position.x
+			y = newPose.pose.position.y
+			z = newPose.pose.position.z
+			
+			if x > 0.3 and y < 0.8 and y > -0.8 and z > -0.3:
+				rospy.loginfo(newPose)
+				self.objects.append(object.type.key)
+				self.objectPoses[object.type.key] = newPose
+				self.addBoundingBoxAtPose(object.type.key)
 
 	def burlapObjectRequestCallback(self, msg):
 		if self.is_picking or self.is_placing:
@@ -195,26 +202,41 @@ class Pick:
 
 		rospy.loginfo("Finding a valid place pose")
 		place_pose = self.getValidPlacePose(msg.region, msg.header.frame_id, object_id)
+		if place_pose == None:
+			rospy.logerror("Place region is invalid")
+			return
+
 		rospy.loginfo("place pose frame id " + str(place_pose.header.frame_id))
 		rospy.loginfo("object pose frame id " + str(self.objectPoses[object_id].header.frame_id))
 		
 		rospy.loginfo("Attempting to pick up object " + object_name)
 		self.is_picking = True
+		pickSuccess = False
 		try:
-			self.pick(object_name, object_id)
-		except Exception, e:
+			pickSuccess = self.pick(object_name, object_id)
+		except Exception as e:
+			traceback.print_exc()
 			raise e
 		finally:
 			self.is_picking = False
-			self.is_placing = True
-		
-		rospy.loginfo("Attempting to place object")
-		try:
-			self.place(object_id, place_pose)
-		except Exception, e:
-			raise e
-		finally:
-			self.is_placing = False
+
+		if not pickSuccess:
+			rospy.logerr("Object pick up failed")
+			return
+
+		self.is_placing = True
+		placeSuccess = False
+		placeCount = 0
+		while not placeSuccess and placeCount < 10:
+			rospy.loginfo("Attempting to place object")
+			placeCount = placeCount + 1
+			try:
+				placeSuccess = self.place(object_id, place_pose)
+			except Exception as e:
+				traceback.print_exc()
+				raise e
+			finally:
+				self.is_placing = False
 		
 
 	def objectRequestCallback(self, msg):
@@ -253,17 +275,20 @@ class Pick:
 		grasps = self.setGrasps(object_id, graspResponse.grasps)
 		self.publishMarkers(grasps, object_name)
 		
-		self.group.pick(object_id, grasps)
+		result = self.group.pick(object_id, grasps * 5)
+		return result
 
 	def place(self, object_id, place_pose):
 		goal_pose = copy.deepcopy(self.objectPoses[object_id])
 		goal_pose.pose.position.x = place_pose.pose.position.x
 		goal_pose.pose.position.y = place_pose.pose.position.y
-		self.group.place(object_id, goal_pose)
+		result = self.group.place(object_id, goal_pose)
+		return result
 
 	def getValidPlacePose(self, move_region, frame_id, object_id):
 		rospy.loginfo("Finding valid open collision region")
 		open_collision_region = self.getOpenCollisionRegion(move_region)
+		rospy.loginfo(str(self.object_bounding_boxes))
 		bounding_box = self.object_bounding_boxes[object_id]
 		bb_width = bounding_box["scale"][0]
 		bb_depth = bounding_box["scale"][1]
@@ -272,12 +297,27 @@ class Pick:
 		collision_map = self.getCollisionMap(open_collision_region, object_id, radius)
 
 		unnocupied_cells = self.getUnnocupiedCells(collision_map)
-		random_place = random.choice(unnocupied_cells)
-		place_pose = PoseStamped()
-		rospy.loginfo("place pose frame id " + str(frame_id))
-		place_pose.header.frame_id = "world"
-		place_pose.pose.position.x = random_place[0] / 100.0 #convert back to meters
-		place_pose.pose.position.y = random_place[1] / 100.0
+
+		solved_joints = None
+		random_place = None
+		while solved_joints is None:
+			rospy.loginfo("number of unnocupied places to try: " + str(len(unnocupied_cells)))
+			if random_place != None:
+				unnocupied_cells.remove(random_place)
+			if len(unnocupied_cells) == 0:
+				return None
+			random_place = random.choice(unnocupied_cells)
+			#rospy.loginfo("unnocupied_cells: " + str(unnocupied_cells))
+			place_pose = PoseStamped()
+			rospy.loginfo("place pose frame id " + str(frame_id))
+			place_pose.header.frame_id = "world"
+			place_pose.pose.position.x = 0.7 + random_place[0] / 1000.0 #convert back to meters
+			place_pose.pose.position.y = 0.3 + random_place[1] / 1000.0
+			place_pose.pose.orientation.y = 0.707
+			place_pose.pose.orientation.w = 0.707
+
+			solved_joints = self.solveIK(place_pose.pose, "left")
+		rospy.loginfo("place pose: " + str(place_pose))
 		return place_pose
 
 	def getUnnocupiedCells(self, collision_map):
@@ -323,10 +363,12 @@ class Pick:
 	def getOpenCollisionRegion(self, move_region):
 		region_width = move_region.scale.x * 100 #convert meters into cm squares
 		region_height = move_region.scale.y * 100
+		region_x = move_region.origin.x
+		region_y = move_region.origin.y
 
 		validity_function = {
-			moveRegion.SHAPE_SQUARE: lambda x, y: math.fabs(x) <= region_width / 2.0 and math.fabs(y) <= region_height,
-			moveRegion.SHAPE_CIRCLE: lambda x, y: x*x / region_width + y*y / region_height <= 1.0
+			moveRegion.SHAPE_SQUARE: lambda x, y: math.fabs(x - region_x) <= region_width / 2.0 and math.fabs(y - region_y) <= region_height,
+			moveRegion.SHAPE_CIRCLE: lambda x, y: (x - region_x)*(x - region_x) / region_width + (y - region_y)*(y - region_y) / region_height <= 1.0
 		}
 
 		isValid = validity_function[move_region.shape]
@@ -377,6 +419,30 @@ class Pick:
 		marker.scale.y = .1
 		marker.scale.z = .1
 		return marker
+
+	def solveIK(self, pose, limb):
+		ns = "/ExternalTools/" + limb + "/PositionKinematicsNode/IKService"
+		if self.iksvc == None:
+			rospy.wait_for_service(ns, 5.0)
+			self.iksvc = rospy.ServiceProxy(ns, SolvePositionIK)
+		ikreq = SolvePositionIKRequest()
+		hdr = Header(stamp=rospy.Time.now(), frame_id='base')
+		goalPose = PoseStamped(header=hdr, pose=pose)
+
+		ikreq.pose_stamp.append(goalPose)
+		try:
+			rospy.loginfo(ikreq)
+			resp = self.iksvc(ikreq)
+		except (rospy.ServiceException, rospy.ROSException), e:
+		    rospy.logerr("Service call failed: %s" % (e,))
+		    return 1
+		if (resp.isValid[0]):
+		    limb_joints = dict(zip(resp.joints[0].name, resp.joints[0].position))
+		    return limb_joints;
+		else:
+		    rospy.logwarn("INVALID POSE - No Valid Joint Solution Found.")
+		    return None
+
 
 
 	def go(self, args):

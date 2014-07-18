@@ -179,6 +179,7 @@ class BaxterProps:
             return limb_joints;
         else:
             print("INVALID POSE - No Valid Joint Solution Found.")
+            return None
 
 
 

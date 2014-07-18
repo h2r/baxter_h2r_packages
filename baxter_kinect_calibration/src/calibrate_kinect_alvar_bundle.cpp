@@ -523,9 +523,9 @@ void getPointCloudCallback (const sensor_msgs::PointCloud2ConstPtr &msg)
   {
     int id = (*(kinect_marker_detector.markers))[i].GetId();
     
-    bool isMaster = true;
+    bool isMaster = false;
     for(int j=0; j<n_bundles; j++){
-      if(id == master_id[j]) isMaster = false;
+      if(id == master_id[j]) isMaster = true;
     }
     if (!isMaster)
     {
