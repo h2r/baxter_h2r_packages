@@ -82,11 +82,11 @@ rosrun pose_feature_vector parseTFToFV.py
 Once run there is a few second delay between when the user is tracked and when data will start to be published (it will print the time remaining). This gives the user a chance to switch from the psi pose into some other pose
 
 There are then two possible scripts that use the feature vector information. One for recording feature vector information to a file. That script is the pose_fv_recorder. It takes two arguments a path to the file where the data will be saved and the "class label" (as an int) of the pose that will be recorded. Once information is published to the pose_feature_vector topic, it will start recording. However, recording to the file is also delayed by a few seconds. This means when you're done making poses you have a few seconds to walk over to the computer and hit cntr-c to kill the recorder so that the last few seconds of you moving to the computer will not be saved. Once you've saved a punch of different poses cat them all into a file to use as training data. The class labels have the following correspondance:
-0: hug
-1: high five
-2: fist bump
-3: null pose
-4: psi pose
+0: null pose
+1: stirring
+2: pouring
+3: mixing
+4: moving
 Example files are in the directory poseData. You should consider using data3_nh.csv. For the example in that file, high fives and fist bumps are always with the right hand.
 
 The other script detect_pose.py takes one argument, the path to a training file, which is turned into a classifier using logistic regression. Once a user is tracked it will classify their pose according the logistic regression. If they hold the pose of a hug, fist bump, or high-five for 15 consecutive refresh cycles, it will cause baxter to enter the behavior for that. Note that you need to have ros pointed to baxter for the behaviors to actually work! Use Stephen's baxter script.
