@@ -49,7 +49,7 @@ def callback(data):
 	global logreg
 	global curr_estimates
 	global prev_estimates
-
+	global pub
 
 	fv = vecSansDistance(data)
 	probabilities = logreg.predict_proba(fv)
@@ -65,7 +65,7 @@ def callback(data):
 	for key in curr_estimates.keys():
 		curr_estimates[key] = curr_estimates[key]/total_prob
 	classid = int(max(curr_estimates, key=lambda x: curr_estimates[x]))
-	className = classToPoseMap[classId]
+	className = classToPoseMap[classid]
 	pub.publish(className)
 	prev_estimates = curr_estimates
 	curr_estimates = dict()
@@ -75,6 +75,7 @@ def main():
 
 	global logreg
 	global prev_estimates
+	global pub
 	rospy.loginfo("Loading classifier")
 	data = np.genfromtxt(sys.argv[1], delimiter=',')
 	X = data[:, 1:]

@@ -83,7 +83,7 @@ Once run there is a few second delay between when the user is tracked and when d
 
 There are then two possible scripts that use the feature vector information. One for recording feature vector information to a file. That script is the pose_fv_recorder. It takes two arguments a path to the file where the data will be saved and the "class label" (as an int) of the pose that will be recorded. Once information is published to the pose_feature_vector topic, it will start recording. However, recording to the file is also delayed by a few seconds. This means when you're done making poses you have a few seconds to walk over to the computer and hit cntr-c to kill the recorder so that the last few seconds of you moving to the computer will not be saved. Once you've saved a punch of different poses cat them all into a file to use as training data. The class labels have the following correspondance:
 0: null pose
-1: stirring
+1: dancing
 2: pouring
 3: mixing
 4: moving
