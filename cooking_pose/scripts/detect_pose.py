@@ -28,7 +28,7 @@ curr_estimates = dict()
 global prev_estimates
 prev_estimates = dict()
 global classToPoseMap
-classToPoseMap = {0: 'null pose', 1: 'stirring', 2: 'passing', 3: 'psi'}
+classToPoseMap = {0: 'null pose', 1: 'stirring', 2: 'pouring', 3: 'mixing', 4: 'moving'}
 
 def vec3ToArray(v3):
 	return [v3.x, v3.y, v3.z]
