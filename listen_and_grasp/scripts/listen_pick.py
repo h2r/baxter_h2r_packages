@@ -52,16 +52,19 @@ import genpy
 import random
 import traceback
 import math
+import actionlib
 
 
 ## END_SUB_TUTORIAL
 
 from std_msgs.msg import String, Header
 from geometry_msgs.msg import PoseStamped
-from trajectory_msgs.msg import JointTrajectoryPoint
+from trajectory_msgs.msg import JointTrajectory, JointTrajectoryPoint
+from control_msgs.msg import FollowJointTrajectoryGoal, FollowJointTrajectoryAction
 from moveit_msgs.msg import Grasp
 from object_recognition_msgs.msg import RecognizedObjectArray
 from tf import TransformListener, LookupException, ConnectivityException, ExtrapolationException
+from tf.transformations import quaternion_from_euler
 from move_msgs.msg import moveAction, moveRegion
 from baxter_core_msgs.srv import SolvePositionIK, SolvePositionIKRequest
 #from meldon_detection.msg import MarkerObjectArray, MarkerObject
@@ -80,6 +83,8 @@ class Pick:
 		self.robot = moveit_commander.RobotCommander()
 		self.group = moveit_commander.MoveGroupCommander("left_arm")
 		self.left_arm = baxter_interface.limb.Limb("left")
+		self.limb_command = actionlib.SimpleActionClient("/robot/left_velocity_trajectory_controller/follow_joint_trajectory", FollowJointTrajectoryAction)
+		self.limb_command.wait_for_server()
 		
 		self.transformer = TransformListener()
 		
@@ -87,20 +92,48 @@ class Pick:
 		self.is_picking = False
 		self.is_placing = False
 
-	def goToNeutral(self):
-		pose_target = geometry_msgs.msg.PoseStamped()
-		pose_target.header.frame_id = "/base"
-		pose_target.pose.orientation.x = 0.
-		pose_target.pose.orientation.y = 0.707
-		pose_target.pose.orientation.z = 0
-		pose_target.pose.orientation.w = 0.707
-		pose_target.pose.position.x = 0.8
-		pose_target.pose.position.y = 0.3
-		pose_target.pose.position.z = 0.11
-		self.group.set_pose_target(pose_target)
-		self.group.plan()
-		self.group.go()
-		
+	def moveToNeutral(self):
+		trajectory = JointTrajectory()
+		trajectory.header.stamp = rospy.Time.now()
+		current_joints = self.left_arm.joint_angles()
+		angles = dict(zip(self.left_arm.joint_names(),
+                          [0.0, -0.55, 0.0, 0.75, 0.0, 1.26, 0.0]))
+		joints = self.interpolate(current_joints, angles)
+		index = 0
+		for joint_dict in joints:
+			point = JointTrajectoryPoint()
+			point.time_from_start = rospy.rostime.Duration(0.015 * index)
+			
+			index += 1
+			for name, angle in joint_dict.iteritems():
+				if (index == 1):
+					trajectory.joint_names.append(name)
+				point.positions.append(angle)
+			trajectory.points.append(point)
+		trajectory.header.stamp = rospy.Time.now() + rospy.rostime.Duration(1.0)
+		goal = FollowJointTrajectoryGoal(trajectory=trajectory)
+		rospy.loginfo("Moving left arm to neutral ")
+		self.limb_command.send_goal(goal)
+		self.limb_command.wait_for_result()
+	
+	def interpolate(self, start, end):
+		joint_arrays = []
+		maxPoints = 2
+		for name in start.keys():
+				if name in end:
+					diff = math.fabs(start[name] - end[name])
+					numPoints = diff / 0.01
+					if numPoints > maxPoints:
+						maxPoints = int(numPoints)
+		for i in range(maxPoints):
+			t = float(i) / maxPoints
+			joints = dict()
+			for name in start.keys():
+				if name in end:
+					current = (1 - t)*start[name] + t * end[name]
+					joints[name] = current
+			joint_arrays.append(joints)
+		return joint_arrays
 
 	def addBoundingBox(self, points, name):
 		minX = sys.float_info.max
@@ -171,7 +204,6 @@ class Pick:
 			z = newPose.pose.position.z
 			
 			if x > 0.3 and y < 0.8 and y > -0.8 and z > -0.3:
-				rospy.loginfo(newPose)
 				self.objects.append(object.type.key)
 				self.objectPoses[object.type.key] = newPose
 				self.addBoundingBoxAtPose(object.type.key)
@@ -201,22 +233,23 @@ class Pick:
 			return
 
 		rospy.loginfo("Finding a valid place pose")
-		place_pose = self.getValidPlacePose(msg.region, msg.header.frame_id, object_id)
-		if place_pose == None:
+		place_poses = self.getValidPlacePoses(msg.region, msg.header.frame_id, object_id)
+		if len(place_poses) == 0:
 			rospy.logerror("Place region is invalid")
 			return
 
-		rospy.loginfo("place pose frame id " + str(place_pose.header.frame_id))
-		rospy.loginfo("object pose frame id " + str(self.objectPoses[object_id].header.frame_id))
-		
 		rospy.loginfo("Attempting to pick up object " + object_name)
 		self.is_picking = True
+		self.moveToNeutral()
 		pickSuccess = False
 		try:
 			pickSuccess = self.pick(object_name, object_id)
 		except Exception as e:
 			traceback.print_exc()
-			raise e
+			if isinstance(e, TypeError):
+				pickSuccess = True
+			else:
+				raise e
 		finally:
 			self.is_picking = False
 
@@ -225,18 +258,19 @@ class Pick:
 			return
 
 		self.is_placing = True
-		placeSuccess = False
-		placeCount = 0
-		while not placeSuccess and placeCount < 10:
-			rospy.loginfo("Attempting to place object")
-			placeCount = placeCount + 1
-			try:
-				placeSuccess = self.place(object_id, place_pose)
-			except Exception as e:
-				traceback.print_exc()
-				raise e
-			finally:
-				self.is_placing = False
+		
+		place_result = False
+		try:
+			for place_pose in place_poses:
+				rospy.loginfo("Attempting to place object")
+				if self.place(object_id, place_pose):
+					break
+		except Exception as e:
+			traceback.print_exc()
+			raise e
+		finally:
+			self.is_placing = False
+			
 		
 
 	def objectRequestCallback(self, msg):
@@ -285,40 +319,45 @@ class Pick:
 		result = self.group.place(object_id, goal_pose)
 		return result
 
-	def getValidPlacePose(self, move_region, frame_id, object_id):
+	def getValidPlacePoses(self, move_region, frame_id, object_id):
 		rospy.loginfo("Finding valid open collision region")
 		open_collision_region = self.getOpenCollisionRegion(move_region)
-		rospy.loginfo(str(self.object_bounding_boxes))
-		bounding_box = self.object_bounding_boxes[object_id]
-		bb_width = bounding_box["scale"][0]
-		bb_depth = bounding_box["scale"][1]
-		bb_height = bounding_box["scale"][2]
-		radius = math.sqrt(bb_width * bb_width + bb_depth * bb_depth)
+		radius = 0.05
+		if object_id in self.object_bounding_boxes:
+			bounding_box = self.object_bounding_boxes[object_id]
+			bb_width = bounding_box["scale"][0]
+			bb_depth = bounding_box["scale"][1]
+			bb_height = bounding_box["scale"][2]
+			radius = math.sqrt(bb_width * bb_width + bb_depth * bb_depth)
 		collision_map = self.getCollisionMap(open_collision_region, object_id, radius)
 
 		unnocupied_cells = self.getUnnocupiedCells(collision_map)
 
 		solved_joints = None
 		random_place = None
-		while solved_joints is None:
+		place_poses = []
+		while len(place_poses) == 0:
 			rospy.loginfo("number of unnocupied places to try: " + str(len(unnocupied_cells)))
 			if random_place != None:
 				unnocupied_cells.remove(random_place)
 			if len(unnocupied_cells) == 0:
 				return None
 			random_place = random.choice(unnocupied_cells)
-			#rospy.loginfo("unnocupied_cells: " + str(unnocupied_cells))
-			place_pose = PoseStamped()
-			rospy.loginfo("place pose frame id " + str(frame_id))
-			place_pose.header.frame_id = "world"
-			place_pose.pose.position.x = 0.7 + random_place[0] / 1000.0 #convert back to meters
-			place_pose.pose.position.y = 0.3 + random_place[1] / 1000.0
-			place_pose.pose.orientation.y = 0.707
-			place_pose.pose.orientation.w = 0.707
 
-			solved_joints = self.solveIK(place_pose.pose, "left")
-		rospy.loginfo("place pose: " + str(place_pose))
-		return place_pose
+			for i in range(36):
+				
+				#rospy.loginfo("unnocupied_cells: " + str(unnocupied_cells))
+				place_pose = PoseStamped()
+				place_pose.header.frame_id = "world"
+				place_pose.pose.position.x = 0.7 + random_place[0] / 1000.0 #convert back to meters
+				place_pose.pose.position.y = 0.3 + random_place[1] / 1000.0
+				quat = quaternion_from_euler(0, math.pi/2.0, i * 2.0 * math.pi / 36.0)
+				place_pose.pose.orientation.x = quat[0]
+				place_pose.pose.orientation.y = quat[1]
+				place_pose.pose.orientation.z = quat[2]
+				place_pose.pose.orientation.w = quat[3]
+				place_poses.append(place_pose)
+		return place_poses
 
 	def getUnnocupiedCells(self, collision_map):
 		unnocupied_cells = []
@@ -449,7 +488,7 @@ class Pick:
 		moveit_commander.roscpp_initialize(args)
 		rospy.Subscriber("/recognized_object_array", RecognizedObjectArray, self.objectsCallback, None, 1)
 		rospy.Subscriber("/move_Actions", moveAction, self.burlapObjectRequestCallback, None, 1)
-
+		self.moveToNeutral()
 		self.addTable()
 		rospy.sleep(5.0)
 		rospy.spin()

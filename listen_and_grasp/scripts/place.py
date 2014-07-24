@@ -116,7 +116,7 @@ class Place:
 					if numPoints > maxPoints:
 						maxPoints = int(numPoints)
 		for i in range(maxPoints):
-			t = i / 100.0
+			t = i / maxPoints
 			joints = dict()
 			for name in start.keys():
 				if name in end:

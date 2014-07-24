@@ -42,7 +42,7 @@
     <include file="$(find baxter_moveit_config)/launch/run.launch"/>
 
     <node name="burlap_planner" pkg="communication" type="pubsub" 
-    	args="com.github.communication.pubsub.Listener"/>
+    	args="com.github.communication.pubsub.Listener" output="screen"/>
 
     <node name="listen_and_pick" pkg="listen_and_grasp" type="listen_pick.py" />
 
