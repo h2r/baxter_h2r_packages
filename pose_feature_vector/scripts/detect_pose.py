@@ -13,7 +13,7 @@ from geometry_msgs.msg import PoseStamped,  Pose, Point, Quaternion, Vector3
 from tf.transformations import quaternion_from_euler
 from pose_feature_vector.msg import PersonFVMsg
 from std_msgs.msg import Header, String
-from baxter_props import BaxterProps
+from baxter_props.baxter_props import BaxterProps
 
 from sklearn import linear_model
 import rospkg
