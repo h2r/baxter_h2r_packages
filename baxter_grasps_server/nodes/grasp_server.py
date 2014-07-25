@@ -36,6 +36,7 @@ class grasp_server:
 		grasps = []
 		for arg in args:
 			grasp = Grasp()
+			arg["id"] = str(arg["id"])
 			genpy.message.fill_message_args(grasp, arg)
 			grasps.append(grasp)
 		return grasps
