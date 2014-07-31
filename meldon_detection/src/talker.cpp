@@ -1,17 +1,33 @@
 //#define DRAW_WHITE
-#define DRAW_ALL_GREEN
+#define DRAW_GREEN
 #define DRAW_BLUE
 #define DRAW_GRAY
 //#define DRAW_RED
+#define DRAW_PINK
 #define DRAW_LABEL
 #define DRAW_ORIENTOR
 
 #define RUN_INFERENCE
 const int k = 1;
 
-//#define PUBLISH_OBJECTS
-
 int numRedBoxes = 5;
+
+//int gBoxThreshMultiplier = 1.1;
+
+double gBoxThresh = 3;
+double pBoxThresh = 5;
+double threshFraction = 0.35;
+double densityPower = 1.0;//1.0/4.0;
+
+// pink box thresholds for the principle classes
+double psPBT = 5.0;
+double wsPBT = 6.5;
+double gbPBT = 6.0;
+double mbPBT = 7.0;
+
+// adjust these to reject blue boxes
+double rejectScale = 2.0;
+double rejectAreaScale = 6*6;
 
 // if you add more examples, you must reload the data for them to 
 //   be taken into account.
@@ -33,8 +49,9 @@ const double grayBlur = 1.0;
 // always increment the prefix so that the next person doesn't overwrite
 //   your examples.  
 char run_prefix[] = "autolearn_16";
-int fcRange = 10;
+int fcRange = 1;
 
+//#define PUBLISH_OBJECTS
 
 #include <dirent.h>
 #include "ros/ros.h"
@@ -55,10 +72,10 @@ int fcRange = 10;
 #include <opencv2/nonfree/nonfree.hpp>
 //#include <opencv2/opencv.hpp>
 
-#include "/home/oberlin/catkin_ws_baxter/src/BING-Objectness-master/Objectness/stdafx.h"
-#include "/home/oberlin/catkin_ws_baxter/src/BING-Objectness-master/Objectness/Objectness.h"
-#include "/home/oberlin/catkin_ws_baxter/src/BING-Objectness-master/Objectness/ValStructVec.h"
-#include "/home/oberlin/catkin_ws_baxter/src/BING-Objectness-master/Objectness/CmShow.h"
+#include "../../../BING-Objectness-master/Objectness/stdafx.h"
+#include "../../../BING-Objectness-master/Objectness/Objectness.h"
+#include "../../../BING-Objectness-master/Objectness/ValStructVec.h"
+#include "../../../BING-Objectness-master/Objectness/CmShow.h"
 
 //KernelDescManager* kdm;
 static unsigned int LOC_MODEL_TYPE=0; //0 or 3
@@ -97,7 +114,7 @@ CvKNearest *kNN;
 
 #define ORIENTATIONS 36 
 #define O_FILTER_WIDTH 25
-#define O_FILTER_SPOON_HEAD_WIDTH 8 
+#define O_FILTER_SPOON_HEAD_WIDTH 6 
 #define O_FILTER_SPOON_SHAFT_WIDTH 1
 Mat *orientedFilters;
 int biggestL1 = 0;
@@ -319,18 +336,18 @@ void imageCallback(const sensor_msgs::ImageConstPtr& msg){
 
   // now update the exponential average of the density
   // and set the density to be a thresholded version of this
-  double threshFraction = 0.35;
+  //double threshFraction = 0.35;
   double maxDensity = 0;
   for (int x = 0; x < imW; x++) {
     for (int y = 0; y < imH; y++) {
       temporalDensity[y*imW+x] = densityDecay*temporalDensity[y*imW+x] + (1.0-densityDecay)*density[y*imW+x];
-      density[y*imW+x] = temporalDensity[y*imW+x];
+      density[y*imW+x] = pow(temporalDensity[y*imW+x], densityPower);
       maxDensity = max(maxDensity, density[y*imW+x]);
     }
   }
   for (int x = 0; x < imW; x++) {
     for (int y = 0; y < imH; y++) {
-      if (density[y*imW+x] < maxDensity * threshFraction)
+      if (density[y*imW+x] < maxDensity* threshFraction)
 	density[y*imW+x] = 0;
     }
   }
@@ -400,11 +417,11 @@ void imageCallback(const sensor_msgs::ImageConstPtr& msg){
   int gBoxH = 10;
   int gBoxStrideX = ceil(float(gBoxW / 2.0));
   int gBoxStrideY = ceil(float(gBoxH / 2.0));
-  double intThresh = 3;
 
   double *gBoxIndicator = new double[imW*imH];
   double *gBoxGrayNodes = new double[imW*imH];
   double *gBoxComponentLabels = new double[imW*imH];
+  double *pBoxIndicator = new double[imW*imH];
 
   vector<cv::Point> cTops; 
   vector<cv::Point> cBots;
@@ -431,14 +448,16 @@ void imageCallback(const sensor_msgs::ImageConstPtr& msg){
       gBoxComponentLabels[y*imW+x] = -1;
       gBoxGrayNodes[y*imW+x] = 0;
       gBoxIndicator[y*imW+x] = 0;
+      pBoxIndicator[y*imW+x] = 0;
 
       double thisIntegral = integralDensity[yb*imW+xb]-integralDensity[yb*imW+xt]-integralDensity[yt*imW+xb]+integralDensity[yt*imW+xt];
-      if (thisIntegral > intThresh) {
+      if (thisIntegral > gBoxThresh) {
 	gBoxIndicator[y*imW+x] = 1;
-#ifdef DRAW_ALL_GREEN
+#ifdef DRAW_GREEN
 	rectangle(cv_ptr->image, thisTop, thisBot, cv::Scalar(0,255,0));
 #endif
       }
+      pBoxIndicator[y*imW+x] = thisIntegral;
 
     }
   }
@@ -515,10 +534,7 @@ void imageCallback(const sensor_msgs::ImageConstPtr& msg){
   vector<int> bHWs;
   vector<int> bHHs;
 
-  double rejectScale = 2.0;
-  double rejectArea = 6*6*gBoxW*gBoxH;
-  double rejectHigh = 70;
-  double rejectLow = imH - 70;
+  double rejectArea = rejectAreaScale*gBoxW*gBoxH;
   for (int c = 0; c < total_components; c++) {
     int allow = 1;
     if (cBots[c].x - cTops[c].x < rejectScale*gBoxW || cBots[c].y - cTops[c].y < rejectScale*gBoxH)
@@ -640,6 +656,35 @@ void imageCallback(const sensor_msgs::ImageConstPtr& msg){
     putText(cv_ptr->image, labelName, text_anchor, MY_FONT, 1.5, Scalar(255,0,0), 2.0);
   #endif
 
+    double thisThresh = pBoxThresh;
+    if (label == 1)
+      thisThresh = gbPBT;
+    if (label == 2)
+      thisThresh = mbPBT;
+    if (label == 3)
+      thisThresh = wsPBT;
+    if (label == 4)
+      thisThresh = psPBT;
+
+    vector<cv::Point> pointCloudPoints;
+    for (int x = bTops[c].x; x <= bBots[c].x-gBoxW; x+=gBoxStrideX) {
+      for (int y = bTops[c].y; y <= bBots[c].y-gBoxH; y+=gBoxStrideY) {
+	int xt = x;
+	int yt = y;
+	int xb = x+gBoxW;
+	int yb = y+gBoxH;
+	cv::Point thisTop(xt,yt);
+	cv::Point thisBot(xb,yb);
+#ifdef DRAW_PINK
+	if (pBoxIndicator[y*imW+x] > thisThresh) {
+	  rectangle(cv_ptr->image, thisTop, thisBot, cv::Scalar(100,100,255));
+	  pointCloudPoints.push_back(cv::Point(x,y));
+	}
+#endif
+      }
+    }
+
+
   #ifdef PUBLISH_OBJECTS
     if (label >= 1 && label <= 4) {
 
@@ -656,16 +701,12 @@ void imageCallback(const sensor_msgs::ImageConstPtr& msg){
       // handle the rotation differently depending on the class
       // if we have a spoon
       if (label == 3 || label == 4) {
-	double theta = (pi / 2.0) + (winningO*2*pi/ORIENTATIONS);
+	double theta = (pi / 2.0) + (winningO*2*pi/ORIENTATIONS)
 	R(0,0) = cos(theta);R(0,1) = -sin(theta);R(0,2) = 0;
 	R(1,0) = sin(theta);R(1,1) =  cos(theta);R(1,2) = 0;
 	R(2,0) = 0;R(2,1) = 0;R(2,2) = 1;
       }
 
-      // XXX determine the x,y,z coordinates of the object from bounding box and point cloud
-      object_pose.position.x = ;
-      object_pose.position.y = ;
-      object_pose.position.z = ;
 
       Eigen::Matrix3f rotation;
       rotation << R(0, 0), R(0, 1), R(0, 2), R(1, 0), R(1, 1), R(1, 2), R(2, 0), R(2, 1), R(2, 2);
@@ -678,11 +719,16 @@ void imageCallback(const sensor_msgs::ImageConstPtr& msg){
       object_pose.orientation.y = objectQuaternion.y;
       object_pose.orientation.z = objectQuaternion.z;
 
+      // XXX fill out the point cloud using the vector<cv::Point>> pointCloudPoints.
+
+      // XXX determine the x,y,z coordinates of the object from the point cloud
+      // this bounding box has top left  bTops[x] and bBots[c]
+      object_pose.position.x = ;
+      object_pose.position.y = ;
+      object_pose.position.z = ;
+
       // XXX form the final message to send
       //to_send.objects.resize(msg.markers.size());
-      // XXX fill out the point cloud
-      //geometry_msgs/Point[] bounding_contours
-
     }
   rec_objs.publish(to_send);
   #endif
@@ -985,6 +1031,7 @@ void imageCallback(const sensor_msgs::ImageConstPtr& msg){
   cv::imshow("Object Viewer", cv_ptr->image);
   cv::imshow("Density Viewer", img_cvt);
 
+  delete pBoxIndicator;
   delete gBoxIndicator;
   delete gBoxGrayNodes;
   delete gBoxComponentLabels;
@@ -1117,7 +1164,7 @@ int main(int argc, char **argv) {
   std::string s;
 
   image_transport::Subscriber image_sub;
-  ros::Subscriber cloud_sub;
+  ros::Subscriber depth_sub;
 
   image_transport::ImageTransport it(n);
   ros::Subscriber clusters = n.subscribe("/tabletop/clusters", 1, clusterCallback);
@@ -1126,7 +1173,7 @@ int main(int argc, char **argv) {
   rec_objs = n.advertise<meldon_detection::RecognizedObjectArray>("labeled_objects", 10);
 
   image_sub = it.subscribe("/camera/rgb/image_raw", 1, imageCallback);
-  cloud_sub = n.subscribe("/camera/depth_registered/points", 1, pointCloudCallback);
+  //depth_sub = it.subscribe("/camera/depth_registered/image_raw", 1, depthCallback);
 
   cv::namedWindow("Object Viewer");
   cv::namedWindow("Density Viewer");
@@ -1141,14 +1188,14 @@ int main(int argc, char **argv) {
   glObjectness = &(objNess);
 
   CvMat* my_matrix;
-  my_matrix = (CvMat*)cvLoad("/home/oberlin/catkin_ws_baxter/src/baxter_h2r_packages/meldon_detection/src/ObjectnessTrainedModel/ObjNessB2W8I.idx.yml");
+  my_matrix = (CvMat*)cvLoad("/home/oberlin/catkin_ws_baxter/src/baxter_h2r_packages/meldon_detection/ObjectnessTrainedModel/ObjNessB2W8I.idx.yml");
   int *data = my_matrix->data.i;
 
   cout << "test" << endl << "test" << data[0] << data[1] << data[2] << data[6] << endl << endl;
 
-  //int result = objNess.loadTrainedModel("/home/oberlin/catkin_ws_baxter/src/baxter_h2r_packages/meldon_detection/src/ObjectnessTrainedModel/ObjNessB2W8I");
-  //int result = objNess.loadTrainedModel("/home/oberlin/catkin_ws_baxter/src/baxter_h2r_packages/meldon_detection/src/ObjectnessTrainedModel/ObjNessB2W8HSV");
-  int result = objNess.loadTrainedModel("/home/oberlin/catkin_ws_baxter/src/baxter_h2r_packages/meldon_detection/src/ObjectnessTrainedModel/ObjNessB2W8MAXBGR");
+  //int result = objNess.loadTrainedModel("/home/oberlin/catkin_ws_baxter/src/baxter_h2r_packages/meldon_detection/ObjectnessTrainedModel/ObjNessB2W8I");
+  //int result = objNess.loadTrainedModel("/home/oberlin/catkin_ws_baxter/src/baxter_h2r_packages/meldon_detection/ObjectnessTrainedModel/ObjNessB2W8HSV");
+  int result = objNess.loadTrainedModel("/home/oberlin/catkin_ws_baxter/src/baxter_h2r_packages/meldon_detection/ObjectnessTrainedModel/ObjNessB2W8MAXBGR");
   cout << "result: " << result << endl << endl;
 
   fc = 0;
@@ -1221,8 +1268,8 @@ int main(int argc, char **argv) {
   kNNGetFeatures(classDir, "woodSpoon", 3, grayBlur, kNNfeatures, kNNlabels);
   kNNGetFeatures(classDir, "plasticSpoon", 4, grayBlur, kNNfeatures, kNNlabels);
   kNNGetFeatures(classDir, "background", 5, grayBlur, kNNfeatures, kNNlabels);
-  kNNGetFeatures(classDir, "human", 6, grayBlur, kNNfeatures, kNNlabels);
-  kNNGetFeatures(classDir, "sippyCup", 7, grayBlur, kNNfeatures, kNNlabels);
+  //kNNGetFeatures(classDir, "human", 6, grayBlur, kNNfeatures, kNNlabels);
+  //kNNGetFeatures(classDir, "sippyCup", 7, grayBlur, kNNfeatures, kNNlabels);
 
   FileStorage fsfO;
   cout<<"Writing features and labels..."<< endl << featuresPath << endl << "...";
