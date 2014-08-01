@@ -58,25 +58,33 @@ double redDecay = 0.7;
 //#define PUBLISH_OBJECTS
 
 #include <dirent.h>
+
 #include "ros/ros.h"
+#include "ros/package.h"
+#include "ros/time.h"
+
 #include "std_msgs/String.h"
-#include <visualization_msgs/MarkerArray.h>
-#include <geometry_msgs/Point.h>
-#include <object_recognition_msgs/RecognizedObjectArray.h>
-#include <object_recognition_msgs/RecognizedObject.h>
+#include "visualization_msgs/MarkerArray.h"
+#include "geometry_msgs/Point.h"
+#include "geometry_msgs/Pose.h"
+#include "object_recognition_msgs/RecognizedObjectArray.h"
+#include "object_recognition_msgs/RecognizedObject.h"
+
 #include <sstream>
+#include <iostream>
 //#include "libkerneldesc.cc"
+
 #include <cv_bridge/cv_bridge.h>
 #include <image_transport/image_transport.h>
 #include <sensor_msgs/image_encodings.h>
-#include <meldon_detection/RecognizedObjectArray.h>
+#include <pcl_ros/point_cloud.h>
+#include <pcl_conversions/pcl_conversions.h>
+
 //#include <cv.h>
 #include <opencv/cv.h>
 #include <opencv/highgui.h>
 #include <opencv2/nonfree/nonfree.hpp>
 //#include <opencv2/opencv.hpp>
-
-#include <ros/package.h>
 
 #include "BING/Objectness/stdafx.h"
 #include "BING/Objectness/Objectness.h"
@@ -119,6 +127,7 @@ std::string class_crops_path;
 std::string models_path;
 std::string objectness_matrix_path;
 std::string trained_model_path;
+std::string saved_crops_path;
 pcl::PointCloud<pcl::PointXYZRGB> pointCloud;
 #define MY_FONT FONT_HERSHEY_PLAIN
 
@@ -152,31 +161,30 @@ void bowGetFeatures(std::string classDir, const char *className, double sigma) {
   sprintf(buf, "%s%s", classDir.c_str(), className);
   dpdf = opendir(buf);
   if (dpdf != NULL){
-     while (epdf = readdir(dpdf)){
-  if (dot.compare(epdf->d_name) && dotdot.compare(epdf->d_name)) {
+    while (epdf = readdir(dpdf)){
+      if (dot.compare(epdf->d_name) && dotdot.compare(epdf->d_name)) {
 
-    vector<KeyPoint> keypoints;
-    Mat descriptors;
+        vector<KeyPoint> keypoints;
+        Mat descriptors;
 
-    char filename[1024];
-    sprintf(filename, "%s%s/%s", classDir.c_str(), className, epdf->d_name);
-    Mat image;
-    image = imread(filename);
-    Mat gray_image;
-    cvtColor(image, gray_image, CV_BGR2GRAY);
-    GaussianBlur(gray_image, gray_image, cv::Size(0,0), sigma);
+        char filename[1024];
+        sprintf(filename, "%s%s/%s", classDir.c_str(), className, epdf->d_name);
+        Mat image;
+        image = imread(filename);
+        Mat gray_image;
+        cvtColor(image, gray_image, CV_BGR2GRAY);
+        GaussianBlur(gray_image, gray_image, cv::Size(0,0), sigma);
 
-    detector->detect(gray_image, keypoints);
-    extractor->compute(gray_image, keypoints, descriptors);
+        detector->detect(gray_image, keypoints);
+        extractor->compute(gray_image, keypoints, descriptors);
 
-    cout << className << ":  "  << epdf->d_name << "  " << descriptors.size() << endl;
+        cout << className << ":  "  << epdf->d_name << "  " << descriptors.size() << endl;
 
-    if (!descriptors.empty())
-      bowtrainer->add(descriptors);
+        if (!descriptors.empty())
+          bowtrainer->add(descriptors);
+      }
+    }
   }
-     }
-  }
-
 }
 
 void kNNGetFeatures(std::string classDir, const char *className, int label, double sigma, Mat &kNNfeatures, Mat &kNNlabels) {
@@ -1121,7 +1129,7 @@ void imageCallback(const sensor_msgs::ImageConstPtr& msg){
     for (int c = bTops.size()-1; c >= 0; c--) {
       Mat crop = original_cam_img(cv::Rect(bTops[c].x, bTops[c].y, bBots[c].x-bTops[c].x, bBots[c].y-bTops[c].y));
       char buf[1000];
-      sprintf(buf, "/home/oberlin/catkin_ws_baxter/src/baxter_h2r_packages/meldon_detection/src/savedCrops/%s_%d.ppm", 
+      sprintf(buf, saved_crops_path + "/%s_%d.ppm", 
 	run_prefix, cropCounter);
       // uncomment if statement for hard negative mining
       //if(bLabels[c] != 7) {
@@ -1309,10 +1317,11 @@ int main(int argc, char **argv) {
   std::string s;
 
   package_path = ros::package::getPath("meldon_detection")
-  class_crops_path = package_path + "classCrops/%s/%s_%d.ppm"
+  class_crops_path = package_path + "class_crops/%s/%s_%d.ppm"
   models_path = package_path + "trained_model";
   objectness_matrix_path = models_path = "ObjNessB2W8I.idx.yml";
   trained_model_path = trained_model_path + "ObjNessB2W8MAXBGR";
+  saved_crops_path = package_path + "saved_crops";
 
   image_transport::Subscriber image_sub;
   ros::Subscriber depth_sub;
