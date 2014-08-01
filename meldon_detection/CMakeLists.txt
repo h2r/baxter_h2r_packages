@@ -14,6 +14,7 @@ find_package(catkin REQUIRED COMPONENTS
   cv_bridge
   image_transport
   message_generation
+  BING
 )
 
 add_message_files(
@@ -33,9 +34,9 @@ include_directories(include
 	${EIGEN_INCLUDE_DIRS}
 )
 
-add_executable(talker src/talker.cpp)
+add_executable(joberlin_detector src/joberlin_detection.cpp)
 
-target_link_libraries(talker
+target_link_libraries(joberlin_detector
 	${catkin_LIBRARIES}
 	${OpenCV_LIBS}
 	BINGLIB ###
