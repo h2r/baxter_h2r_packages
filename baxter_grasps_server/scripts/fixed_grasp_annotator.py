@@ -76,66 +76,7 @@ class Annotator:
 				print("Invalid filename")
 				keep_going = True
 
-	def get_line_grasps(self, object_id, start_index):
-		grasps = []
-		start_pose = self.get_annotated_grasp_pose(object_id)
-		response = raw_input("Move gripper to other point in line. Type 'stahp' to cancel ")
-		if response !="staph":
-			end_pose = self.get_annotated_grasp_pose(object_id)
-			
-			num_grasps = -1
-			while num_grasps == -1:
-				num_response = raw_input("Input number of grasps to generate: ")
-				try:
-					num_grasps = int(num_response)
-				except ValueError as e:
-					num_grasps = -1
-
-			for i in range(num_grasps):
-				pose = copy.deepcopy(start_pose)
-				t = float(i) / num_grasps	
-				pose.pose.position.x = (1 - t) * start_pose.pose.position.x + t * end_pose.pose.position.x
-				pose.pose.position.y = (1 - t) * start_pose.pose.position.y + t * end_pose.pose.position.y
-				pose.pose.position.z = (1 - t) * start_pose.pose.position.z + t * end_pose.pose.position.z
-				grasp = self.get_grasp(pose, start_index + i)
-				grasps.append(grasp)
-		return grasps
-
-	def get_circle_grasps(self, object_id, start_index):
-		grasps = []
-		start_pose = self.get_annotated_grasp_pose(object_id)
-		roll, pitch, yaw = self.get_array_from_quaternion(start_pose.pose.orientation)
-		num_grasps = -1
-		while num_grasps == -1:
-			num_response = raw_input("Input number of grasps to generate: ")
-			try:
-				num_grasps = int(num_response)
-			except ValueError as e:
-				num_grasps = -1
-
-		x = start_pose.pose.position.x
-		y = start_pose.pose.position.y
-		dist = math.sqrt(x*x + y*y)
-		for i in range(num_grasps):
-			pose = copy.deepcopy(start_pose)
-			newYaw = yaw + float(i) * 2 * math.pi / num_grasps
-			newQuat = quaternion_from_euler(roll, pitch, newYaw)
-			rospy.loginfo("yaw: " + str(newYaw))
-			dX = dist * math.cos(newYaw)
-			dY = dist * math.sin(newYaw)
-			pose.pose.orientation = self.get_quaternion_from_array(newQuat)
-			pose.pose.position.x = dX
-			pose.pose.position.y = dY
-			grasp = self.get_grasp(pose, start_index + i)
-			grasps.append(grasp)
-		return grasps
-
-	def get_array_from_quaternion(self, quaternion):
-		arry = (quaternion.x, quaternion.y, quaternion.z, quaternion.w)
-		return euler_from_quaternion(arry)
-
-	def get_quaternion_from_array(self, arry):
-		return Quaternion(*arry)
+	
 
 	def get_object_pose(self):
 		print("Move gripper to center of object")
