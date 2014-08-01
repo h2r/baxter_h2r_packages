@@ -16,18 +16,16 @@ from sensor_msgs.msg import Image as ROSImage
 class ScreenWriter:
 
 	def __init__(self):
-		self.image_publisher = rospy.Publisher("/image", ROSImage)
+		self.image_publisher = rospy.Publisher("/robot/xdisplay", ROSImage)
 		self.font = roslib.packages.get_pkg_dir("baxter_screen_writer") + "/fonts/arial.ttf"
 		self.write("")
-		self.current_thread = Thread(None, self.publish_image)
-		self.current_thread.start()
 
 	def write(self, text):
 
 		lines = self.wrap(text)
 		longest_line = self.longest(lines)
 
-		pil_image = Image.new("RGB"	, (1024, 768), (255, 255, 255))
+		pil_image = Image.new("RGB"	, (1024, 600), (0, 0, 0))
 		d = ImageDraw.Draw(pil_image)
 
 
@@ -40,15 +38,16 @@ class ScreenWriter:
 		
 		for i in range(len(lines)):
 			position = self.get_position(width, text_height, height, i)
-			d.text(position, lines[i], fill=(255, 0, 0), font=font)
+			d.text(position, lines[i], fill=(0, 255, 0), font=font)
 		self._image = self.pil_to_imgmsg(pil_image)
+		self.publish_image()
 
 	def wrap(self, text):
 		min_width = 16
 		if len(text) < min_width:
 			return [text]
 		num_chars = len(text)
-		width = math.sqrt(num_chars * 3)
+		width = math.sqrt(num_chars * 5)
 		width = max(int(width), min_width)
 		return textwrap.wrap(text, width=width)
 
@@ -65,7 +64,7 @@ class ScreenWriter:
 		return image_draw.textsize(text, font)
 
 	def get_position(self, width, text_height, height, index):
-		start_y = (768.0 - text_height) / 2.0
+		start_y = (600.0 - text_height) / 2.0
 		y = start_y + index * height
 		return ((1024.0 - width) / 2.0, y)
 
@@ -73,7 +72,7 @@ class ScreenWriter:
 		if text == "":
 			return fontsize
 		desired_width = 0.8 * 1024
-		desired_height = 0.8 * 768
+		desired_height = 0.8 * 600
 
 		font = ImageFont.truetype(self.font, fontsize)
 		width, height = self.text_size(image_draw, text, font)
@@ -94,12 +93,8 @@ class ScreenWriter:
 	    return rosimage
 
 	def publish_image(self):
-		rate = rospy.Rate(30)
-
-		while not rospy.is_shutdown():
-			self.image_publisher.publish(self._image)
-			rate.sleep()
-
+		self.image_publisher.publish(self._image)
+		
 
 if __name__ == "__main__":
 	rospy.init_node("screen_writer")
