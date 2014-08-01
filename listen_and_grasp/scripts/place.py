@@ -156,7 +156,6 @@ class Place:
 
 		grasps = self.setGrasps(object_name, pose, graspResponse.grasps)
 		self.publishMarkers(grasps, object_name)
-		
 		result = self.group.pick(object_name, grasps * 10)
 		return result
 
@@ -164,9 +163,9 @@ class Place:
 		width = 0.03
 		pose = PoseStamped()
 		pose.header.frame_id = "world"
-		pose.pose.position.x = 0.5
+		pose.pose.position.x = 0.7
 		pose.pose.position.y = 0.2
-		pose.pose.position.z = -0.15
+		pose.pose.position.z = -0.0
 		pose.pose.orientation.w = 1
 		self.scene.add_box(name, pose, (width, width, 0.2))
 		#self.group.attach_object(name)
@@ -183,8 +182,8 @@ class Place:
 			place_pose.header.frame_id = "world"
 			place_pose.pose.position.x = 0.7
 			place_pose.pose.position.y = 0.0
-			place_pose.pose.position.z = -0.15
-			quat = quaternion_from_euler(0, math.pi/2.0, i * 2.0 * math.pi / 36.0)
+			place_pose.pose.position.z = 0.05
+			quat = quaternion_from_euler(0, 0, i * 2.0 * math.pi / 36.0)
 			rospy.loginfo(str(quat))
 			place_pose.pose.orientation.x = quat[0]
 			place_pose.pose.orientation.y = quat[1]
@@ -206,6 +205,10 @@ class Place:
 			newGrasp.grasp_pose.pose.position.x += pose.pose.position.x
 			newGrasp.grasp_pose.pose.position.y += pose.pose.position.y
 			newGrasp.grasp_pose.pose.position.z += pose.pose.position.z
+
+
+
+
 			newGrasp.grasp_quality = 1.0
 			correctedGrasps.append(newGrasp)
 		rospy.loginfo("corrected_grasps: "  + str(correctedGrasps))
@@ -268,6 +271,7 @@ class Place:
 		try:
 			for place_pose in place_poses:
 				rospy.loginfo("Attempting to place object")
+				rospy.loginfo(str(place_pose))
 				if self.place(object_name, place_pose):
 					break
 		except Exception as e:
