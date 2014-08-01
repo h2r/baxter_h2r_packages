@@ -61,7 +61,7 @@ class Annotator:
 			elif response == "circle":
 				grasps.extend(self.get_circle_grasps(object_id, index))
 			else:
-				pose = self.get_annonated_grasp(object_id)
+				pose = self.get_annotated_grasp_pose(object_id)
 				grasp = self.get_grasp(pose, index)
 				grasps.append(grasp)
 			index = len(grasps)
@@ -78,10 +78,10 @@ class Annotator:
 
 	def get_line_grasps(self, object_id, start_index):
 		grasps = []
-		start_pose = self.get_annonated_grasp(object_id)
+		start_pose = self.get_annotated_grasp_pose(object_id)
 		response = raw_input("Move gripper to other point in line. Type 'stahp' to cancel ")
 		if response !="staph":
-			end_pose = self.get_annonated_grasp(object_id)
+			end_pose = self.get_annotated_grasp_pose(object_id)
 			
 			num_grasps = -1
 			while num_grasps == -1:
@@ -103,7 +103,7 @@ class Annotator:
 
 	def get_circle_grasps(self, object_id, start_index):
 		grasps = []
-		start_pose = self.get_annonated_grasp(object_id)
+		start_pose = self.get_annotated_grasp_pose(object_id)
 		roll, pitch, yaw = self.get_array_from_quaternion(start_pose.pose.orientation)
 		num_grasps = -1
 		while num_grasps == -1:
@@ -120,12 +120,12 @@ class Annotator:
 			pose = copy.deepcopy(start_pose)
 			newYaw = yaw + float(i) * 2 * math.pi / num_grasps
 			newQuat = quaternion_from_euler(roll, pitch, newYaw)
-
-			dX = -dist * math.cos(newYaw)
-			dY = -dist * math.sin(newYaw)
+			rospy.loginfo("yaw: " + str(newYaw))
+			dX = dist * math.cos(newYaw)
+			dY = dist * math.sin(newYaw)
 			pose.pose.orientation = self.get_quaternion_from_array(newQuat)
-			pose.pose.position.x += dX
-			pose.pose.position.y += dY
+			pose.pose.position.x = dX
+			pose.pose.position.y = dY
 			grasp = self.get_grasp(pose, start_index + i)
 			grasps.append(grasp)
 		return grasps
@@ -135,7 +135,7 @@ class Annotator:
 		return euler_from_quaternion(arry)
 
 	def get_quaternion_from_array(self, arry):
-		return Quaternion(x=arry[0], y=arry[1], z=arry[2], w=arry[3])
+		return Quaternion(*arry)
 
 	def get_object_pose(self):
 		print("Move gripper to center of object")
@@ -149,6 +149,10 @@ class Annotator:
 		pose.header.stamp = self.transformer.getLatestCommonTime("/world", pose.header.frame_id)
 		transformed_pose = self.transformer.transformPose("/world", pose)
 		rospy.loginfo(str(transformed_pose))
+		transformed_pose.pose.orientation.x = 0.0
+		transformed_pose.pose.orientation.y = 0.0
+		transformed_pose.pose.orientation.z = 0.0
+		transformed_pose.pose.orientation.w = 1.0
 		return transformed_pose
 
 	def broadcast_transform(self, parent, child, origin, orientation):
@@ -188,18 +192,22 @@ class Annotator:
 		return gripper 
 
 	
-	def get_annonated_grasp(self, object):
-		when = self.transformer.getLatestCommonTime(self.frame_id, str(object))
-		transform = self.transformer.lookupTransform(self.frame_id, str(object), when)
-		grasp_pose = PoseStamped()
-		grasp_pose.pose.position = Point(transform[0][0], transform[0][1], transform[0][2])
-		grasp_pose.pose.orientation = Quaternion(transform[1][0], transform[1][1], transform[1][2], transform[1][3])
-		grasp_pose.header.frame_id = self.frame_id
+	def get_annotated_grasp_pose(self, object):
+		pose = PoseStamped()
+		pose.header.frame_id = "left_gripper"
+		pose.pose.position.z = 0.05
+		pose.pose.orientation.w = 1.0
+
+		when = self.transformer.getLatestCommonTime(pose.header.frame_id, str(object))
+		pose.header.stamp = when
+		grasp_pose = self.transformer.transformPose(str(object), pose)
+		rospy.loginfo(str(grasp_pose))
 		return grasp_pose
 
 	def get_grasp(self, grasp_pose, id):
 		grasp = Grasp()
 		grasp.grasp_pose = grasp_pose
+		grasp.grasp_pose.header.frame_id = self.frame_id
 		joint_name = self.gripper + '_gripper_l_finger_joint'
 		
 		point = JointTrajectoryPoint()
@@ -216,14 +224,14 @@ class Annotator:
 		grasp.id = str(id)
 		
 		grasp.post_place_retreat.desired_distance = 0.3
-		grasp.post_place_retreat.min_distance = 0.01
+		grasp.post_place_retreat.min_distance = 0.05
 		grasp.post_place_retreat.direction.header.frame_id = 'world'
 		grasp.post_place_retreat.direction.vector.z = 1.0
 		
 		grasp.pre_grasp_approach.desired_distance = 0.3
-		grasp.pre_grasp_approach.min_distance = 0.01
+		grasp.pre_grasp_approach.min_distance = 0.05
 		grasp.pre_grasp_approach.direction.header.frame_id = self.gripper + "_gripper"
-		grasp.pre_grasp_approach.direction.vector.z = 1.0
+		grasp.pre_grasp_approach.direction.vector.y = 1.0
 
 		grasp.post_grasp_retreat = grasp.post_place_retreat
 		return grasp

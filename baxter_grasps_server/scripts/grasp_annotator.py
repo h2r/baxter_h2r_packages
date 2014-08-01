@@ -66,7 +66,7 @@ class Annotator:
 			if response == 'stahp':
 				break
 
-			pose = self.get_annonated_grasp(object_id)
+			pose = self.get_annotated_grasp_pose(object_id)
 			grasp = self.get_grasp(pose, index)
 			index += 1
 			grasps.append(grasp)
@@ -116,7 +116,7 @@ class Annotator:
 		return gripper 
 
 	
-	def get_annonated_grasp(self, object):
+	def get_annotated_grasp_pose(self, object):
 		when = self.transformer.getLatestCommonTime(self.frame_id, str(object))
 		transform = self.transformer.lookupTransform(self.frame_id, str(object), when)
 		grasp_pose = PoseStamped()
