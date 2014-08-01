@@ -8,12 +8,10 @@
 #define DRAW_ORIENTOR
 
 #define RUN_INFERENCE
+
 const int k = 1;
-
 int numRedBoxes = 5;
-
 //int gBoxThreshMultiplier = 1.1;
-
 double gBoxThresh = 3;
 double pBoxThresh = 5;
 double threshFraction = 0.35;
@@ -51,6 +49,12 @@ const double grayBlur = 1.0;
 char run_prefix[] = "autolearn_16";
 int fcRange = 1;
 
+double densityDecay = 0.7;
+double depthDecay = 0.7;
+double redDecay = 0.7;
+
+
+
 //#define PUBLISH_OBJECTS
 
 #include <dirent.h>
@@ -72,10 +76,12 @@ int fcRange = 1;
 #include <opencv2/nonfree/nonfree.hpp>
 //#include <opencv2/opencv.hpp>
 
-#include "../../../BING-Objectness-master/Objectness/stdafx.h"
-#include "../../../BING-Objectness-master/Objectness/Objectness.h"
-#include "../../../BING-Objectness-master/Objectness/ValStructVec.h"
-#include "../../../BING-Objectness-master/Objectness/CmShow.h"
+#include <ros/package.h>
+
+#include "BING/Objectness/stdafx.h"
+#include "BING/Objectness/Objectness.h"
+#include "BING/Objectness/ValStructVec.h"
+#include "BING/Objectness/CmShow.h"
 
 //KernelDescManager* kdm;
 static unsigned int LOC_MODEL_TYPE=0; //0 or 3
@@ -100,8 +106,7 @@ int cropCounter;
 
 double *temporalDensity = NULL;
 double *temporalDepth = NULL;
-double densityDecay = 0.7;
-double depthDecay = 0.7;
+
 
 DescriptorMatcher *matcher;
 FeatureDetector *detector;
@@ -109,6 +114,11 @@ DescriptorExtractor *extractor;
 BOWKMeansTrainer *bowtrainer; 
 BOWImgDescriptorExtractor *bowExtractor;
 CvKNearest *kNN;
+std::string package_path;
+std::string class_crops_path;
+std::string models_path;
+std::string objectness_matrix_path;
+std::string trained_model_path;
 
 #define MY_FONT FONT_HERSHEY_PLAIN
 
@@ -130,7 +140,6 @@ typedef struct {
 } redBox;
 
 redBox *redBoxes;
-double redDecay = 0.7;
 
 // forward declare
 void bowGetFeatures(const char *classDir, const char *className, double sigma);
@@ -193,8 +202,29 @@ void depthCallback(const sensor_msgs::ImageConstPtr& msg){
 */
 }
 
-void imageCallback(const sensor_msgs::ImageConstPtr& msg){
+void loadROSParams()
+{
+  ros::NodeHandle nh;
+  numRedBoxes = nh.getParam("number_red_boxes", numRedBoxes);
+  //int gBoxThreshMultiplier = 1.1;
+  gBoxThresh = nh.getParam("green_box_threshold", gBoxThresh);
+  pBoxThresh = nh.getParam("pink_box_threshold", pBoxThresh);
+  threshFraction = nh.getParam("threshold_fraction", threshFraction);
+  densityPower = nh.getParam("density_power", densityPower);//1.0/4.0;
+  psPBT = nh.getParam("plastic_spoon_normalizer", psPBT);
+  wsPBT = nh.getParam("wooden_spoon_normalizer", wsPBT);
+  gbPBT = nh.getParam("gyrobowl_normalizer", gbPBT);
+  mbPBT = nh.getParam("mixing_bowl_normalizer", mbPBT);
+  rejectScale = nh.getParam("reject_scale", rejectScale);
+  rejectAreaScale = nh.getParam("reject_area_scale", rejectAreaScale);
+  fcRange = nh.getParam("frame_count_range", fcRange);
+  densityDecay = nh.getParam("density_decay", densityDecay);
+  depthDecay = nh.getParam("depth_decay", depthDecay);
+  redDecay = nh.getParam("red_decay", redDecay);
+}
 
+void imageCallback(const sensor_msgs::ImageConstPtr& msg){
+  loadROSParams();
   cv::Rect bound;
   cv::Mat boxed;
 
@@ -608,7 +638,7 @@ void imageCallback(const sensor_msgs::ImageConstPtr& msg){
     if (fc == 0) {
       Mat crop = original_cam_img(cv::Rect(bTops[c].x, bTops[c].y, bBots[c].x-bTops[c].x, bBots[c].y-bTops[c].y));
       char buf[1000];
-      sprintf(buf, "/home/oberlin/catkin_ws_baxter/src/baxter_h2r_packages/meldon_detection/src/classCrops/%s/%s_%d.ppm", 
+      sprintf(buf, class_crops_path + "/%s/%s_%d.ppm", 
 	labelName, run_prefix, cropCounter);
       imwrite(buf, crop);
       cropCounter++;
@@ -1163,6 +1193,12 @@ int main(int argc, char **argv) {
   ros::NodeHandle n;
   std::string s;
 
+  package_path = ros::package::getPath("meldon_detection")
+  class_crops_path = package_path + "classCrops/%s/%s_%d.ppm"
+  models_path = package_path + "trained_model";
+  objectness_matrix_path = models_path = "ObjNessB2W8I.idx.yml";
+  trained_model_path = trained_model_path + "ObjNessB2W8MAXBGR";
+
   image_transport::Subscriber image_sub;
   ros::Subscriber depth_sub;
 
@@ -1188,14 +1224,14 @@ int main(int argc, char **argv) {
   glObjectness = &(objNess);
 
   CvMat* my_matrix;
-  my_matrix = (CvMat*)cvLoad("/home/oberlin/catkin_ws_baxter/src/baxter_h2r_packages/meldon_detection/ObjectnessTrainedModel/ObjNessB2W8I.idx.yml");
+  my_matrix = (CvMat*)cvLoad(objectness_matrix_path);
   int *data = my_matrix->data.i;
 
   cout << "test" << endl << "test" << data[0] << data[1] << data[2] << data[6] << endl << endl;
 
   //int result = objNess.loadTrainedModel("/home/oberlin/catkin_ws_baxter/src/baxter_h2r_packages/meldon_detection/ObjectnessTrainedModel/ObjNessB2W8I");
   //int result = objNess.loadTrainedModel("/home/oberlin/catkin_ws_baxter/src/baxter_h2r_packages/meldon_detection/ObjectnessTrainedModel/ObjNessB2W8HSV");
-  int result = objNess.loadTrainedModel("/home/oberlin/catkin_ws_baxter/src/baxter_h2r_packages/meldon_detection/ObjectnessTrainedModel/ObjNessB2W8MAXBGR");
+  int result = objNess.loadTrainedModel(model_path);
   cout << "result: " << result << endl << endl;
 
   fc = 0;
@@ -1218,24 +1254,23 @@ int main(int argc, char **argv) {
   string dot(".");
   string dotdot("..");
 
-  const char classDir[] = "/home/oberlin/catkin_ws_baxter/src/baxter_h2r_packages/meldon_detection/src/classCrops/";
   char buf[1024];
 
   char vocabularyPath[1024];
   char featuresPath[1024];
-  sprintf(vocabularyPath, "%s/vocab.yml", classDir);
-  sprintf(featuresPath, "%s/features.yml", classDir);
+  sprintf(vocabularyPath, "%s/vocab.yml", class_crops_path.c_str());
+  sprintf(featuresPath, "%s/features.yml", class_crops_path.c_str());
 
   Mat vocabulary;
 
 #ifdef RELEARN_VOCAB
-  bowGetFeatures(classDir, "gyroBowl", grayBlur);
-  bowGetFeatures(classDir, "mixBowl", grayBlur);
-  bowGetFeatures(classDir, "woodSpoon", grayBlur);
-  bowGetFeatures(classDir, "plasticSpoon", grayBlur);
-  bowGetFeatures(classDir, "background", grayBlur);
-  bowGetFeatures(classDir, "human", grayBlur);
-  bowGetFeatures(classDir, "sippyCup", grayBlur);
+  bowGetFeatures(class_crops_path, "gyroBowl", grayBlur);
+  bowGetFeatures(class_crops_path, "mixBowl", grayBlur);
+  bowGetFeatures(class_crops_path, "woodSpoon", grayBlur);
+  bowGetFeatures(class_crops_path, "plasticSpoon", grayBlur);
+  bowGetFeatures(class_crops_path, "background", grayBlur);
+  bowGetFeatures(class_crops_path, "human", grayBlur);
+  bowGetFeatures(class_crops_path, "sippyCup", grayBlur);
 
   cout << "Clustering features...";
   vocabulary = bowtrainer->cluster();
@@ -1263,13 +1298,13 @@ int main(int argc, char **argv) {
   Mat kNNlabels;
 
 #ifdef RELOAD_DATA
-  kNNGetFeatures(classDir, "gyroBowl", 1, grayBlur, kNNfeatures, kNNlabels);
-  kNNGetFeatures(classDir, "mixBowl", 2, grayBlur, kNNfeatures, kNNlabels);
-  kNNGetFeatures(classDir, "woodSpoon", 3, grayBlur, kNNfeatures, kNNlabels);
-  kNNGetFeatures(classDir, "plasticSpoon", 4, grayBlur, kNNfeatures, kNNlabels);
-  kNNGetFeatures(classDir, "background", 5, grayBlur, kNNfeatures, kNNlabels);
-  //kNNGetFeatures(classDir, "human", 6, grayBlur, kNNfeatures, kNNlabels);
-  //kNNGetFeatures(classDir, "sippyCup", 7, grayBlur, kNNfeatures, kNNlabels);
+  kNNGetFeatures(class_crops_path, "gyroBowl", 1, grayBlur, kNNfeatures, kNNlabels);
+  kNNGetFeatures(class_crops_path, "mixBowl", 2, grayBlur, kNNfeatures, kNNlabels);
+  kNNGetFeatures(class_crops_path, "woodSpoon", 3, grayBlur, kNNfeatures, kNNlabels);
+  kNNGetFeatures(class_crops_path, "plasticSpoon", 4, grayBlur, kNNfeatures, kNNlabels);
+  kNNGetFeatures(class_crops_path, "background", 5, grayBlur, kNNfeatures, kNNlabels);
+  //kNNGetFeatures(class_crops_path, "human", 6, grayBlur, kNNfeatures, kNNlabels);
+  //kNNGetFeatures(class_crops_path, "sippyCup", 7, grayBlur, kNNfeatures, kNNlabels);
 
   FileStorage fsfO;
   cout<<"Writing features and labels..."<< endl << featuresPath << endl << "...";
@@ -1367,7 +1402,7 @@ int main(int argc, char **argv) {
   return 0;
 }
 
-void bowGetFeatures(const char *classDir, const char *className, double sigma) {
+void bowGetFeatures(std::string classDir, const char *className, double sigma) {
 
   DIR *dpdf;
   struct dirent *epdf;
@@ -1375,7 +1410,7 @@ void bowGetFeatures(const char *classDir, const char *className, double sigma) {
   string dotdot("..");
 
   char buf[1024];
-  sprintf(buf, "%s%s", classDir, className);
+  sprintf(buf, "%s%s", classDir.c_str(), className);
   dpdf = opendir(buf);
   if (dpdf != NULL){
      while (epdf = readdir(dpdf)){
@@ -1385,7 +1420,7 @@ void bowGetFeatures(const char *classDir, const char *className, double sigma) {
 	  Mat descriptors;
 
 	  char filename[1024];
-	  sprintf(filename, "%s%s/%s", classDir, className, epdf->d_name);
+	  sprintf(filename, "%s%s/%s", classDir.c_str(), className, epdf->d_name);
 	  Mat image;
 	  image = imread(filename);
 	  Mat gray_image;
@@ -1405,7 +1440,7 @@ void bowGetFeatures(const char *classDir, const char *className, double sigma) {
 
 }
 
-void kNNGetFeatures(const char *classDir, const char *className, int label, double sigma, Mat &kNNfeatures, Mat &kNNlabels) {
+void kNNGetFeatures(std::string classDir, const char *className, int label, double sigma, Mat &kNNfeatures, Mat &kNNlabels) {
 
   DIR *dpdf;
   struct dirent *epdf;
@@ -1413,7 +1448,7 @@ void kNNGetFeatures(const char *classDir, const char *className, int label, doub
   string dotdot("..");
 
   char buf[1024];
-  sprintf(buf, "%s%s", classDir, className);
+  sprintf(buf, "%s%s", classDir.c_str(), className);
   dpdf = opendir(buf);
   if (dpdf != NULL){
      while (epdf = readdir(dpdf)){
@@ -1423,7 +1458,7 @@ void kNNGetFeatures(const char *classDir, const char *className, int label, doub
 	  Mat descriptors;
 
 	  char filename[1024];
-	  sprintf(filename, "%s%s/%s", classDir, className, epdf->d_name);
+	  sprintf(filename, "%s%s/%s", classDir.c_str(), className, epdf->d_name);
 	  Mat image;
 	  image = imread(filename);
 	  Mat gray_image;
