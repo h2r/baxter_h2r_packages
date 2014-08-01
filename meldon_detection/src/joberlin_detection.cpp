@@ -8,6 +8,7 @@
 #define DRAW_ORIENTOR
 
 #define RUN_INFERENCE
+#define PUBLISH_OBJECTS
 
 const int k = 1;
 int numRedBoxes = 5;
@@ -55,7 +56,6 @@ double redDecay = 0.7;
 
 
 
-//#define PUBLISH_OBJECTS
 
 #include <dirent.h>
 
@@ -72,6 +72,7 @@ double redDecay = 0.7;
 
 #include <sstream>
 #include <iostream>
+#include <math.h>
 //#include "libkerneldesc.cc"
 
 #include <cv_bridge/cv_bridge.h>
@@ -837,17 +838,17 @@ void imageCallback(const sensor_msgs::ImageConstPtr& msg){
       Eigen::Quaternionf tableQuaternion;
 
       cv::Matx33f R;
-      R(0,0) = 1;R(0,1) = 0;R(0,2) = 0;
-      R(1,0) = 0;R(1,1) = 1;R(1,2) = 0;
-      R(2,0) = 0;R(2,1) = 0;R(2,2) = 1;
+      R(0,0) = 1; R(0,1) = 0; R(0,2) = 0;
+      R(1,0) = 0; R(1,1) = 1; R(1,2) = 0;
+      R(2,0) = 0; R(2,1) = 0; R(2,2) = 1;
 
       // handle the rotation differently depending on the class
       // if we have a spoon
       if (label == 3 || label == 4) {
-      	double theta = (pi / 2.0) + (winningO*2*pi/ORIENTATIONS)
-      	R(0,0) = cos(theta);R(0,1) = -sin(theta);R(0,2) = 0;
-      	R(1,0) = sin(theta);R(1,1) =  cos(theta);R(1,2) = 0;
-      	R(2,0) = 0;R(2,1) = 0;R(2,2) = 1;
+      	double theta = (M_PI / 2.0) + (winningO*2*M_PI/ORIENTATIONS);
+      	R(0,0) = cos(theta); R(0,1) = -sin(theta); R(0,2) = 0;
+      	R(1,0) = sin(theta); R(1,1) =  cos(theta); R(1,2) = 0;
+      	R(2,0) = 0;          R(2,1) = 0;           R(2,2) = 1;
       }
 
 
@@ -857,10 +858,10 @@ void imageCallback(const sensor_msgs::ImageConstPtr& msg){
 
       objectQuaternion = tableQuaternion * objectQuaternion;
 
-      to_send.objects[c].pose.pose.pose.orientation.x = objectQuaternion.x;
-      to_send.objects[c].pose.pose.pose.orientation.y = objectQuaternion.y;
-      to_send.objects[c].pose.pose.pose.orientation.z = objectQuaternion.z;
-      to_send.objects[c].pose.pose.pose.orientation.w = objectQuaternion.w;
+      to_send.objects[c].pose.pose.pose.orientation.x = objectQuaternion.x();
+      to_send.objects[c].pose.pose.pose.orientation.y = objectQuaternion.y();
+      to_send.objects[c].pose.pose.pose.orientation.z = objectQuaternion.z();
+      to_send.objects[c].pose.pose.pose.orientation.w = objectQuaternion.w();
 
       // XXX fill out the point cloud using the vector<cv::Point>> pointCloudPoints.
 
@@ -872,7 +873,7 @@ void imageCallback(const sensor_msgs::ImageConstPtr& msg){
       to_send.objects[c].point_clouds.resize(1);
       pcl::toROSMsg(object_cloud, to_send.objects[c].point_clouds[0]);
       to_send.objects[c].pose.pose.pose.position = pose.position;
-      to_send.objects[c].header = msg.header;
+      to_send.objects[c].header = msg->header;
       to_send.objects[c].header.stamp = ros::Time::now();
 
 
