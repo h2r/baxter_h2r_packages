@@ -62,8 +62,8 @@ double redDecay = 0.7;
 #include "std_msgs/String.h"
 #include <visualization_msgs/MarkerArray.h>
 #include <geometry_msgs/Point.h>
-//#include <object_recognition_msgs/RecognizedObjectArray.h>
-//#include <object_recognition_msgs/RecognizedObject.h>
+#include <object_recognition_msgs/RecognizedObjectArray.h>
+#include <object_recognition_msgs/RecognizedObject.h>
 #include <sstream>
 //#include "libkerneldesc.cc"
 #include <cv_bridge/cv_bridge.h>
@@ -119,7 +119,7 @@ std::string class_crops_path;
 std::string models_path;
 std::string objectness_matrix_path;
 std::string trained_model_path;
-
+pcl::PointCloud<pcl::PointXYZRGB> pointCloud;
 #define MY_FONT FONT_HERSHEY_PLAIN
 
 #define ORIENTATIONS 36 
@@ -141,9 +141,82 @@ typedef struct {
 
 redBox *redBoxes;
 
-// forward declare
-void bowGetFeatures(const char *classDir, const char *className, double sigma);
-void kNNGetFeatures(const char *classDir, const char *className, int label, double sigma, Mat &kNNfeatures, Mat &kNNlabels);
+void bowGetFeatures(std::string classDir, const char *className, double sigma) {
+
+  DIR *dpdf;
+  struct dirent *epdf;
+  string dot(".");
+  string dotdot("..");
+
+  char buf[1024];
+  sprintf(buf, "%s%s", classDir.c_str(), className);
+  dpdf = opendir(buf);
+  if (dpdf != NULL){
+     while (epdf = readdir(dpdf)){
+  if (dot.compare(epdf->d_name) && dotdot.compare(epdf->d_name)) {
+
+    vector<KeyPoint> keypoints;
+    Mat descriptors;
+
+    char filename[1024];
+    sprintf(filename, "%s%s/%s", classDir.c_str(), className, epdf->d_name);
+    Mat image;
+    image = imread(filename);
+    Mat gray_image;
+    cvtColor(image, gray_image, CV_BGR2GRAY);
+    GaussianBlur(gray_image, gray_image, cv::Size(0,0), sigma);
+
+    detector->detect(gray_image, keypoints);
+    extractor->compute(gray_image, keypoints, descriptors);
+
+    cout << className << ":  "  << epdf->d_name << "  " << descriptors.size() << endl;
+
+    if (!descriptors.empty())
+      bowtrainer->add(descriptors);
+  }
+     }
+  }
+
+}
+
+void kNNGetFeatures(std::string classDir, const char *className, int label, double sigma, Mat &kNNfeatures, Mat &kNNlabels) {
+
+  DIR *dpdf;
+  struct dirent *epdf;
+  string dot(".");
+  string dotdot("..");
+
+  char buf[1024];
+  sprintf(buf, "%s%s", classDir.c_str(), className);
+  dpdf = opendir(buf);
+  if (dpdf != NULL){
+    while (epdf = readdir(dpdf)){
+      if (dot.compare(epdf->d_name) && dotdot.compare(epdf->d_name)) {
+
+        vector<KeyPoint> keypoints;
+        Mat descriptors;
+
+        char filename[1024];
+        sprintf(filename, "%s%s/%s", classDir.c_str(), className, epdf->d_name);
+        Mat image;
+        image = imread(filename);
+        Mat gray_image;
+        cvtColor(image, gray_image, CV_BGR2GRAY);
+        GaussianBlur(gray_image, gray_image, cv::Size(0,0), sigma);
+
+        detector->detect(gray_image, keypoints);
+        bowExtractor->compute(gray_image, keypoints, descriptors);
+
+        cout << className << ":  "  << epdf->d_name << "  " << descriptors.size() << endl;
+
+        if (!descriptors.empty()) {
+          kNNfeatures.push_back(descriptors);
+          kNNlabels.push_back(label);
+        }
+      }
+    }
+  }
+}
 
 void depthCallback(const sensor_msgs::ImageConstPtr& msg){
 /*
@@ -202,6 +275,34 @@ void depthCallback(const sensor_msgs::ImageConstPtr& msg){
 */
 }
 
+void getCluster(pcl::PointCloud<pcl::PointXYZRGB> &cluster, pcl::PointCloud<pcl::PointXYZRGB> &cloud, std::vector<cv::Point> &points)
+{
+  pcl::PointXYZRGB point;
+  for (int i = 0; i < points.size(); i++)
+  {
+    point = points[i];
+    cluster.push_back(cloud(point.x, point.y));
+  }
+}
+
+geometry_msgs::Pose getPose(pcl::PointCloud<pcl::PointXYZRGB> &cluster)
+{
+  geometry_msgs::Pose pose;
+  double sum_x = 0; sum_y = 0; sum_z = 0;
+  for (int i = 0; i < cluster.size(); i++)
+  {
+    pcl::PointXYZRGB point = cluster[i];
+    sum_x += point.x;
+    sum_y += point.y;
+    sum_z += point.z;
+  }
+  pose.position.x = sum_x / cluster.size();
+  pose.position.y = sum_y / cluster.size();
+  pose.position.z = sum_z / cluster.size();
+
+  return pose;
+}
+
 void loadROSParams()
 {
   ros::NodeHandle nh;
@@ -238,7 +339,7 @@ void imageCallback(const sensor_msgs::ImageConstPtr& msg){
     return;
   }
 
-  meldon_detection::RecognizedObjectArray to_send;
+  object_recognition_msgs::RecognizedObjectArray to_send;
 
   int boxesPerSize = 800;
   
@@ -482,9 +583,9 @@ void imageCallback(const sensor_msgs::ImageConstPtr& msg){
 
       double thisIntegral = integralDensity[yb*imW+xb]-integralDensity[yb*imW+xt]-integralDensity[yt*imW+xb]+integralDensity[yt*imW+xt];
       if (thisIntegral > gBoxThresh) {
-	gBoxIndicator[y*imW+x] = 1;
+	      gBoxIndicator[y*imW+x] = 1;
 #ifdef DRAW_GREEN
-	rectangle(cv_ptr->image, thisTop, thisBot, cv::Scalar(0,255,0));
+	      rectangle(cv_ptr->image, thisTop, thisBot, cv::Scalar(0,255,0));
 #endif
       }
       pBoxIndicator[y*imW+x] = thisIntegral;
@@ -497,58 +598,58 @@ void imageCallback(const sensor_msgs::ImageConstPtr& msg){
     for (int y = 0; y < imH-gBoxH; y+=gBoxStrideY) {
       if (gBoxIndicator[y*imW+x] == 1 && gBoxGrayNodes[y*imW+x] == 0) {
 
-	gBoxGrayNodes[y*imW+x] = 1;
-	parentX.push_back(x);
-	parentY.push_back(y);
-	parentD.push_back(0);
+      	gBoxGrayNodes[y*imW+x] = 1;
+      	parentX.push_back(x);
+      	parentY.push_back(y);
+      	parentD.push_back(0);
 
-	gBoxComponentLabels[y*imW+x] = total_components;
-	total_components++;
+      	gBoxComponentLabels[y*imW+x] = total_components;
+      	total_components++;
 
-	int xt = x;
-	int yt = y;
-	int xb = x+gBoxW;
-	int yb = y+gBoxH;
-	cv::Point thisTop(xt,yt);
-	cv::Point thisBot(xb,yb);
-	cTops.push_back(thisTop);
-	cBots.push_back(thisBot);
+      	int xt = x;
+      	int yt = y;
+      	int xb = x+gBoxW;
+      	int yb = y+gBoxH;
+      	cv::Point thisTop(xt,yt);
+      	cv::Point thisBot(xb,yb);
+      	cTops.push_back(thisTop);
+      	cBots.push_back(thisBot);
 
 
-	while( parentX.size() > 0 ) {
-	  int index = parentX.size()-1;
-	  int direction = parentD[index];
-	  parentD[index]++;
-	  int nextX = parentX[index] + gBoxStrideX*directionX[direction];
-	  int nextY = parentY[index] + gBoxStrideY*directionY[direction];
+      	while( parentX.size() > 0 ) {
+      	  int index = parentX.size()-1;
+      	  int direction = parentD[index];
+      	  parentD[index]++;
+      	  int nextX = parentX[index] + gBoxStrideX*directionX[direction];
+      	  int nextY = parentY[index] + gBoxStrideY*directionY[direction];
 
-	  // if we have no more directions, then pop this parent 
-	  if (direction > 3) {
-	    parentX.pop_back();
-	    parentY.pop_back();
-	    parentD.pop_back();
-	  } 
-	  // if the next direction is valid, push it on to the stack and increment direction counter
-	  else if(gBoxIndicator[nextY*imW+nextX] == 1 && gBoxGrayNodes[nextY*imW+nextX] == 0
-		  && nextX > -1 && nextX < imW && nextY > -1 && nextY < imH) {
+      	  // if we have no more directions, then pop this parent 
+      	  if (direction > 3) {
+      	    parentX.pop_back();
+      	    parentY.pop_back();
+      	    parentD.pop_back();
+      	  } 
+      	  // if the next direction is valid, push it on to the stack and increment direction counter
+      	  else if(gBoxIndicator[nextY*imW+nextX] == 1 && gBoxGrayNodes[nextY*imW+nextX] == 0
+      		  && nextX > -1 && nextX < imW && nextY > -1 && nextY < imH) {
 
-	    gBoxGrayNodes[nextY*imW+nextX] = 1;
-	    gBoxComponentLabels[nextY*imW+nextX] = gBoxComponentLabels[parentY[index]*imW+parentX[index]];
+      	    gBoxGrayNodes[nextY*imW+nextX] = 1;
+      	    gBoxComponentLabels[nextY*imW+nextX] = gBoxComponentLabels[parentY[index]*imW+parentX[index]];
 
-	    int nxt = nextX;
-	    int nyt = nextY;
-	    int nxb = nextX+gBoxW;
-	    int nyb = nextY+gBoxH;
-	    cTops[gBoxComponentLabels[nextY*imW+nextX]].x = min(cTops[gBoxComponentLabels[nextY*imW+nextX]].x, nxt);
-	    cTops[gBoxComponentLabels[nextY*imW+nextX]].y = min(cTops[gBoxComponentLabels[nextY*imW+nextX]].y, nyt);
-	    cBots[gBoxComponentLabels[nextY*imW+nextX]].x = max(cBots[gBoxComponentLabels[nextY*imW+nextX]].x, nxb);
-	    cBots[gBoxComponentLabels[nextY*imW+nextX]].y = max(cBots[gBoxComponentLabels[nextY*imW+nextX]].y, nyb);
+      	    int nxt = nextX;
+      	    int nyt = nextY;
+      	    int nxb = nextX+gBoxW;
+      	    int nyb = nextY+gBoxH;
+      	    cTops[gBoxComponentLabels[nextY*imW+nextX]].x = min(cTops[gBoxComponentLabels[nextY*imW+nextX]].x, nxt);
+      	    cTops[gBoxComponentLabels[nextY*imW+nextX]].y = min(cTops[gBoxComponentLabels[nextY*imW+nextX]].y, nyt);
+      	    cBots[gBoxComponentLabels[nextY*imW+nextX]].x = max(cBots[gBoxComponentLabels[nextY*imW+nextX]].x, nxb);
+      	    cBots[gBoxComponentLabels[nextY*imW+nextX]].y = max(cBots[gBoxComponentLabels[nextY*imW+nextX]].y, nyb);
 
-	    parentX.push_back(nextX);
-	    parentY.push_back(nextY);
-	    parentD.push_back(0);
-	  } 
-	}
+      	    parentX.push_back(nextX);
+      	    parentY.push_back(nextY);
+      	    parentD.push_back(0);
+      	  } 
+      	}
 
 
       }
@@ -593,9 +694,12 @@ void imageCallback(const sensor_msgs::ImageConstPtr& msg){
     }
   }
 
+
+
 #ifdef RUN_INFERENCE
   vector<int> bLabels;
   // classify the crops
+  to_send.objects.resize(bTops);
   for (int c = 0; c < bTops.size(); c++) {
     vector<KeyPoint> keypoints;
     Mat descriptors;
@@ -657,11 +761,11 @@ void imageCallback(const sensor_msgs::ImageConstPtr& msg){
 
       double winningScore = -1;
       for (int o = 0; o < ORIENTATIONS; o++) {
-	double thisScore = gcChannels[1].dot(orientedFilters[o]);
-	if (thisScore > winningScore) {
-	  winningScore = thisScore;
-	  winningO = o;
-	}
+      	double thisScore = gcChannels[1].dot(orientedFilters[o]);
+      	if (thisScore > winningScore) {
+      	  winningScore = thisScore;
+      	  winningO = o;
+      	}
       }
 
       Mat vCrop = cv_ptr->image(cv::Rect(bTops[c].x, bTops[c].y, bBots[c].x-bTops[c].x, bBots[c].y-bTops[c].y));
@@ -699,17 +803,17 @@ void imageCallback(const sensor_msgs::ImageConstPtr& msg){
     vector<cv::Point> pointCloudPoints;
     for (int x = bTops[c].x; x <= bBots[c].x-gBoxW; x+=gBoxStrideX) {
       for (int y = bTops[c].y; y <= bBots[c].y-gBoxH; y+=gBoxStrideY) {
-	int xt = x;
-	int yt = y;
-	int xb = x+gBoxW;
-	int yb = y+gBoxH;
-	cv::Point thisTop(xt,yt);
-	cv::Point thisBot(xb,yb);
-#ifdef DRAW_PINK
-	if (pBoxIndicator[y*imW+x] > thisThresh) {
-	  rectangle(cv_ptr->image, thisTop, thisBot, cv::Scalar(100,100,255));
-	  pointCloudPoints.push_back(cv::Point(x,y));
-	}
+      	int xt = x;
+      	int yt = y;
+      	int xb = x+gBoxW;
+      	int yb = y+gBoxH;
+      	cv::Point thisTop(xt,yt);
+      	cv::Point thisBot(xb,yb);
+      #ifdef DRAW_PINK
+      	if (pBoxIndicator[y*imW+x] > thisThresh) {
+      	  rectangle(cv_ptr->image, thisTop, thisBot, cv::Scalar(100,100,255));
+      	  pointCloudPoints.push_back(cv::Point(x,y));
+      	}
 #endif
       }
     }
@@ -731,10 +835,10 @@ void imageCallback(const sensor_msgs::ImageConstPtr& msg){
       // handle the rotation differently depending on the class
       // if we have a spoon
       if (label == 3 || label == 4) {
-	double theta = (pi / 2.0) + (winningO*2*pi/ORIENTATIONS)
-	R(0,0) = cos(theta);R(0,1) = -sin(theta);R(0,2) = 0;
-	R(1,0) = sin(theta);R(1,1) =  cos(theta);R(1,2) = 0;
-	R(2,0) = 0;R(2,1) = 0;R(2,2) = 1;
+      	double theta = (pi / 2.0) + (winningO*2*pi/ORIENTATIONS)
+      	R(0,0) = cos(theta);R(0,1) = -sin(theta);R(0,2) = 0;
+      	R(1,0) = sin(theta);R(1,1) =  cos(theta);R(1,2) = 0;
+      	R(2,0) = 0;R(2,1) = 0;R(2,2) = 1;
       }
 
 
@@ -744,18 +848,24 @@ void imageCallback(const sensor_msgs::ImageConstPtr& msg){
 
       objectQuaternion = tableQuaternion * objectQuaternion;
 
-      object_pose.orientation.w = objectQuaternion.w;
-      object_pose.orientation.x = objectQuaternion.x;
-      object_pose.orientation.y = objectQuaternion.y;
-      object_pose.orientation.z = objectQuaternion.z;
+      to_send.objects[c].pose.pose.pose.orientation.x = objectQuaternion.x;
+      to_send.objects[c].pose.pose.pose.orientation.y = objectQuaternion.y;
+      to_send.objects[c].pose.pose.pose.orientation.z = objectQuaternion.z;
+      to_send.objects[c].pose.pose.pose.orientation.w = objectQuaternion.w;
 
       // XXX fill out the point cloud using the vector<cv::Point>> pointCloudPoints.
 
       // XXX determine the x,y,z coordinates of the object from the point cloud
       // this bounding box has top left  bTops[x] and bBots[c]
-      object_pose.position.x = ;
-      object_pose.position.y = ;
-      object_pose.position.z = ;
+      pcl::PointCloud<pcl::PointXYZRGB> object_cloud;
+      getCluster(object_cloud, pointCloud, pointCloudPoints);
+      geometry_msgs::Pose pose = getPose(object_cloud);
+      to_send.objects[c].point_clouds.resize(1);
+      pcl::toROSMsg(object_cloud, to_send.objects[c].point_clouds[0]);
+      to_send.objects[c].pose.pose.pose.position = pose.position;
+      to_send.objects[c].header = msg.header;
+      to_send.objects[c].header.stamp = ros::Time::now();
+
 
       // XXX form the final message to send
       //to_send.objects.resize(msg.markers.size());
@@ -1078,9 +1188,14 @@ void imageCallback(const sensor_msgs::ImageConstPtr& msg){
   cv::waitKey(1);
 }
 
+void pointCloudCallback(const sensor_msgs::PointCloud2ConstPtr& msg)
+{
+  pcl::fromROSMsg(msg, pointCloud);
+}
+
 void clusterCallback(const visualization_msgs::MarkerArray& msg){
 	if(real_img){
-		meldon_detection::RecognizedObjectArray to_send;
+		object_recognition_msgs::RecognizedObjectArray to_send;
 		to_send.objects.resize(msg.markers.size());
 		//MatrixXf imfea2;
 		//VectorXf scores;
@@ -1402,83 +1517,7 @@ int main(int argc, char **argv) {
   return 0;
 }
 
-void bowGetFeatures(std::string classDir, const char *className, double sigma) {
 
-  DIR *dpdf;
-  struct dirent *epdf;
-  string dot(".");
-  string dotdot("..");
-
-  char buf[1024];
-  sprintf(buf, "%s%s", classDir.c_str(), className);
-  dpdf = opendir(buf);
-  if (dpdf != NULL){
-     while (epdf = readdir(dpdf)){
-	if (dot.compare(epdf->d_name) && dotdot.compare(epdf->d_name)) {
-
-	  vector<KeyPoint> keypoints;
-	  Mat descriptors;
-
-	  char filename[1024];
-	  sprintf(filename, "%s%s/%s", classDir.c_str(), className, epdf->d_name);
-	  Mat image;
-	  image = imread(filename);
-	  Mat gray_image;
-	  cvtColor(image, gray_image, CV_BGR2GRAY);
-	  GaussianBlur(gray_image, gray_image, cv::Size(0,0), sigma);
-
-	  detector->detect(gray_image, keypoints);
-	  extractor->compute(gray_image, keypoints, descriptors);
-
-	  cout << className << ":  "  << epdf->d_name << "  " << descriptors.size() << endl;
-
-	  if (!descriptors.empty())
-	    bowtrainer->add(descriptors);
-	}
-     }
-  }
-
-}
-
-void kNNGetFeatures(std::string classDir, const char *className, int label, double sigma, Mat &kNNfeatures, Mat &kNNlabels) {
-
-  DIR *dpdf;
-  struct dirent *epdf;
-  string dot(".");
-  string dotdot("..");
-
-  char buf[1024];
-  sprintf(buf, "%s%s", classDir.c_str(), className);
-  dpdf = opendir(buf);
-  if (dpdf != NULL){
-     while (epdf = readdir(dpdf)){
-	if (dot.compare(epdf->d_name) && dotdot.compare(epdf->d_name)) {
-
-	  vector<KeyPoint> keypoints;
-	  Mat descriptors;
-
-	  char filename[1024];
-	  sprintf(filename, "%s%s/%s", classDir.c_str(), className, epdf->d_name);
-	  Mat image;
-	  image = imread(filename);
-	  Mat gray_image;
-	  cvtColor(image, gray_image, CV_BGR2GRAY);
-	  GaussianBlur(gray_image, gray_image, cv::Size(0,0), sigma);
-
-	  detector->detect(gray_image, keypoints);
-	  bowExtractor->compute(gray_image, keypoints, descriptors);
-
-	  cout << className << ":  "  << epdf->d_name << "  " << descriptors.size() << endl;
-
-	  if (!descriptors.empty()) {
-	    kNNfeatures.push_back(descriptors);
-	    kNNlabels.push_back(label);
-	  }
-	}
-     }
-  }
-
-}
 
 /* Notes
 
