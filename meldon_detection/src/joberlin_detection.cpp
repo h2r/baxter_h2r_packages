@@ -77,7 +77,8 @@ double redDecay = 0.7;
 #include <cv_bridge/cv_bridge.h>
 #include <image_transport/image_transport.h>
 #include <sensor_msgs/image_encodings.h>
-#include <pcl_ros/point_cloud.h>
+#include <pcl/point_cloud.h>
+#include <pcl/point_types.h>
 #include <pcl_conversions/pcl_conversions.h>
 
 //#include <cv.h>
@@ -86,10 +87,10 @@ double redDecay = 0.7;
 #include <opencv2/nonfree/nonfree.hpp>
 //#include <opencv2/opencv.hpp>
 
-#include "BING/Objectness/stdafx.h"
-#include "BING/Objectness/Objectness.h"
-#include "BING/Objectness/ValStructVec.h"
-#include "BING/Objectness/CmShow.h"
+#include "stdafx.h"
+#include "Objectness.h"
+#include "ValStructVec.h"
+#include "CmShow.h"
 
 //KernelDescManager* kdm;
 static unsigned int LOC_MODEL_TYPE=0; //0 or 3
@@ -285,7 +286,7 @@ void depthCallback(const sensor_msgs::ImageConstPtr& msg){
 
 void getCluster(pcl::PointCloud<pcl::PointXYZRGB> &cluster, pcl::PointCloud<pcl::PointXYZRGB> &cloud, std::vector<cv::Point> &points)
 {
-  pcl::PointXYZRGB point;
+  cv::Point point;
   for (int i = 0; i < points.size(); i++)
   {
     point = points[i];
@@ -296,7 +297,7 @@ void getCluster(pcl::PointCloud<pcl::PointXYZRGB> &cluster, pcl::PointCloud<pcl:
 geometry_msgs::Pose getPose(pcl::PointCloud<pcl::PointXYZRGB> &cluster)
 {
   geometry_msgs::Pose pose;
-  double sum_x = 0; sum_y = 0; sum_z = 0;
+  double sum_x = 0, sum_y = 0, sum_z = 0;
   for (int i = 0; i < cluster.size(); i++)
   {
     pcl::PointXYZRGB point = cluster[i];
@@ -707,7 +708,7 @@ void imageCallback(const sensor_msgs::ImageConstPtr& msg){
 #ifdef RUN_INFERENCE
   vector<int> bLabels;
   // classify the crops
-  to_send.objects.resize(bTops);
+  to_send.objects.resize(bTops.size());
   for (int c = 0; c < bTops.size(); c++) {
     vector<KeyPoint> keypoints;
     Mat descriptors;
@@ -1198,7 +1199,7 @@ void imageCallback(const sensor_msgs::ImageConstPtr& msg){
 
 void pointCloudCallback(const sensor_msgs::PointCloud2ConstPtr& msg)
 {
-  pcl::fromROSMsg(msg, pointCloud);
+  pcl::fromROSMsg(*msg, pointCloud);
 }
 
 void clusterCallback(const visualization_msgs::MarkerArray& msg){
@@ -1316,8 +1317,8 @@ int main(int argc, char **argv) {
   ros::NodeHandle n;
   std::string s;
 
-  package_path = ros::package::getPath("meldon_detection")
-  class_crops_path = package_path + "class_crops/%s/%s_%d.ppm"
+  package_path = ros::package::getPath("meldon_detection");
+  class_crops_path = package_path + "class_crops/%s/%s_%d.ppm";
   models_path = package_path + "trained_model";
   objectness_matrix_path = models_path = "ObjNessB2W8I.idx.yml";
   trained_model_path = trained_model_path + "ObjNessB2W8MAXBGR";
@@ -1328,9 +1329,10 @@ int main(int argc, char **argv) {
 
   image_transport::ImageTransport it(n);
   ros::Subscriber clusters = n.subscribe("/tabletop/clusters", 1, clusterCallback);
+  ros::Subscriber points = n.subscribe("/camera/depth_registered/points", 1, pointCloudCallback);
 
   //rec_objs = n.advertise<object_recognition_msgs::RecognizedObjectArray>("labeled_objects", 10);
-  rec_objs = n.advertise<meldon_detection::RecognizedObjectArray>("labeled_objects", 10);
+  rec_objs = n.advertise<object_recognition_msgs::RecognizedObjectArray>("labeled_objects", 10);
 
   image_sub = it.subscribe("/camera/rgb/image_raw", 1, imageCallback);
   //depth_sub = it.subscribe("/camera/depth_registered/image_raw", 1, depthCallback);
@@ -1348,14 +1350,14 @@ int main(int argc, char **argv) {
   glObjectness = &(objNess);
 
   CvMat* my_matrix;
-  my_matrix = (CvMat*)cvLoad(objectness_matrix_path);
+  my_matrix = (CvMat*)cvLoad(objectness_matrix_path.c_str());
   int *data = my_matrix->data.i;
 
   cout << "test" << endl << "test" << data[0] << data[1] << data[2] << data[6] << endl << endl;
 
   //int result = objNess.loadTrainedModel("/home/oberlin/catkin_ws_baxter/src/baxter_h2r_packages/meldon_detection/ObjectnessTrainedModel/ObjNessB2W8I");
   //int result = objNess.loadTrainedModel("/home/oberlin/catkin_ws_baxter/src/baxter_h2r_packages/meldon_detection/ObjectnessTrainedModel/ObjNessB2W8HSV");
-  int result = objNess.loadTrainedModel(model_path);
+  int result = objNess.loadTrainedModel(trained_model_path);
   cout << "result: " << result << endl << endl;
 
   fc = 0;
