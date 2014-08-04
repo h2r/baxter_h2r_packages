@@ -10,14 +10,15 @@
 
 	<arg name="calibrated_image_topic" default="/cameras/left_hand_camera/image" />
 	<arg name="calibrated_info_topic" default="/cameras/left_hand_camera/camera_info" />		
-	<arg name="calibrated_frame" default="/reference/left_hand_camera" />
+	<arg name="calibrated_frame" default="/left_hand_camera" />
 
 	<arg name="output_frame" default="/world" />
 	<arg name="median_filter_size" default="10" />
 
 	<arg name="calibration_bundle" default="$(find baxter_kinect_calibration)/bundles/table_8_9_10.xml" />
+	<arg name="launch_kinect" default="true" />
 
-	<include file="$(find openni_launch)/launch/openni.launch">
+	<include if="$(arg launch_kinect)" file="$(find openni_launch)/launch/openni.launch">
         <arg name="depth_registration" value="true" />
     </include>
 

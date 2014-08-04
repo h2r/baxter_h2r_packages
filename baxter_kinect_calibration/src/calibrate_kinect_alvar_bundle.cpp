@@ -383,6 +383,9 @@ void addTransformToAverage(tf::Transform incoming, std::deque<tf::Transform> &tr
 
   transform.setOrigin((1 - t) * vec + t * iVec);
   transform.setRotation(quat.slerp(iQuat, t));
+
+  tf::Vector3 tVec = transform.getOrigin();
+  tf::Quaternion tQuat = transform.getRotation();
 }
 
 
@@ -535,23 +538,27 @@ void getPointCloudCallback (const sensor_msgs::PointCloud2ConstPtr &msg)
     Pose p = (*(kinect_marker_detector.markers))[i].pose;
     
     tf::Transform t = getTransformFromPose(p);
+
+
+    tf::Vector3 iVec = t.getOrigin();
+    tf::Quaternion iQuat = t.getRotation();
+    ROS_INFO_STREAM("transform origin: " << iVec.x() << ", " << iVec.y() << ", " << iVec.z() << " orientation: " << iQuat.x() << ", " << iQuat.y() << ", " << iQuat.z() << ", " << iQuat.w());
+  
+
     tf::Vector3 markerOrigin (0, 0, 0);
     tf::Quaternion quat;
     quat.setRPY(0,0,-3.14159/2.0);
     tf::Transform m (quat, markerOrigin);
     tf::Transform markerPose = t * m; // marker pose in the camera frame
 
-    tf::StampedTransform camBaseToCamera;
-    try{
-      
-      tf_listener->waitForTransform(kinectBaseLinkFrameID, image_msg->header.frame_id, now, ros::Duration(1.0));
-      tf_listener->lookupTransform(kinectBaseLinkFrameID, image_msg->header.frame_id, now, camBaseToCamera);
-    }
-    catch (tf::TransformException ex){
-      ROS_ERROR("%s",ex.what());
-    }
-   
-    tf::Transform linkToMarker = camBaseToCamera * markerPose;
+
+    tf::Transform camBaseTransform;
+    tf::Vector3 camBaseTransformOrigin(0, -0.020, 0);
+    tf::Quaternion camBaseTransformQuat(-0.500, 0.500, -0.500, 0.500);
+    camBaseTransform.setOrigin(camBaseTransformOrigin);
+    camBaseTransform.setRotation(camBaseTransformQuat);
+    
+    tf::Transform linkToMarker = camBaseTransform * markerPose;
     if (!isIdentityTransform(markerPose))
     {
       addTransformToAverage(linkToMarker.inverse(), kinectTransforms, kinectTransform);
