@@ -7,7 +7,7 @@ import copy
 import genpy
 import yaml
 
-from geometry_msgs.msg import PoseStamped, Quaternion
+from geometry_msgs.msg import PoseStamped, Quaternion, Point
 from tf import TransformListener, TransformBroadcaster, LookupException, ConnectivityException, ExtrapolationException
 from moveit_msgs.msg import Grasp
 from trajectory_msgs.msg import JointTrajectoryPoint
@@ -18,7 +18,7 @@ class GraspingHelper:
 	@staticmethod
 	def get_available_commands():
 		return {
-			"": GraspingHelper.get_annotated_grasp_pose,
+			"": GraspingHelper.get_annotated_grasp,
 			"circle":GraspingHelper.get_circle_grasps,
 			"line":GraspingHelper.get_line_grasps
 		}
@@ -32,7 +32,7 @@ class GraspingHelper:
 		return pose_stamped
 
 	@staticmethod
-	def get_gripper(self):
+	def get_gripper():
 		gripper = raw_input("'left' or 'right' ")
 		while gripper != 'left' and gripper != 'right':
 			gripper = raw_input("'left' or 'right' ")
@@ -42,7 +42,7 @@ class GraspingHelper:
 	def get_name(objects):
 		index = 0
 		for object in objects:
-			print(str(index) + ") " + self.object_lookup[object] + " (" + str(object) + ")")
+			print(str(index) + ") " +  str(object) )
 			index = index + 1
 		keep_going = True
 		chosen_object = -1
@@ -57,13 +57,12 @@ class GraspingHelper:
 		return objects[chosen_object]
 
 	@staticmethod
-	def get_annotated_grasp(gripper, gripper_frame_id, object_frame_id, index):
-		grasp_pose = GraspingHelper.get_annotated_grasp_pose(gripper_frame_id, object_frame_id)
-		return GraspingHelper.get_grasp_from_pose(grasp_pose, gripper, str(index))
+	def get_annotated_grasp(transformer, gripper, gripper_frame_id, object_frame_id, index):
+		grasp_pose = GraspingHelper.get_annotated_grasp_pose(transformer, gripper_frame_id, object_frame_id)
+		return [GraspingHelper.get_grasp_from_pose(grasp_pose, gripper, str(index))]
 
 	@staticmethod
-	def get_annotated_grasp_pose(gripper_frame_id, object_frame_id):
-		transformer = TransformListener()
+	def get_annotated_grasp_pose(transformer, gripper_frame_id, object_frame_id):
 		when = transformer.getLatestCommonTime(gripper_frame_id, object_frame_id)
 		transform = transformer.lookupTransform(gripper_frame_id, object_frame_id, when)
 		grasp_pose = PoseStamped()
@@ -73,12 +72,12 @@ class GraspingHelper:
 		return grasp_pose
 
 	@staticmethod
-	def get_line_grasps(gripper, gripper_frame_id, object_frame_id, start_index):
+	def get_line_grasps(transformer, gripper, gripper_frame_id, object_frame_id, start_index):
 		grasps = []
-		start_pose = GraspingHelper.get_annotated_grasp_pose(object_id)
+		start_pose = GraspingHelper.get_annotated_grasp_pose(transformer, gripper_frame_id, object_id)
 		response = raw_input("Move gripper to other point in line. Type 'stahp' to cancel ")
 		if response !="staph":
-			end_pose = GraspingHelper.get_annotated_grasp_pose(object_id)
+			end_pose = GraspingHelper.get_annotated_grasp_pose(transformer, gripper_frame_id, object_id)
 			
 			num_grasps = -1
 			while num_grasps == -1:
@@ -99,9 +98,9 @@ class GraspingHelper:
 		return grasps
 
 	@staticmethod
-	def get_circle_grasps(gripper, gripper_frame_id, object_frame_id, start_index):
+	def get_circle_grasps(transformer, gripper, gripper_frame_id, object_frame_id, start_index):
 		grasps = []
-		start_pose = GraspingHelper.get_annotated_grasp_pose(object_id)
+		start_pose = GraspingHelper.get_annotated_grasp_pose(transformer, gripper_frame_id, object_id)
 		roll, pitch, yaw = GraspingHelper.get_array_from_quaternion(start_pose.pose.orientation)
 		num_grasps = -1
 		while num_grasps == -1:
@@ -121,7 +120,7 @@ class GraspingHelper:
 			rospy.loginfo("yaw: " + str(newYaw))
 			dX = dist * math.cos(newYaw)
 			dY = dist * math.sin(newYaw)
-			pose.pose.orientation = self.get_quaternion_from_array(newQuat)
+			pose.pose.orientation = GraspingHelper.get_quaternion_from_array(newQuat)
 			pose.pose.position.x = dX
 			pose.pose.position.y = dY
 			grasp = GraspingHelper.get_grasp_from_pose(gripper, pose, start_index + i)
@@ -190,10 +189,10 @@ class GraspingHelper:
 		
 
 	@staticmethod
-	def get_array_from_quaternion(self, quaternion):
+	def get_array_from_quaternion(quaternion):
 		arry = (quaternion.x, quaternion.y, quaternion.z, quaternion.w)
 		return euler_from_quaternion(arry)
 
 	@staticmethod
-	def get_quaternion_from_array(self, arry):
+	def get_quaternion_from_array(arry):
 		return Quaternion(*arry)
