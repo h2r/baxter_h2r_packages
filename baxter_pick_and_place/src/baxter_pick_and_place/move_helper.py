@@ -153,7 +153,7 @@ class MoveHelper:
 		return marker
 
 	@staticmethod
-	def add_table(position = None, height = 1.0):
+	def add_table(position = None, height = 0.2):
 		from geometry_msgs.msg import PoseStamped
 		scene = moveit_commander.PlanningSceneInterface()
 		p = PoseStamped()
@@ -165,4 +165,4 @@ class MoveHelper:
 	  	else:
 	  		p.pose.position = position
 	  		p.pose.position.z -= height / 2.0
-  		scene.add_box("table", p, (2.1, 2.0, height))#0.35
+  		scene.add_box("table", p, (1.4, 2.0, height))#0.35
