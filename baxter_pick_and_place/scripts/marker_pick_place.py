@@ -191,7 +191,7 @@ class Pick:
 		self.group.set_planning_time(20)
 		self.group.set_start_state_to_current_state()
 
-		grasps = MoveHelper.set_grasps_at_pose(self.object_poses[object_name], graspResponse.grasps)
+		grasps = MoveHelper.set_grasps_at_pose(self.object_poses[object_name], graspResponse.grasps, self.transformer)
 		self.publishMarkers(grasps, object_name)
 		
 		result = self.group.pick(object_name, grasps * 5)
@@ -228,7 +228,6 @@ class Pick:
 	def go(self, args):
 		moveit_commander.roscpp_initialize(args)
 		MoveHelper.move_to_neutral("left", True)
-		MoveHelper.add_table()
 		rospy.sleep(5.0)
 		rospy.spin()
 

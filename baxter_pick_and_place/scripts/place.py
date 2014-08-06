@@ -102,9 +102,10 @@ class Place:
 		self.group.set_planning_time(20)
 		self.group.set_start_state_to_current_state()
 
-		grasps = self.setGrasps(object_name, pose, graspResponse.grasps)
+		grasps = MoveHelper.set_grasps_at_pose(pose, graspResponse.grasps, self.transformer)
 		self.publishMarkers(grasps, object_name)
-		result = self.group.pick(object_name, grasps * 10)
+		
+		result = self.group.pick(object_name, grasps * 5)
 		return result
 
 	def addObject(self, name):
@@ -139,24 +140,6 @@ class Place:
 			place_pose.pose.orientation.w = quat[3]
 			place_poses.append(place_pose)
 		return place_poses
-
-	def setGrasps(self, name, pose, grasps):
-		correctedGrasps = []
-		index = 0
-		for grasp in grasps:
-			newGrasp = copy.deepcopy(grasp)
-			newGrasp.id = str(index)
-			index += 1
-			newGrasp.pre_grasp_posture.header.stamp = rospy.Time(0)
-			newGrasp.grasp_posture.header.stamp = rospy.Time(0)
-			newGrasp.grasp_pose.header.frame_id = 'world'
-			newGrasp.grasp_pose.pose.position.x += pose.pose.position.x
-			newGrasp.grasp_pose.pose.position.y += pose.pose.position.y
-			newGrasp.grasp_pose.pose.position.z += pose.pose.position.z
-			newGrasp.grasp_quality = 1.0
-			correctedGrasps.append(newGrasp)
-		rospy.loginfo("corrected_grasps: "  + str(correctedGrasps))
-		return correctedGrasps
 
 	def publishMarkers(self, grasps, object_name):
 		markers = MoveHelper.create_grasp_markers(grasps, object_name)

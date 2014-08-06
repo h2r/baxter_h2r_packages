@@ -3,22 +3,25 @@
 import roslib
 roslib.load_manifest("baxter_pick_and_place")
 import rospy
-import math
-import sys
-import copy
-import moveit_commander
-import baxter_interface
-import genpy
-import random
-import traceback
-import tf
-import actionlib
-import tf.transformations
-import copy
 
+import copy
+import genpy
+import math
+import numpy
+import random
+import sys
+import traceback
+
+import actionlib
+import baxter_interface
+import moveit_commander
+import tf
+import tf.transformations
+
+from tf import TransformListener
 from visualization_msgs.msg import Marker
 from trajectory_msgs.msg import JointTrajectory, JointTrajectoryPoint
-from geometry_msgs.msg import Point, Quaternion, Pose	
+from geometry_msgs.msg import Point, PointStamped, Vector3, Vector3Stamped, Quaternion, Pose	
 from control_msgs.msg import FollowJointTrajectoryGoal, FollowJointTrajectoryAction
 
 class MoveHelper:
@@ -81,7 +84,7 @@ class MoveHelper:
 		return joint_arrays
 
 	@staticmethod
-	def set_grasps_at_pose(pose, grasps):
+	def set_grasps_at_pose(pose, grasps, transformer):
 		correctedGrasps = []
 		index = 0
 		for grasp in grasps:
@@ -92,6 +95,11 @@ class MoveHelper:
 			newGrasp.grasp_posture.header.stamp = rospy.Time(0)
 			newGrasp.grasp_pose.header.frame_id = 'world'
 			newGrasp.grasp_pose.pose = MoveHelper._get_grasp_pose_relative_to_pose(grasp.grasp_pose.pose, pose.pose)
+			print(str(newGrasp.pre_grasp_approach.direction))
+			newGrasp.pre_grasp_approach.direction = MoveHelper._get_direction_from_pose(transformer, newGrasp.grasp_pose, newGrasp.pre_grasp_approach.direction)
+			print(str(newGrasp.pre_grasp_approach.direction))
+			
+
 			newGrasp.grasp_quality = 1.0
 			correctedGrasps.append(newGrasp)
 
@@ -100,11 +108,7 @@ class MoveHelper:
 	@staticmethod
 	def _get_grasp_pose_relative_to_pose(grasp_pose, pose):
 		grasp_pose_transform = MoveHelper._get_transform_from_pose(grasp_pose)
-		print(str(grasp_pose))
-		print(str(grasp_pose_transform))
 		pose_transform = MoveHelper._get_transform_from_pose(pose)
-		print(str(pose))
-		print(str(pose_transform))
 		total_transform = tf.transformations.concatenate_matrices(pose_transform, grasp_pose_transform)
 		
 		new_pose_quaternion = tf.transformations.quaternion_from_matrix(total_transform)
@@ -116,6 +120,13 @@ class MoveHelper:
 		rotation = tf.transformations.quaternion_matrix((pose.orientation.x, pose.orientation.y, pose.orientation.z, pose.orientation.w))
 		translation = tf.transformations.translation_matrix((pose.position.x, pose.position.y, pose.position.z))
 		return tf.transformations.concatenate_matrices(translation, rotation)
+
+	@staticmethod
+	def _get_direction_from_pose(transformer, grasp_pose, vector):
+		grasp_pose_transform = MoveHelper._get_transform_from_pose(grasp_pose.pose)
+		numpy_vector = numpy.array([vector.vector.x, vector.vector.y, vector.vector.z, 0.0])
+		v = grasp_pose_transform.dot(numpy_vector)
+		return Vector3Stamped(header=grasp_pose.header, vector=Vector3(x=v[0], y=v[1], z=v[2]))
 
 	@staticmethod
 	def create_grasp_markers(grasps, object_name):
