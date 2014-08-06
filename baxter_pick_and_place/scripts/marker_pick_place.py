@@ -94,8 +94,15 @@ class Pick:
 
 	def add_object_at_pose(self, name, pose):
 		width = 0.03
-		pose.pose.position.z += 0.1
-		self.scene.add_box(name, pose, (width, width, 0.2))
+		length = 0.2
+		height = 0.2
+		if name == "spoon":
+			width = 0.03
+			height = 0.03
+			length = 0.2
+
+		pose.pose.position.z += height / 2.0
+		self.scene.add_box(name, pose, (length, width, height))
 
 	def getPoseStampedFromPoseWithCovariance(self, pose):
 		pose_stamped = PoseStamped()
@@ -142,6 +149,7 @@ class Pick:
 		rospy.loginfo("Attempting to pick up object " + object_name)
 		self.is_picking = True
 		MoveHelper.move_to_neutral("left", True)
+
 		pickSuccess = False
 		try:
 			pickSuccess = self.pick(object_name)
