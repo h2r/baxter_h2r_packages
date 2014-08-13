@@ -3,9 +3,12 @@
 import roslib
 roslib.load_manifest("baxter_grasps_server")
 import rospy
+
 import copy
 import genpy
+import math
 import yaml
+
 
 from geometry_msgs.msg import PoseStamped, Quaternion, Point
 from tf import TransformListener, TransformBroadcaster, LookupException, ConnectivityException, ExtrapolationException
@@ -63,8 +66,7 @@ class GraspingHelper:
 
 	@staticmethod
 	def get_annotated_grasp_pose(transformer, gripper_frame_id, object_frame_id):
-		when = transformer.getLatestCommonTime(gripper_frame_id, object_frame_id)
-		transform = transformer.lookupTransform(gripper_frame_id, object_frame_id, when)
+		transform = transformer.lookupTransform(object_frame_id, gripper_frame_id, rospy.Time())
 		grasp_pose = PoseStamped()
 		grasp_pose.pose.position = Point(transform[0][0], transform[0][1], transform[0][2])
 		grasp_pose.pose.orientation = Quaternion(transform[1][0], transform[1][1], transform[1][2], transform[1][3])
@@ -74,10 +76,10 @@ class GraspingHelper:
 	@staticmethod
 	def get_line_grasps(transformer, gripper, gripper_frame_id, object_frame_id, start_index):
 		grasps = []
-		start_pose = GraspingHelper.get_annotated_grasp_pose(transformer, gripper_frame_id, object_id)
+		start_pose = GraspingHelper.get_annotated_grasp_pose(transformer, gripper_frame_id, object_frame_id)
 		response = raw_input("Move gripper to other point in line. Type 'stahp' to cancel ")
 		if response !="staph":
-			end_pose = GraspingHelper.get_annotated_grasp_pose(transformer, gripper_frame_id, object_id)
+			end_pose = GraspingHelper.get_annotated_grasp_pose(transformer, gripper_frame_id, object_frame_id)
 			
 			num_grasps = -1
 			while num_grasps == -1:
@@ -100,7 +102,7 @@ class GraspingHelper:
 	@staticmethod
 	def get_circle_grasps(transformer, gripper, gripper_frame_id, object_frame_id, start_index):
 		grasps = []
-		start_pose = GraspingHelper.get_annotated_grasp_pose(transformer, gripper_frame_id, object_id)
+		start_pose = GraspingHelper.get_annotated_grasp_pose(transformer, gripper_frame_id, object_frame_id)
 		roll, pitch, yaw = GraspingHelper.get_array_from_quaternion(start_pose.pose.orientation)
 		num_grasps = -1
 		while num_grasps == -1:
@@ -123,7 +125,7 @@ class GraspingHelper:
 			pose.pose.orientation = GraspingHelper.get_quaternion_from_array(newQuat)
 			pose.pose.position.x = dX
 			pose.pose.position.y = dY
-			grasp = GraspingHelper.get_grasp_from_pose(gripper, pose, start_index + i)
+			grasp = GraspingHelper.get_grasp_from_pose(pose, gripper, start_index + i)
 			grasps.append(grasp)
 		return grasps
 

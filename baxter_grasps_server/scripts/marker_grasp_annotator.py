@@ -13,6 +13,7 @@ import copy
 
 from threading import Thread
 from baxter_grasps_server.grasping_helper import GraspingHelper
+from baxter_pick_and_place.move_helper import MoveHelper
 from std_msgs.msg import String
 from geometry_msgs.msg import Point, Quaternion, PoseStamped
 from trajectory_msgs.msg import JointTrajectoryPoint
@@ -21,6 +22,7 @@ from object_recognition_msgs.msg import RecognizedObjectArray
 from object_recognition_msgs.srv import GetObjectInformation
 from trajectory_msgs.msg import JointTrajectoryPoint
 from ar_track_alvar.msg import AlvarMarker, AlvarMarkers
+from visualization_msgs.msg import Marker
 
 from tf import TransformListener, TransformBroadcaster, LookupException, ConnectivityException, ExtrapolationException
 
@@ -29,8 +31,9 @@ from tf import TransformListener, TransformBroadcaster, LookupException, Connect
 class Annotator:
 	def __init__(self):
 		rospy.Subscriber("/ar_objects", RecognizedObjectArray, self.object_callback)
+		self.markers_publisher = rospy.Publisher("/grasp_markers", Marker)
 		self.object_info = rospy.ServiceProxy('get_object_info', GetObjectInformation)
-		self.transformer = TransformListener()
+		self.transformer = TransformListener(True, rospy.Duration(30.0))
 		self.broadcaster = TransformBroadcaster()
 		self.is_annotating = False
 		self.commands = GraspingHelper.get_available_commands()
@@ -58,7 +61,7 @@ class Annotator:
 	def annotate_grasps(self):
 		object_id = GraspingHelper.get_name(self.objects)
 		self.gripper = GraspingHelper.get_gripper()
-		self.frame_id = self.gripper + "_gripper"
+		self.frame_id = self.gripper + "_wrist"
 
 		self.grasps = []
 		keep_going = True
@@ -73,7 +76,17 @@ class Annotator:
 				return
 			index += 1
 			self.grasps.extend(grasps)
-		
+			print(str(self.object_poses[object_id]))
+			to_publish_grasps = MoveHelper.set_grasps_at_pose(self.object_poses[object_id], self.grasps, self.transformer)
+			self.publish_grasp_markers(to_publish_grasps, object_id)
+	
+	def publish_grasp_markers(self, grasps, object_id):
+		for grasp in grasps:
+			print(str(grasp.grasp_pose))
+		markers = MoveHelper.create_grasp_markers(grasps, object_id)
+		for marker in markers:
+			print(str(marker))
+			self.markers_publisher.publish(marker)
 		
 	def write_grasps(self, *args):
 		GraspingHelper.write_grasps(self.grasps)

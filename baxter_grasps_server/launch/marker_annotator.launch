@@ -1,0 +1,27 @@
+<launch>
+	<arg name="x" default="0" />
+	<arg name="y" default="0" />
+	<arg name="z" default="0" />
+	<arg name="qx" default="0" />
+	<arg name="qy" default="0" />
+	<arg name="qz" default="0" />
+	<arg name="qw" default="1.0" />
+	<arg name="launch_kinect" default="true" />
+
+	<group if="$(arg launch_kinect)">
+		<include file="$(find openni_launch)/launch/openni.launch">
+	        <arg name="depth_registration" value="true" />
+	    </include>
+
+	    <node name="kinect_transformer" pkg="tf" type="static_transform_publisher" 
+	    	args="$(arg x) $(arg y) $(arg z) $(arg qx) $(arg qy) $(arg qz) $(arg qw) /world /camera_link 10" />
+	</group>
+
+	<include file="$(find baxter_kinect_calibration)/launch/baxter_indiv.launch">
+    	<arg name="launch_kinect" value="false"/>
+    </include>
+
+    <node name="object_identifier" pkg="object_identifier" type="object_identifier.py" />
+
+    <node name="marker_annotator" pkg="baxter_grasps_server" type="marker_grasp_annotator.py" output="screen" />
+</launch>
