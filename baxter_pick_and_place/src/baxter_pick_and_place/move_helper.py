@@ -21,7 +21,7 @@ import tf.transformations
 from tf import TransformListener
 from visualization_msgs.msg import Marker
 from trajectory_msgs.msg import JointTrajectory, JointTrajectoryPoint
-from geometry_msgs.msg import Point, PointStamped, Vector3, Vector3Stamped, Quaternion, Pose	
+from geometry_msgs.msg import Point, PointStamped, Vector3, Vector3Stamped, Quaternion, Pose, PoseStamped	
 from control_msgs.msg import FollowJointTrajectoryGoal, FollowJointTrajectoryAction
 
 class MoveHelper:
@@ -38,14 +38,68 @@ class MoveHelper:
 	def _move_to_neutral_follow_joint(limb):
 		limb_command = actionlib.SimpleActionClient("/robot/" + limb + "_velocity_trajectory_controller/follow_joint_trajectory", FollowJointTrajectoryAction)
 		limb_command.wait_for_server()
-		arm = baxter_interface.limb.Limb(limb)
 
+		arm = baxter_interface.limb.Limb(limb)
+		
+		current_angles = dict()
+		keep_going = True
+		while keep_going:
+			try: #because joint_angles doesn't always work???
+				current_angles = arm.joint_angles()
+				diff = -0.55 - current_angles["left_s1"] 
+				left_e1 = current_angles["left_e1"] - diff
+				left_w1 = current_angles["left_w1"] - diff
+				keep_going = False
+			except KeyError as e:
+				keep_going = True
+
+		pick_up_shoulder = MoveHelper._create_joint_angles({"left_s1" : -0.55, "left_e1":left_e1, "left_w1": left_w1}, arm)
+		pick_up_shoulder_trajectory = MoveHelper._create_joint_trajectory(arm, limb_command, pick_up_shoulder)
+
+		neutral_angles = MoveHelper._create_joint_angles(MoveHelper._neutral(arm), arm, pick_up_shoulder)
+		neutral_angles_trajectory = MoveHelper._create_joint_trajectory(arm, limb_command, neutral_angles, pick_up_shoulder)
+
+		trajectory = MoveHelper._concatenate_trajectories(pick_up_shoulder_trajectory, neutral_angles_trajectory)
+		MoveHelper._execute_joint_follower_trajectory(trajectory, limb_command)
+
+	@staticmethod
+	def _neutral(arm):
+		return dict(zip(arm.joint_names(),
+                [0.0, -0.55, 0.0, 0.75, 0.0, 1.26, 0.0]))
+
+	@staticmethod
+	def _create_joint_angles(new_angles, arm, base_angles = None):
+		if base_angles is None:
+			base_angles = arm.joint_angles()
+		angles = copy.deepcopy(base_angles)
+		for joint, angle in new_angles.iteritems():
+			angles[joint] = angle
+		return angles
+
+	@staticmethod
+	def _concatenate_trajectories(*trajectories):
+		if len(trajectories) == 0:
+			return
+		trajectory = copy.deepcopy(trajectories[0])
+		trajectory.points = []
+		index = 0
+		for traj in trajectories:
+			for point in traj.points:
+				point.time_from_start = rospy.Duration(0.02 * index)
+				trajectory.points.append(point)
+				index+=1
+		trajectory.header.stamp = rospy.Time.now() + rospy.Duration(1.0)
+		return trajectory
+
+	@staticmethod
+	def _create_joint_trajectory(arm, limb_command, goal_angles, start_angles = None):
 		trajectory = JointTrajectory()
 		trajectory.header.stamp = rospy.Time.now()
-		current_joints = arm.joint_angles()
-		angles = dict(zip(arm.joint_names(),
-                          [0.0, -0.55, 0.0, 0.75, 0.0, 1.26, 0.0]))
-		joints = MoveHelper.interpolate_joint_positions(current_joints, angles)
+
+		if start_angles is None:
+			start_angles = arm.joint_angles()
+		
+		joints = MoveHelper.interpolate_joint_positions(start_angles, goal_angles)
 		index = 0
 		for joint_dict in joints:
 			point = JointTrajectoryPoint()
@@ -58,8 +112,12 @@ class MoveHelper:
 				point.positions.append(angle)
 			trajectory.points.append(point)
 		trajectory.header.stamp = rospy.Time.now() + rospy.rostime.Duration(1.0)
-		goal = FollowJointTrajectoryGoal(trajectory=trajectory)
-		rospy.loginfo("Moving left arm to neutral ")
+		return trajectory
+		
+
+	@staticmethod
+	def _execute_joint_follower_trajectory(joint_trajectory, limb_command):
+		goal = FollowJointTrajectoryGoal(trajectory=joint_trajectory)
 		limb_command.send_goal(goal)
 		limb_command.wait_for_result()
 
@@ -93,27 +151,58 @@ class MoveHelper:
 			index += 1
 			newGrasp.pre_grasp_posture.header.stamp = rospy.Time(0)
 			newGrasp.grasp_posture.header.stamp = rospy.Time(0)
-			newGrasp.grasp_pose.header.frame_id = 'world'
-			newGrasp.grasp_pose.pose = MoveHelper._get_grasp_pose_relative_to_pose(grasp.grasp_pose.pose, pose.pose)
-			print(str(newGrasp.pre_grasp_approach.direction))
+			newGrasp.grasp_pose = MoveHelper._get_grasp_pose_relative_to_stamped_pose(transformer, grasp.grasp_pose, pose)
 			newGrasp.pre_grasp_approach.direction = MoveHelper._get_direction_from_pose(transformer, newGrasp.grasp_pose, newGrasp.pre_grasp_approach.direction)
-			print(str(newGrasp.pre_grasp_approach.direction))
-			
-
 			newGrasp.grasp_quality = 1.0
 			correctedGrasps.append(newGrasp)
 
 		return correctedGrasps
 
 	@staticmethod
-	def _get_grasp_pose_relative_to_pose(grasp_pose, pose):
-		grasp_pose_transform = MoveHelper._get_transform_from_pose(grasp_pose)
-		pose_transform = MoveHelper._get_transform_from_pose(pose)
+	def _get_grasp_pose_relative_to_stamped_pose(transformer, grasp_pose, pose):
+		rospy.loginfo("object pose")
+		print(str(pose))
+
+		if "world" != pose.header.frame_id:
+			pose = transformer.transformPose("world", pose)
+
+		rospy.loginfo("original grasp pose")
+		print(str(grasp_pose))
+		rospy.loginfo("object pose in world")
+		print(str(pose))
+
+		grasp_pose_transform = MoveHelper._get_transform_from_pose(grasp_pose.pose)
+		pose_transform = MoveHelper._get_transform_from_pose(pose.pose)
 		total_transform = tf.transformations.concatenate_matrices(pose_transform, grasp_pose_transform)
+		
+		rospy.loginfo("transform")
+		print(str(total_transform))
 		
 		new_pose_quaternion = tf.transformations.quaternion_from_matrix(total_transform)
 		scale, shear, angles, translate, perspective = tf.transformations.decompose_matrix(total_transform)
-		return Pose(position=Point(*translate), orientation=Quaternion(*new_pose_quaternion))
+		new_grasp_pose = Pose(position=Point(*translate), orientation=Quaternion(*new_pose_quaternion))
+		new_stamped_pose = PoseStamped(header=pose.header, pose=new_grasp_pose)
+		rospy.loginfo("new grasp pose")
+		print(str(new_stamped_pose))
+		return new_stamped_pose
+
+	@staticmethod
+	def _get_grasp_pose_relative_to_pose(grasp_pose, pose):
+		rospy.loginfo("original grasp pose")
+		print(str(grasp_pose))
+		rospy.loginfo("object pose")
+		print(str(pose))
+		grasp_pose_transform = MoveHelper._get_transform_from_pose(grasp_pose)
+		pose_transform = MoveHelper._get_transform_from_pose(pose)
+		total_transform = tf.transformations.concatenate_matrices(pose_transform, grasp_pose_transform)
+		rospy.loginfo("transform")
+		print(str(total_transform))
+		new_pose_quaternion = tf.transformations.quaternion_from_matrix(total_transform)
+		scale, shear, angles, translate, perspective = tf.transformations.decompose_matrix(total_transform)
+		new_grasp_pose = Pose(position=Point(*translate), orientation=Quaternion(*new_pose_quaternion))
+		rospy.loginfo("new grasp pose")
+		print(str(new_grasp_pose))
+		return new_grasp_pose
 
 	@staticmethod
 	def _get_transform_from_pose(pose):
@@ -126,7 +215,7 @@ class MoveHelper:
 		grasp_pose_transform = MoveHelper._get_transform_from_pose(grasp_pose.pose)
 		numpy_vector = numpy.array([vector.vector.x, vector.vector.y, vector.vector.z, 0.0])
 		v = grasp_pose_transform.dot(numpy_vector)
-		return Vector3Stamped(header=grasp_pose.header, vector=Vector3(x=v[0], y=v[1], z=v[2]))
+		return Vector3Stamped(header=grasp_pose.header, vector=Vector3(v[0], v[1], v[2]))
 
 	@staticmethod
 	def create_grasp_markers(grasps, object_name):
@@ -152,7 +241,7 @@ class MoveHelper:
 		marker.header.frame_id = grasp.grasp_pose.header.frame_id
 		marker.pose = MoveHelper._transpose_grasp_pose_to_marker_pose(grasp.grasp_pose.pose)
 		marker.ns = object_name
-		marker.lifetime.secs = 15
+		marker.lifetime.secs = 10.0
 		marker.action = 0
 		marker.color.r = 1
 		marker.color.g = 1

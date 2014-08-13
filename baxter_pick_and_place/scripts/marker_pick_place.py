@@ -68,16 +68,12 @@ from baxter_core_msgs.srv import SolvePositionIK, SolvePositionIKRequest
 #from meldon_detection.msg import MarkerObjectArray, MarkerObject
 from baxter_grasps_server.srv import GraspService
 from ar_track_alvar.msg import AlvarMarker, AlvarMarkers
-
+from threading import Thread
 from visualization_msgs.msg import Marker
 from baxter_pick_and_place.move_helper import MoveHelper
 
 class Pick:
 	def __init__(self):
-		self.objects = []
-		self.iksvc = None
-		self.object_bounding_boxes = dict()
-		self.objectPoses = dict()
 		self.transformer = TransformListener()
 		
 		self.markers_publisher = rospy.Publisher("/grasp_markers", Marker)
@@ -86,11 +82,13 @@ class Pick:
 		rospy.Subscriber("/ar_objects", RecognizedObjectArray, self.markers_callback)
 		self.graspService = rospy.ServiceProxy('grasp_service', GraspService)
 		self.scene = moveit_commander.PlanningSceneInterface()
-		self.robot = moveit_commander.RobotCommander()
 		self.group = moveit_commander.MoveGroupCommander("left_arm")
 		self.left_arm = baxter_interface.limb.Limb("left")
 		self.limb_command = actionlib.SimpleActionClient("/robot/left_velocity_trajectory_controller/follow_joint_trajectory", FollowJointTrajectoryAction)
 		self.limb_command.wait_for_server()
+
+	def is_picking_or_placing(self):
+		return self.is_picking or self.is_placing
 
 	def add_object_at_pose(self, name, pose):
 		width = 0.03
@@ -117,7 +115,7 @@ class Pick:
 		return transformedPose
 		
 	def markers_callback(self, msg):
-		self.object_poses = dict()
+		object_poses = dict()
 
 		if len(msg.objects) == 0:
 			rospy.logerr("No objects identified")
@@ -126,12 +124,22 @@ class Pick:
 		for object in msg.objects:
 			pose = self.getPoseStampedFromPoseWithCovariance(object.pose)
 			self.add_object_at_pose(str(object.type.key), pose)
-			self.object_poses[str(object.type.key)] = pose
+			object_poses[str(object.type.key)] = pose
 
+		if not self.is_picking_or_placing():
+			self.is_annotating = True
+			self.current_thread = Thread(None, self.pick_and_place, None, (msg.objects, object_poses))
+			self.current_thread.start()
+		
+
+	def pick_and_place(self, objects, object_poses):
+		self.is_picking = True
+		
 		grasps = None
 		object_name = ""
-		random.shuffle(msg.objects)
-		for object in msg.objects:
+		random.shuffle(objects)
+
+		for object in objects:
 			object_name = object.type.key
 			rospy.loginfo("Getting grasp for object " + object_name)
 			graspResponse = self.graspService(object_name)
@@ -147,12 +155,11 @@ class Pick:
 		place_poses = self.getValidPlacePoses()
 
 		rospy.loginfo("Attempting to pick up object " + object_name)
-		self.is_picking = True
 		MoveHelper.move_to_neutral("left", True)
 
 		pickSuccess = False
 		try:
-			pickSuccess = self.pick(object_name)
+			pickSuccess = self.pick(object_poses[object_name], object_name)
 		except Exception as e:
 			traceback.print_exc()
 			#if isinstance(e, TypeError):
@@ -160,19 +167,18 @@ class Pick:
 			#else:
 			raise e
 		finally:
+			self.is_placing = pickSuccess
 			self.is_picking = False
 
 		if not pickSuccess:
 			rospy.logerr("Object pick up failed")
 			return
-
-		self.is_placing = True
 		
 		place_result = False
 		try:
 			for place_pose in place_poses:
 				rospy.loginfo("Attempting to place object")
-				if self.place(object_name, place_pose):
+				if self.place(object_name, object_poses[object_name], place_pose):
 					break
 		except Exception as e:
 			traceback.print_exc()
@@ -180,7 +186,7 @@ class Pick:
 		finally:
 			self.is_placing = False
 
-	def pick(self, object_name):
+	def pick(self, object_pose, object_name):
 		self.group.detach_object()			
 
 		graspResponse = self.graspService(object_name)
@@ -190,15 +196,14 @@ class Pick:
 
 		self.group.set_planning_time(20)
 		self.group.set_start_state_to_current_state()
-
-		grasps = MoveHelper.set_grasps_at_pose(self.object_poses[object_name], graspResponse.grasps, self.transformer)
+		grasps = MoveHelper.set_grasps_at_pose(object_pose, graspResponse.grasps, self.transformer)
 		self.publishMarkers(grasps, object_name)
 		
 		result = self.group.pick(object_name, grasps * 5)
 		return result
 
-	def place(self, object_id, place_pose):
-		goal_pose = copy.deepcopy(self.object_poses[object_id])
+	def place(self, object_id, original_pose, place_pose):
+		goal_pose = copy.deepcopy(original_pose)
 		goal_pose.pose.position.x = place_pose.pose.position.x
 		goal_pose.pose.position.y = place_pose.pose.position.y
 		result = self.group.place(object_id, goal_pose)
