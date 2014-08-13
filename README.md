@@ -53,7 +53,7 @@ While this is running, view the transform so you can make use of it.
 rosrun tf tf_echo /world /camera
 ```
 
-Once satisfied with hte transform, kill the calibration launch file.
+Once satisfied with the transform, kill the calibration launch file.
 
 
 Running ork_pick
