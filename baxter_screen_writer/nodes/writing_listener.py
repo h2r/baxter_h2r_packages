@@ -17,7 +17,7 @@ if __name__ == "__main__":
 	rospy.init_node("screen_writer")
 	writer = ScreenWriter()
 
-	rospy.Subscriber("/speech_recognition", String, cb)
+	rospy.Subscriber("/robot/screen/text", String, cb)
 	rospy.spin()	
 #	rate = rospy.Rate(30)
 #	index = 2

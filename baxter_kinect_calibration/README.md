@@ -1,3 +1,7 @@
+baxter_kinect_calibration makes it easy to calibrate your Kinect device to your robot
+
+Installation
+-----------------------
 Unless you've installed baxter_h2r_packages according to its README, you will also need to get ar_track_alvar
 
 ```
@@ -8,6 +12,8 @@ catkin_make
 
 ```
 
+Usage
+------------------------
 Setup the robot and arm camera
 ```
 $ cd ~/baxter_ws/
