@@ -1,9 +1,0 @@
-#JSGF V1.0;
-
-/**
- * JSGF Grammar for Baxter
- */
-
-grammar baxter;
-
-public <greet> = (Good morning | Hello) ( Bhiksha | Evandro | Paul | Philip | Rita | Will );

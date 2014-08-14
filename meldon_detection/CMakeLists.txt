@@ -14,8 +14,8 @@ find_package(catkin REQUIRED COMPONENTS
   cv_bridge
   image_transport
   message_generation
-  BING
-  PCL
+  bing
+  pcl_ros
 )
 
 add_message_files(
