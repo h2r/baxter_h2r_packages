@@ -160,30 +160,30 @@ class MoveHelper:
 
 	@staticmethod
 	def _get_grasp_pose_relative_to_stamped_pose(transformer, grasp_pose, pose):
-		rospy.loginfo("object pose")
-		print(str(pose))
+		#rospy.loginfo("object pose")
+		#print(str(pose))
 
 		if "world" != pose.header.frame_id:
 			pose = transformer.transformPose("world", pose)
 
-		rospy.loginfo("original grasp pose")
-		print(str(grasp_pose))
-		rospy.loginfo("object pose in world")
-		print(str(pose))
+		#rospy.loginfo("original grasp pose")
+		#print(str(grasp_pose))
+		#rospy.loginfo("object pose in world")
+		#print(str(pose))
 
 		grasp_pose_transform = MoveHelper._get_transform_from_pose(grasp_pose.pose)
 		pose_transform = MoveHelper._get_transform_from_pose(pose.pose)
 		total_transform = tf.transformations.concatenate_matrices(pose_transform, grasp_pose_transform)
 		
-		rospy.loginfo("transform")
-		print(str(total_transform))
+		#rospy.loginfo("transform")
+		#print(str(total_transform))
 		
 		new_pose_quaternion = tf.transformations.quaternion_from_matrix(total_transform)
 		scale, shear, angles, translate, perspective = tf.transformations.decompose_matrix(total_transform)
 		new_grasp_pose = Pose(position=Point(*translate), orientation=Quaternion(*new_pose_quaternion))
 		new_stamped_pose = PoseStamped(header=pose.header, pose=new_grasp_pose)
-		rospy.loginfo("new grasp pose")
-		print(str(new_stamped_pose))
+		#rospy.loginfo("new grasp pose")
+		#print(str(new_stamped_pose))
 		return new_stamped_pose
 
 	@staticmethod

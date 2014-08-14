@@ -8,7 +8,7 @@ find_package(catkin REQUIRED COMPONENTS
   baxter_kinect_calibration
   baxter_ork
   baxter_speech_command
-  listen_and_grasp
+  baxter_pick_and_place
 )
 
 ## System dependencies are found with CMake's conventions

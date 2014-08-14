@@ -43,11 +43,11 @@
   <build_depend>baxter_kinect_calibration</build_depend>
   <build_depend>baxter_ork</build_depend>
   <build_depend>baxter_speech_command</build_depend>
-  <build_depend>listen_and_grasp</build_depend>
+  <build_depend>baxter_pick_and_place</build_depend>
   <run_depend>baxter_kinect_calibration</run_depend>
   <run_depend>baxter_ork</run_depend>
   <run_depend>baxter_speech_command</run_depend>
-  <run_depend>listen_and_grasp</run_depend>
+  <run_depend>baxter_pick_and_place</run_depend>
 
 
   <!-- The export tag contains other, unspecified, tags -->
