@@ -92,22 +92,20 @@ class Pick:
 
 	def add_object_at_pose(self, name, pose):
 		width = 0.03
-		length = 0.2
+		length = 0.03
 		height = 0.2
 		if name == "spoon":
 			width = 0.03
 			height = 0.03
 			length = 0.2
 
-		pose.pose.position.z += height / 2.0
+		#pose.pose.position.z += height / 2.0
 		self.scene.add_box(name, pose, (length, width, height))
 
 	def getPoseStampedFromPoseWithCovariance(self, pose):
 		pose_stamped = PoseStamped()
 		pose_stamped.header= copy.deepcopy(pose.header)
-		pose_stamped.pose.position = copy.deepcopy(pose.pose.pose.position)
-		pose_stamped.pose.position.z -= 0
-		pose_stamped.pose.orientation = copy.deepcopy(pose.pose.pose.orientation)
+		pose_stamped.pose = copy.deepcopy(pose.pose.pose)
 		now = rospy.Time.now()
 		self.transformer.waitForTransform("/world", pose_stamped.header.frame_id, rospy.Time(), rospy.Duration(4,0))
 		pose_stamped.header.stamp = self.transformer.getLatestCommonTime("/world", pose_stamped.header.frame_id)
@@ -125,6 +123,8 @@ class Pick:
 			pose = self.getPoseStampedFromPoseWithCovariance(object.pose)
 			self.add_object_at_pose(str(object.type.key), pose)
 			object_poses[str(object.type.key)] = pose
+			rospy.loginfo("Object pose for object: " + str(object.type.key))
+			print(str(pose))
 
 		if not self.is_picking_or_placing():
 			self.is_annotating = True
@@ -196,9 +196,17 @@ class Pick:
 
 		self.group.set_planning_time(20)
 		self.group.set_start_state_to_current_state()
+
+		rospy.loginfo("Retutrned grasps")
+		print(str(graspResponse.grasps))
 		grasps = MoveHelper.set_grasps_at_pose(object_pose, graspResponse.grasps, self.transformer)
 		self.publishMarkers(grasps, object_name)
 		
+		rospy.loginfo("Grasps to try")
+		print(str(grasps))
+		rospy.loginfo("Object pose")
+		print(str(object_pose))
+
 		result = self.group.pick(object_name, grasps * 5)
 		return result
 
