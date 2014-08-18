@@ -14,29 +14,34 @@ class TableTransformer:
 		self.transformer = tf.TransformListener()
 		rospy.Subscriber("table_array", TableArray, self.table_callback)
 		self.publisher = rospy.Publisher("table_array_transformed", TableArray)
+		self.is_finished = True
 
 	def table_callback(self, msg):
-		table_array = TableArray()
-		table_array.header.frame_id = "world"
-		highest_table = None
-		for table in msg.tables:
-			new_table = Table()
-			new_table.header.frame_id = "world"
+		try:
+			table_array = TableArray()
+			table_array.header.frame_id = "world"
+			highest_table = None
+			for table in msg.tables:
+				new_table = Table()
+				new_table.header.frame_id = "world"
 
-			when = self.transformer.getLatestCommonTime("world", table.header.frame_id)
-			table_pose = PoseStamped(pose=table.pose, header = table.header)
-			table_pose.header.stamp = when
-			
-			new_table.pose = self.transformer.transformPose("world", table_pose).pose
-			new_table.convex_hull = table.convex_hull
-			table_array.tables.append(new_table)
+				table_pose = PoseStamped(pose=table.pose, header = table.header)
+				table_pose.header.stamp = self.transformer.getLatestCommonTime("world", table.header.frame_id)
+				new_table.pose = self.transformer.transformPose("world", table_pose).pose
 
-			if highest_table is None or new_table.pose.position.z > highest_table.pose.position.z:
-				highest_table = new_table
+				new_table.convex_hull = table.convex_hull
+				table_array.tables.append(new_table)
 
-		self.publisher.publish(table_array)
-		MoveHelper.add_table(position=highest_table.pose.position)
-		rospy.signal_shutdown("Table has been added, table transformer is exiting")
+				if highest_table is None or new_table.pose.position.z > highest_table.pose.position.z:
+					highest_table = new_table
+
+			self.publisher.publish(table_array)
+			MoveHelper.add_table(position=highest_table.pose.position)
+			self.is_finished = True
+		except:
+			self.is_finished = False
+		if self.is_finished:
+			rospy.signal_shutdown("Table has been added, table transformer is exiting")
 
 
 
