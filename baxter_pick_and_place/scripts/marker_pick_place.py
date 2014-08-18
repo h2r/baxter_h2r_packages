@@ -197,16 +197,9 @@ class Pick:
 		self.group.set_planning_time(20)
 		self.group.set_start_state_to_current_state()
 
-		rospy.loginfo("Retutrned grasps")
-		print(str(graspResponse.grasps))
 		grasps = MoveHelper.set_grasps_at_pose(object_pose, graspResponse.grasps, self.transformer)
 		self.publishMarkers(grasps, object_name)
 		
-		rospy.loginfo("Grasps to try")
-		print(str(grasps))
-		rospy.loginfo("Object pose")
-		print(str(object_pose))
-
 		result = self.group.pick(object_name, grasps * 5)
 		return result
 
