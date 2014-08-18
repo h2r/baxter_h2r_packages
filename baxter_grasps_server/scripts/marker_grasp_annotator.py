@@ -45,8 +45,6 @@ class Annotator:
 		for object in msg.objects:
 			self.objects.append(object.type.key)
 			self.object_poses[object.type.key] = GraspingHelper.getPoseStampedFromPoseWithCovariance(object.pose)
-			rospy.loginfo("Pose for object : " + str(object.type.key))
-			print(str(self.object_poses[object.type.key]))
 		self.broadcast_transforms()
 
 		if not self.is_annotating:
@@ -78,10 +76,6 @@ class Annotator:
 				return
 			index += 1
 			self.grasps.extend(grasps)
-			rospy.loginfo("Object pose")
-			print(str(self.object_poses[object_id]))
-			rospy.loginfo("grasps")
-			print(str(grasps))
 			to_publish_grasps = MoveHelper.set_grasps_at_pose(self.object_poses[object_id], self.grasps, self.transformer)
 			self.publish_grasp_markers(to_publish_grasps, object_id)
 	
