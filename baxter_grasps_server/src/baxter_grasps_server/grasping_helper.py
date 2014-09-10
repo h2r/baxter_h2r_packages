@@ -148,13 +148,13 @@ class GraspingHelper:
 		grasp.grasp_quality = 1.0
 		grasp.id = str(grasp_id)
 		
-		grasp.post_place_retreat.desired_distance = 0.3
-		grasp.post_place_retreat.min_distance = 0.01
+		grasp.post_place_retreat.desired_distance = 0.1
+		grasp.post_place_retreat.min_distance = 0.05
 		grasp.post_place_retreat.direction.header.frame_id = 'world'
 		grasp.post_place_retreat.direction.vector.z = 1.0
 		
-		grasp.pre_grasp_approach.desired_distance = 0.3
-		grasp.pre_grasp_approach.min_distance = 0.01
+		grasp.pre_grasp_approach.desired_distance = 0.1
+		grasp.pre_grasp_approach.min_distance = 0.05
 		grasp.pre_grasp_approach.direction.header.frame_id = gripper + "_gripper"
 		grasp.pre_grasp_approach.direction.vector.z = 1.0
 

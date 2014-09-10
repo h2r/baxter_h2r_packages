@@ -1,5 +1,11 @@
 #!/usr/bin/env python
 
+# Software License Agreement (BSD License)
+#
+# Copyright (c) 2013, SRI International
+# All rights reserved.
+#
+
 import roslib
 roslib.load_manifest("baxter_pick_and_place")
 
@@ -16,11 +22,13 @@ import traceback
 import math
 import actionlib
 
+## END_SUB_TUTORIAL
+
 from std_msgs.msg import String, Header
 from geometry_msgs.msg import PoseStamped
 from trajectory_msgs.msg import JointTrajectory, JointTrajectoryPoint
 from control_msgs.msg import FollowJointTrajectoryGoal, FollowJointTrajectoryAction
-from moveit_msgs.msg import Grasp, PlanningScene
+from moveit_msgs.msg import Grasp
 from object_recognition_msgs.msg import RecognizedObjectArray
 from tf import TransformListener, LookupException, ConnectivityException, ExtrapolationException
 from tf.transformations import quaternion_from_euler
@@ -36,13 +44,13 @@ from baxter_grasps_server.grasping_helper import GraspingHelper
 class Pick:
 	def __init__(self):
 		self.transformer = TransformListener()
-		self.objects = []
 		self.time_exited = rospy.Time.now()
 		self.markers_publisher = rospy.Publisher("/grasp_markers", Marker)
 		self.is_picking = False
 		self.is_placing = False
 		rospy.Subscriber("/ar_objects", RecognizedObjectArray, self.markers_callback)
 		self.graspService = rospy.ServiceProxy('grasp_service', GraspService)
+		self.scene = moveit_commander.PlanningSceneInterface()
 		self.group = moveit_commander.MoveGroupCommander("left_arm")
 		self.group.set_workspace([0.0, -0.2, -0.30, 0.9, 1.0, 2.0] )
 		self.left_arm = baxter_interface.limb.Limb("left")
@@ -54,22 +62,24 @@ class Pick:
 		
 	def markers_callback(self, msg):
 		object_poses = dict()
+
+		if len(msg.objects) == 0:
+			rospy.logerr("No objects identified")
+			return
+
+		rospy.loginfo("updating objects")
 		
-		print("updating objects")
 		for object in msg.objects:
 			pose = GraspingHelper.getPoseStampedFromPoseWithCovariance(object.pose)
 			object_poses[str(object.type.key)] = pose
-
-		if rospy.Time.now() - self.time_exited > rospy.Duration(2.0):
+			
+		if rospy.Time.now() - self.time_exited > rospy.Duration(10.0):
 			self.pick_and_place(msg.objects, object_poses)
 			self.time_exited = rospy.Time.now()
+		rospy.loginfo("updating objects")
+		
 
 	def pick_and_place(self, objects, object_poses):
-
-		for object, pose in object_poses.iteritems():
-			marker = MoveHelper.create_pose_marker(pose, object, 2, 15, (0,1,0,1))
-			self.markers_publisher.publish(marker)
-
 		self.is_picking = True
 		
 		grasps = None
@@ -136,10 +146,17 @@ class Pick:
 		self.group.set_start_state_to_current_state()
 
 		grasps = MoveHelper.set_grasps_at_pose(object_pose, graspResponse.grasps, self.transformer, object_pose.header.frame_id)
+		#print(str(grasps))
 		self.publishMarkers(grasps, object_name)
 		
-		result = self.group.pick(object_name, grasps * 5)
-		return result
+		for grasp in grasps:
+			self.group.set_pose_target(grasp.grasp_pose)
+			self.group.plan()
+			self.group.go()
+		
+
+		#result = self.group.pick(object_name, grasps * 5)
+		#return result
 
 	def place(self, object_id, original_pose, place_pose):
 		goal_pose = copy.deepcopy(original_pose)

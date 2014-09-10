@@ -76,8 +76,12 @@ class Annotator:
 				return
 			index += 1
 			self.grasps.extend(grasps)
-			to_publish_grasps = MoveHelper.set_grasps_at_pose(self.object_poses[object_id], self.grasps, self.transformer)
-			self.publish_grasp_markers(to_publish_grasps, object_id)
+			try:
+				to_publish_grasps = MoveHelper.set_grasps_at_pose(self.object_poses[object_id], self.grasps, self.transformer)
+				self.publish_grasp_markers(to_publish_grasps, object_id)
+			except KeyError as e:
+				pass
+			
 	
 	def publish_grasp_markers(self, grasps, object_id):
 		for grasp in grasps:

@@ -7,6 +7,7 @@
 	<arg name="qz" default="0" />
 	<arg name="qw" default="1.0" />
 	<arg name="launch_kinect" default="true" />
+	<arg name="marker_size" default="4.8" />
 
 	<group if="$(arg launch_kinect)">
 		<include file="$(find openni_launch)/launch/openni.launch">
@@ -17,9 +18,11 @@
 	    	args="$(arg x) $(arg y) $(arg z) $(arg qx) $(arg qy) $(arg qz) $(arg qw) /world /camera_link 10" />
 	</group>
 
+	<!--
 	<include file="$(find baxter_kinect_calibration)/launch/baxter_indiv.launch">
     	<arg name="launch_kinect" value="false"/>
-    </include>
+    	<arg name="marker_size" value="$(arg marker_size)" />
+    </include>-->
 
     <node name="object_identifier" pkg="object_identifier" type="object_identifier.py" />
 

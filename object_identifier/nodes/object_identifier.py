@@ -14,14 +14,14 @@ defined_objects = [
 	{"class": "gyrobowl", "name": "flour_bowl"},# 1
 	{"class": "gyrobowl", "name": "salt_bowl"},# 2
 	{"class": "gyrobowl", "name": "baking_powder_bovl"},# 3
-	{"class": "gyrobowl", "name": "baking_soda_bowl"},# 4
-	{"class": "gyrobowl", "name": "eggs_bowl"},# 5
-	{"class": "gyrobowl", "name": "sugar_bowl"},# 6
-	{"class": "gyrobowl", "name": "vanilla_bowl"},# 7
-	{"class": "gyrobowl", "name": "butter_bowl"},# 8
-	{"class": "mixing_bowl", "name": "mixing_bowl"}, # 9
+	{"class": "gyrobowl", "name": "eggs_bowl"},# 4
+	{"class": "gyrobowl", "name": "white_sugar_bowl"},# 5
+	{"class": "gyrobowl", "name": "vanilla_bowl"},# 6
+	{"class": "gyrobowl", "name": "butter_bowl"},# 7
+	{"class": "mixing_bowl", "name": "mixing_bowl_1"}, # 8
+	{"class": "mixing_bowl", "name": "whisk"}, # 9
 	{"class": "spoon", "name": "spoon"},# 10
-	{"class": "spoon", "name": "plastic_spoon"},# 11
+	{"class": "spoon", "name": "mixing_bowl_2"},# 11
 ]
 
 
@@ -45,12 +45,15 @@ class ObjectIdentifier:
 
 		objects_msg.header = copy.deepcopy(msg.header)
 		for marker in msg.markers:
-			object = RecognizedObject()
-			
-			object.pose = self.get_pose_from_pose(marker.pose)
-			object.pose.header = copy.deepcopy(marker.header)
-			object.type.key = defined_objects[marker.id]["name"]
-			objects_msg.objects.append(object)
+			if marker.id < len(defined_objects) and marker.pose.pose.position.z > 0.3:
+				object = RecognizedObject()
+				
+				object.pose = self.get_pose_from_pose(marker.pose)
+				#object.pose.pose.pose.orientation.w = 1.0
+				object.pose.header = copy.deepcopy(marker.header)
+				#object.pose.header.frame_id = "ar_marker_" + str(marker.id)
+				object.type.key = defined_objects[marker.id]["name"]
+				objects_msg.objects.append(object)
 		self.ar_object_publisher.publish(objects_msg)
 
 	def get_pose_from_pose(self, pose_stamped):

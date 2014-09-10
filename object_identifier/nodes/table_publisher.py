@@ -36,12 +36,15 @@ class TableTransformer:
 					highest_table = new_table
 
 			self.publisher.publish(table_array)
-			MoveHelper.add_table(position=highest_table.pose.position)
+			position = highest_table.pose.position
+			position.z -= 0.1
+			MoveHelper.add_table(position=position)
+		#	rospy.sleep(10)
 			self.is_finished = True
 		except:
 			self.is_finished = False
-		if self.is_finished:
-			rospy.signal_shutdown("Table has been added, table transformer is exiting")
+		##if self.is_finished:
+		#	rospy.signal_shutdown("Table has been added, table transformer is exiting")
 
 
 
