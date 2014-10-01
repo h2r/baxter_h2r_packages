@@ -37,7 +37,7 @@ class TableTransformer:
 
 			self.publisher.publish(table_array)
 			position = highest_table.pose.position
-			position.z -= 0.1
+			#position.z -= 0.1
 			MoveHelper.add_table(position=position)
 		#	rospy.sleep(10)
 			self.is_finished = True

@@ -30,10 +30,12 @@ from visualization_msgs.msg import Marker
 from baxter_pick_and_place.move_helper import MoveHelper
 from baxter_grasps_server.grasping_helper import GraspingHelper
 
+default_object_timeout = rospy.Duration(5.0)
 class ObjectServer:
 	def __init__(self):
 		self.transformer = TransformListener()
 		self.objects = ["kinect", "table", "tripod", "boundary1", "boundary2"]
+		self.last_time_seen = dict()
 		self.markers_publisher = rospy.Publisher("/object_markers", Marker)
 		
 		rospy.Subscriber("/ar_objects", RecognizedObjectArray, self.markers_callback)
@@ -43,11 +45,14 @@ class ObjectServer:
 	def markers_callback(self, msg):
 		object_poses = dict()
 		self.objects = ["kinect", "table", "tripod", "boundary1", "boundary2"]
+		for object in self.objects:
+			self.last_time_seen[object] = rospy.Time.now()
 		if len(msg.objects) == 0:
 			rospy.logerr("No objects identified")
 			return
 
 		for object in msg.objects:
+			self.last_time_seen[object.type.key] = rospy.Time.now()
 			pose = GraspingHelper.getPoseStampedFromPoseWithCovariance(object.pose)
 			self.add_object_at_pose(str(object.type.key), pose)
 			object_poses[str(object.type.key)] = pose
@@ -65,15 +70,26 @@ class ObjectServer:
 			height = 0.03
 			length = 0.2
 
+		#print("Adding " + name)
 		self.scene.add_box(name, pose, (length, width, height))
 
 	def scene_callback(self, msg):
 		kinect_in_scene = False
+
 		for object in msg.world.collision_objects:
-			if object.id not in self.objects:
-				rospy.loginfo("Removing: " + object.id)
-				self.scene.remove_attached_object(object.id)
-				self.scene.remove_world_object(object.id)
+			should_remove = False
+
+			time_since_seen = rospy.Time.now()
+			if object.id not in self.last_time_seen.keys():
+				should_remove = True
+			else:
+				time_since_seen = rospy.Time.now() - self.last_time_seen[object.id]
+				should_remove |= time_since_seen > default_object_timeout
+			
+			if should_remove:
+				rospy.loginfo("Object " + object.id + " has not been seen in at least " + str(time_since_seen.to_sec()) + ". Removing object from MoveIt collision scene")
+				#self.scene.remove_world_object(object.id)
+
 			if object.id == "kinect":
 				kinect_in_scene = True
 

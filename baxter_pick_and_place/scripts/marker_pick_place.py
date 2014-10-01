@@ -145,7 +145,10 @@ class Pick:
 		goal_pose = copy.deepcopy(original_pose)
 		goal_pose.pose.position.x = place_pose.pose.position.x
 		goal_pose.pose.position.y = place_pose.pose.position.y
-		result = self.group.place(object_id, goal_pose)
+		#result = self.group.place(object_id, goal_pose)
+		self.group.set_pose_target(goal_pose)
+		result &= self.group.plan()
+		result &= self.group.go()
 		return result
 
 	def getValidPlacePoses(self):

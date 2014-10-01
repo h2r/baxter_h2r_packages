@@ -5,8 +5,8 @@
       seq: 0
       stamp: {nsecs: 0, secs: 0}
     pose:
-      orientation: {w: -0.00365034782567, x: 0.708200482643, y: -0.70597354375, z: 0.00633299856203}
-      position: {x: 0.00900502705349, y: 0.104784781038, z: 0.222372761541}
+      orientation: {w: 0.031569098332, x: -0.662180879288, y: 0.748613792605, z: 0.00986228459675}
+      position: {x: 0.0421635036732, y: 0.129707953435, z: 0.229910677602}
   grasp_posture:
     header:
       frame_id: ''
@@ -68,8 +68,8 @@
       seq: 0
       stamp: {nsecs: 0, secs: 0}
     pose:
-      orientation: {w: -0.00365034782567, x: 0.708200482643, y: -0.70597354375, z: 0.00633299856203}
-      position: {x: 0.00924541696626, y: 0.102036341551, z: 0.222538479035}
+      orientation: {w: 0.0316837893941, x: -0.661557381821, y: 0.749154090311, z: 0.0103013114401}
+      position: {x: 0.0424962412476, y: 0.130737361883, z: 0.230011590027}
   grasp_posture:
     header:
       frame_id: ''
@@ -131,8 +131,8 @@
       seq: 0
       stamp: {nsecs: 0, secs: 0}
     pose:
-      orientation: {w: -0.00365034782567, x: 0.708200482643, y: -0.70597354375, z: 0.00633299856203}
-      position: {x: 0.00948580687904, y: 0.0992879020646, z: 0.222704196529}
+      orientation: {w: 0.0304120455507, x: -0.660407230982, y: 0.750224362641, z: 0.0100400424661}
+      position: {x: 0.0427747737729, y: 0.131009694318, z: 0.230212900778}
   grasp_posture:
     header:
       frame_id: ''
@@ -194,8 +194,8 @@
       seq: 0
       stamp: {nsecs: 0, secs: 0}
     pose:
-      orientation: {w: -0.00365034782567, x: 0.708200482643, y: -0.70597354375, z: 0.00633299856203}
-      position: {x: 0.00972619679182, y: 0.0965394625778, z: 0.222869914024}
+      orientation: {w: 0.0295342710912, x: -0.659482051692, y: 0.75106854144, z: 0.0103535687552}
+      position: {x: 0.0430765047658, y: 0.132037608052, z: 0.230428579198}
   grasp_posture:
     header:
       frame_id: ''
@@ -257,8 +257,8 @@
       seq: 0
       stamp: {nsecs: 0, secs: 0}
     pose:
-      orientation: {w: -0.00365034782567, x: 0.708200482643, y: -0.70597354375, z: 0.00633299856203}
-      position: {x: 0.00996658670459, y: 0.093791023091, z: 0.223035631518}
+      orientation: {w: 0.0287777239833, x: -0.659012481782, y: 0.751519169933, z: 0.00966067704453}
+      position: {x: 0.0433648739244, y: 0.13204517534, z: 0.230267743791}
   grasp_posture:
     header:
       frame_id: ''
@@ -320,8 +320,8 @@
       seq: 0
       stamp: {nsecs: 0, secs: 0}
     pose:
-      orientation: {w: -0.00365034782567, x: 0.708200482643, y: -0.70597354375, z: 0.00633299856203}
-      position: {x: 0.0102069766174, y: 0.0910425836042, z: 0.223201349012}
+      orientation: {w: 0.0273364539823, x: -0.659365646053, y: 0.751255780854, z: 0.0102183571221}
+      position: {x: 0.0434606240387, y: 0.131328657512, z: 0.23056045607}
   grasp_posture:
     header:
       frame_id: ''
@@ -383,8 +383,8 @@
       seq: 0
       stamp: {nsecs: 0, secs: 0}
     pose:
-      orientation: {w: -0.00365034782567, x: 0.708200482643, y: -0.70597354375, z: 0.00633299856203}
-      position: {x: 0.0104473665301, y: 0.0882941441174, z: 0.223367066506}
+      orientation: {w: 0.0255224066027, x: -0.660097130551, y: 0.750682845321, z: 0.00978011970944}
+      position: {x: 0.0450504163633, y: 0.128642103577, z: 0.230292668968}
   grasp_posture:
     header:
       frame_id: ''
@@ -446,8 +446,8 @@
       seq: 0
       stamp: {nsecs: 0, secs: 0}
     pose:
-      orientation: {w: -0.00365034782567, x: 0.708200482643, y: -0.70597354375, z: 0.00633299856203}
-      position: {x: 0.0106877564429, y: 0.0855457046306, z: 0.223532784}
+      orientation: {w: 0.0327350979045, x: -0.679083313076, y: 0.733109052216, z: -0.0180384263904}
+      position: {x: 0.0301361764102, y: 0.0526797073304, z: 0.223982433443}
   grasp_posture:
     header:
       frame_id: ''
@@ -509,8 +509,8 @@
       seq: 0
       stamp: {nsecs: 0, secs: 0}
     pose:
-      orientation: {w: -0.00365034782567, x: 0.708200482643, y: -0.70597354375, z: 0.00633299856203}
-      position: {x: 0.0109281463557, y: 0.0827972651438, z: 0.223698501494}
+      orientation: {w: 0.0335993174335, x: -0.682842934315, y: 0.729486099158, z: -0.0211339551194}
+      position: {x: 0.0300682051224, y: 0.0535855785089, z: 0.224175109234}
   grasp_posture:
     header:
       frame_id: ''
@@ -572,8 +572,8 @@
       seq: 0
       stamp: {nsecs: 0, secs: 0}
     pose:
-      orientation: {w: -0.00365034782567, x: 0.708200482643, y: -0.70597354375, z: 0.00633299856203}
-      position: {x: 0.0111685362685, y: 0.080048825657, z: 0.223864218989}
+      orientation: {w: 0.0257375576151, x: -0.677674025626, y: 0.734659019104, z: -0.0192774160453}
+      position: {x: 0.0320714000657, y: 0.0543278697689, z: 0.223977321553}
   grasp_posture:
     header:
       frame_id: ''
@@ -635,8 +635,8 @@
       seq: 0
       stamp: {nsecs: 0, secs: 0}
     pose:
-      orientation: {w: -0.00365034782567, x: 0.708200482643, y: -0.70597354375, z: 0.00633299856203}
-      position: {x: 0.0114089261813, y: 0.0773003861702, z: 0.224029936483}
+      orientation: {w: 0.0279571504684, x: -0.672386163534, y: 0.739317461071, z: -0.0229114945219}
+      position: {x: 0.0304707849815, y: 0.0544071621499, z: 0.224176132114}
   grasp_posture:
     header:
       frame_id: ''
@@ -698,8 +698,8 @@
       seq: 0
       stamp: {nsecs: 0, secs: 0}
     pose:
-      orientation: {w: -0.00365034782567, x: 0.708200482643, y: -0.70597354375, z: 0.00633299856203}
-      position: {x: 0.011649316094, y: 0.0745519466834, z: 0.224195653977}
+      orientation: {w: 0.0283160948567, x: -0.671619429338, y: 0.740000725176, z: -0.0229012586302}
+      position: {x: 0.0308072840791, y: 0.0551643078267, z: 0.224063454388}
   grasp_posture:
     header:
       frame_id: ''
@@ -761,8 +761,8 @@
       seq: 0
       stamp: {nsecs: 0, secs: 0}
     pose:
-      orientation: {w: -0.00365034782567, x: 0.708200482643, y: -0.70597354375, z: 0.00633299856203}
-      position: {x: 0.0118897060068, y: 0.0718035071966, z: 0.224361371471}
+      orientation: {w: 0.0258766802287, x: -0.676050262566, y: 0.736053431245, z: -0.0226226933827}
+      position: {x: 0.0316701887744, y: 0.0564042324852, z: 0.224094058768}
   grasp_posture:
     header:
       frame_id: ''
@@ -824,8 +824,8 @@
       seq: 0
       stamp: {nsecs: 0, secs: 0}
     pose:
-      orientation: {w: -0.00365034782567, x: 0.708200482643, y: -0.70597354375, z: 0.00633299856203}
-      position: {x: 0.0121300959196, y: 0.0690550677098, z: 0.224527088965}
+      orientation: {w: 0.0263266089229, x: -0.680910813292, y: 0.73150678644, z: -0.0237738384983}
+      position: {x: 0.0317257366411, y: 0.0575331702532, z: 0.224339823218}
   grasp_posture:
     header:
       frame_id: ''
@@ -887,8 +887,8 @@
       seq: 0
       stamp: {nsecs: 0, secs: 0}
     pose:
-      orientation: {w: -0.00365034782567, x: 0.708200482643, y: -0.70597354375, z: 0.00633299856203}
-      position: {x: 0.0123704858324, y: 0.066306628223, z: 0.224692806459}
+      orientation: {w: 0.0309095395192, x: -0.667605517554, y: 0.743460100849, z: -0.0247901541807}
+      position: {x: 0.0288310725377, y: 0.0555635259182, z: 0.224457586595}
   grasp_posture:
     header:
       frame_id: ''
@@ -950,8 +950,8 @@
       seq: 0
       stamp: {nsecs: 0, secs: 0}
     pose:
-      orientation: {w: -0.00365034782567, x: 0.708200482643, y: -0.70597354375, z: 0.00633299856203}
-      position: {x: 0.0126108757451, y: 0.0635581887362, z: 0.224858523954}
+      orientation: {w: 0.0312812099316, x: -0.667327552017, y: 0.743657011167, z: -0.0258780595561}
+      position: {x: 0.0288745680198, y: 0.0555773568365, z: 0.224347995385}
   grasp_posture:
     header:
       frame_id: ''
@@ -1013,8 +1013,8 @@
       seq: 0
       stamp: {nsecs: 0, secs: 0}
     pose:
-      orientation: {w: -0.00365034782567, x: 0.708200482643, y: -0.70597354375, z: 0.00633299856203}
-      position: {x: 0.0128512656579, y: 0.0608097492494, z: 0.225024241448}
+      orientation: {w: 0.0337023500865, x: -0.673103008025, y: 0.738356909003, z: -0.0250113397029}
+      position: {x: 0.0275979688885, y: 0.0541130333284, z: 0.224605703034}
   grasp_posture:
     header:
       frame_id: ''
@@ -1029,195 +1029,6 @@
       velocities: []
   grasp_quality: 1.0
   id: 16
-  max_contact_force: 0.0
-  post_grasp_retreat:
-    desired_distance: 0.1
-    direction:
-      header:
-        frame_id: world
-        seq: 0
-        stamp: {nsecs: 0, secs: 0}
-      vector: {x: 0.0, y: 0.0, z: 1.0}
-    min_distance: 0.05
-  post_place_retreat:
-    desired_distance: 0.1
-    direction:
-      header:
-        frame_id: world
-        seq: 0
-        stamp: {nsecs: 0, secs: 0}
-      vector: {x: 0.0, y: 0.0, z: 1.0}
-    min_distance: 0.05
-  pre_grasp_approach:
-    desired_distance: 0.1
-    direction:
-      header:
-        frame_id: left_gripper
-        seq: 0
-        stamp: {nsecs: 0, secs: 0}
-      vector: {x: 0.0, y: 0.0, z: 1.0}
-    min_distance: 0.05
-  pre_grasp_posture:
-    header:
-      frame_id: ''
-      seq: 0
-      stamp: {nsecs: 0, secs: 0}
-    joint_names: [left_gripper_l_finger_joint]
-    points:
-    - accelerations: []
-      effort: []
-      positions: [0.095]
-      time_from_start: {nsecs: 0, secs: 0}
-      velocities: []
-- allowed_touch_objects: []
-  grasp_pose:
-    header:
-      frame_id: left_wrist
-      seq: 0
-      stamp: {nsecs: 0, secs: 0}
-    pose:
-      orientation: {w: -0.00365034782567, x: 0.708200482643, y: -0.70597354375, z: 0.00633299856203}
-      position: {x: 0.0130916555707, y: 0.0580613097626, z: 0.225189958942}
-  grasp_posture:
-    header:
-      frame_id: ''
-      seq: 0
-      stamp: {nsecs: 0, secs: 0}
-    joint_names: [left_gripper_l_finger_joint]
-    points:
-    - accelerations: []
-      effort: []
-      positions: [-0.0125]
-      time_from_start: {nsecs: 0, secs: 0}
-      velocities: []
-  grasp_quality: 1.0
-  id: 17
-  max_contact_force: 0.0
-  post_grasp_retreat:
-    desired_distance: 0.1
-    direction:
-      header:
-        frame_id: world
-        seq: 0
-        stamp: {nsecs: 0, secs: 0}
-      vector: {x: 0.0, y: 0.0, z: 1.0}
-    min_distance: 0.05
-  post_place_retreat:
-    desired_distance: 0.1
-    direction:
-      header:
-        frame_id: world
-        seq: 0
-        stamp: {nsecs: 0, secs: 0}
-      vector: {x: 0.0, y: 0.0, z: 1.0}
-    min_distance: 0.05
-  pre_grasp_approach:
-    desired_distance: 0.1
-    direction:
-      header:
-        frame_id: left_gripper
-        seq: 0
-        stamp: {nsecs: 0, secs: 0}
-      vector: {x: 0.0, y: 0.0, z: 1.0}
-    min_distance: 0.05
-  pre_grasp_posture:
-    header:
-      frame_id: ''
-      seq: 0
-      stamp: {nsecs: 0, secs: 0}
-    joint_names: [left_gripper_l_finger_joint]
-    points:
-    - accelerations: []
-      effort: []
-      positions: [0.095]
-      time_from_start: {nsecs: 0, secs: 0}
-      velocities: []
-- allowed_touch_objects: []
-  grasp_pose:
-    header:
-      frame_id: left_wrist
-      seq: 0
-      stamp: {nsecs: 0, secs: 0}
-    pose:
-      orientation: {w: -0.00365034782567, x: 0.708200482643, y: -0.70597354375, z: 0.00633299856203}
-      position: {x: 0.0133320454835, y: 0.0553128702758, z: 0.225355676436}
-  grasp_posture:
-    header:
-      frame_id: ''
-      seq: 0
-      stamp: {nsecs: 0, secs: 0}
-    joint_names: [left_gripper_l_finger_joint]
-    points:
-    - accelerations: []
-      effort: []
-      positions: [-0.0125]
-      time_from_start: {nsecs: 0, secs: 0}
-      velocities: []
-  grasp_quality: 1.0
-  id: 18
-  max_contact_force: 0.0
-  post_grasp_retreat:
-    desired_distance: 0.1
-    direction:
-      header:
-        frame_id: world
-        seq: 0
-        stamp: {nsecs: 0, secs: 0}
-      vector: {x: 0.0, y: 0.0, z: 1.0}
-    min_distance: 0.05
-  post_place_retreat:
-    desired_distance: 0.1
-    direction:
-      header:
-        frame_id: world
-        seq: 0
-        stamp: {nsecs: 0, secs: 0}
-      vector: {x: 0.0, y: 0.0, z: 1.0}
-    min_distance: 0.05
-  pre_grasp_approach:
-    desired_distance: 0.1
-    direction:
-      header:
-        frame_id: left_gripper
-        seq: 0
-        stamp: {nsecs: 0, secs: 0}
-      vector: {x: 0.0, y: 0.0, z: 1.0}
-    min_distance: 0.05
-  pre_grasp_posture:
-    header:
-      frame_id: ''
-      seq: 0
-      stamp: {nsecs: 0, secs: 0}
-    joint_names: [left_gripper_l_finger_joint]
-    points:
-    - accelerations: []
-      effort: []
-      positions: [0.095]
-      time_from_start: {nsecs: 0, secs: 0}
-      velocities: []
-- allowed_touch_objects: []
-  grasp_pose:
-    header:
-      frame_id: left_wrist
-      seq: 0
-      stamp: {nsecs: 0, secs: 0}
-    pose:
-      orientation: {w: -0.00365034782567, x: 0.708200482643, y: -0.70597354375, z: 0.00633299856203}
-      position: {x: 0.0135724353963, y: 0.052564430789, z: 0.22552139393}
-  grasp_posture:
-    header:
-      frame_id: ''
-      seq: 0
-      stamp: {nsecs: 0, secs: 0}
-    joint_names: [left_gripper_l_finger_joint]
-    points:
-    - accelerations: []
-      effort: []
-      positions: [-0.0125]
-      time_from_start: {nsecs: 0, secs: 0}
-      velocities: []
-  grasp_quality: 1.0
-  id: 19
   max_contact_force: 0.0
   post_grasp_retreat:
     desired_distance: 0.1

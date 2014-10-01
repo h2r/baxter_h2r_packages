@@ -180,8 +180,9 @@ class MoveHelper:
 	def _get_grasp_pose_relative_to_stamped_pose(transformer, grasp_pose, pose):
 		#rospy.loginfo("object pose")
 		#print(str(pose))
-
-		pose.header.stamp = transformer.getLatestCommonTime("world", "camera_link")
+		pose.header.stamp  = rospy.Time.now()
+		transformer.waitForTransform("world", pose.header.frame_id, pose.header.stamp , rospy.Duration(5.0))
+		#transformer.getLatestCommonTime("world", "camera_depth_optical_frame")
 		if "world" != pose.header.frame_id:
 			pose = transformer.transformPose("world", pose)
 
@@ -204,24 +205,6 @@ class MoveHelper:
 		#rospy.loginfo("new grasp pose")
 		#print(str(new_stamped_pose))
 		return new_stamped_pose
-
-	@staticmethod
-	def _get_grasp_pose_relative_to_pose(grasp_pose, pose):
-		rospy.loginfo("original grasp pose")
-		#print(str(grasp_pose))
-		rospy.loginfo("object pose")
-		#print(str(pose))
-		grasp_pose_transform = MoveHelper._get_transform_from_pose(grasp_pose)
-		pose_transform = MoveHelper._get_transform_from_pose(pose)
-		total_transform = tf.transformations.concatenate_matrices(pose_transform, grasp_pose_transform)
-		rospy.loginfo("transform")
-		#print(str(total_transform))
-		new_pose_quaternion = tf.transformations.quaternion_from_matrix(total_transform)
-		scale, shear, angles, translate, perspective = tf.transformations.decompose_matrix(total_transform)
-		new_grasp_pose = Pose(position=Point(*translate), orientation=Quaternion(*new_pose_quaternion))
-		rospy.loginfo("new grasp pose")
-		#print(str(new_grasp_pose))
-		return new_grasp_pose
 
 	@staticmethod
 	def _get_transform_from_pose(pose):
@@ -298,7 +281,7 @@ class MoveHelper:
  		p.header.frame_id = "/camera_link"
  		p.pose.orientation.w = 1.0
 
-  		scene.add_box("kinect", p, (0.15, 0.3, 0.3))#0.35
+  		scene.add_box("kinect", p, (0.1, 0.3, 0.05))#0.35
 
   		p = PoseStamped()
  		p.header.frame_id = "/world"
