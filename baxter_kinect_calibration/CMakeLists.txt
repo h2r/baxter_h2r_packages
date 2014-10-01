@@ -9,8 +9,8 @@ set(MSG_DEPS
     visualization_msgs)
 
 find_package(catkin REQUIRED
+        cmake_modules
         cv_bridge
-        eigen
         image_geometry
         image_transport
         camera_info_manager
