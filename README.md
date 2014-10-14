@@ -7,8 +7,8 @@ mkdir -p ~/catkin_ws/src
 cd ~/catkin_ws/src
 wstool init .
 wstool merge https://raw.githubusercontent.com/RethinkRobotics/baxter/master/baxter_sdk.rosinstall
-wstool merge --merge-replace -y https://raw.githubusercontent.com/davetcoleman/baxter_cpp/hydro-devel/baxter.rosinstall
-wstool merge --merge-replace -y https://raw.githubusercontent.com/h2r/baxter_h2r_packages/master/h2r.rosinstall
+wstool merge --merge-replace -y https://raw.githubusercontent.com/davetcoleman/baxter_cpp/indigo-devel/baxter.rosinstall
+wstool merge --merge-replace -y https://raw.githubusercontent.com/h2r/baxter_h2r_packages/indigo-devel/h2r.rosinstall
 wstool merge https://raw.githubusercontent.com/h2r/baxter_h2r_packages/master/ork.rosinstall
 wstool update
 ```
@@ -21,9 +21,9 @@ rm -rf checkerboard_detector
 Build it
 ```
 cd .. 
-source /opt/ros/hydro/setup.bash
+source /opt/ros/indigo/setup.bash
 rosdep update
-rosdep install --from-paths . --ignore-src --rosdistro hydro -y
+rosdep install --from-paths . --ignore-src --rosdistro indigo -y
 catkin_make
 ```
 
