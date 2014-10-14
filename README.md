@@ -9,7 +9,14 @@ wstool init .
 wstool merge https://raw.githubusercontent.com/RethinkRobotics/baxter/master/baxter_sdk.rosinstall
 wstool merge --merge-replace -y https://raw.githubusercontent.com/davetcoleman/baxter_cpp/indigo-devel/baxter.rosinstall
 wstool merge --merge-replace -y https://raw.githubusercontent.com/h2r/baxter_h2r_packages/indigo-devel/h2r.rosinstall
+```
+If you need to install ORK
+```
 wstool merge https://raw.githubusercontent.com/h2r/baxter_h2r_packages/master/ork.rosinstall
+```
+
+Download all files:
+```
 wstool update
 ```
 
