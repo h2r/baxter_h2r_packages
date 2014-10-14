@@ -20,9 +20,9 @@ Download all files:
 wstool update
 ```
 
-Need to remove one package that doesn't build without a lot of other dependencies
+Need to remove some packages that doesn't build without a lot of other dependencies
 ```
-rm -rf checkerboard_detector
+rm -rf checkerboard_detector graph_msgs moveit_visual_tools moveit_simple_grasps
 ```
 
 Build it
