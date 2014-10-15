@@ -19,6 +19,7 @@ find_package(catkin REQUIRED
         roscpp
         tf
         ar_track_alvar
+        ar_track_alvar_msgs
         genmsg
         tf2
         resource_retriever
@@ -67,44 +68,12 @@ include_directories(include
 set(GENCPP_DEPS std_msgs_gencpp sensor_msgs_gencpp geometry_msgs_gencpp visualization_msgs_gencpp)
 
 
-# node
-#add_executable(calibrate_kinect_checkerboard src/calibrate_kinect_checkerboard.cpp
-#                                             src/detect_calibration_pattern.cpp)
-
-
-#add_executable(calibrate_kinect_alvar src/calibrate_kinect_alvar.cpp)
-
-#add_executable(individual_markers_calibrate src/individualMarkersCalibrate.cpp)
-#target_link_libraries(individual_markers_calibrate ar_track_alvar kinect_filtering ${catkin_LIBRARIES})
-#add_dependencies(individual_markers_calibrate ${PROJECT_NAME}_gencpp ${GENCPP_DEPS})
 
 add_executable(bundle_calibrate src/calibrate_kinect_alvar_bundle.cpp)
 target_link_libraries(bundle_calibrate ar_track_alvar kinect_filtering medianFilter ${catkin_LIBRARIES})
 add_dependencies(bundle_calibrate ${PROJECT_NAME}_gencpp ${GENCPP_DEPS})
 
-add_executable(baxter_camera_info_publisher src/camera_info.cpp)
-target_link_libraries(baxter_camera_info_publisher ${catkin_LIBRARIES})
-add_dependencies(baxter_camera_info_publisher ${PROJECT_NAME}_gencpp ${GENCPP_DEPS})
-
-#add_executable(auto_calibrate src/calibrate_kinect_arm_checkerboard.cpp
-#                                             src/detect_calibration_pattern.cpp)
-#target_link_libraries(calibrate_kinect_checkerboard ${Boost_LIBRARIES}
-#                                                    ${catkin_LIBRARIES}
-#                                                    ${PCL_LIBRARIES}
-#                                                    ${OpenCV_LIBRARIES})
-
-#target_link_libraries(auto_calibrate ${Boost_LIBRARIES}
-#                                                    ${catkin_LIBRARIES}
- #                                                   ${PCL_LIBRARIES}
-#                                                    ${OpenCV_LIBRARIES})
-
-#target_link_libraries(calibrate_kinect_alvar ${Boost_LIBRARIES}
- #                                                   ${catkin_LIBRARIES}
-#                                                    ${PCL_LIBRARIES}
- #                                                   ${OpenCV_LIBRARIES})
-
-
-set(CALIBRATION_TARGETS bundle_calibrate baxter_camera_info_publisher)
+set(CALIBRATION_TARGETS bundle_calibrate)
 
 install(TARGETS ${CALIBRATION_TARGETS}
   ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}

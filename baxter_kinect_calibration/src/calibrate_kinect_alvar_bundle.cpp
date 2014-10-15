@@ -9,8 +9,6 @@
 #include "ar_track_alvar/MultiMarkerInitializer.h"
 #include "ar_track_alvar/Shared.h"
 #include <cv_bridge/cv_bridge.h>
-#include <ar_track_alvar/AlvarMarker.h>
-#include <ar_track_alvar/AlvarMarkers.h>
 #include <tf/transform_listener.h>
 #include <tf/transform_datatypes.h>
 
