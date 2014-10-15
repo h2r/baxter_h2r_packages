@@ -7,23 +7,30 @@ mkdir -p ~/catkin_ws/src
 cd ~/catkin_ws/src
 wstool init .
 wstool merge https://raw.githubusercontent.com/RethinkRobotics/baxter/master/baxter_sdk.rosinstall
-wstool merge --merge-replace -y https://raw.githubusercontent.com/davetcoleman/baxter_cpp/hydro-devel/baxter.rosinstall
-wstool merge --merge-replace -y https://raw.githubusercontent.com/h2r/baxter_h2r_packages/master/h2r.rosinstall
+wstool merge --merge-replace -y https://raw.githubusercontent.com/davetcoleman/baxter_cpp/indigo-devel/baxter.rosinstall
+wstool merge --merge-replace -y https://raw.githubusercontent.com/h2r/baxter_h2r_packages/indigo-devel/h2r.rosinstall
+```
+If you need to install ORK
+```
 wstool merge https://raw.githubusercontent.com/h2r/baxter_h2r_packages/master/ork.rosinstall
+```
+
+Download all files:
+```
 wstool update
 ```
 
-Need to remove one package that doesn't build without a lot of other dependencies
+Need to remove some packages that doesn't build without a lot of other dependencies
 ```
-rm -rf checkerboard_detector
+rm -rf checkerboard_detector graph_msgs moveit_visual_tools moveit_simple_grasps
 ```
 
 Build it
 ```
 cd .. 
-source /opt/ros/hydro/setup.bash
+source /opt/ros/indigo/setup.bash
 rosdep update
-rosdep install --from-paths . --ignore-src --rosdistro hydro -y
+rosdep install --from-paths . --ignore-src --rosdistro indigo -y
 catkin_make
 ```
 
