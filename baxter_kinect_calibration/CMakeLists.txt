@@ -10,6 +10,7 @@ set(MSG_DEPS
 
 find_package(catkin REQUIRED
         cmake_modules
+        eigen_conversions
         cv_bridge
         image_geometry
         image_transport

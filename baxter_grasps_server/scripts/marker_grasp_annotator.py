@@ -21,7 +21,7 @@ from moveit_msgs.msg import Grasp
 from object_recognition_msgs.msg import RecognizedObjectArray
 from object_recognition_msgs.srv import GetObjectInformation
 from trajectory_msgs.msg import JointTrajectoryPoint
-from ar_track_alvar.msg import AlvarMarker, AlvarMarkers
+from ar_track_alvar_msgs.msg import AlvarMarker, AlvarMarkers
 from visualization_msgs.msg import Marker
 
 from tf import TransformListener, TransformBroadcaster, LookupException, ConnectivityException, ExtrapolationException

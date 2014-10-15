@@ -1,4 +1,4 @@
-#!/usr/env/bin python
+#!/usr/bin/env python
 
 import roslib
 import rospy
@@ -8,7 +8,7 @@ import copy
 import sys
 
 links_to_pull_from_param = []
-joints_to_pull_from_param = []
+joints_to_pull_from_param = ["left_torso_arm_mount" , "right_torso_arm_mount" ]
 
 def get_param_urdf():
 	urdf_text = rospy.get_param("/robot_description")
@@ -30,7 +30,7 @@ def merge_roots(param_root, file_root, elements_to_pull_from_param):
 		name = element.get("name")
 		new_element = copy.deepcopy(element)
 		if name in elements_to_pull_from_param:
-			param_element = get_element_from_root_node(param_root)
+			param_element = get_element_from_root_node(param_root, name)
 			if param_element != None:
 				new_element = copy.deepcopy(param_element)
 		new_elements.append(new_element)

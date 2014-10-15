@@ -6,7 +6,7 @@ import rospy
 import copy
 
 from object_recognition_msgs.msg import RecognizedObjectArray, RecognizedObject
-from ar_track_alvar.msg import AlvarMarkers, AlvarMarker
+from ar_track_alvar_msgs.msg import AlvarMarkers, AlvarMarker
 from geometry_msgs.msg import PoseWithCovarianceStamped
 
 defined_objects = [
@@ -19,9 +19,9 @@ defined_objects = [
 	{"class": "gyrobowl", "name": "vanilla_bowl"},# 6
 	{"class": "gyrobowl", "name": "butter_bowl"},# 7
 	{"class": "mixing_bowl", "name": "mixing_bowl_1"}, # 8
-	{"class": "mixing_bowl", "name": "whisk"}, # 9
+	{"class": "mixing_bowl", "name": "mixing_bowl_2"}, # 9
 	{"class": "spoon", "name": "spoon"},# 10
-	{"class": "spoon", "name": "mixing_bowl_2"},# 11
+	{"class": "spoon", "name": "whisk"},# 11
 ]
 
 
