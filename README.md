@@ -1,6 +1,13 @@
 To make and install
 -------------------
 
+
+Install wstool
+
+```
+sudo apt-get install python-wstool
+```
+
 This is installable via a rosinstall file. It requires access to the RethinkRobotics github repos.
 ```
 mkdir -p ~/catkin_ws/src
