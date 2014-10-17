@@ -2,22 +2,39 @@ cmake_minimum_required(VERSION 2.8.3)
 project(baxter_pick_and_place)
 
 find_package(catkin REQUIRED COMPONENTS
-  baxter_interface
-  geometry_msgs
-  moveit_commander
+  moveit_core 
   moveit_msgs
-  object_recognition_msgs
-  visualization_msgs
+  moveit_ros_planning 
+  moveit_ros_planning_interface 
+  baxter_core_msgs
+  baxter_grasps_server
+  baxter_props
+  baxter_tools
+  message_generation
+  actionlib_msgs
+  std_msgs
+  geometry_msgs
+  baxter_control
+  roscpp
+  cmake_modules
 )
+
+
+find_package(Eigen REQUIRED)
+find_package(Boost REQUIRED system thread)
 
 catkin_python_setup()
 
-catkin_package(
+catkin_package()
+
+include_directories(include
+  ${catkin_INCLUDE_DIRS}
+  ${EIGEN_INCLUDE_DIRS}
 )
 
-include_directories(
-  ${catkin_INCLUDE_DIRS}
-)
+add_executable(marker_pick_place src/marker_pick_place.cpp)
+target_link_libraries(marker_pick_place ${catkin_LIBRARIES})
+add_definitions(${EIGEN_DEFINITIONS})
 
  install(PROGRAMS
    scripts/grasp.py

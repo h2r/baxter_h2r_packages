@@ -71,6 +71,7 @@ class GraspingHelper:
 		grasp_pose.pose.position = Point(transform[0][0], transform[0][1], transform[0][2])
 		grasp_pose.pose.orientation = Quaternion(transform[1][0], transform[1][1], transform[1][2], transform[1][3])
 		grasp_pose.header.frame_id = gripper_frame_id
+		print(str(grasp_pose))
 		return grasp_pose
 
 	@staticmethod

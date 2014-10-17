@@ -15,7 +15,11 @@
   <build_depend>object_recognition_msgs</build_depend>
   <build_depend>visualization_msgs</build_depend>
   <build_depend>tf</build_depend>
-
+  <build_depend>baxter_core_msgs</build_depend>
+  <build_depend>baxter_grasps_server</build_depend>
+  <build_depend>baxter_props</build_depend>
+  <build_depend>baxter_tools</build_depend>
+  <build_depend>actionlib_msgs</build_depend>
   <run_depend>baxter_interface</run_depend>
   <run_depend>geometry_msgs</run_depend>
   <run_depend>moveit_commander</run_depend>
@@ -23,4 +27,9 @@
   <run_depend>object_recognition_msgs</run_depend>
   <run_depend>visualization_msgs</run_depend>
   <run_depend>tf</run_depend>
+  <run_depend>baxter_core_msgs</run_depend>
+  <run_depend>baxter_grasps_server</run_depend>
+  <run_depend>baxter_props</run_depend>
+  <run_depend>baxter_tools</run_depend>
+  <run_depend>actionlib_msgs</run_depend>
 </package>

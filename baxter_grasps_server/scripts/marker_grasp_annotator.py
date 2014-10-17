@@ -60,9 +60,9 @@ class Annotator:
 
 	def annotate_grasps(self):
 		object_id = GraspingHelper.get_name(self.objects)
-		self.gripper = GraspingHelper.get_gripper()
-		self.frame_id = self.gripper + "_wrist"
-
+		gripper = GraspingHelper.get_gripper()
+		frame_id = "/reference/" + gripper + "_wrist"
+		print("Frame id: " + frame_id)
 		self.grasps = []
 		keep_going = True
 		index = 0
@@ -71,7 +71,7 @@ class Annotator:
 			while (len(response) > 0 and response not in self.commands.keys()):
 				response = raw_input("Press enter to annotate the grasp or type 'save' to end annotation ")
 
-			grasps = self.commands[response](self.transformer, self.gripper, self.frame_id, str(object_id), index)
+			grasps = self.commands[response](self.transformer, gripper, frame_id, str(object_id), index)
 			if response == "save":
 				return
 			index += 1
@@ -84,11 +84,11 @@ class Annotator:
 			
 	
 	def publish_grasp_markers(self, grasps, object_id):
-		for grasp in grasps:
-			print(str(grasp.grasp_pose))
+		#for grasp in grasps:
+		#	print(str(grasp.grasp_pose))
 		markers = MoveHelper.create_grasp_markers(grasps, object_id)
 		for marker in markers:
-			print(str(marker))
+			#print(str(marker))
 			self.markers_publisher.publish(marker)
 		
 	def write_grasps(self, *args):
