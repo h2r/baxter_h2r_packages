@@ -40,7 +40,11 @@ group "Kinect Calibration" {
 }
 
 group "MoveIt!" {
-    cmd "Joint Controllers" {
+    cmd "2 - move_group node" {
+        exec = "roslaunch baxter_moveit_config demo.launch";
+        host = "localhost";
+    }
+    cmd "1 - Joint Controllers" {
         exec = "roslaunch baxter_control baxter_hardware.launch";
         host = "localhost";
     }
