@@ -37,8 +37,7 @@ group "Kinect Calibration" {
 
 group "MoveIt!" {
     cmd "Show Action Service that Moveit is Using" {
-        exec = "rostopic echo /robot/left_velocity_trajectory_controller/follow_joint_trajectory/goal
-";
+        exec = "rostopic echo /robot/left_velocity_trajectory_controller/follow_joint_trajectory/goal";
         host = "localhost";
     }
     cmd "2 - move_group node" {
