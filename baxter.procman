@@ -1,0 +1,49 @@
+group "Baxter SDK" {
+    cmd "Robot Status" {
+        exec = "rosrun baxter_tools  enable_robot.py  -s";
+        host = "localhost";
+    }
+    cmd "Enable Robot" {
+        exec = "rosrun baxter_tools  enable_robot.py  -e";
+        host = "localhost";
+    }
+}
+
+group "Kinect" {
+    cmd "openni" {
+        exec = "roslaunch openni_launch openni.launch depth_registration:=true";
+        host = "localhost";
+    }
+    cmd "freenect" {
+        exec = "roslaunch freenect_launch  freenect-registered-xyzrgb.launch";
+        host = "localhost";
+    }
+}
+
+group "Kinect Calibration" {
+    cmd "1 - Set Up Left Arm" {
+        exec = "rosrun baxter_kinect_calibration setup_robot_left.sh";
+        host = "localhost";
+    }
+    cmd "3 - Show Transform" {
+        exec = " rosrun tf tf_echo /base /camera_link";
+        host = "localhost";
+    }
+    cmd "4 - Publish Transform (edit me)" {
+        exec = "rosrun tf static_transform_publisher 0.971, 0.160, 0.417 -0.601, -0.051, 0.797, 0.024 /base /camera_link 10 ";
+        host = "localhost";
+    }
+    cmd "2 - Calibrate" {
+        exec = "roslaunch baxter_kinect_calibration baxter_bundle_calibrate.launch launch_kinect:=false";
+        host = "localhost";
+    }
+}
+
+group "MoveIt!" {
+    cmd "Joint Controllers" {
+        exec = "roslaunch baxter_control baxter_hardware.launch";
+        host = "localhost";
+    }
+}
+
+
