@@ -1,10 +1,56 @@
 group "Baxter SDK" {
+    cmd "Enable Robot" {
+        exec = "rosrun baxter_tools  enable_robot.py  -e";
+        host = "localhost";
+    }
     cmd "Robot Status" {
         exec = "rosrun baxter_tools  enable_robot.py  -s";
         host = "localhost";
     }
-    cmd "Enable Robot" {
-        exec = "rosrun baxter_tools  enable_robot.py  -e";
+}
+
+group "Visualize" {
+    cmd "rviz" {
+        exec = "rosrun rviz rviz";
+        host = "localhost";
+    }
+}
+
+group "Kinect Calibration" {
+    cmd "1 - Set Up Left Arm" {
+        exec = "rosrun baxter_kinect_calibration setup_robot_left.sh";
+        host = "localhost";
+    }
+    cmd "2 - Calibrate" {
+        exec = "roslaunch baxter_kinect_calibration baxter_bundle_calibrate.launch launch_kinect:=false";
+        host = "localhost";
+    }
+    cmd "3 - Show Transform" {
+        exec = " rosrun tf tf_echo /base /camera_link";
+        host = "localhost";
+    }
+    cmd "4 - Publish Transform (edit me)" {
+        exec = "rosrun tf static_transform_publisher 0.971, 0.160, 0.417 -0.601, -0.051, 0.797, 0.024 /base /camera_link 10 ";
+        host = "localhost";
+    }
+}
+
+group "MoveIt!" {
+    cmd "Show Action Service that Moveit is Using" {
+        exec = "rostopic echo /robot/left_velocity_trajectory_controller/follow_joint_trajectory/goal
+";
+        host = "localhost";
+    }
+    cmd "2 - move_group node" {
+        exec = "roslaunch baxter_moveit_config demo.launch";
+        host = "localhost";
+    }
+    cmd "Show Low-level Joint Commands" {
+        exec = "rostopic echo /robot/limb/left/joint_command";
+        host = "localhost";
+    }
+    cmd "1 - Joint Controllers" {
+        exec = "roslaunch baxter_control baxter_hardware.launch";
         host = "localhost";
     }
 }
@@ -20,32 +66,13 @@ group "Kinect" {
     }
 }
 
-group "Kinect Calibration" {
-    cmd "1 - Set Up Left Arm" {
-        exec = "rosrun baxter_kinect_calibration setup_robot_left.sh";
+group "Grasping" {
+    cmd "Annotator" {
+        exec = "roslaunch baxter_grasps_server marker_annotator.launch";
         host = "localhost";
     }
-    cmd "3 - Show Transform" {
-        exec = " rosrun tf tf_echo /base /camera_link";
-        host = "localhost";
-    }
-    cmd "4 - Publish Transform (edit me)" {
-        exec = "rosrun tf static_transform_publisher 0.971, 0.160, 0.417 -0.601, -0.051, 0.797, 0.024 /base /camera_link 10 ";
-        host = "localhost";
-    }
-    cmd "2 - Calibrate" {
-        exec = "roslaunch baxter_kinect_calibration baxter_bundle_calibrate.launch launch_kinect:=false";
-        host = "localhost";
-    }
-}
-
-group "MoveIt!" {
-    cmd "2 - move_group node" {
-        exec = "roslaunch baxter_moveit_config demo.launch";
-        host = "localhost";
-    }
-    cmd "1 - Joint Controllers" {
-        exec = "roslaunch baxter_control baxter_hardware.launch";
+    cmd "Grasp Server" {
+        exec = "roslaunch baxter_grasps_server server.launch ";
         host = "localhost";
     }
 }
