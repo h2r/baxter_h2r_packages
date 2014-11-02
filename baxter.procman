@@ -30,7 +30,7 @@ group "Kinect Calibration" {
         host = "localhost";
     }
     cmd "4 - Publish Transform (edit me)" {
-        exec = "rosrun tf static_transform_publisher 0.972, 0.016, 0.440 -0.609, -0.024, 0.793, 0.007 /base /camera_link 10 ";
+        exec = "rosrun tf static_transform_publisher 0.998, 0.008, 0.425 -0.600, -0.059, 0.798, 0.004  /base /camera_link 10 ";
         host = "localhost";
     }
     cmd "3 - Show Transform" {
@@ -46,6 +46,10 @@ group "MoveIt!" {
     }
     cmd "Show Low-level Joint Commands" {
         exec = "rostopic echo /robot/limb/left/joint_command";
+        host = "localhost";
+    }
+    cmd "Joint Controllers (rethink)" {
+        exec = "rosrun baxter_interface joint_trajectory_action_server.py";
         host = "localhost";
     }
     cmd "1 - Joint Controllers" {
