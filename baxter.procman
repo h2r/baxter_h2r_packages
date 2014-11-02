@@ -14,6 +14,10 @@ group "Visualize" {
         exec = "rosrun tf tf_monitor";
         host = "localhost";
     }
+    cmd "RViz with MoveIt" {
+        exec = "roslaunch baxter_moveit_config  moveit_rviz.launch  config:=true";
+        host = "localhost";
+    }
     cmd "rviz" {
         exec = "rosrun rviz rviz";
         host = "localhost";
@@ -21,20 +25,20 @@ group "Visualize" {
 }
 
 group "Kinect Calibration" {
+    cmd "4 - Publish Transform (edit me)" {
+        exec = "rosrun tf static_transform_publisher 0.943, -0.113, 0.429 -0.594, -0.026, 0.803, 0.041 /base /camera_link 10 ";
+        host = "localhost";
+    }
+    cmd "3 - Show Transform" {
+        exec = " rosrun tf tf_echo /base /camera_link";
+        host = "localhost";
+    }
     cmd "2 - Calibrate" {
         exec = "roslaunch baxter_kinect_calibration baxter_bundle_calibrate.launch launch_kinect:=false";
         host = "localhost";
     }
     cmd "1 - Set Up Left Arm" {
         exec = "rosrun baxter_kinect_calibration setup_robot_left.sh";
-        host = "localhost";
-    }
-    cmd "4 - Publish Transform (edit me)" {
-        exec = "rosrun tf static_transform_publisher 0.998, 0.008, 0.425 -0.600, -0.059, 0.798, 0.004  /base /camera_link 10 ";
-        host = "localhost";
-    }
-    cmd "3 - Show Transform" {
-        exec = " rosrun tf tf_echo /base /camera_link";
         host = "localhost";
     }
 }
@@ -44,20 +48,20 @@ group "MoveIt!" {
         exec = "rostopic echo /robot/left_velocity_trajectory_controller/follow_joint_trajectory/goal";
         host = "localhost";
     }
-    cmd "Show Low-level Joint Commands" {
-        exec = "rostopic echo /robot/limb/left/joint_command";
+    cmd "1 - Joint Controllers (rethink)" {
+        exec = "rosrun baxter_interface joint_trajectory_action_server.py -m velocity";
         host = "localhost";
     }
-    cmd "Joint Controllers (rethink)" {
-        exec = "rosrun baxter_interface joint_trajectory_action_server.py";
-        host = "localhost";
-    }
-    cmd "1 - Joint Controllers" {
+    cmd "Joint Controllers (dave coleman, deprecated)" {
         exec = "roslaunch baxter_control baxter_hardware.launch";
         host = "localhost";
     }
     cmd "2 - move_group node" {
         exec = "roslaunch baxter_moveit_config demo.launch";
+        host = "localhost";
+    }
+    cmd "Show Low-level Joint Commands" {
+        exec = "rostopic echo /robot/limb/left/joint_command";
         host = "localhost";
     }
 }
@@ -74,12 +78,8 @@ group "Kinect" {
 }
 
 group "Grasping" {
-    cmd "Annotator" {
-        exec = "roslaunch baxter_grasps_server marker_annotator.launch";
-        host = "localhost";
-    }
     cmd "Pick and Place Test" {
-        exec = "rosrun baxter_pick_and_place  marker_pick_place";
+        exec = "rosrun baxter_pick_and_place  marker_pick_place debug:=true";
         host = "localhost";
     }
     cmd "Grasp Server" {
@@ -88,6 +88,10 @@ group "Grasping" {
     }
     cmd "AR Tag Detector" {
         exec = " roslaunch baxter_kinect_calibration baxter_indiv.launch";
+        host = "localhost";
+    }
+    cmd "Annotator" {
+        exec = "roslaunch baxter_grasps_server marker_annotator.launch";
         host = "localhost";
     }
     cmd "Object Identifier" {
