@@ -43,7 +43,9 @@ static const double WAIT_GRIPPER_CLOSE_SEC = 0.5;
 static const double WAIT_STATE_MSG_SEC = 1; // max time to wait for the gripper state to refresh
 static const double GRIPPER_MSG_RESEND = 5; 
 static const ros::Duration WAIT_FOR_OBJECT_TO_APPEAR(30.0);
-static const ros::Duration WAIT_FOR_NEUTRAL_TIMEOUT(10.0);
+// XXX oberlin
+//static const ros::Duration WAIT_FOR_NEUTRAL_TIMEOUT(10.0);
+static const ros::Duration WAIT_FOR_NEUTRAL_TIMEOUT(60.0);
 static const double JOINT_POSITION_TOLERANCE = 0.1;
 
 class MarkerPickPlace
@@ -116,9 +118,9 @@ public:
 
 	bool openGripper()
 	{
-		ROS_INFO("Opening left arm gripper");
+          ROS_INFO("Opening left arm gripper");
 
-		baxter_core_msgs::EndEffectorCommand command;
+          baxter_core_msgs::EndEffectorCommand command;
 	    command.command = baxter_core_msgs::EndEffectorCommand::CMD_GO;
 	    command.args = "{\"position\": 100.0}";
 	    command.id = 65538;
@@ -126,11 +128,8 @@ public:
 	    // Send command several times to be safe
 	    for (std::size_t i = 0; i < GRIPPER_MSG_RESEND; ++i)
 	    {
-	      ROS_INFO_STREAM("Publishing message " << i);
 	      leftGripperPub.publish(command);
-
 	      ros::Duration(MSG_PULSE_SEC).sleep();
-	      //ros::spinOnce();
 	    }
 
 	    ROS_INFO("Done opening");
@@ -139,7 +138,7 @@ public:
 
 	bool closeGripper()
 	{
-		ROS_INFO("Closing left arm gripper");
+          ROS_INFO("Closing left arm gripper");
 
 	    baxter_core_msgs::EndEffectorCommand command;
 	    command.command = baxter_core_msgs::EndEffectorCommand::CMD_GO;
@@ -168,6 +167,11 @@ public:
 		{
 			return;
 		}
+                if (this->isInNeutral()) 
+                  {
+                    return;
+                  }
+
 		this->isMovingToNeutral = true;
 		this->moveToNeutralStart = ros::Time::now();
 		moveGroup->setNamedTarget("left_neutral");
@@ -178,6 +182,36 @@ public:
 		this->moveGroup->detachObject();
 		this->moveGroup->asyncMove();
 	}
+
+  bool isInNeutral()
+  {
+    JointMap neutralJoints;
+    neutralJoints["left_e0"] = 0.0;
+    neutralJoints["left_e1"] = 0.75;
+    neutralJoints["left_s0"] = 0.0;
+    neutralJoints["left_s1"] = -0.55;
+    neutralJoints["left_w0"] = 0.0;
+    neutralJoints["left_w1"] = 1.26;
+    neutralJoints["left_w2"] = 0.0;
+    
+    bool isInNeutral = true;
+    JointMap::iterator it, endIt;
+    for (it = neutralJoints.begin(), endIt = neutralJoints.end(); it != endIt; it++)
+      {
+        JointMap::iterator findIt = this->jointLookup.find(it->first);
+        
+        isInNeutral &= (findIt != this->jointLookup.end());
+        if (findIt != this->jointLookup.end())
+          {
+            double joint_error = std::abs(findIt->second - it->second);
+            if (joint_error > JOINT_POSITION_TOLERANCE) 
+              {
+                return false;
+              }
+          }
+      }
+    return true;
+  }
 
 	bool checkMoveToNeutral()
 	{
@@ -195,31 +229,8 @@ public:
 		}
 		else
 		{
-			ROS_INFO("Waiting for neutral to move");
-			
-			JointMap neutralJoints;
-			neutralJoints["left_e0"] = 0.0;
-			neutralJoints["left_e1"] = 0.75;
-			neutralJoints["left_s0"] = 0.0;
-			neutralJoints["left_s1"] = -0.55;
-			neutralJoints["left_w0"] = 0.0;
-			neutralJoints["left_w1"] = 1.26;
-			neutralJoints["left_w2"] = 0.0;
 
-			bool isInNeutral = true;
-			JointMap::iterator it, endIt;
-			for (it = neutralJoints.begin(), endIt = neutralJoints.end(); it != endIt; it++)
-			{
-				JointMap::iterator findIt = this->jointLookup.find(it->first);
-
-				isInNeutral &= (findIt != this->jointLookup.end());
-				if (findIt != this->jointLookup.end())
-				{
-					isInNeutral &= std::abs(findIt->second - it->second) < JOINT_POSITION_TOLERANCE;
-				}
-			}
-
-			if (isInNeutral)
+			if (isInNeutral())
 			{
 				ROS_INFO("Arm is in the neutral position");
 				this->isMovingToNeutral = false;
@@ -228,7 +239,6 @@ public:
 			}
 			
 		}
-		ROS_INFO("Not in neutral");
 		return false;
 	}
 
@@ -348,14 +358,14 @@ public:
 	{
 			std::string *error;
 			transformer.getLatestCommonTime("world", "camera_link", pose.header.stamp, error);
-			ROS_INFO_STREAM("graspPose\n" << graspPose);
-			ROS_INFO_STREAM("pose\n" << pose);
+			//ROS_INFO_STREAM("graspPose\n" << graspPose);
+			//ROS_INFO_STREAM("pose\n" << pose);
 			if (pose.header.frame_id.compare("world") != 0 || pose.header.frame_id.compare("/world") != 0)
 			{
 				geometry_msgs::PoseStamped newPose;
 				transformer.transformPose("world", pose, newPose);
 				pose = newPose;
-				ROS_INFO_STREAM("Transformed pose\n" << pose);
+				//ROS_INFO_STREAM("Transformed pose\n" << pose);
 			}
 
 			tf::Transform graspPoseTransform = getTransformFromPose(graspPose.pose);
@@ -363,7 +373,7 @@ public:
 			tf::Transform totalTransform = poseTransform * graspPoseTransform;
 
 			geometry_msgs::PoseStamped finalPose = getPoseFromTransform(totalTransform, pose.header);
-			ROS_INFO_STREAM("Transformed pose\n" << finalPose);
+			//ROS_INFO_STREAM("Transformed pose\n" << finalPose);
 			return finalPose;
 	}
 
@@ -480,21 +490,11 @@ public:
 
 		ROS_INFO_STREAM("Attempting to pick up object " + objectName);
 		bool pickSuccess = false;
-		try
-		{	
-			pickSuccess = pick(objectName, objectPose);
-			ROS_INFO_STREAM("Pick success: " << pickSuccess);
-			isPlacing = pickSuccess;
-			isPicking = false;
-		}
-		catch (...)
-		{
-			isPicking = false;
-			isPlacing = false;
-			this->moveToNeutral();
-			return;
-
-		}
+                pickSuccess = pick(objectName, objectPose);
+                ROS_INFO_STREAM("Pick success: " << pickSuccess);
+                isPlacing = pickSuccess;
+                isPicking = false;
+                
 
 		if (!this->isGripperOpen)
 		{
@@ -570,6 +570,7 @@ public:
 
 	void markersCB(const object_recognition_msgs::RecognizedObjectArray::ConstPtr &msg)
 	{
+          //ROS_INFO_STREAM("Detected " << msg->objects.size() << " objects.");
 		objectPoses.clear();	
 		for (int i = 0; i < msg->objects.size(); i++)
 		{
@@ -577,12 +578,12 @@ public:
 			objectPoses[msg->objects[i].type.key] = pose;
 		}
 
+
 		//ROS_INFO_STREAM(msg);
 		
 		this->interface.updateObjects(msg);
 		if (this->isMovingToNeutral)
 		{
-			ROS_INFO("Is moving to neutral");
 			return;
 		}
 
@@ -591,7 +592,8 @@ public:
 			ROS_INFO("No objects detected");
 			this->moveToNeutral();
 			return;
-		}
+		} 
+
 
 		if (this->pickingAndPlacingThread == NULL || this->pickingAndPlacingThread->timed_join(boost::posix_time::milliseconds(1.0)))
 		{
