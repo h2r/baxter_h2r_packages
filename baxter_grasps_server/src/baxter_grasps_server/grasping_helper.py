@@ -38,7 +38,7 @@ class GraspingHelper:
 	def get_gripper():
 		gripper = raw_input("'left' or 'right' ")
 		while gripper != 'left' and gripper != 'right':
-			gripper = raw_input("'left' or 'right' ")
+			gripper = raw_input("'left' or 'right': ")
 		return gripper 
 
 	@staticmethod
@@ -51,10 +51,10 @@ class GraspingHelper:
 		chosen_object = -1
 		while keep_going:
 			try:
-				value = raw_input("Choose a valid number from 0 to " + str(len(objects)-1))
+				value = raw_input("Choose a valid number from 0 to " + str(len(objects)-1) + ": ")
 				chosen_object = int(value)
 				keep_going = chosen_object < 0 or chosen_object >= len(objects)
-			except ValueError as e:
+			except ValueError:
 				keep_going = True
 			
 		return objects[chosen_object]
@@ -66,6 +66,7 @@ class GraspingHelper:
 
 	@staticmethod
 	def get_annotated_grasp_pose(transformer, gripper_frame_id, object_frame_id):
+                print gripper_frame_id, "to", object_frame_id
 		transform = transformer.lookupTransform(object_frame_id, gripper_frame_id, rospy.Time())
 		grasp_pose = PoseStamped()
 		grasp_pose.pose.position = Point(transform[0][0], transform[0][1], transform[0][2])
@@ -87,7 +88,7 @@ class GraspingHelper:
 				num_response = raw_input("Input number of grasps to generate: ")
 				try:
 					num_grasps = int(num_response)
-				except ValueError as e:
+				except ValueError:
 					num_grasps = -1
 
 			for i in range(num_grasps):
@@ -110,7 +111,7 @@ class GraspingHelper:
 			num_response = raw_input("Input number of grasps to generate: ")
 			try:
 				num_grasps = int(num_response)
-			except ValueError as e:
+			except ValueError:
 				num_grasps = -1
 
 		x = start_pose.pose.position.x
@@ -134,18 +135,18 @@ class GraspingHelper:
 	def get_grasp_from_pose(grasp_pose, gripper, grasp_id):
 		grasp = Grasp()
 		grasp.grasp_pose = grasp_pose
-		joint_name = gripper + '_gripper_l_finger_joint'
+		#joint_name = gripper + '_gripper_l_finger_joint'
 		
-		point = JointTrajectoryPoint()
-		point.positions.append(0.095)
-		grasp.pre_grasp_posture.joint_names.append(joint_name)
-		grasp.pre_grasp_posture.points.append(point)
+		#point = JointTrajectoryPoint()
+		#point.positions.append(0.095)
+		#grasp.pre_grasp_posture.joint_names.append(joint_name)
+		#grasp.pre_grasp_posture.points.append(point)
 
-		point = JointTrajectoryPoint()
-		point.positions.append(-0.0125)
-		grasp.grasp_posture.joint_names.append(joint_name)
+		#point = JointTrajectoryPoint()
+		#point.positions.append(-0.0125)
+		#grasp.grasp_posture.joint_names.append(joint_name)
 
-		grasp.grasp_posture.points.append(point)
+		#grasp.grasp_posture.points.append(point)
 		grasp.grasp_quality = 1.0
 		grasp.id = str(grasp_id)
 		
