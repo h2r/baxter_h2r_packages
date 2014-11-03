@@ -30,11 +30,12 @@ from tf import TransformListener, TransformBroadcaster, LookupException, Connect
 
 class Annotator:
 	def __init__(self):
+		self.broadcaster = TransformBroadcaster()
 		rospy.Subscriber("/ar_objects", RecognizedObjectArray, self.object_callback)
 		self.markers_publisher = rospy.Publisher("/grasp_markers", Marker, queue_size=10)
 		self.object_info = rospy.ServiceProxy('get_object_info', GetObjectInformation)
 		self.transformer = TransformListener(True, rospy.Duration(30.0))
-		self.broadcaster = TransformBroadcaster()
+
 		self.is_annotating = False
 		self.commands = GraspingHelper.get_available_commands()
 		self.commands["save"] = self.write_grasps
@@ -69,7 +70,7 @@ class Annotator:
 		while keep_going:
 			response = "continue"
 			while (len(response) > 0 and response not in self.commands.keys()):
-				response = raw_input("Press enter to annotate the grasp or type 'save' to end annotation ")
+				response = raw_input("Press enter to annotate the grasp or type 'save' to end annotation. ")
 
 			grasps = self.commands[response](self.transformer, gripper, frame_id, str(object_id), index)
 			if response == "save":
