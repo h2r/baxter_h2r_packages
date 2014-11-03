@@ -7,12 +7,6 @@
 	<arg name="cam_info_topic" default="/camera/rgb/camera_info" />		
 	<arg name="output_frame" default="/camera_depth_optical_frame" />
 
-	<arg name="launch_kinect" default="true"/>
-
-	<include if="$(arg launch_kinect)" file="$(find openni_launch)/launch/openni.launch">
-        <arg name="depth_registration" value="true" />
-    </include>
-
 	<node name="ar_track_alvar" pkg="ar_track_alvar" type="individualMarkers" respawn="false" output="log" 
 		args="$(arg marker_size) $(arg max_new_marker_error) $(arg max_track_error) $(arg cam_image_topic) $(arg cam_info_topic) $(arg output_frame)" />
 </launch>
