@@ -46,7 +46,7 @@ static const ros::Duration WAIT_FOR_OBJECT_TO_APPEAR(30.0);
 // XXX oberlin
 //static const ros::Duration WAIT_FOR_NEUTRAL_TIMEOUT(10.0);
 static const ros::Duration WAIT_FOR_NEUTRAL_TIMEOUT(60.0);
-static const double JOINT_POSITION_TOLERANCE = 0.1;
+static const double JOINT_POSITION_TOLERANCE = 0.2;
 
 class MarkerPickPlace
 {
@@ -61,7 +61,7 @@ public:
 	ros::Subscriber jointSubscriber;
 	ros::Subscriber gripperSubscriber;
 	ros::ServiceClient graspClient;
-
+  int gripperSeq;
 	ObjectSceneInterface interface;
 
 	typedef std::map<std::string, geometry_msgs::PoseStamped> PoseMap;
@@ -77,10 +77,11 @@ public:
 
 	ros::Time clearSceneStart;
 	bool clearingScene;
-
+  JointMap neutralJoints;
 	ros::Time moveToNeutralStart;
 	bool isMovingToNeutral;
 	boost::thread *pickingAndPlacingThread;
+        bool first;
 
 	move_group_interface::MoveGroup *moveGroup;
 
@@ -88,12 +89,25 @@ public:
 
 	MarkerPickPlace()
 	{
+          gripperSeq = 0;
+          first = true;
 		this->pickingAndPlacingThread = NULL;
 		this->isPicking = false;
 		this->isPlacing = false;
 		this->clearingScene = false;
 		this->isMovingToNeutral = false;
 		this->isGripperOpen = false;
+
+
+                neutralJoints["left_e0"] = 0.0;
+                neutralJoints["left_e1"] = 0.75;
+                neutralJoints["left_s0"] = 0.0;
+                neutralJoints["left_s1"] = -0.55;
+                neutralJoints["left_w0"] = 0.0;
+                neutralJoints["left_w1"] = 1.26;
+                neutralJoints["left_w2"] = 0.0;
+
+
 
 		ros::NodeHandle nh;
 		moveGroup = new move_group_interface::MoveGroup("left_arm");
@@ -106,13 +120,15 @@ public:
 		statusPublisher = nh.advertise<std_msgs::String>("/pick_place_status", 1000);
 
 		moveGroup->setPlanningTime(5.0);
-	    moveGroup->setSupportSurfaceName("table");
-	    moveGroup->setWorkspace(0.0, -0.2, -0.30, 0.9, 1.0, 2.0);
+                moveGroup->setSupportSurfaceName("table");
+                moveGroup->setWorkspace(0.0, -0.2, -0.30, 0.9, 1.0, 2.0);
+		moveGroup->setPlannerId("RRTConnectkConfigDefault");
 
-	    this->moveToNeutral();
-	    gripperSubscriber = nh.subscribe("/robot/end_effector/left_gripper/state", 1000, &MarkerPickPlace::gripperCB, this);
-	    objectsSub = nh.subscribe("/ar_objects", 1000, &MarkerPickPlace::markersCB, this);	
-	    jointSubscriber = nh.subscribe("/robot/joint_states", 1000, &MarkerPickPlace::jointsCB, this);	
+                gripperSubscriber = nh.subscribe("/robot/end_effector/left_gripper/state", 1000, &MarkerPickPlace::gripperCB, this);
+                objectsSub = nh.subscribe("/ar_objects", 1000, &MarkerPickPlace::markersCB, this);	
+                jointSubscriber = nh.subscribe("/robot/joint_states", 1000, &MarkerPickPlace::jointsCB, this);	
+
+                
 	    
 	}
 
@@ -121,39 +137,47 @@ public:
           ROS_INFO("Opening left arm gripper");
 
           baxter_core_msgs::EndEffectorCommand command;
-	    command.command = baxter_core_msgs::EndEffectorCommand::CMD_GO;
-	    command.args = "{\"position\": 100.0}";
-	    command.id = 65538;
-
-	    // Send command several times to be safe
-	    for (std::size_t i = 0; i < GRIPPER_MSG_RESEND; ++i)
-	    {
-	      leftGripperPub.publish(command);
-	      ros::Duration(MSG_PULSE_SEC).sleep();
-	    }
-
-	    ROS_INFO("Done opening");
-	    return true;
+          command.command = baxter_core_msgs::EndEffectorCommand::CMD_GO;
+          command.args = "{\"position\": 100.0}";
+          command.id = 65538;
+          command.sequence = gripperSeq++;
+          leftGripperPub.publish(command);
+          ros::Duration(2).sleep();
+          
+          ROS_INFO("Done opening");
+          return true;
 	}
+  bool initializeGripper()
+  {
+          ROS_INFO("Initializing gripper");
+
+          baxter_core_msgs::EndEffectorCommand command;
+          command.command = baxter_core_msgs::EndEffectorCommand::CMD_CONFIGURE;
+          command.args = "{\"holding_force\": 30.0, \"velocity\": 50.0, \"dead_zone\": 5.0, \"moving_force\": 40.0}";
+          command.id = 65538;
+          command.sender = "marker_pick_place";
+          command.sequence = gripperSeq++;
+          leftGripperPub.publish(command);
+          
+          return true;
+
+  }
+
 
 	bool closeGripper()
 	{
           ROS_INFO("Closing left arm gripper");
 
-	    baxter_core_msgs::EndEffectorCommand command;
-	    command.command = baxter_core_msgs::EndEffectorCommand::CMD_GO;
-	    command.args = "{\"position\": 0.0}";
-	    command.id = 65538;
-	    // Send command several times to be safe
-	    for (std::size_t i = 0; i < GRIPPER_MSG_RESEND; ++i)
-	    {
-	      leftGripperPub.publish(command);
-	      ros::Duration(MSG_PULSE_SEC).sleep();
-	      //ros::spinOnce();
-	    }
-
-
-	    return true;
+          baxter_core_msgs::EndEffectorCommand command;
+          command.command = baxter_core_msgs::EndEffectorCommand::CMD_GO;
+          command.args = "{\"position\": 0.0}";
+          command.id = 65538;
+          command.sequence = gripperSeq++;
+          // Send command several times to be safe
+          ROS_INFO("publishing gripper");
+          leftGripperPub.publish(command);
+          ros::Duration(2).sleep();
+          return true;
 	}
 
 	bool isPickingOrPlacing() 
@@ -164,51 +188,50 @@ public:
 	void moveToNeutral()
 	{
 		if (this->isPickingOrPlacing())
-		{
+                  {
+                    ROS_INFO("moveToNeutral is picking or placing");
 			return;
 		}
                 if (this->isInNeutral()) 
                   {
+                    ROS_INFO("is in neutral");
                     return;
                   }
-
+                ROS_INFO("Moving to neutral.");
 		this->isMovingToNeutral = true;
 		this->moveToNeutralStart = ros::Time::now();
-		moveGroup->setNamedTarget("left_neutral");
-		moveGroup->setPlannerId("RRTConnectkConfigDefault");
-	    
-		ROS_INFO("Moving to neutral");
-		this->openGripper();
+                moveGroup->setJointValueTarget(neutralJoints);
+
+
+                ROS_INFO("Opening gripper");
+		//this->openGripper();
 		this->moveGroup->detachObject();
 		this->moveGroup->asyncMove();
 	}
-
+  
+  
   bool isInNeutral()
   {
-    JointMap neutralJoints;
-    neutralJoints["left_e0"] = 0.0;
-    neutralJoints["left_e1"] = 0.75;
-    neutralJoints["left_s0"] = 0.0;
-    neutralJoints["left_s1"] = -0.55;
-    neutralJoints["left_w0"] = 0.0;
-    neutralJoints["left_w1"] = 1.26;
-    neutralJoints["left_w2"] = 0.0;
     
     bool isInNeutral = true;
     JointMap::iterator it, endIt;
     for (it = neutralJoints.begin(), endIt = neutralJoints.end(); it != endIt; it++)
       {
         JointMap::iterator findIt = this->jointLookup.find(it->first);
-        
-        isInNeutral &= (findIt != this->jointLookup.end());
+
         if (findIt != this->jointLookup.end())
           {
             double joint_error = std::abs(findIt->second - it->second);
+
             if (joint_error > JOINT_POSITION_TOLERANCE) 
               {
                 return false;
               }
-          }
+          } else {
+            ROS_WARN_STREAM("Could not find joint " << it->first);
+            return false;
+        }
+        
       }
     return true;
   }
@@ -360,6 +383,7 @@ public:
 			transformer.getLatestCommonTime("world", "camera_link", pose.header.stamp, error);
 			//ROS_INFO_STREAM("graspPose\n" << graspPose);
 			//ROS_INFO_STREAM("pose\n" << pose);
+                        pose.header.stamp = ros::Time(0);
 			if (pose.header.frame_id.compare("world") != 0 || pose.header.frame_id.compare("/world") != 0)
 			{
 				geometry_msgs::PoseStamped newPose;
@@ -400,6 +424,8 @@ public:
 
 	bool pick(std::string objectName, geometry_msgs::PoseStamped objectPose)
 	{
+          ROS_INFO("Picking");
+          this->openGripper();
 		moveGroup->detachObject();			
 		
 		baxter_grasps_server::GraspService graspRequest;
@@ -416,21 +442,55 @@ public:
 		moveGroup->setPlanningTime(30.0);
 		moveGroup->setStartStateToCurrentState();
 		moveGroup->setSupportSurfaceName("table");
-		moveGroup->setPlannerId("RRTConnectkConfigDefault");
 	    
 		std::vector<moveit_msgs::Grasp> grasps = setGraspsAtPose(objectPose, graspRequest.response.grasps);
+                ROS_INFO_STREAM("Grasps: " << grasps.size());
 		publishMarkers(grasps, objectName);
 		moveGroup->setWorkspace(0.0, -0.2, -0.30, 0.9, 1.0, 2.0);
 
-		bool result = moveGroup->pick(objectName, grasps);
+                bool result;
+		//bool result = moveGroup->pick(objectName, grasps);
+                result = moveGroup->setPoseTarget(grasps[0].grasp_pose);
+                if (! result) {
+                  ROS_ERROR_STREAM("Couldn't set pose to pregrasp.");
+                }
+                ROS_INFO("Moving to pregrasp");
+                this->moveGroup->move();
+                ros::Duration(1).sleep();
+		moveGroup->setStartStateToCurrentState();
+                this->moveGroup->move();
+                ros::Duration(1).sleep();
+
+                moveGroup->setStartStateToCurrentState();
+                result = moveGroup->setPoseTarget(grasps[1].grasp_pose);
+                if (! result) {
+                  ROS_ERROR_STREAM("Couldn't set pose to grasp.");
+                }
+                ROS_INFO("Moving to grasp");
+                result = this->moveGroup->move();
+                ros::Duration(1).sleep();
+		moveGroup->setStartStateToCurrentState();
+                this->moveGroup->move();
+                ros::Duration(1).sleep();
+
+                if (! result) {
+                  ROS_ERROR("Couldn't move to grasp");
+                }
+
+                
+                ROS_INFO("Closing gripper");
+                this->closeGripper();
+                ROS_INFO_STREAM("Pick result: " << result);
+                result = false;
 		return result;
 	}
 
 	bool place(std::string objectName, std::vector<geometry_msgs::PoseStamped> placePoses)
 	{
+          ROS_INFO("Placing");
 		bool result;
 		this->moveGroup->setStartStateToCurrentState();
-		moveGroup->setPlannerId("LBKPIECEkConfigDefault");
+
 	    
 		moveit::planning_interface::MoveGroup::Plan plan;
 		for (int i = 0; i < placePoses.size(); i++)
@@ -478,19 +538,20 @@ public:
 
 	void pickAndPlace(std::string objectName, geometry_msgs::PoseStamped objectPose, geometry_msgs::Point placePoint, geometry_msgs::Quaternion orientation)
 	{
-		ROS_INFO_STREAM("Attempting to pick up object " << objectName);
+		ROS_INFO_STREAM("Starting pick and place routine " << objectName);
 		
 		isPicking = true;
 
 		moveGroup->setSupportSurfaceName("table");
-	    this->interface.freezeAllObjects();
+                this->interface.freezeAllObjects();
 		
 		ROS_INFO_STREAM("Finding a valid place pose");
 		std::vector<geometry_msgs::PoseStamped> placePoses = getValidPlacePoses(placePoint, orientation);
 
 		ROS_INFO_STREAM("Attempting to pick up object " + objectName);
 		bool pickSuccess = false;
-                pickSuccess = pick(objectName, objectPose);
+                 pickSuccess = pick(objectName, objectPose);
+
                 ROS_INFO_STREAM("Pick success: " << pickSuccess);
                 isPlacing = pickSuccess;
                 isPicking = false;
@@ -508,8 +569,10 @@ public:
 			ROS_ERROR_STREAM("Object pick up failed");
 			isPicking = false;
 			isPlacing = false;
-			this->openGripper();
+			
 			this->moveToNeutral();
+                        ros::Duration(2).sleep();
+                        this->openGripper();
 			return;
 		}
 
@@ -570,8 +633,15 @@ public:
 
 	void markersCB(const object_recognition_msgs::RecognizedObjectArray::ConstPtr &msg)
 	{
+
+          if (first) {
+            ROS_INFO("Calling moveToNeutral");
+            this->moveToNeutral();
+            first = false;
+          }
+                
           //ROS_INFO_STREAM("Detected " << msg->objects.size() << " objects.");
-		objectPoses.clear();	
+          objectPoses.clear();	
 		for (int i = 0; i < msg->objects.size(); i++)
 		{
 			geometry_msgs::PoseStamped pose = getPoseStampedFromPoseWithCovariance(msg->objects[i].pose);
@@ -582,6 +652,8 @@ public:
 		//ROS_INFO_STREAM(msg);
 		
 		this->interface.updateObjects(msg);
+                
+                //ROS_INFO_STREAM("markers cb: " << this->isMovingToNeutral);
 		if (this->isMovingToNeutral)
 		{
 			return;
@@ -610,8 +682,7 @@ public:
 
 	void gripperCB(const baxter_core_msgs::EndEffectorState::ConstPtr &msg)
 	{
-		this->isGripperOpen = msg->position > 4.0;
-		
+          this->isGripperOpen = msg->position > 4.0;
 	}
 
 	void jointsCB(const sensor_msgs::JointState::ConstPtr &msg)
@@ -660,6 +731,7 @@ int main(int argc, char**argv)
 {
 	ros::init(argc, argv, "baxter_action_server");
 	MarkerPickPlace pickPlace;
+        pickPlace.initializeGripper();
 	ros::spin();
 	return 0;	
 }
