@@ -97,9 +97,9 @@ private:
 		
 		geometry_msgs::PoseStamped tablePose;
 		tablePose.header.frame_id = "/world";
-		tablePose.pose.position.x = 0.5;
+		tablePose.pose.position.x = 0.7;
 		tablePose.pose.position.y = 0.0;
-		tablePose.pose.position.z = -0.32;
+		tablePose.pose.position.z = -0.31;
 		tablePose.pose.orientation.w = 1.0;
 		moveit_msgs::CollisionObject table = this->createCollisionObject(tablePose.pose, "table", tablePose.header, 1.0, 2.0, 0.2);
 		collisionObjects.push_back(table);
@@ -397,7 +397,7 @@ public:
 
 
 		//ROS_INFO("Adding objcts to scene");
-		this->scene.addCollisionObjects(collisionObjects);
+		//this->scene.addCollisionObjects(collisionObjects);
 	}
 
 	void freezeObject(std::string object)
