@@ -16,11 +16,6 @@
 	<arg name="median_filter_size" default="10" />
 
 	<arg name="calibration_bundle" default="$(find baxter_kinect_calibration)/bundles/table_8_9_10.xml" />
-	<arg name="launch_kinect" default="true" />
-
-	<include if="$(arg launch_kinect)" file="$(find openni_launch)/launch/openni.launch">
-        <arg name="depth_registration" value="true" />
-    </include>
 
 	<node name="baxter_bundle_calibrate" pkg="baxter_kinect_calibration" type="bundle_calibrate" respawn="false" output="screen" args="$(arg output_file) $(arg marker_size) $(arg max_new_marker_error) $(arg max_track_error) $(arg kinect_image_topic) $(arg kinect_info_topic) $(arg kinect_base_frame) $(arg calibrated_image_topic) $(arg calibrated_info_topic) $(arg calibrated_frame) $(arg output_frame) $(arg median_filter_size) $(arg calibration_bundle)" />
 </launch>
