@@ -62,7 +62,7 @@ class Annotator:
 	def annotate_grasps(self):
 		object_id = GraspingHelper.get_name(self.objects)
 		gripper = GraspingHelper.get_gripper()
-		frame_id = "/reference/" + gripper + "_wrist"
+		frame_id = "/reference/" + gripper + "_gripper"
 		print("Frame id: " + frame_id)
 		self.grasps = []
 		keep_going = True
