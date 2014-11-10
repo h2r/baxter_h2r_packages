@@ -17,6 +17,7 @@
 #include "geometry_msgs/PoseWithCovarianceStamped.h"
 #include "std_msgs/String.h"
 #include <tf/transform_listener.h>
+#include <tf/transform_datatypes.h>
 #include "object_recognition_msgs/RecognizedObjectArray.h"
 #include "baxter_grasps_server/GraspService.h"
 #include "ros/time.h"
@@ -111,8 +112,11 @@ public:
 
 		ros::NodeHandle nh;
 		moveGroup = new move_group_interface::MoveGroup("left_arm");
-		ROS_INFO("Reference frame: %s", moveGroup->getPlanningFrame().c_str());
-		ROS_INFO("Reference frame: %s", moveGroup->getEndEffectorLink().c_str());
+                //moveGroup->setEndEffectorLink("left_gripper");
+                //moveGroup->setEndEffector("left_gripper");
+		ROS_INFO("Planning Frame: %s", moveGroup->getPlanningFrame().c_str());
+		ROS_INFO("End Effector Link: %s", moveGroup->getEndEffectorLink().c_str());
+		ROS_INFO("End Effector: %s", moveGroup->getEndEffector().c_str());
 
 		markersPub = nh.advertise<visualization_msgs::Marker>("/grasp_markers", 1000);
 		leftGripperPub = nh.advertise<baxter_core_msgs::EndEffectorCommand>("/robot/end_effector/left_gripper/command",10);
@@ -149,6 +153,14 @@ public:
 	}
   bool initializeGripper()
   {
+
+// id: 65538
+// command: calibrate
+// args: ''
+// sender: /rsdk_gripper_keyboard_calibrate
+// sequence: 2
+
+
           ROS_INFO("Initializing gripper");
 
           baxter_core_msgs::EndEffectorCommand command;
@@ -158,7 +170,7 @@ public:
           command.sender = "marker_pick_place";
           command.sequence = gripperSeq++;
           leftGripperPub.publish(command);
-          
+          ROS_INFO("Done initializing gripper.");
           return true;
 
   }
@@ -377,35 +389,58 @@ public:
 		return pose;
 	}
 
-	geometry_msgs::PoseStamped getGraspPoseRelativeToStampedPose(geometry_msgs::PoseStamped graspPose, geometry_msgs::PoseStamped pose)
+	geometry_msgs::PoseStamped getGraspPoseRelativeToStampedPose(geometry_msgs::PoseStamped graspPose, geometry_msgs::PoseStamped objectPose)
 	{
-			std::string *error;
-			transformer.getLatestCommonTime("world", "camera_link", pose.header.stamp, error);
-			//ROS_INFO_STREAM("graspPose\n" << graspPose);
-			//ROS_INFO_STREAM("pose\n" << pose);
-                        pose.header.stamp = ros::Time(0);
-			if (pose.header.frame_id.compare("world") != 0 || pose.header.frame_id.compare("/world") != 0)
-			{
-				geometry_msgs::PoseStamped newPose;
-				transformer.transformPose("world", pose, newPose);
-				pose = newPose;
-				//ROS_INFO_STREAM("Transformed pose\n" << pose);
-			}
+          visualization_msgs::Marker graspPoseMarker = createGraspMarker(graspPose, "grasp");
+          graspPoseMarker.color.g = 0;
+          graspPoseMarker.color.b = 0;
+          //markersPub.publish(graspPoseMarker);
 
-			tf::Transform graspPoseTransform = getTransformFromPose(graspPose.pose);
-			tf::Transform poseTransform = getTransformFromPose(pose.pose);
-			tf::Transform totalTransform = poseTransform * graspPoseTransform;
+          visualization_msgs::Marker objectPoseMarker = createGraspMarker(objectPose, "object");
+          objectPoseMarker.color.r = 0;
+          objectPoseMarker.color.b = 0;
+          markersPub.publish(objectPoseMarker);
 
-			geometry_msgs::PoseStamped finalPose = getPoseFromTransform(totalTransform, pose.header);
-			//ROS_INFO_STREAM("Transformed pose\n" << finalPose);
-			return finalPose;
+          
+          std::string *error;
+          //ROS_INFO_STREAM("graspPose\n" << graspPose);
+          //ROS_INFO_STREAM("pose\n" << pose);
+          objectPose.header.stamp = ros::Time(0);
+          if (objectPose.header.frame_id.compare("base") != 0 || objectPose.header.frame_id.compare("/base") != 0)
+            {
+              geometry_msgs::PoseStamped newPose;
+              transformer.transformPose("base", objectPose, newPose);
+              objectPose = newPose;
+              ROS_INFO_STREAM("Transformed object pose\n" << objectPose);
+            }
+          
+          tf::Transform graspPoseTransform = getTransformFromPose(graspPose.pose);
+          tf::Transform poseTransform = getTransformFromPose(objectPose.pose);
+          tf::Transform totalTransform = poseTransform * graspPoseTransform;
+          
+          geometry_msgs::PoseStamped finalPose = getPoseFromTransform(totalTransform, objectPose.header);
+          //finalPose.pose.position.x = objectPose.pose.position.x;
+          //finalPose.pose.position.y = objectPose.pose.position.y;
+          // tf::Quaternion q;
+          // tf::quaternionMsgToTF(objectPose.pose.orientation, q);
+          // double pi = -3.1415926535;
+          // q.setEuler(-pi, 0, 0);
+          // tf::quaternionTFToMsg(q, finalPose.pose.orientation);
+
+
+          visualization_msgs::Marker finalPoseMarker = createGraspMarker(finalPose, "final");
+          finalPoseMarker.color.g = 1;
+          finalPoseMarker.color.b = 0;
+          markersPub.publish(finalPoseMarker);
+
+          return finalPose;
 	}
 
 	std::vector<moveit_msgs::Grasp> setGraspsAtPose(geometry_msgs::PoseStamped pose,std::vector<moveit_msgs::Grasp> grasps)
 	{
 		ros::Time when;
 		std::string *error;
-		transformer.getLatestCommonTime("world", "camera_link", when, error);
+		transformer.getLatestCommonTime("base", "camera_link", when, error);
 		std::vector<moveit_msgs::Grasp> newGrasps;
 		for (int i = 0; i < grasps.size(); i++)
 		{
@@ -425,64 +460,81 @@ public:
 	bool pick(std::string objectName, geometry_msgs::PoseStamped objectPose)
 	{
           ROS_INFO("Picking");
+
+          geometry_msgs::PoseStamped worldObjectPose;
+          objectPose.header.stamp = ros::Time(0);
+
+          transformer.transformPose("base", objectPose, worldObjectPose);
+          objectPose = worldObjectPose;
+          ROS_INFO_STREAM("Object\n" << objectPose);
+
           this->openGripper();
-		moveGroup->detachObject();			
+          moveGroup->detachObject();			
 		
-		baxter_grasps_server::GraspService graspRequest;
-		graspRequest.request.name = objectName;
-		
-		if (!graspClient.call(graspRequest) || !graspRequest.response.success)
-		{
-			ROS_ERROR_STREAM("No grasps were found for the object " << objectName);
-			this->moveToNeutral();
-			return false;
-		}
+          baxter_grasps_server::GraspService graspRequest;
+          graspRequest.request.name = objectName;
+          
+          if (!graspClient.call(graspRequest) || !graspRequest.response.success)
+            {
+              ROS_ERROR_STREAM("No grasps were found for the object " << objectName);
+              this->moveToNeutral();
+              return false;
+            }
+          
+          moveGroup->allowReplanning(true);
+          moveGroup->setPlanningTime(10.0);
+          moveGroup->setStartStateToCurrentState();
+          moveGroup->setSupportSurfaceName("table");
+	  
+          std::vector<moveit_msgs::Grasp> grasps = setGraspsAtPose(objectPose, graspRequest.response.grasps);
+          ROS_INFO_STREAM("Grasps: " << grasps.size());
+          //publishMarkers(grasps, objectName);
+          //return false;
+          moveGroup->setWorkspace(0.0, -0.2, -0.30, 0.9, 1.0, 2.0);
+          
+          bool result;
+          //bool result = moveGroup->pick(objectName, grasps);
+          ROS_INFO("End Effector Link: %s", moveGroup->getEndEffectorLink().c_str());	
+          ROS_INFO("Pose Reference Frame: %s", moveGroup->getPoseReferenceFrame().c_str());
+          ROS_INFO_STREAM("Grasp pose: " << grasps[0].grasp_pose);
+          moveGroup->setPoseReferenceFrame("/base");
+          result = moveGroup->setPoseTarget(grasps[0].grasp_pose);
+          visualization_msgs::Marker p = createGraspMarker(grasps[0].grasp_pose, "moveit", 15); 
+          p.color.r = 0.5;
+          p.color.g = 0.5;
+          p.color.b = 0.5;
+          p.scale.x = 0.2;
+          markersPub.publish(p);
 
-		moveGroup->allowReplanning(true);
-		moveGroup->setPlanningTime(30.0);
-		moveGroup->setStartStateToCurrentState();
-		moveGroup->setSupportSurfaceName("table");
-	    
-		std::vector<moveit_msgs::Grasp> grasps = setGraspsAtPose(objectPose, graspRequest.response.grasps);
-                ROS_INFO_STREAM("Grasps: " << grasps.size());
-		publishMarkers(grasps, objectName);
-		moveGroup->setWorkspace(0.0, -0.2, -0.30, 0.9, 1.0, 2.0);
-
-                bool result;
-		//bool result = moveGroup->pick(objectName, grasps);
-                result = moveGroup->setPoseTarget(grasps[0].grasp_pose);
-                if (! result) {
-                  ROS_ERROR_STREAM("Couldn't set pose to pregrasp.");
-                }
-                ROS_INFO("Moving to pregrasp");
-                this->moveGroup->move();
-                ros::Duration(1).sleep();
-		moveGroup->setStartStateToCurrentState();
-                this->moveGroup->move();
-                ros::Duration(1).sleep();
-
-                moveGroup->setStartStateToCurrentState();
-                result = moveGroup->setPoseTarget(grasps[1].grasp_pose);
-                if (! result) {
-                  ROS_ERROR_STREAM("Couldn't set pose to grasp.");
-                }
-                ROS_INFO("Moving to grasp");
-                result = this->moveGroup->move();
-                ros::Duration(1).sleep();
-		moveGroup->setStartStateToCurrentState();
-                this->moveGroup->move();
-                ros::Duration(1).sleep();
-
-                if (! result) {
-                  ROS_ERROR("Couldn't move to grasp");
-                }
-
-                
-                ROS_INFO("Closing gripper");
-                this->closeGripper();
-                ROS_INFO_STREAM("Pick result: " << result);
-                result = false;
-		return result;
+          ROS_INFO_STREAM("Transformed pose\n" << grasps[0].grasp_pose);
+          if (! result) {
+            ROS_ERROR_STREAM("Couldn't set pose to pregrasp.");
+          }
+          ROS_INFO("Moving to pregrasp");
+          this->moveGroup->move();
+          //ros::Duration(1).sleep();
+          //moveGroup->setStartStateToCurrentState();
+          //this->moveGroup->move();
+          
+          moveGroup->setStartStateToCurrentState();
+          result = moveGroup->setPoseTarget(grasps[1].grasp_pose);
+          if (! result) {
+            ROS_ERROR_STREAM("Couldn't set pose to grasp.");
+          }
+          ROS_INFO("Moving to grasp");
+          result = this->moveGroup->move();
+          ros::Duration(1).sleep();
+          
+          if (! result) {
+            ROS_ERROR("Couldn't move to grasp");
+          }
+          
+          
+          ROS_INFO("Closing gripper");
+          this->closeGripper();
+          ROS_INFO_STREAM("Pick result: " << result);
+          result = false;
+          return result;
 	}
 
 	bool place(std::string objectName, std::vector<geometry_msgs::PoseStamped> placePoses)
@@ -526,7 +578,7 @@ public:
 		placePoses.resize(36);
 		for (int i = 0; i < 36; i++)
 		{	
-			placePoses[i].header.frame_id = "world";
+			placePoses[i].header.frame_id = "base";
 			placePoses[i].pose.position = placePoint;
 			rotationQuat.setRPY(0.0, 0.0, i * 2.0 * M_PI / 36.0);
 			tf::quaternionTFToMsg(startQuat * rotationQuat, placePoses[i].pose.orientation );
@@ -536,8 +588,15 @@ public:
 	}
 
 
-	void pickAndPlace(std::string objectName, geometry_msgs::PoseStamped objectPose, geometry_msgs::Point placePoint, geometry_msgs::Quaternion orientation)
+	void pickAndPlace(std::string objectName)
 	{
+          std::string name;
+          std::getline(std::cin, name);
+          ros::spinOnce();
+		geometry_msgs::Point placePoint = getRegion("sink");
+		geometry_msgs::Quaternion orientation = getRegionOrientation("sink");
+		geometry_msgs::PoseStamped objectPose = this->objectPoses[objectName];	
+
 		ROS_INFO_STREAM("Starting pick and place routine " << objectName);
 		
 		isPicking = true;
@@ -550,7 +609,7 @@ public:
 
 		ROS_INFO_STREAM("Attempting to pick up object " + objectName);
 		bool pickSuccess = false;
-                 pickSuccess = pick(objectName, objectPose);
+                pickSuccess = pick(objectName, objectPose);
 
                 ROS_INFO_STREAM("Pick success: " << pickSuccess);
                 isPlacing = pickSuccess;
@@ -598,12 +657,9 @@ public:
 	void executeAction()
 	{
 		std::string objectName = this->currentPickObject;
-		geometry_msgs::Point point = getRegion("sink");
-		geometry_msgs::Quaternion orientation = getRegionOrientation("sink");
-		geometry_msgs::PoseStamped pose = this->objectPoses[objectName];	
-
+                
 		this->pickingAndPlacingThread = 
-			new boost::thread(boost::bind(&MarkerPickPlace::pickAndPlace, this, objectName, pose, point, orientation));
+			new boost::thread(boost::bind(&MarkerPickPlace::pickAndPlace, this, objectName));
 	}
 
 	bool checkScene()
@@ -642,42 +698,41 @@ public:
                 
           //ROS_INFO_STREAM("Detected " << msg->objects.size() << " objects.");
           objectPoses.clear();	
-		for (int i = 0; i < msg->objects.size(); i++)
-		{
-			geometry_msgs::PoseStamped pose = getPoseStampedFromPoseWithCovariance(msg->objects[i].pose);
-			objectPoses[msg->objects[i].type.key] = pose;
-		}
-
-
-		//ROS_INFO_STREAM(msg);
-		
-		this->interface.updateObjects(msg);
-                
-                //ROS_INFO_STREAM("markers cb: " << this->isMovingToNeutral);
-		if (this->isMovingToNeutral)
-		{
-			return;
-		}
-
-		if (msg->objects.size() == 0) 
-		{
-			ROS_INFO("No objects detected");
-			this->moveToNeutral();
-			return;
-		} 
-
-
-		if (this->pickingAndPlacingThread == NULL || this->pickingAndPlacingThread->timed_join(boost::posix_time::milliseconds(1.0)))
-		{
-			ROS_INFO("Beginning new pick place thread");
-			int rand_index = rand() % msg->objects.size();
-
-
-			std::string objectName = msg->objects[rand_index].type.key;
-			PoseMap::iterator findIt = objectPoses.find(objectName);
-			this->currentPickObject = objectName;
-			this->executeAction();	
-		}
+          for (int i = 0; i < msg->objects.size(); i++)
+            {
+              geometry_msgs::PoseStamped pose = getPoseStampedFromPoseWithCovariance(msg->objects[i].pose);
+              objectPoses[msg->objects[i].type.key] = pose;
+            }
+          
+          
+          //ROS_INFO_STREAM(msg);
+          
+          this->interface.updateObjects(msg);
+          
+          //ROS_INFO_STREAM("markers cb: " << this->isMovingToNeutral);
+          if (this->isMovingToNeutral)
+            {
+              return;
+            }
+          
+          if (msg->objects.size() == 0) 
+            {
+              ROS_INFO("No objects detected");
+              this->moveToNeutral();
+              return;
+            } 
+          
+          
+          if (this->pickingAndPlacingThread == NULL || this->pickingAndPlacingThread->timed_join(boost::posix_time::milliseconds(1.0)))
+            {
+              ROS_INFO("Beginning new pick place thread");
+              int rand_index = rand() % msg->objects.size();
+              
+              
+              std::string objectName = msg->objects[rand_index].type.key;
+              this->currentPickObject = objectName;
+              this->executeAction();	
+            }
 	}
 
 	void gripperCB(const baxter_core_msgs::EndEffectorState::ConstPtr &msg)
@@ -694,26 +749,42 @@ public:
 		this->checkMoveToNeutral();
 	}
 
-	visualization_msgs::Marker createGraspMarker(moveit_msgs::Grasp grasp, std::string markerName, double lifetime = 15.0)
-	{
-		visualization_msgs::Marker marker;
-		marker.type = 0;
-		marker.header = grasp.grasp_pose.header;
-		marker.header.stamp = ros::Time::now();
-		// This may not be the correct pose
-		marker.pose = grasp.grasp_pose.pose;
-		marker.ns = markerName;
-		marker.lifetime = ros::Duration(lifetime);
-		marker.action = 0;
-		marker.color.r = 1;
-		marker.color.g = 1;
-		marker.color.b = 1;
-		marker.color.a = 1;
-		marker.scale.x = 0.1;
-		marker.scale.y = 0.03;
-		marker.scale.z = 0.03;	
 
-		return marker;
+
+  visualization_msgs::Marker createGraspMarker(moveit_msgs::Grasp grasp, std::string markerName, double lifetime = 10.0) 
+  {
+    return createGraspMarker(grasp.grasp_pose, markerName, lifetime);
+  }
+  visualization_msgs::Marker createGraspMarker(geometry_msgs::PoseStamped pose, std::string markerName, double lifetime = 10.0)
+  {
+
+          // z -90,
+          //tf::Transform transform(tfPose.getRotation(), tfPose.getOrigin());
+    tf::Quaternion zAxis = tf::createQuaternionFromRPY(0, -3.14159/2.0, 0); 
+          tf::Quaternion graspQuat;
+          tf::quaternionMsgToTF(pose.pose.orientation, graspQuat);
+          tf::Quaternion result = graspQuat * zAxis;
+          geometry_msgs::PoseStamped marker_pose = pose;
+
+          tf::quaternionTFToMsg(result, marker_pose.pose.orientation);
+          visualization_msgs::Marker marker;
+          marker.type = 0;
+          marker.header = marker_pose.header; //grasp.grasp_pose.header;
+          marker.header.stamp = ros::Time::now();
+          // This may not be the correct pose
+          marker.pose = marker_pose.pose;
+          marker.ns = markerName;
+          marker.lifetime = ros::Duration(lifetime);
+          marker.action = 0;
+          marker.color.r = 1;
+          marker.color.g = 1;
+          marker.color.b = 1;
+          marker.color.a = 1;
+          marker.scale.x = 0.1;
+          marker.scale.y = 0.03;
+          marker.scale.z = 0.03;	
+          
+          return marker;
 	}
 
 	void publishMarkers(std::vector<moveit_msgs::Grasp> grasps, std::string object_name)
@@ -721,6 +792,7 @@ public:
 		for (int i = 0; i < grasps.size(); i++)
 		{
 			visualization_msgs::Marker marker = createGraspMarker(grasps[i], object_name);
+                        marker.id = i;
 			markersPub.publish(marker);
 		}
 	}
