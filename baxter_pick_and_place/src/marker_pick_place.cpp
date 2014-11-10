@@ -221,6 +221,7 @@ public:
     this->isMovingToNeutral = true;
     this->moveToNeutralStart = ros::Time::now();
     moveGroup->setJointValueTarget(neutralJoints);
+    this->interface.removeAllObjects();
     
     
     ROS_INFO("Opening gripper");
@@ -519,9 +520,14 @@ public:
           ROS_INFO_STREAM("Transformed pose\n" << grasps[0].grasp_pose);
           if (! result) {
             ROS_ERROR_STREAM("Couldn't set pose to pregrasp.");
+            return false;
           }
           ROS_INFO("Moving to pregrasp");
-          this->moveGroup->move();
+          result = this->moveGroup->move();
+          if (! result) {
+            ROS_ERROR("Couldn't move to pregrasp.");
+            return false;
+          }
           //ros::Duration(1).sleep();
           //moveGroup->setStartStateToCurrentState();
           //this->moveGroup->move();
