@@ -43,9 +43,10 @@ static ros::Duration OBJECT_TIMEOUT(30.0);
 
 class ObjectSceneInterface
 {
+  
 private:
 	std::vector<std::string> frozenObjects;
-	moveit::planning_interface::PlanningSceneInterface scene;
+        moveit::planning_interface::PlanningSceneInterface scene;
 	std::map<std::string, geometry_msgs::PoseStamped> objectPoses;
 	std::map<std::string, ros::Time> lastTimeSeen;
 	tf::TransformListener transformer;
@@ -93,13 +94,12 @@ private:
 		collisionObjects.push_back(sink);*/
 
 		
-		//ROS_INFO("table");
-		
+				
 		geometry_msgs::PoseStamped tablePose;
 		tablePose.header.frame_id = "/world";
 		tablePose.pose.position.x = 0.7;
 		tablePose.pose.position.y = 0.0;
-		tablePose.pose.position.z = -0.31;
+		tablePose.pose.position.z = -0.22;
 		tablePose.pose.orientation.w = 1.0;
 		moveit_msgs::CollisionObject table = this->createCollisionObject(tablePose.pose, "table", tablePose.header, 1.0, 2.0, 0.2);
 		collisionObjects.push_back(table);
@@ -369,35 +369,35 @@ private:
 	}
 
 public:
-
 	void addObjects()
 	{
-		std::vector<moveit_msgs::CollisionObject> collisionObjects;
-		this->addStaticObjects(collisionObjects);
+          std::vector<moveit_msgs::CollisionObject> collisionObjects;
+          this->addStaticObjects(collisionObjects);
+          this->scene.addCollisionObjects(collisionObjects);
 	}
 
 	void addObjects(std::vector<object_recognition_msgs::RecognizedObject> objects)
 	{
-		std::vector<moveit_msgs::CollisionObject> collisionObjects;
+          std::vector<moveit_msgs::CollisionObject> collisionObjects;
 
-		this->addStaticObjects(collisionObjects);
-		for (int i = 0; i < objects.size(); i++)
-		{
-			object_recognition_msgs::RecognizedObject object = objects[i];
+          this->addStaticObjects(collisionObjects);
+		/* for (int i = 0; i < objects.size(); i++) */
+		/* { */
+		/* 	object_recognition_msgs::RecognizedObject object = objects[i]; */
 			
-			if (std::find(frozenObjects.begin(), frozenObjects.end(), object.type.key) == frozenObjects.end())
-			{
-				if (object.type.key.compare("mixing_bowl_1") != 0 && object.type.key.compare("mixing_bowl_2") != 0 )
-				{
-					moveit_msgs::CollisionObject collisionObject = this->createCollisionObject( object.pose.pose.pose, object.type.key, object.pose.header);
-					collisionObjects.push_back(collisionObject);
-				}
-			}
-		}
+		/* 	if (std::find(frozenObjects.begin(), frozenObjects.end(), object.type.key) == frozenObjects.end()) */
+		/* 	{ */
+		/* 		if (object.type.key.compare("mixing_bowl_1") != 0 && object.type.key.compare("mixing_bowl_2") != 0 ) */
+		/* 		{ */
+		/* 			moveit_msgs::CollisionObject collisionObject = this->createCollisionObject( object.pose.pose.pose, object.type.key, object.pose.header); */
+		/* 			collisionObjects.push_back(collisionObject); */
+		/* 		} */
+		/* 	} */
+		/* } */
 
 
 		//ROS_INFO("Adding objcts to scene");
-		//this->scene.addCollisionObjects(collisionObjects);
+		this->scene.addCollisionObjects(collisionObjects);
 	}
 
 	void freezeObject(std::string object)
@@ -442,6 +442,20 @@ public:
 		this->addObjects(msg->objects);
 		this->removeUnobservedObjects(observedObjects);
 	}
+
+        void removeAllObjects() 
+        {
+          std::vector<std::string> objects = scene.getKnownObjectNames(); 
+          scene.removeCollisionObjects(objects);
+        }
+        void setStaticObjects()
+        {
+          removeAllObjects();
+          std::vector<moveit_msgs::CollisionObject> collisionObjects;
+          addStaticObjects(collisionObjects);
+          scene.addCollisionObjects(collisionObjects);
+        }
+
 };
 
 #endif 
