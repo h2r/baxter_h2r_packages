@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 2.8.3)
 project(baxter_pick_and_place)
-
+set(CMAKE_BUILD_TYPE Debug)
 find_package(catkin REQUIRED COMPONENTS
   moveit_core 
   moveit_msgs
