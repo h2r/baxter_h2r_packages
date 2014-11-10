@@ -536,15 +536,27 @@ public:
           }
           ROS_INFO("Moving to grasp");
           result = this->moveGroup->move();
+          if (! result) {
+            ROS_ERROR("Couldn't move to grasp");
+          }
           ros::Duration(1).sleep();
+          ROS_INFO("Closing gripper");
+          this->closeGripper();
+          
+          moveGroup->setStartStateToCurrentState();
+          
+          geometry_msgs::PoseStamped uppose = grasps[1].grasp_pose;
+          uppose.pose.position.z += 0.3;
+          result = moveGroup->setPoseTarget(uppose);
+          
+          this->interface.setStaticObjects();
           
           if (! result) {
             ROS_ERROR("Couldn't move to grasp");
           }
           
           
-          ROS_INFO("Closing gripper");
-          this->closeGripper();
+          
           ROS_INFO_STREAM("Pick result: " << result);
           return result;
 	}
