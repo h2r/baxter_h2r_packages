@@ -71,6 +71,11 @@ class GraspingHelper:
 		grasp_pose = PoseStamped()
 		grasp_pose.pose.position = Point(transform[0][0], transform[0][1], transform[0][2])
 		grasp_pose.pose.orientation = Quaternion(transform[1][0], transform[1][1], transform[1][2], transform[1][3])
+                # Setting hard-coded orientation.
+                #newQuat = quaternion_from_euler(-math.pi, 0, math.pi/2)
+                #print "posed quat", newQuat
+                #print "annotated: ", euler_from_quaternion(transform[1])
+		#grasp_pose.pose.orientation = Quaternion(newQuat[0], newQuat[1], newQuat[2], newQuat[3])
 		grasp_pose.header.frame_id = gripper_frame_id
 		print(str(grasp_pose))
 		return grasp_pose
