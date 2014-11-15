@@ -126,8 +126,8 @@ public:
           moveGroup->setPlannerId("RRTConnectkConfigDefault");
           
           gripperSubscriber = nh.subscribe("/robot/end_effector/left_gripper/state", 1000, &MarkerPickPlace::gripperCB, this);
-          //objectsSub = nh.subscribe("/ar_objects", 1000, &MarkerPickPlace::markersCB, this);	 //ar tags
-          objectsSub = nh.subscribe("/publish_detections_center/blue_labeled_objects", 1000, &MarkerPickPlace::markersCB, this);	 //ar tags
+          objectsSub = nh.subscribe("/ar_objects", 1000, &MarkerPickPlace::markersCB, this);	 //ar tags
+          //objectsSub = nh.subscribe("/publish_detections_center/blue_labeled_objects", 1000, &MarkerPickPlace::markersCB, this);	 //ar tags
           jointSubscriber = nh.subscribe("/robot/joint_states", 1000, &MarkerPickPlace::jointsCB, this);	
 	    
 	}
@@ -525,7 +525,7 @@ public:
             ROS_ERROR("Couldn't move to pregrasp.");
             return false;
           }
-          //ros::Duration(1).sleep();
+          ros::Duration(1).sleep();
           //moveGroup->setStartStateToCurrentState();
           //this->moveGroup->move();
 

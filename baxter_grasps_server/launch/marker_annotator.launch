@@ -1,14 +1,5 @@
 <launch>
 	<arg name="marker_size" default="4.8" />
 
-
-	<!--
-	<include file="$(find baxter_kinect_calibration)/launch/baxter_indiv.launch">
-    	<arg name="launch_kinect" value="false"/>
-    	<arg name="marker_size" value="$(arg marker_size)" />
-    </include>-->
-
-    <node name="object_identifier" pkg="object_identifier" type="object_identifier.py" />
-
     <node name="marker_annotator" pkg="baxter_grasps_server" type="marker_grasp_annotator.py" output="screen" />
 </launch>
