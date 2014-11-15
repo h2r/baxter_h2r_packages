@@ -14,6 +14,7 @@ mkdir -p ~/catkin_ws/src
 cd ~/catkin_ws/src
 wstool init .
 wstool merge https://raw.githubusercontent.com/RethinkRobotics/baxter/master/baxter_sdk.rosinstall
+```
 
 Download all files:
 ```
