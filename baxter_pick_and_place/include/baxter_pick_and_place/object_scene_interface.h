@@ -11,7 +11,6 @@
 #include <moveit/planning_scene_interface/planning_scene_interface.h>
 
 // Baxter Utilities
-#include <baxter_control/baxter_utilities.h>
 #include "geometry_msgs/PointStamped.h"
 #include "geometry_msgs/Vector3Stamped.h"
 #include "geometry_msgs/QuaternionStamped.h"
@@ -23,9 +22,9 @@
 #include "baxter_grasps_server/GraspService.h"
 #include "ros/time.h"
  
-#include <baxter_core_msgs/EndEffectorState.h>
-#include <baxter_core_msgs/EndEffectorCommand.h>
-#include <baxter_core_msgs/DigitalIOState.h>
+#include "baxter_core_msgs/EndEffectorState.h"
+#include "baxter_core_msgs/EndEffectorCommand.h"
+#include "baxter_core_msgs/DigitalIOState.h"
 
 #include "ros/console.h"
 

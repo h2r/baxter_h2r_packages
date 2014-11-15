@@ -1,0 +1,10 @@
+<launch>
+
+  <include file="$(find baxter_moveit_config)/launch/run.launch"/>
+
+  <!-- Run Rviz and load the default config to see the state of the move_group node -->
+  <include file="$(find baxter_moveit_config)/launch/moveit_rviz.launch">
+    <arg name="config" value="true"/>
+    <arg name="debug" value="$(arg debug)"/>
+  </include>
+</launch>

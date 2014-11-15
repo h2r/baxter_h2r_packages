@@ -3,6 +3,7 @@ project(baxter_pick_and_place)
 set(CMAKE_BUILD_TYPE Debug)
 find_package(catkin REQUIRED COMPONENTS
   moveit_core 
+  tf
   moveit_msgs
   moveit_ros_planning 
   moveit_ros_planning_interface 
@@ -14,7 +15,6 @@ find_package(catkin REQUIRED COMPONENTS
   actionlib_msgs
   std_msgs
   geometry_msgs
-  baxter_control
   roscpp
   cmake_modules
 )
