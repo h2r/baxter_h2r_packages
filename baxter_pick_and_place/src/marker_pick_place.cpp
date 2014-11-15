@@ -8,7 +8,6 @@
 #include <moveit/move_group_interface/move_group.h>
 
 // Baxter Utilities
-#include <baxter_control/baxter_utilities.h>
 #include "geometry_msgs/PointStamped.h"
 #include "geometry_msgs/Vector3Stamped.h"
 #include "geometry_msgs/QuaternionStamped.h"
@@ -52,8 +51,6 @@ static const double JOINT_POSITION_TOLERANCE = 0.2;
 class MarkerPickPlace
 {
 public:
-	baxter_control::BaxterUtilities baxterUtil;
-
 	tf::TransformListener transformer;
 	ros::Publisher markersPub;
 	ros::Publisher leftGripperPub;
