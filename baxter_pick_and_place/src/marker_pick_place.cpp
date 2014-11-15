@@ -129,7 +129,8 @@ public:
           moveGroup->setPlannerId("RRTConnectkConfigDefault");
           
           gripperSubscriber = nh.subscribe("/robot/end_effector/left_gripper/state", 1000, &MarkerPickPlace::gripperCB, this);
-          objectsSub = nh.subscribe("/ar_objects", 1000, &MarkerPickPlace::markersCB, this);	
+          //objectsSub = nh.subscribe("/ar_objects", 1000, &MarkerPickPlace::markersCB, this);	 //ar tags
+          objectsSub = nh.subscribe("/publish_detections_center/blue_labeled_objects", 1000, &MarkerPickPlace::markersCB, this);	 //ar tags
           jointSubscriber = nh.subscribe("/robot/joint_states", 1000, &MarkerPickPlace::jointsCB, this);	
 	    
 	}
@@ -350,11 +351,11 @@ public:
 	}
 
 	geometry_msgs::PoseStamped getPoseStampedFromPoseWithCovariance(geometry_msgs::PoseWithCovarianceStamped pose){
-			geometry_msgs::PoseStamped poseStamped;
-			poseStamped.header = pose.header;
-			poseStamped.pose.position = pose.pose.pose.position;
-			poseStamped.pose.orientation = pose.pose.pose.orientation;
-			return poseStamped;
+          geometry_msgs::PoseStamped poseStamped;
+          poseStamped.header = pose.header;
+          poseStamped.pose.position = pose.pose.pose.position;
+          poseStamped.pose.orientation = pose.pose.pose.orientation;
+          return poseStamped;
 	}
 
 	geometry_msgs::Vector3Stamped getDirectionFromPose(geometry_msgs::PoseStamped graspPose, geometry_msgs::Vector3Stamped direction)
@@ -474,7 +475,6 @@ public:
 
           geometry_msgs::PoseStamped worldObjectPose;
           objectPose.header.stamp = ros::Time(0);
-
           transformer.transformPose("base", objectPose, worldObjectPose);
           objectPose = worldObjectPose;
           ROS_INFO_STREAM("Object\n" << objectPose);
@@ -618,7 +618,7 @@ public:
 	}
 
 
-	void pickAndPlace(std::string objectName)
+  void pickAndPlace(std::string objectName, geometry_msgs::PoseStamped objectPose)
 	{
           std::string name;
           std::getline(std::cin, name);
@@ -632,7 +632,7 @@ public:
           orientation.y = 1.0;
           orientation.z = 0.0;
           orientation.w = 0.0;
-          geometry_msgs::PoseStamped objectPose = this->objectPoses[objectName];	
+        
           
           ROS_INFO_STREAM("Starting pick and place routine " << objectName);
           
@@ -645,6 +645,8 @@ public:
           std::vector<geometry_msgs::PoseStamped> placePoses = getValidPlacePoses(placePoint, orientation);
           
           ROS_INFO_STREAM("Attempting to pick up object " + objectName);
+	
+
           bool pickSuccess = pick(objectName, objectPose);
           
           ROS_INFO_STREAM("Pick success: " << pickSuccess);
@@ -686,9 +688,9 @@ public:
 	void executeAction()
 	{
 		std::string objectName = this->currentPickObject;
-                
+                geometry_msgs::PoseStamped objectPose = this->objectPoses[objectName];            
 		this->pickingAndPlacingThread = 
-			new boost::thread(boost::bind(&MarkerPickPlace::pickAndPlace, this, objectName));
+                  new boost::thread(boost::bind(&MarkerPickPlace::pickAndPlace, this, objectName, objectPose));
 	}
 
 	bool checkScene()
@@ -718,11 +720,18 @@ public:
 
 	void markersCB(const object_recognition_msgs::RecognizedObjectArray::ConstPtr &msg)
 	{
-
           if (first) {
             ROS_INFO("Calling moveToNeutral");
             this->moveToNeutral();
             first = false;
+          }
+          for (int i = 0; i < msg->objects.size(); i++) {
+            geometry_msgs::PoseStamped pose = getPoseStampedFromPoseWithCovariance(msg->objects[i].pose);
+            if (pose.pose.position.x == 0 && pose.pose.position.y == 0 &&
+                pose.pose.position.z == 0) {
+                ROS_ERROR("Null object detection.");
+                return;
+              }
           }
                 
           //ROS_INFO_STREAM("Detected " << msg->objects.size() << " objects.");
@@ -746,7 +755,9 @@ public:
           
           if (msg->objects.size() == 0) 
             {
-              //ROS_INFO("No objects detected");
+              if (!this->isPickingOrPlacing()) {
+                ROS_INFO("No objects detected");
+              }
               this->moveToNeutral();
               return;
             } 
