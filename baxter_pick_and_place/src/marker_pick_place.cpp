@@ -51,87 +51,87 @@ static const double JOINT_POSITION_TOLERANCE = 0.2;
 class MarkerPickPlace
 {
 public:
-	tf::TransformListener transformer;
-	ros::Publisher markersPub;
-	ros::Publisher leftGripperPub;
-	ros::Publisher statusPublisher;
-	ros::Subscriber objectsSub;
-	ros::Subscriber jointSubscriber;
-	ros::Subscriber gripperSubscriber;
-	ros::ServiceClient graspClient;
+  tf::TransformListener transformer;
+  ros::Publisher markersPub;
+  ros::Publisher leftGripperPub;
+  ros::Publisher statusPublisher;
+  ros::Subscriber objectsSub;
+  ros::Subscriber jointSubscriber;
+  ros::Subscriber gripperSubscriber;
+  ros::ServiceClient graspClient;
   int gripperSeq;
-	ObjectSceneInterface interface;
-
-	typedef std::map<std::string, geometry_msgs::PoseStamped> PoseMap;
-	typedef std::map<std::string, double> JointMap;
-
-	PoseMap objectPoses;
-	JointMap jointLookup;
-	std::string currentPickObject;
-
-	bool isPicking;
-	bool isPlacing;
-	bool isGripperOpen;
-
-	ros::Time clearSceneStart;
-	bool clearingScene;
+  ObjectSceneInterface interface;
+  
+  typedef std::map<std::string, geometry_msgs::PoseStamped> PoseMap;
+  typedef std::map<std::string, double> JointMap;
+  
+  PoseMap objectPoses;
+  JointMap jointLookup;
+  std::string currentPickObject;
+  
+  bool isPicking;
+  bool isPlacing;
+  bool isGripperOpen;
+  
+  ros::Time clearSceneStart;
+  bool clearingScene;
   JointMap neutralJoints;
-	ros::Time moveToNeutralStart;
-	bool isMovingToNeutral;
-	boost::thread *pickingAndPlacingThread;
-        bool first;
-
-	move_group_interface::MoveGroup *moveGroup;
-
-	tf::TransformListener tranformer;
-
-	MarkerPickPlace()
-	{
-          gripperSeq = 0;
-          first = true;
-          this->pickingAndPlacingThread = NULL;
-          this->isPicking = false;
-          this->isPlacing = false;
-          this->clearingScene = false;
-          this->isMovingToNeutral = false;
-          this->isGripperOpen = false;
-          
-          
-          neutralJoints["left_e0"] = 0.0;
-          neutralJoints["left_e1"] = 0.75;
-          neutralJoints["left_s0"] = 0.0;
-          neutralJoints["left_s1"] = -0.55;
-          neutralJoints["left_w0"] = 0.0;
-          neutralJoints["left_w1"] = 1.26;
-          neutralJoints["left_w2"] = 0.0;
-          
-          
-          
-          ros::NodeHandle nh;
-          moveGroup = new move_group_interface::MoveGroup("left_arm");
-          //moveGroup->setEndEffectorLink("left_gripper");
-          //moveGroup->setEndEffector("left_gripper");
-          ROS_INFO("Planning Frame: %s", moveGroup->getPlanningFrame().c_str());
-          ROS_INFO("End Effector Link: %s", moveGroup->getEndEffectorLink().c_str());
-          ROS_INFO("End Effector: %s", moveGroup->getEndEffector().c_str());
-          
-          markersPub = nh.advertise<visualization_msgs::Marker>("/grasp_markers", 1000);
-          leftGripperPub = nh.advertise<baxter_core_msgs::EndEffectorCommand>("/robot/end_effector/left_gripper/command",10);
-          graspClient = nh.serviceClient<baxter_grasps_server::GraspService>("/grasp_service");
-          statusPublisher = nh.advertise<std_msgs::String>("/pick_place_status", 1000);
-          
-          moveGroup->setPlanningTime(5.0);
-          moveGroup->setSupportSurfaceName("table");
-          moveGroup->setWorkspace(0.0, -0.2, -0.30, 0.9, 1.0, 2.0);
-          moveGroup->setPlannerId("RRTConnectkConfigDefault");
-          
-          gripperSubscriber = nh.subscribe("/robot/end_effector/left_gripper/state", 1000, &MarkerPickPlace::gripperCB, this);
-          objectsSub = nh.subscribe("/ar_objects", 1000, &MarkerPickPlace::markersCB, this);	 //ar tags
-          //objectsSub = nh.subscribe("/publish_detections_center/blue_labeled_objects", 1000, &MarkerPickPlace::markersCB, this);	 //ar tags
-          jointSubscriber = nh.subscribe("/robot/joint_states", 1000, &MarkerPickPlace::jointsCB, this);	
-	    
-	}
-
+  ros::Time moveToNeutralStart;
+  bool isMovingToNeutral;
+  boost::thread *pickingAndPlacingThread;
+  bool first;
+  
+  move_group_interface::MoveGroup *moveGroup;
+  
+  tf::TransformListener tranformer;
+  
+  MarkerPickPlace()
+  {
+    gripperSeq = 0;
+    first = true;
+    this->pickingAndPlacingThread = NULL;
+    this->isPicking = false;
+    this->isPlacing = false;
+    this->clearingScene = false;
+    this->isMovingToNeutral = false;
+    this->isGripperOpen = false;
+    
+    
+    neutralJoints["left_e0"] = 0.0;
+    neutralJoints["left_e1"] = 0.75;
+    neutralJoints["left_s0"] = 0.0;
+    neutralJoints["left_s1"] = -0.55;
+    neutralJoints["left_w0"] = 0.0;
+    neutralJoints["left_w1"] = 1.26;
+    neutralJoints["left_w2"] = 0.0;
+    
+    
+    
+    ros::NodeHandle nh;
+    moveGroup = new move_group_interface::MoveGroup("left_arm");
+    //moveGroup->setEndEffectorLink("left_gripper");
+    //moveGroup->setEndEffector("left_gripper");
+    ROS_INFO("Planning Frame: %s", moveGroup->getPlanningFrame().c_str());
+    ROS_INFO("End Effector Link: %s", moveGroup->getEndEffectorLink().c_str());
+    ROS_INFO("End Effector: %s", moveGroup->getEndEffector().c_str());
+    
+    markersPub = nh.advertise<visualization_msgs::Marker>("/grasp_markers", 1000);
+    leftGripperPub = nh.advertise<baxter_core_msgs::EndEffectorCommand>("/robot/end_effector/left_gripper/command",10);
+    graspClient = nh.serviceClient<baxter_grasps_server::GraspService>("/grasp_service");
+    statusPublisher = nh.advertise<std_msgs::String>("/pick_place_status", 1000);
+    
+    moveGroup->setPlanningTime(5.0);
+    moveGroup->setSupportSurfaceName("table");
+    moveGroup->setWorkspace(0.0, -0.2, -0.30, 0.9, 1.0, 2.0);
+    moveGroup->setPlannerId("RRTConnectkConfigDefault");
+    
+    gripperSubscriber = nh.subscribe("/robot/end_effector/left_gripper/state", 1000, &MarkerPickPlace::gripperCB, this);
+    objectsSub = nh.subscribe("/ar_objects", 1000, &MarkerPickPlace::markersCB, this);	 //ar tags
+    //objectsSub = nh.subscribe("/publish_detections_center/blue_labeled_objects", 1000, &MarkerPickPlace::markersCB, this);	 //ar tags
+    jointSubscriber = nh.subscribe("/robot/joint_states", 1000, &MarkerPickPlace::jointsCB, this);	
+    
+  }
+  
 	bool openGripper()
 	{
           ROS_INFO("Opening left arm gripper");
@@ -216,14 +216,20 @@ public:
               return;
       }
     ROS_INFO("Moving to neutral.");
+
+
     this->isMovingToNeutral = true;
+
+    ROS_INFO("Opening gripper");
+    this->openGripper();
+    ros::Duration(0.5).sleep();
+
     this->moveToNeutralStart = ros::Time::now();
     moveGroup->setJointValueTarget(neutralJoints);
     this->interface.removeAllObjects();
     
     
-    ROS_INFO("Opening gripper");
-    //this->openGripper();
+    
     this->moveGroup->detachObject();
     this->moveGroup->asyncMove();
   }
@@ -555,10 +561,14 @@ public:
           this->interface.setStaticObjects();
           
           if (! result) {
-            ROS_ERROR("Couldn't move to grasp");
+            ROS_ERROR("Couldn't set pose target.");
           }
           
-          
+          result = this->moveGroup->move();
+
+          if (! result) {
+            ROS_ERROR("Couldn't move up.");
+          }
           
           ROS_INFO_STREAM("Pick result: " << result);
           return result;
@@ -582,7 +592,7 @@ public:
                   break;
                 }
             }
-          result = this->moveGroup->execute(plan);
+          //result = this->moveGroup->execute(plan);
           isPlacing = false;
           
           moveGroup->detachObject(objectName);			
@@ -621,8 +631,8 @@ public:
           std::getline(std::cin, name);
           ros::spinOnce();
           geometry_msgs::Point placePoint;
-          placePoint.x = 0.67;
-          placePoint.y = 0.79;
+          placePoint.x = 0.6;
+          placePoint.y = 0.5;
           placePoint.z = -0.02;
           geometry_msgs::Quaternion orientation;
           orientation.x = 0.0;
