@@ -22,12 +22,13 @@ class WarehouseClient:
         self.object_poses = dict()
         for o in msg.objects:
             self.objects.append(o.type.key)
-
+        self.objects.sort()
     def ask(self):
         done = False
-        last_print = time.time() - 9.5
+        printed_objects = None
         while not done and not rospy.is_shutdown():
-            if (time.time() - last_print) > 10:
+            if printed_objects != self.objects:
+                printed_objects = list(self.objects)
                 print "Which object?"
                 for i, o in enumerate(self.objects):
                     print "%d.)" % (i + 1), o

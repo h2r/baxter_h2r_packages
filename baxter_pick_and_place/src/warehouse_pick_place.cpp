@@ -690,7 +690,7 @@ public:
           ROS_INFO_STREAM("Pick success: " << pickSuccess);
           isPlacing = pickSuccess;
           isPicking = false;
-          
+          ros::spinOnce();
           if (!this->isGripperOpen)
             {
               ROS_INFO("Gripper appears to have missed object");
@@ -812,7 +812,7 @@ public:
 
   void gripperCB(const baxter_core_msgs::EndEffectorState::ConstPtr &msg)
   {
-    this->isGripperOpen = msg->position > 4.0;
+    this->isGripperOpen = msg->position > 5.25;
   }
 
   void fetchCommandCB(const std_msgs::String::ConstPtr& msg) 
