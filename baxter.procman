@@ -14,9 +14,12 @@ group "Baxter SDK" {
 }
 
 group "Node" {
+    cmd "Train Bowls" {
+        exec = "rosrun node train_classifier _data_directory:=\"$(rospack find node)/data\" _vocab_file:=\"vocab.yml\" _knn_file:=\"knn.yml\" _label_file:=\"labels.yml\" _class_labels:=\"green_bowl light_green_bowl pink_bowl yellow_bowl\" _class_pose_models:=\"B B B B\" _left_or_right_arm:=\"center\" center";
+        host = "localhost";
+    }
     cmd "Node Publish" {
-        exec = " rosrun node publish_detections _data_directory:=\"$(rospack find node)/data\" _vocab_file:=\"vocab.yml\" _knn_file:=\"knn.yml\" _label_file:=\"labels.yml\" _left_or_right_arm:=\"center\" _gray_box_right:=\"0\" _gray_box_left:=\"0\" _gray_box_top:=\"1\" _gray_box_bot:=\"10\"  _canny_lo:=50 _canny_hi:=55 center 
-";
+        exec = " rosrun node publish_detections _data_directory:=\"$(rospack find node)/data\" _vocab_file:=\"vocab.yml\" _knn_file:=\"knn.yml\" _label_file:=\"labels.yml\" _left_or_right_arm:=\"center\" _gray_box_right:=\"0\" _gray_box_left:=\"0\" _gray_box_top:=\"1\" _gray_box_bot:=\"10\"  _canny_lo:=50 _canny_hi:=75 center ";
         host = "localhost";
     }
 }
@@ -38,7 +41,7 @@ group "Visualize" {
 
 group "Kinect Calibration" {
     cmd "4 - Publish Transform (edit me)" {
-        exec = "rosrun tf static_transform_publisher -0.301, 0.968, 0.333 0.428, 0.350, -0.589, 0.589  /base /camera_link 10 ";
+        exec = "rosrun tf static_transform_publisher 0.047, 1.277, 0.295 0.352, 0.382, -0.620, 0.588 /base /camera_link 10 ";
         host = "localhost";
     }
     cmd "2 - Calibrate" {
@@ -91,7 +94,7 @@ group "Kinect" {
 
 group "Grasping" {
     cmd "Annotator" {
-        exec = "roslaunch baxter_grasps_server marker_annotator.launch";
+        exec = "rosrun baxter_grasps_server marker_grasp_annotator.py ";
         host = "localhost";
     }
     cmd "Pick and Place Test" {

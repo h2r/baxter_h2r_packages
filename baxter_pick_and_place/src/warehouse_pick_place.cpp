@@ -79,6 +79,7 @@ public:
   ros::Time moveToNeutralStart;
   bool isMovingToNeutral;
   boost::thread *pickingAndPlacingThread;
+  boost::mutex poseMutex;
   bool first;
   
   move_group_interface::MoveGroup *moveGroup;
@@ -211,6 +212,7 @@ public:
   
   void moveToNeutral()
   {
+    int result;
     if (this->isInNeutral()) 
       {
         //ROS_INFO("is in neutral");
@@ -226,12 +228,18 @@ public:
     ros::Duration(0.5).sleep();
 
     
-    this->moveToNeutralStart = ros::Time::now();
+    moveToNeutralStart = ros::Time::now();
+    moveGroup->setStartStateToCurrentState();
+
     moveGroup->setJointValueTarget(neutralJoints);
-    this->interface.removeAllObjects();
-    this->moveGroup->detachObject();
+    interface.removeAllObjects();
+    moveGroup->detachObject();
+    moveGroup->setPlanningTime(20.0);
     ROS_INFO("Calling moveGroup->move in moveToNeutral.");
-    this->moveGroup->move();
+    result = moveGroup->move();
+    if (! result) {
+      ROS_ERROR("Couldn't move to neutral.");
+    }
     ROS_INFO("Done move to neutral.");
   }
   
@@ -607,12 +615,42 @@ public:
 		return placePoses;
 	}
 
+  void pickAndPlace() 
+  {
+    std::string name;
+    ROS_INFO("What do you want to pickup?");
+    int i = 0;
+    PoseMap::iterator it, endIt;
+    poseMutex.lock();
+    std::vector<std::string> idx_to_name(objectPoses.size());
+    ROS_INFO_STREAM(i << ".) Reset.");
+    for (it = objectPoses.begin(), endIt = objectPoses.end(); it != endIt; it++) {
+      ROS_INFO_STREAM(i + 1 << ".) " << it->first);
+      idx_to_name[i] = it->first;
+      i++;
+    }
+    std::getline(std::cin, name);
+    int object_idx = atoi(name.c_str());
+    ROS_INFO_STREAM("IDX: " << object_idx);
 
-  void pickAndPlace(std::string objectName, geometry_msgs::PoseStamped objectPose)
+    if (object_idx == 0) {
+      poseMutex.unlock();
+      return;
+    } else {
+      object_idx = object_idx - 1;
+    }
+
+    std::string objectName = idx_to_name[object_idx];
+
+    geometry_msgs::PoseStamped objectPose = this->objectPoses[objectName];
+    poseMutex.unlock();
+    deliver(objectName, objectPose);
+  }
+  void deliver(std::string objectName, geometry_msgs::PoseStamped objectPose)
 	{
-          std::string name;
-          std::getline(std::cin, name);
-          ros::spinOnce();
+            
+          ROS_INFO_STREAM("Name: " << objectName);
+          //ros::spinOnce();
           geometry_msgs::Point placePoint;
           placePoint.x = 0.6;
           placePoint.y = 0.5;
@@ -677,16 +715,18 @@ public:
 
 	void executeAction()
 	{
-		std::string objectName = this->currentPickObject;
-                geometry_msgs::PoseStamped objectPose = this->objectPoses[objectName];            
-		this->pickingAndPlacingThread = 
-                  new boost::thread(boost::bind(&MarkerPickPlace::pickAndPlace, this, objectName, objectPose));
+          std::string objectName = this->currentPickObject;
+          poseMutex.lock();
+          geometry_msgs::PoseStamped objectPose = this->objectPoses[objectName];            
+          poseMutex.unlock();
+          this->pickingAndPlacingThread = 
+            new boost::thread(boost::bind(&MarkerPickPlace::pickAndPlace, this));
 	}
 
 	bool checkScene()
 	{
 		std::string objectName = this->currentPickObject;
-		
+                poseMutex.lock();
 		PoseMap::iterator findIt = objectPoses.find(objectName);
 		if (findIt == objectPoses.end() && ros::Time::now() - this->clearSceneStart < WAIT_FOR_OBJECT_TO_APPEAR)
 		{
@@ -699,6 +739,7 @@ public:
 			this->clearingScene = false;
 			return true;
 		}
+                poseMutex.unlock();
 		if (ros::Time::now() - this->clearSceneStart < WAIT_FOR_OBJECT_TO_APPEAR)
 		{
 			ROS_INFO("Object not found. Abandoning hope");
@@ -706,6 +747,7 @@ public:
 			this->clearingScene = false;
 			return false;
 		}
+
 	}
 
 	void markersCB(const object_recognition_msgs::RecognizedObjectArray::ConstPtr &msg)
@@ -725,13 +767,14 @@ public:
           }
                 
           //ROS_INFO_STREAM("Detected " << msg->objects.size() << " objects.");
+          poseMutex.lock();
           objectPoses.clear();	
           for (int i = 0; i < msg->objects.size(); i++)
             {
               geometry_msgs::PoseStamped pose = getPoseStampedFromPoseWithCovariance(msg->objects[i].pose);
               objectPoses[msg->objects[i].type.key] = pose;
             }
-          
+          poseMutex.unlock();
           
           //ROS_INFO_STREAM(msg);
           
@@ -752,7 +795,6 @@ public:
               this->moveToNeutral();
               return;
             } 
-          
           if (this->pickingAndPlacingThread == NULL || this->pickingAndPlacingThread->timed_join(boost::posix_time::milliseconds(1.0)))
             {
               ROS_INFO("Beginning new pick place thread");
