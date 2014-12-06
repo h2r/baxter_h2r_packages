@@ -96,9 +96,16 @@ private:
 				
 		geometry_msgs::PoseStamped tablePose;
 		tablePose.header.frame_id = "/world";
-		tablePose.pose.position.x = 0.7;
-		tablePose.pose.position.y = 0.0;
+                // side table
+		tablePose.pose.position.x = -0.37;
+		tablePose.pose.position.y = 0.55;
 		tablePose.pose.position.z = -0.22;  // conservative height
+
+                // front table
+		//tablePose.pose.position.x = 0.7;
+		//tablePose.pose.position.y = 0.0;
+		//tablePose.pose.position.z = -0.22;  // conservative height
+                
                 //tablePose.pose.position.z = -0.3;  // lower height
 		tablePose.pose.orientation.w = 1.0;
 		moveit_msgs::CollisionObject table = this->createCollisionObject(tablePose.pose, "table", tablePose.header, 1.0, 2.0, 0.2);

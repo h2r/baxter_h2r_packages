@@ -31,7 +31,9 @@ from tf import TransformListener, TransformBroadcaster, LookupException, Connect
 class Annotator:
 	def __init__(self):
 		self.broadcaster = TransformBroadcaster()
-		rospy.Subscriber("/ar_objects", RecognizedObjectArray, self.object_callback)
+                topic = "/publish_detections_center/blue_labeled_objects" # node
+                #topic = "/ar_objects" # ar tags
+		rospy.Subscriber(topic, RecognizedObjectArray, self.object_callback)
 		self.markers_publisher = rospy.Publisher("/grasp_markers", Marker, queue_size=10)
 		self.object_info = rospy.ServiceProxy('get_object_info', GetObjectInformation)
 		self.transformer = TransformListener(True, rospy.Duration(30.0))

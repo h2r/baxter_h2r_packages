@@ -34,6 +34,9 @@ include_directories(include
 
 add_executable(marker_pick_place src/marker_pick_place.cpp)
 target_link_libraries(marker_pick_place ${catkin_LIBRARIES})
+
+add_executable(warehouse_pick_place src/warehouse_pick_place.cpp)
+target_link_libraries(warehouse_pick_place ${catkin_LIBRARIES})
 add_definitions(${EIGEN_DEFINITIONS})
 
  install(PROGRAMS
