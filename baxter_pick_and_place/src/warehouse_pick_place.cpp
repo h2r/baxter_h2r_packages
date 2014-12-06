@@ -49,7 +49,7 @@ static const ros::Duration WAIT_FOR_OBJECT_TO_APPEAR(30.0);
 static const ros::Duration WAIT_FOR_NEUTRAL_TIMEOUT(60.0);
 static const double JOINT_POSITION_TOLERANCE = 0.2;
 
-class MarkerPickPlace
+class WarehousePickPlace
 {
 public:
   tf::TransformListener transformer;
@@ -69,11 +69,11 @@ public:
   PoseMap objectPoses;
   JointMap jointLookup;
   std::string currentPickObject;
-  
+  bool isMovingToNeutral;
   bool isPicking;
   bool isPlacing;
   bool isGripperOpen;
-  
+  double sleep_time;
   ros::Time clearSceneStart;
   bool clearingScene;
   JointMap neutralJoints;
@@ -85,7 +85,7 @@ public:
   
   tf::TransformListener tranformer;
   
-  MarkerPickPlace()
+  WarehousePickPlace()
   {
     gripperSeq = 0;
     first = true;
@@ -94,7 +94,7 @@ public:
     this->isPlacing = false;
     this->clearingScene = false;
     this->isGripperOpen = false;
-    
+    this->sleep_time = 0.25;
     neutralJoints["left_e0"] = 0.22;
     neutralJoints["left_e1"] = 1.97;
     neutralJoints["left_s0"] = 1.64;
@@ -125,13 +125,13 @@ public:
     //moveGroup->setPlannerId("RRTStarkConfigDefault");
 
     
-    gripperSubscriber = nh.subscribe("/robot/end_effector/left_gripper/state", 1000, &MarkerPickPlace::gripperCB, this);
+    gripperSubscriber = nh.subscribe("/robot/end_effector/left_gripper/state", 1000, &WarehousePickPlace::gripperCB, this);
     std::string topic = "";
     topic = "/ar_objects"; // ar tags
     topic = "/publish_detections_center/blue_labeled_objects"; // node
-    objectsSub = nh.subscribe(topic, 1000, &MarkerPickPlace::markersCB, this);	 
+    objectsSub = nh.subscribe(topic, 1000, &WarehousePickPlace::markersCB, this);	 
 
-    jointSubscriber = nh.subscribe("/robot/joint_states", 1000, &MarkerPickPlace::jointsCB, this);	
+    jointSubscriber = nh.subscribe("/robot/joint_states", 1000, &WarehousePickPlace::jointsCB, this);	
     
   }
   
@@ -145,7 +145,7 @@ public:
           command.id = 65538;
           command.sequence = gripperSeq++;
           leftGripperPub.publish(command);
-          ros::Duration(0.5).sleep();
+          ros::Duration(sleep_time).sleep();
           
           ROS_INFO("Done opening");
           return true;
@@ -166,7 +166,7 @@ public:
     command.args = "";
     command.command = baxter_core_msgs::EndEffectorCommand::CMD_CALIBRATE;
     command.id = 65538;
-    command.sender = "marker_pick_place";
+    command.sender = "warehouse_pick_place";
     command.sequence = gripperSeq++;    
     for (int i = 0; i < 50; i++) {
       leftGripperPub.publish(command);
@@ -197,7 +197,7 @@ public:
     // Send command several times to be safe
     ROS_INFO("publishing gripper");
     leftGripperPub.publish(command);
-    ros::Duration(0.5).sleep();
+    ros::Duration(sleep_time).sleep();
     return true;
   }
   
@@ -214,13 +214,14 @@ public:
         //ROS_INFO("is in neutral");
               return;
       }
+    if (this->isMovingToNeutral) {
+      return;
+    }
     ROS_INFO("Moving to neutral.");
-
+    isMovingToNeutral = true;
 
     ROS_INFO("Opening gripper");
     this->openGripper();
-    ros::Duration(0.5).sleep();
-
     
     moveGroup->setStartStateToCurrentState();
 
@@ -242,12 +243,12 @@ public:
     }
     moveGroup->stop();
     ROS_INFO("Done move to neutral.");
+    isMovingToNeutral = false;
   }
   
   
   bool isInNeutral()
   {
-    
     bool isInNeutral = true;
     JointMap::iterator it, endIt;
     for (it = neutralJoints.begin(), endIt = neutralJoints.end(); it != endIt; it++)
@@ -503,7 +504,7 @@ public:
             ROS_ERROR("Couldn't move to pregrasp.");
             return false;
           }
-          ros::Duration(0.5).sleep();
+
           //moveGroup->setStartStateToCurrentState();
           //this->moveGroup->move();
 
@@ -519,8 +520,8 @@ public:
           result = this->moveGroup->move();
           if (! result) {
             ROS_ERROR("Couldn't move to grasp");
+            return false;
           }
-          ros::Duration(0.25).sleep();
           ROS_INFO("Closing gripper");
           this->closeGripper();
           
@@ -541,7 +542,7 @@ public:
           if (! result) {
             ROS_ERROR("Couldn't move up.");
           }
-          
+          ros::spinOnce();
           ROS_INFO_STREAM("Pick result: " << result);
           return result;
 	}
@@ -551,32 +552,51 @@ public:
           ROS_INFO("Placing");
           bool result;
           this->moveGroup->setStartStateToCurrentState();
+          this->interface.setStaticObjects();
           moveit_msgs::Constraints constraints;
           moveit_msgs::OrientationConstraint oc;
-          oc.link_name = moveGroup->getEndEffector();
+          oc.link_name = "left_gripper";
+          ROS_INFO_STREAM("End effector: " << oc.link_name);
           oc.header.frame_id = moveGroup->getPlanningFrame();
           oc.orientation.x = 1.0;
           oc.orientation.y = 0.0;
           oc.orientation.z = 0.0;
           oc.orientation.w = 0.0;
-          oc.absolute_x_axis_tolerance = 0.3;
-          oc.absolute_y_axis_tolerance = 0.3;
-          oc.absolute_z_axis_tolerance = 0.3;
+          oc.absolute_x_axis_tolerance = 2 * 3.14;
+          oc.absolute_y_axis_tolerance = 2 * 3.14;
+          oc.absolute_z_axis_tolerance = 2 * 3.14;
           oc.weight = 1.0;
           moveit_msgs::Constraints cmsg;
           cmsg.orientation_constraints.resize(1, oc);
           cmsg.name = oc.link_name + ":upright";
-          moveGroup->setPathConstraints(cmsg);
+          //moveGroup->setPathConstraints(cmsg);
+          ROS_INFO_STREAM("Constraints: " << oc);
           
-          result = moveGroup->setPoseTarget(placePoses[0]);
+          JointMap placeJoints;
+          JointMap::iterator it, endIt;
+          for (it = neutralJoints.begin(), endIt = neutralJoints.end(); it != endIt; it++) {
+            JointMap::iterator findIt = this->jointLookup.find(it->first);
+            placeJoints[it->first] = findIt->second;
+          }
+          placeJoints["left_s0"] = -0.26;
+          result = moveGroup->setJointValueTarget(placeJoints);
           if (! result) {
             ROS_ERROR_STREAM("Couldn't set pose to place.");
           }
-          ROS_INFO("Moving to grasp");
+          ROS_INFO("Moving to place.");
           result = this->moveGroup->move();
           if (! result) {
             ROS_ERROR("Couldn't move to place.");
           }
+
+
+          this->moveGroup->setStartStateToCurrentState();
+          result = moveGroup->setPoseTarget(placePoses[0]);
+          result = this->moveGroup->move();
+          if (! result) {
+            ROS_ERROR("Couldn't move to place.");
+          }
+
           moveGroup->clearPathConstraints();
           this->openGripper();
           
@@ -625,6 +645,7 @@ public:
 
     if (object_idx == 0) {
       poseMutex.unlock();
+      ros::Duration(1).sleep();
       return;
     } else {
       object_idx = object_idx - 1;
@@ -685,7 +706,6 @@ public:
               isPlacing = false;
               
               moveToNeutral(false);
-              ros::Duration(0.5).sleep();
               this->openGripper();
               return;
             }
@@ -710,7 +730,7 @@ public:
           geometry_msgs::PoseStamped objectPose = this->objectPoses[objectName];            
           poseMutex.unlock();
           this->pickingAndPlacingThread = 
-            new boost::thread(boost::bind(&MarkerPickPlace::pickAndPlace, this));
+            new boost::thread(boost::bind(&WarehousePickPlace::pickAndPlace, this));
 	}
 
 	bool checkScene()
@@ -791,19 +811,19 @@ public:
             }
 	}
 
-	void gripperCB(const baxter_core_msgs::EndEffectorState::ConstPtr &msg)
-	{
-          this->isGripperOpen = msg->position > 4.0;
-	}
+  void gripperCB(const baxter_core_msgs::EndEffectorState::ConstPtr &msg)
+  {
+    this->isGripperOpen = msg->position > 4.0;
+  }
 
-	void jointsCB(const sensor_msgs::JointState::ConstPtr &msg)
-	{
-          for (int i = 0; i < msg->name.size(); i++)
-            {
-              this->jointLookup[msg->name[i]] = msg->position[i];
-            }
-	}
-
+  void jointsCB(const sensor_msgs::JointState::ConstPtr &msg)
+  {
+    for (int i = 0; i < msg->name.size(); i++)
+      {
+        this->jointLookup[msg->name[i]] = msg->position[i];
+      }
+  }
+  
 
 
   visualization_msgs::Marker createGraspMarker(moveit_msgs::Grasp grasp, std::string markerName, double lifetime = 10.0) 
@@ -857,7 +877,7 @@ public:
 int main(int argc, char**argv) 
 {
   ros::init(argc, argv, "baxter_action_server");
-  MarkerPickPlace pickPlace;
+  WarehousePickPlace pickPlace;
   pickPlace.initializeGripper();
   ros::spin();
   return 0;	
