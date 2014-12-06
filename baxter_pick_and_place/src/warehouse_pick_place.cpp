@@ -44,9 +44,6 @@ static const double WAIT_GRIPPER_CLOSE_SEC = 0.5;
 static const double WAIT_STATE_MSG_SEC = 1; // max time to wait for the gripper state to refresh
 static const double GRIPPER_MSG_RESEND = 5; 
 static const ros::Duration WAIT_FOR_OBJECT_TO_APPEAR(30.0);
-// XXX oberlin
-//static const ros::Duration WAIT_FOR_NEUTRAL_TIMEOUT(10.0);
-static const ros::Duration WAIT_FOR_NEUTRAL_TIMEOUT(60.0);
 static const double JOINT_POSITION_TOLERANCE = 0.2;
 
 class WarehousePickPlace
@@ -56,6 +53,7 @@ public:
   ros::Publisher markersPub;
   ros::Publisher leftGripperPub;
   ros::Publisher statusPublisher;
+  ros::Subscriber fetchCommandSubscriber;
   ros::Subscriber objectsSub;
   ros::Subscriber jointSubscriber;
   ros::Subscriber gripperSubscriber;
@@ -73,6 +71,7 @@ public:
   bool isPicking;
   bool isPlacing;
   bool isGripperOpen;
+  std::string command;
   double sleep_time;
   ros::Time clearSceneStart;
   bool clearingScene;
@@ -132,6 +131,9 @@ public:
     objectsSub = nh.subscribe(topic, 1000, &WarehousePickPlace::markersCB, this);	 
 
     jointSubscriber = nh.subscribe("/robot/joint_states", 1000, &WarehousePickPlace::jointsCB, this);	
+    fetchCommandSubscriber = nh.subscribe("/fetch_commands", 1000,
+                                          &WarehousePickPlace::fetchCommandCB, 
+                                          this);
     
   }
   
@@ -228,7 +230,7 @@ public:
     moveGroup->setJointValueTarget(neutralJoints);
     interface.removeAllObjects();
     moveGroup->detachObject();
-    moveGroup->setPlanningTime(20.0);
+    moveGroup->setPlanningTime(10.0);
     ROS_INFO("Calling moveGroup->move in moveToNeutral.");
     result = moveGroup->asyncMove();
     if (! result) {
@@ -469,7 +471,7 @@ public:
             }
           
           moveGroup->allowReplanning(false);
-          moveGroup->setPlanningTime(20.0);
+          moveGroup->setPlanningTime(10.0);
           moveGroup->setStartStateToCurrentState();
           //moveGroup->setSupportSurfaceName("table");
 	  
@@ -547,31 +549,29 @@ public:
           return result;
 	}
 
-	bool place(std::string objectName, std::vector<geometry_msgs::PoseStamped> placePoses)
+	bool place(std::string objectName)
 	{
           ROS_INFO("Placing");
           bool result;
           this->moveGroup->setStartStateToCurrentState();
           this->interface.setStaticObjects();
-          moveit_msgs::Constraints constraints;
-          moveit_msgs::OrientationConstraint oc;
-          oc.link_name = "left_gripper";
-          ROS_INFO_STREAM("End effector: " << oc.link_name);
-          oc.header.frame_id = moveGroup->getPlanningFrame();
-          oc.orientation.x = 1.0;
-          oc.orientation.y = 0.0;
-          oc.orientation.z = 0.0;
-          oc.orientation.w = 0.0;
-          oc.absolute_x_axis_tolerance = 2 * 3.14;
-          oc.absolute_y_axis_tolerance = 2 * 3.14;
-          oc.absolute_z_axis_tolerance = 2 * 3.14;
-          oc.weight = 1.0;
-          moveit_msgs::Constraints cmsg;
-          cmsg.orientation_constraints.resize(1, oc);
-          cmsg.name = oc.link_name + ":upright";
-          //moveGroup->setPathConstraints(cmsg);
-          ROS_INFO_STREAM("Constraints: " << oc);
-          
+
+
+          geometry_msgs::Point placePoint;
+          placePoint.x = 0.6;
+          placePoint.y = 0.5;
+          placePoint.z = -0.02;
+          geometry_msgs::Quaternion orientation;
+          orientation.x = 0.0;
+          orientation.y = 1.0;
+          orientation.z = 0.0;
+          orientation.w = 0.0;
+          geometry_msgs::PoseStamped placePose;
+          placePose.header.frame_id = "base";
+          placePose.pose.position = placePoint;
+          placePose.pose.orientation = orientation;
+
+
           JointMap placeJoints;
           JointMap::iterator it, endIt;
           for (it = neutralJoints.begin(), endIt = neutralJoints.end(); it != endIt; it++) {
@@ -591,7 +591,7 @@ public:
 
 
           this->moveGroup->setStartStateToCurrentState();
-          result = moveGroup->setPoseTarget(placePoses[0]);
+          result = moveGroup->setPoseTarget(placePose);
           result = this->moveGroup->move();
           if (! result) {
             ROS_ERROR("Couldn't move to place.");
@@ -625,13 +625,12 @@ public:
 		return placePoses;
 	}
 
-  void pickAndPlace() 
+  std::string getNameFromUser() 
   {
     std::string name;
     ROS_INFO("What do you want to pickup?");
     int i = 0;
     PoseMap::iterator it, endIt;
-    poseMutex.lock();
     std::vector<std::string> idx_to_name(objectPoses.size());
     ROS_INFO_STREAM(i << ".) Reset.");
     for (it = objectPoses.begin(), endIt = objectPoses.end(); it != endIt; it++) {
@@ -640,18 +639,29 @@ public:
       i++;
     }
     std::getline(std::cin, name);
+
     int object_idx = atoi(name.c_str());
     ROS_INFO_STREAM("IDX: " << object_idx);
-
     if (object_idx == 0) {
-      poseMutex.unlock();
       ros::Duration(1).sleep();
-      return;
+      return "";
     } else {
       object_idx = object_idx - 1;
     }
-
     std::string objectName = idx_to_name[object_idx];
+    return objectName;
+  }
+
+  void pickAndPlace() 
+  {
+    if (command == "") {
+      return;
+    }
+    poseMutex.lock();
+    //std::string objectName = getNameFromUser();
+
+    std::string objectName = command;
+    command = "";
 
     geometry_msgs::PoseStamped objectPose = this->objectPoses[objectName];
     poseMutex.unlock();
@@ -662,15 +672,6 @@ public:
             
           ROS_INFO_STREAM("Name: " << objectName);
           //ros::spinOnce();
-          geometry_msgs::Point placePoint;
-          placePoint.x = 0.6;
-          placePoint.y = 0.5;
-          placePoint.z = -0.02;
-          geometry_msgs::Quaternion orientation;
-          orientation.x = 0.0;
-          orientation.y = 1.0;
-          orientation.z = 0.0;
-          orientation.w = 0.0;
         
           
           ROS_INFO_STREAM("Starting pick and place routine " << objectName);
@@ -679,9 +680,7 @@ public:
           
           moveGroup->setSupportSurfaceName("table");
           this->interface.freezeAllObjects();
-          
-          ROS_INFO_STREAM("Finding a valid place pose");
-          std::vector<geometry_msgs::PoseStamped> placePoses = getValidPlacePoses(placePoint, orientation);
+
           
           ROS_INFO_STREAM("Attempting to pick up object " + objectName);
 	
@@ -712,7 +711,7 @@ public:
           
           ROS_INFO("Pick up success. Now placing");
           bool place_result = false;
-          place_result = this->place(objectName, placePoses);
+          place_result = this->place(objectName);
           
           if (place_result)
             {
@@ -814,6 +813,11 @@ public:
   void gripperCB(const baxter_core_msgs::EndEffectorState::ConstPtr &msg)
   {
     this->isGripperOpen = msg->position > 4.0;
+  }
+
+  void fetchCommandCB(const std_msgs::String::ConstPtr& msg) 
+  {
+    this->command = msg->data;
   }
 
   void jointsCB(const sensor_msgs::JointState::ConstPtr &msg)

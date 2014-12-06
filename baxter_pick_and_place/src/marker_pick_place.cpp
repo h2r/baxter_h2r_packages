@@ -852,3 +852,27 @@ int main(int argc, char**argv)
   ros::spin();
   return 0;	
 }
+
+
+/*
+Orientation constraint code that compiled but never worked.
+
+          moveit_msgs::Constraints constraints;
+          moveit_msgs::OrientationConstraint oc;
+          oc.link_name = "left_gripper";
+          ROS_INFO_STREAM("End effector: " << oc.link_name);
+          oc.header.frame_id = moveGroup->getPlanningFrame();
+          oc.orientation.x = 1.0;
+          oc.orientation.y = 0.0;
+          oc.orientation.z = 0.0;
+          oc.orientation.w = 0.0;
+          oc.absolute_x_axis_tolerance = 2 * 3.14;
+          oc.absolute_y_axis_tolerance = 2 * 3.14;
+          oc.absolute_z_axis_tolerance = 2 * 3.14;
+          oc.weight = 1.0;
+          moveit_msgs::Constraints cmsg;
+          cmsg.orientation_constraints.resize(1, oc);
+          cmsg.name = oc.link_name + ":upright";
+          //moveGroup->setPathConstraints(cmsg);
+          ROS_INFO_STREAM("Constraints: " << oc);
+*/

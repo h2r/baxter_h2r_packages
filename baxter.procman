@@ -3,6 +3,10 @@ group "Baxter SDK" {
         exec = "rosrun baxter_tools  enable_robot.py  -e";
         host = "localhost";
     }
+    cmd "Calibrate Gripper" {
+        exec = "bash -c \"echo -e 'cC\\003' | rosrun baxter_examples gripper_keyboard.py\"";
+        host = "localhost";
+    }
     cmd "Make Your Computer's Time the Same as Baxter with NTP" {
         exec = "sudo ntpdate iorek";
         host = "localhost";
