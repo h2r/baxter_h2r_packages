@@ -7,6 +7,7 @@
 // MoveIt!
 #include <moveit/move_group_interface/move_group.h>
 
+
 // Baxter Utilities
 #include "geometry_msgs/PointStamped.h"
 #include "geometry_msgs/Vector3Stamped.h"
@@ -76,8 +77,6 @@ public:
   ros::Time clearSceneStart;
   bool clearingScene;
   JointMap neutralJoints;
-  ros::Time moveToNeutralStart;
-  bool isMovingToNeutral;
   boost::thread *pickingAndPlacingThread;
   boost::mutex poseMutex;
   bool first;
@@ -94,11 +93,8 @@ public:
     this->isPicking = false;
     this->isPlacing = false;
     this->clearingScene = false;
-    this->isMovingToNeutral = false;
     this->isGripperOpen = false;
     
-0.21552430045166018, 1.9715488053771975, 1.6359905084106448, -1.1803982149291994, -0.22472818516845705, 0.8206797205810548,     
-
     neutralJoints["left_e0"] = 0.22;
     neutralJoints["left_e1"] = 1.97;
     neutralJoints["left_s0"] = 1.64;
@@ -210,7 +206,7 @@ public:
     return isPicking || isPlacing;
   }
   
-  void moveToNeutral()
+  void moveToNeutral(bool is_main)
   {
     int result;
     if (this->isInNeutral()) 
@@ -221,14 +217,11 @@ public:
     ROS_INFO("Moving to neutral.");
 
 
-    this->isMovingToNeutral = true;
-
     ROS_INFO("Opening gripper");
     this->openGripper();
     ros::Duration(0.5).sleep();
 
     
-    moveToNeutralStart = ros::Time::now();
     moveGroup->setStartStateToCurrentState();
 
     moveGroup->setJointValueTarget(neutralJoints);
@@ -236,10 +229,18 @@ public:
     moveGroup->detachObject();
     moveGroup->setPlanningTime(20.0);
     ROS_INFO("Calling moveGroup->move in moveToNeutral.");
-    result = moveGroup->move();
+    result = moveGroup->asyncMove();
     if (! result) {
       ROS_ERROR("Couldn't move to neutral.");
     }
+    while (!isInNeutral()) {
+      if (is_main) {
+        ros::spinOnce();
+      } else {
+        ros::Duration(0.1).sleep();
+      }
+    }
+    moveGroup->stop();
     ROS_INFO("Done move to neutral.");
   }
   
@@ -270,34 +271,6 @@ public:
     return true;
   }
 
-	bool checkMoveToNeutral()
-	{
-		if (!this->isMovingToNeutral)
-		{
-			return true;
-		}
-
-		if (ros::Time::now() - this->moveToNeutralStart > WAIT_FOR_NEUTRAL_TIMEOUT)
-		{
-			ROS_INFO("Moving to neutral took too long. Stopping in hopes things are ok");
-			this->moveGroup->stop();
-			this->isMovingToNeutral = false;
-			return true;
-		}
-		else
-		{
-
-			if (isInNeutral())
-			{
-				ROS_INFO("Arm is in the neutral position");
-				this->isMovingToNeutral = false;
-				ROS_INFO("returning");
-				return true;
-			}
-			
-		}
-		return false;
-	}
 
 	geometry_msgs::Point getRegion(std::string name)
 	{
@@ -490,7 +463,7 @@ public:
           if (!graspClient.call(graspRequest) || !graspRequest.response.success)
             {
               ROS_ERROR_STREAM("No grasps were found for the object " << objectName);
-              this->moveToNeutral();
+              this->moveToNeutral(false);
               return false;
             }
           
@@ -547,7 +520,7 @@ public:
           if (! result) {
             ROS_ERROR("Couldn't move to grasp");
           }
-          ros::Duration(0.5).sleep();
+          ros::Duration(0.25).sleep();
           ROS_INFO("Closing gripper");
           this->closeGripper();
           
@@ -578,6 +551,22 @@ public:
           ROS_INFO("Placing");
           bool result;
           this->moveGroup->setStartStateToCurrentState();
+          moveit_msgs::Constraints constraints;
+          moveit_msgs::OrientationConstraint oc;
+          oc.link_name = moveGroup->getEndEffector();
+          oc.header.frame_id = moveGroup->getPlanningFrame();
+          oc.orientation.x = 1.0;
+          oc.orientation.y = 0.0;
+          oc.orientation.z = 0.0;
+          oc.orientation.w = 0.0;
+          oc.absolute_x_axis_tolerance = 0.3;
+          oc.absolute_y_axis_tolerance = 0.3;
+          oc.absolute_z_axis_tolerance = 0.3;
+          oc.weight = 1.0;
+          moveit_msgs::Constraints cmsg;
+          cmsg.orientation_constraints.resize(1, oc);
+          cmsg.name = oc.link_name + ":upright";
+          moveGroup->setPathConstraints(cmsg);
           
           result = moveGroup->setPoseTarget(placePoses[0]);
           if (! result) {
@@ -588,6 +577,7 @@ public:
           if (! result) {
             ROS_ERROR("Couldn't move to place.");
           }
+          moveGroup->clearPathConstraints();
           this->openGripper();
           
           ROS_INFO("Allowing scene to repopulate");
@@ -694,7 +684,7 @@ public:
               isPicking = false;
               isPlacing = false;
               
-              this->moveToNeutral();
+              moveToNeutral(false);
               ros::Duration(0.5).sleep();
               this->openGripper();
               return;
@@ -710,7 +700,7 @@ public:
             }
           
           isPicking = false;
-          this->moveToNeutral();
+          moveToNeutral(false);
 	}
 
 	void executeAction()
@@ -754,7 +744,7 @@ public:
 	{
           if (first) {
             ROS_INFO("Calling moveToNeutral for the first time.");
-            this->moveToNeutral();
+            moveToNeutral(true);
             first = false;
           }
           for (int i = 0; i < msg->objects.size(); i++) {
@@ -781,18 +771,13 @@ public:
           //this->interface.updateObjects(msg);
           
           //ROS_INFO_STREAM("markers cb: " << this->isMovingToNeutral);
-          if (this->isMovingToNeutral)
-            {
-              ROS_INFO("Is moving to neutral.");
-              return;
-            }
           
           if (msg->objects.size() == 0) 
             {
               if (!this->isPickingOrPlacing()) {
                 ROS_INFO("No objects detected");
               }
-              this->moveToNeutral();
+              moveToNeutral(true);
               return;
             } 
           if (this->pickingAndPlacingThread == NULL || this->pickingAndPlacingThread->timed_join(boost::posix_time::milliseconds(1.0)))
@@ -813,11 +798,10 @@ public:
 
 	void jointsCB(const sensor_msgs::JointState::ConstPtr &msg)
 	{
-		for (int i = 0; i < msg->name.size(); i++)
-		{
-			this->jointLookup[msg->name[i]] = msg->position[i];
-		}
-		this->checkMoveToNeutral();
+          for (int i = 0; i < msg->name.size(); i++)
+            {
+              this->jointLookup[msg->name[i]] = msg->position[i];
+            }
 	}
 
 
