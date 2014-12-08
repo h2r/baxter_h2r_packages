@@ -36,7 +36,8 @@ class Annotator:
 		rospy.Subscriber(topic, RecognizedObjectArray, self.object_callback)
 		self.markers_publisher = rospy.Publisher("/grasp_markers", Marker, queue_size=10)
 		self.object_info = rospy.ServiceProxy('get_object_info', GetObjectInformation)
-		self.transformer = TransformListener(True, rospy.Duration(30.0))
+		self.transformer = TransformListener(True, 
+                                                     rospy.Duration(60.0))
 
 		self.is_annotating = False
 		self.commands = GraspingHelper.get_available_commands()
@@ -68,13 +69,15 @@ class Annotator:
 		print("Frame id: " + frame_id)
 		self.grasps = []
 		keep_going = True
+                print "saving time"
+                time = rospy.Time.now()
 		index = 0
 		while keep_going:
 			response = "continue"
 			while (len(response) > 0 and response not in self.commands.keys()):
 				response = raw_input("Press enter to annotate the grasp or type 'save' to end annotation. ")
 
-			grasps = self.commands[response](self.transformer, gripper, frame_id, str(object_id), index)
+			grasps = self.commands[response](self.transformer, gripper, frame_id, str(object_id), index, time)
 			if response == "save":
 				return
 			index += 1

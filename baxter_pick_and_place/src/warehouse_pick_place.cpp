@@ -1,4 +1,6 @@
 // ROS
+// canny_lo 77
+// canny_high 33
 #include <ros/ros.h>
 
 #include <boost/thread.hpp>
@@ -560,7 +562,7 @@ public:
           geometry_msgs::Point placePoint;
           placePoint.x = 0.6;
           placePoint.y = 0.5;
-          placePoint.z = -0.02;
+          placePoint.z = -0.06;
           geometry_msgs::Quaternion orientation;
           orientation.x = 0.0;
           orientation.y = 1.0;
@@ -782,6 +784,8 @@ public:
             {
               geometry_msgs::PoseStamped pose = getPoseStampedFromPoseWithCovariance(msg->objects[i].pose);
               objectPoses[msg->objects[i].type.key] = pose;
+              assert(pose.pose.orientation.x !=0 && pose.pose.orientation.y != 0 &&
+                     pose.pose.orientation.z != 0 && pose.pose.orientation.w != 0);
             }
           poseMutex.unlock();
           

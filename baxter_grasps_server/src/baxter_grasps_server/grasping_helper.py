@@ -60,14 +60,14 @@ class GraspingHelper:
 		return objects[chosen_object]
 
 	@staticmethod
-	def get_annotated_grasp(transformer, gripper, gripper_frame_id, object_frame_id, index):
-		grasp_pose = GraspingHelper.get_annotated_grasp_pose(transformer, gripper_frame_id, object_frame_id)
+	def get_annotated_grasp(transformer, gripper, gripper_frame_id, object_frame_id, index, time):
+		grasp_pose = GraspingHelper.get_annotated_grasp_pose(transformer, gripper_frame_id, object_frame_id, time)
 		return [GraspingHelper.get_grasp_from_pose(grasp_pose, gripper, str(index))]
 
 	@staticmethod
-	def get_annotated_grasp_pose(transformer, gripper_frame_id, object_frame_id):
-                print gripper_frame_id, "to", object_frame_id
-		transform = transformer.lookupTransform(object_frame_id, gripper_frame_id, rospy.Time())
+	def get_annotated_grasp_pose(transformer, gripper_frame_id, object_frame_id, time):
+                print gripper_frame_id, "to", object_frame_id, time
+		transform = transformer.lookupTransformFull(object_frame_id, time, gripper_frame_id, rospy.Time(), "base")
 		grasp_pose = PoseStamped()
 		grasp_pose.pose.position = Point(transform[0][0], transform[0][1], transform[0][2])
 		grasp_pose.pose.orientation = Quaternion(transform[1][0], transform[1][1], transform[1][2], transform[1][3])
