@@ -23,6 +23,7 @@ class WarehouseClient:
         for o in msg.objects:
             self.objects.append(o.type.key)
         self.objects.sort()
+        self.objects = tuple(self.objects)
     def ask(self):
         done = False
         printed_objects = None

@@ -1,6 +1,7 @@
 // ROS
-// canny_lo 77
-// canny_high 33
+// Side view
+// canny_lo 75
+// canny_high 50
 #include <ros/ros.h>
 
 #include <boost/thread.hpp>
