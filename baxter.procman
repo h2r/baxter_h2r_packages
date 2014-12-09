@@ -1,9 +1,9 @@
 group "Baxter SDK" {
-    cmd "Enable Robot" {
+    cmd "1 - Enable Robot" {
         exec = "rosrun baxter_tools  enable_robot.py  -e";
         host = "localhost";
     }
-    cmd "Calibrate Gripper" {
+    cmd "2 - Calibrate Grippers" {
         exec = "bash -c \"echo -e 'cC\\003' | rosrun baxter_examples gripper_keyboard.py\"";
         host = "localhost";
     }
@@ -45,7 +45,7 @@ group "Visualize" {
 
 group "Kinect Calibration" {
     cmd "4 - Publish Transform (edit me)" {
-        exec = "rosrun tf static_transform_publisher 0.047, 1.277, 0.295 0.352, 0.382, -0.620, 0.588 /base /camera_link 10 ";
+        exec = "rosrun tf static_transform_publisher 0.267, 1.245, 0.432 0.429, 0.449, -0.584, 0.524 /base /camera_link 10 ";
         host = "localhost";
     }
     cmd "2 - Calibrate" {
