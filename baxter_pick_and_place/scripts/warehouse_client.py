@@ -27,8 +27,9 @@ class WarehouseClient:
     def ask(self):
         done = False
         printed_objects = None
+        last_print_time = rospy.Time.now()
         while not done and not rospy.is_shutdown():
-            if printed_objects != self.objects:
+            if printed_objects != self.objects or (rospy.Time.now() - last_print_time) > 10:
                 printed_objects = self.objects
                 print "Which object?"
                 for i, o in enumerate(self.objects):

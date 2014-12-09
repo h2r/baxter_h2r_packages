@@ -661,14 +661,26 @@ public:
       return;
     }
     poseMutex.lock();
+    checkObjectPoses();
     //std::string objectName = getNameFromUser();
 
     std::string objectName = command;
     command = "";
 
     geometry_msgs::PoseStamped objectPose = this->objectPoses[objectName];
+    assert(objectPose.pose.orientation.x !=0 && objectPose.pose.orientation.y != 0 &&
+           objectPose.pose.orientation.z != 0 && objectPose.pose.orientation.w != 0);
+    checkObjectPoses();
     poseMutex.unlock();
     deliver(objectName, objectPose);
+  }
+  void checkObjectPoses() {
+    PoseMap::iterator it, endIt;
+    for (it = objectPoses.begin(), endIt = objectPoses.end(); it != endIt; it++) {
+      geometry_msgs::PoseStamped objectPose = it->second;
+      assert(objectPose.pose.orientation.x !=0 && objectPose.pose.orientation.y != 0 &&
+             objectPose.pose.orientation.z != 0 && objectPose.pose.orientation.w != 0);
+    }
   }
   void deliver(std::string objectName, geometry_msgs::PoseStamped objectPose)
 	{
@@ -729,7 +741,9 @@ public:
 	{
           std::string objectName = this->currentPickObject;
           poseMutex.lock();
+          checkObjectPoses();
           geometry_msgs::PoseStamped objectPose = this->objectPoses[objectName];            
+          checkObjectPoses();
           poseMutex.unlock();
           this->pickingAndPlacingThread = 
             new boost::thread(boost::bind(&WarehousePickPlace::pickAndPlace, this));
@@ -739,6 +753,7 @@ public:
 	{
 		std::string objectName = this->currentPickObject;
                 poseMutex.lock();
+                checkObjectPoses();
 		PoseMap::iterator findIt = objectPoses.find(objectName);
 		if (findIt == objectPoses.end() && ros::Time::now() - this->clearSceneStart < WAIT_FOR_OBJECT_TO_APPEAR)
 		{
@@ -751,6 +766,7 @@ public:
 			this->clearingScene = false;
 			return true;
 		}
+                checkObjectPoses();
                 poseMutex.unlock();
 		if (ros::Time::now() - this->clearSceneStart < WAIT_FOR_OBJECT_TO_APPEAR)
 		{
@@ -780,6 +796,7 @@ public:
                 
           //ROS_INFO_STREAM("Detected " << msg->objects.size() << " objects.");
           poseMutex.lock();
+          checkObjectPoses();
           objectPoses.clear();	
           for (int i = 0; i < msg->objects.size(); i++)
             {
@@ -788,6 +805,7 @@ public:
               assert(pose.pose.orientation.x !=0 && pose.pose.orientation.y != 0 &&
                      pose.pose.orientation.z != 0 && pose.pose.orientation.w != 0);
             }
+          checkObjectPoses();
           poseMutex.unlock();
           
           //ROS_INFO_STREAM(msg);

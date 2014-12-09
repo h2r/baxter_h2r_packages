@@ -44,15 +44,27 @@ group "Visualize" {
 }
 
 group "Kinect Calibration" {
-    cmd "3 - Show Transform" {
+    cmd "3c - Publish Transform (edit me)" {
+        exec = "rosrun tf static_transform_publisher -0.016, 0.062, 0.801 0.004, 0.025, -0.013, 1.000  /base /openni_link 10 ";
+        host = "localhost";
+    }
+    cmd "2b - Show Transform" {
         exec = " rosrun tf tf_echo /base /camera_link";
         host = "localhost";
     }
-    cmd "2 - Calibrate" {
+    cmd "3b - Show Transform" {
+        exec = " rosrun tf tf_echo /base /openni_link";
+        host = "localhost";
+    }
+    cmd "3a - Calibrate Head Kinect" {
+        exec = " roslaunch baxter_kinect_calibration head_kinect_calibrate.launch ";
+        host = "localhost";
+    }
+    cmd "2a - Calibrate Table Kinect" {
         exec = "roslaunch baxter_kinect_calibration baxter_bundle_calibrate.launch launch_kinect:=false";
         host = "localhost";
     }
-    cmd "4 - Publish Transform (edit me)" {
+    cmd "2c - Publish Transform (edit me)" {
         exec = "rosrun tf static_transform_publisher 0.057, 0.979, 0.412 0.420, 0.442, -0.610, 0.506  /base /camera_link 10 ";
         host = "localhost";
     }
