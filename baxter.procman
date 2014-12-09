@@ -61,7 +61,7 @@ group "Kinect Calibration" {
         host = "localhost";
     }
     cmd "2a - Calibrate Table Kinect" {
-        exec = "roslaunch baxter_kinect_calibration baxter_bundle_calibrate.launch launch_kinect:=false";
+        exec = "roslaunch baxter_kinect_calibration table_kinect_calibrate.launch launch_kinect:=false";
         host = "localhost";
     }
     cmd "2c - Publish Transform (edit me)" {
