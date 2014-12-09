@@ -15,8 +15,13 @@ class WarehouseClient:
         topic = "/publish_detections_center/blue_labeled_objects" # node
         #topic = "/ar_objects" # ar tags
         rospy.Subscriber(topic, RecognizedObjectArray, self.object_callback)
+        self.last_object_callback = rospy.Time()
+        rospy.Timer(rospy.Duration(2), self.timer)
+        
+    def timer(self, event):
+        if (self.last_object_callback  - rospy.Time.now() > rospy.Duration(10)):
+            self.objects = []
 
-             
     def object_callback(self, msg):
         self.objects = []
         self.object_poses = dict()
@@ -24,12 +29,14 @@ class WarehouseClient:
             self.objects.append(o.type.key)
         self.objects.sort()
         self.objects = tuple(self.objects)
+        self.last_object_callback = rospy.Time()
+
     def ask(self):
         done = False
         printed_objects = None
-        last_print_time = rospy.Time.now()
+
         while not done and not rospy.is_shutdown():
-            if printed_objects != self.objects or (rospy.Time.now() - last_print_time) > 10:
+            if printed_objects != self.objects:
                 printed_objects = self.objects
                 print "Which object?"
                 for i, o in enumerate(self.objects):
