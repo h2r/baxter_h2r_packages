@@ -94,22 +94,27 @@ private:
 
 		
 				
-		geometry_msgs::PoseStamped tablePose;
-		tablePose.header.frame_id = "/world";
+		geometry_msgs::PoseStamped sideTablePose;
+		sideTablePose.header.frame_id = "/world";
                 // side table
-		tablePose.pose.position.x = -0.37;
-		tablePose.pose.position.y = 0.55;
-		tablePose.pose.position.z = -0.22;  // conservative height
+		sideTablePose.pose.position.x = -0.37;
+		sideTablePose.pose.position.y = 0.55;
+		sideTablePose.pose.position.z = -0.22;  // conservative height
+		sideTablePose.pose.orientation.w = 1.0;
+		moveit_msgs::CollisionObject sideTable = this->createCollisionObject(sideTablePose.pose, "side_table", sideTablePose.header, 1.0, 2.0, 0.2);
+		collisionObjects.push_back(sideTable);
 
-                // front table
-		//tablePose.pose.position.x = 0.7;
-		//tablePose.pose.position.y = 0.0;
-		//tablePose.pose.position.z = -0.22;  // conservative height
-                
+
+		geometry_msgs::PoseStamped frontTablePose;
+		frontTablePose.header.frame_id = "/world";
+		frontTablePose.pose.position.x = 0.7;
+		frontTablePose.pose.position.y = 0.0;
+		frontTablePose.pose.position.z = -0.22;  // conservative height
                 //tablePose.pose.position.z = -0.3;  // lower height
-		tablePose.pose.orientation.w = 1.0;
-		moveit_msgs::CollisionObject table = this->createCollisionObject(tablePose.pose, "table", tablePose.header, 1.0, 2.0, 0.2);
-		collisionObjects.push_back(table);
+		frontTablePose.pose.orientation.w = 1.0;
+		moveit_msgs::CollisionObject frontTable = this->createCollisionObject(frontTablePose.pose, "front_table", frontTablePose.header, 1.0, 2.0, 0.2);
+		collisionObjects.push_back(frontTable);
+
 	}
 
 	

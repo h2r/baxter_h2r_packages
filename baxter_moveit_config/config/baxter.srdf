@@ -193,6 +193,7 @@
     <disable_collisions link1="left_lower_forearm" link2="left_wrist" reason="Adjacent" />
     <disable_collisions link1="left_lower_forearm" link2="sonar_ring" reason="Never" />
     <disable_collisions link1="left_lower_forearm" link2="pedestal" reason="Never" />
+    <disable_collisions link1="left_lower_forearm" link2="torso" reason="Never" />
     <disable_collisions link1="left_lower_shoulder" link2="torso" reason="Never" />
     <disable_collisions link1="left_lower_shoulder" link2="left_upper_elbow" reason="Adjacent" />
     <disable_collisions link1="left_lower_shoulder" link2="left_upper_elbow_visual" reason="Adjacent" />

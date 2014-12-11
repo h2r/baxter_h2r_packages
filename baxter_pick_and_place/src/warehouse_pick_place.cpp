@@ -123,8 +123,12 @@ public:
 
     //moveGroup->setSupportSurfaceName("table");
     //moveGroup->setWorkspace(0.0, -0.2, -0.30, 0.9, 1.0, 2.0);
-    moveGroup->setPlannerId("RRTConnectkConfigDefault");
+    //moveGroup->setPlannerId("RRTConnectkConfigDefault");
     //moveGroup->setPlannerId("RRTStarkConfigDefault");
+    moveGroup->allowReplanning(false);
+    moveGroup->setPlanningTime(10.0);
+    
+    //moveGroup->setPlannerId("LBKPIECEkConfigDefault");
 
     
     gripperSubscriber = nh.subscribe("/robot/end_effector/left_gripper/state", 1000, &WarehousePickPlace::gripperCB, this);
@@ -223,6 +227,8 @@ public:
       return;
     }
     ROS_INFO("Moving to neutral.");
+    this->interface.setStaticObjects();
+
     isMovingToNeutral = true;
 
     ROS_INFO("Opening gripper");
@@ -231,9 +237,9 @@ public:
     moveGroup->setStartStateToCurrentState();
 
     moveGroup->setJointValueTarget(neutralJoints);
-    interface.removeAllObjects();
+    //interface.removeAllObjects();
     moveGroup->detachObject();
-    moveGroup->setPlanningTime(10.0);
+
     ROS_INFO("Calling moveGroup->move in moveToNeutral.");
     result = moveGroup->asyncMove();
     if (! result) {
@@ -247,6 +253,8 @@ public:
       }
     }
     moveGroup->stop();
+    this->interface.removeAllObjects();
+
     ROS_INFO("Done move to neutral.");
     isMovingToNeutral = false;
   }
@@ -473,8 +481,6 @@ public:
               return false;
             }
           
-          moveGroup->allowReplanning(false);
-          moveGroup->setPlanningTime(10.0);
           moveGroup->setStartStateToCurrentState();
           //moveGroup->setSupportSurfaceName("table");
 	  
@@ -556,6 +562,7 @@ public:
 	{
           ROS_INFO("Placing");
           bool result;
+          //moveToNeutral(false);
           this->moveGroup->setStartStateToCurrentState();
           this->interface.setStaticObjects();
 
@@ -661,18 +668,21 @@ public:
       return;
     }
     poseMutex.lock();
-    checkObjectPoses();
-    //std::string objectName = getNameFromUser();
-
     std::string objectName = command;
-    command = "";
-
-    geometry_msgs::PoseStamped objectPose = this->objectPoses[objectName];
-    assert(objectPose.pose.orientation.x !=0 && objectPose.pose.orientation.y != 0 &&
-           objectPose.pose.orientation.z != 0 && objectPose.pose.orientation.w != 0);
-    checkObjectPoses();
+    if ( objectPoses.find(objectName) == objectPoses.end() ) {
+      ROS_WARN_STREAM("Could not find object " << objectName);
+      ROS_WARN("Objects: " );
+      PoseMap::iterator it, endIt;
+      for (it = objectPoses.begin(), endIt = objectPoses.end(); it != endIt; it++) {
+        ROS_WARN_STREAM("object: " << it->first);
+      }
+    } else {
+      geometry_msgs::PoseStamped objectPose = this->objectPoses[objectName];
+      assert(objectPose.pose.orientation.x !=0 && objectPose.pose.orientation.y != 0 &&
+             objectPose.pose.orientation.z != 0 && objectPose.pose.orientation.w != 0);
+      deliver(objectName, objectPose);
+    }
     poseMutex.unlock();
-    deliver(objectName, objectPose);
   }
   void checkObjectPoses() {
     PoseMap::iterator it, endIt;
@@ -741,9 +751,7 @@ public:
 	{
           std::string objectName = this->currentPickObject;
           poseMutex.lock();
-          checkObjectPoses();
           geometry_msgs::PoseStamped objectPose = this->objectPoses[objectName];            
-          checkObjectPoses();
           poseMutex.unlock();
           this->pickingAndPlacingThread = 
             new boost::thread(boost::bind(&WarehousePickPlace::pickAndPlace, this));
@@ -785,18 +793,8 @@ public:
             moveToNeutral(true);
             first = false;
           }
-          for (int i = 0; i < msg->objects.size(); i++) {
-            geometry_msgs::PoseStamped pose = getPoseStampedFromPoseWithCovariance(msg->objects[i].pose);
-            if (pose.pose.position.x == 0 && pose.pose.position.y == 0 &&
-                pose.pose.position.z == 0) {
-                ROS_ERROR("Null object detection.");
-                return;
-              }
-          }
-                
           //ROS_INFO_STREAM("Detected " << msg->objects.size() << " objects.");
           poseMutex.lock();
-          checkObjectPoses();
           objectPoses.clear();	
           for (int i = 0; i < msg->objects.size(); i++)
             {
@@ -805,7 +803,6 @@ public:
               assert(pose.pose.orientation.x !=0 && pose.pose.orientation.y != 0 &&
                      pose.pose.orientation.z != 0 && pose.pose.orientation.w != 0);
             }
-          checkObjectPoses();
           poseMutex.unlock();
           
           //ROS_INFO_STREAM(msg);
