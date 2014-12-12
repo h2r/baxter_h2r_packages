@@ -123,7 +123,7 @@ public:
 
     //moveGroup->setSupportSurfaceName("table");
     //moveGroup->setWorkspace(0.0, -0.2, -0.30, 0.9, 1.0, 2.0);
-    //moveGroup->setPlannerId("RRTConnectkConfigDefault");
+    moveGroup->setPlannerId("RRTConnectkConfigDefault");
     //moveGroup->setPlannerId("RRTStarkConfigDefault");
     moveGroup->allowReplanning(false);
     moveGroup->setPlanningTime(10.0);
@@ -515,13 +515,15 @@ public:
             ROS_ERROR("Couldn't move to pregrasp.");
             return false;
           }
-
+          
+          ROS_INFO("Done moving to pregrasp.");
           //moveGroup->setStartStateToCurrentState();
           //this->moveGroup->move();
 
           this->interface.removeAllObjects();
+          ROS_INFO("Spinning");
           ros::spinOnce();
-          
+          ROS_INFO("Done spinning");
           moveGroup->setStartStateToCurrentState();
           result = moveGroup->setPoseTarget(grasps[1].grasp_pose);
           if (! result) {
@@ -676,13 +678,15 @@ public:
       for (it = objectPoses.begin(), endIt = objectPoses.end(); it != endIt; it++) {
         ROS_WARN_STREAM("object: " << it->first);
       }
+      poseMutex.unlock();
     } else {
       geometry_msgs::PoseStamped objectPose = this->objectPoses[objectName];
       assert(objectPose.pose.orientation.x !=0 && objectPose.pose.orientation.y != 0 &&
              objectPose.pose.orientation.z != 0 && objectPose.pose.orientation.w != 0);
+      poseMutex.unlock();
       deliver(objectName, objectPose);
     }
-    poseMutex.unlock();
+
   }
   void checkObjectPoses() {
     PoseMap::iterator it, endIt;
@@ -765,14 +769,16 @@ public:
 		PoseMap::iterator findIt = objectPoses.find(objectName);
 		if (findIt == objectPoses.end() && ros::Time::now() - this->clearSceneStart < WAIT_FOR_OBJECT_TO_APPEAR)
 		{
-			return false;
+                  poseMutex.unlock();
+                  return false;
 		}
 		if (findIt != objectPoses.end()) 
 		{
-			ROS_INFO("Found object, stopping execution");
-			this->moveGroup->stop();
-			this->clearingScene = false;
-			return true;
+                  ROS_INFO("Found object, stopping execution");
+                  this->moveGroup->stop();
+                  this->clearingScene = false;
+                  poseMutex.unlock();
+                  return true;
 		}
                 checkObjectPoses();
                 poseMutex.unlock();
