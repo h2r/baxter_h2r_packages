@@ -84,6 +84,9 @@ public:
   bool first;
   
   move_group_interface::MoveGroup *moveGroup;
+
+  std::vector<geometry_msgs::PoseStamped> placePoses;
+  int placeIdx;
   
   tf::TransformListener tranformer;
   
@@ -97,6 +100,7 @@ public:
     this->clearingScene = false;
     this->isGripperOpen = false;
     this->sleep_time = 0.25;
+    this->isMovingToNeutral = false;
     neutralJoints["left_e0"] = 0.22;
     neutralJoints["left_e1"] = 1.97;
     neutralJoints["left_s0"] = 1.64;
@@ -114,12 +118,15 @@ public:
     ROS_INFO("Planning Frame: %s", moveGroup->getPlanningFrame().c_str());
     ROS_INFO("End Effector Link: %s", moveGroup->getEndEffectorLink().c_str());
     ROS_INFO("End Effector: %s", moveGroup->getEndEffector().c_str());
+    moveGroup->setGoalJointTolerance(0.01);
+    ROS_INFO_STREAM("Joint tolerance: " << moveGroup->getGoalJointTolerance());
     
     markersPub = nh.advertise<visualization_msgs::Marker>("/grasp_markers", 1000);
     leftGripperPub = nh.advertise<baxter_core_msgs::EndEffectorCommand>("/robot/end_effector/left_gripper/command",10);
     graspClient = nh.serviceClient<baxter_grasps_server::GraspService>("/grasp_service");
     statusPublisher = nh.advertise<std_msgs::String>("/pick_place_status", 1000);
-    
+    placePoses = getPlacePoses();
+    placeIdx = 0;
 
     //moveGroup->setSupportSurfaceName("table");
     //moveGroup->setWorkspace(0.0, -0.2, -0.30, 0.9, 1.0, 2.0);
@@ -221,7 +228,7 @@ public:
     if (this->isInNeutral()) 
       {
         //ROS_INFO("is in neutral");
-              return;
+        return;
       }
     if (this->isMovingToNeutral) {
       return;
@@ -241,18 +248,18 @@ public:
     moveGroup->detachObject();
 
     ROS_INFO("Calling moveGroup->move in moveToNeutral.");
-    result = moveGroup->asyncMove();
+    result = moveGroup->move();
     if (! result) {
       ROS_ERROR("Couldn't move to neutral.");
     }
-    while (!isInNeutral()) {
+    /*    while (!isInNeutral()) {
       if (is_main) {
         ros::spinOnce();
       } else {
         ros::Duration(0.1).sleep();
       }
     }
-    moveGroup->stop();
+    moveGroup->stop();*/
     this->interface.removeAllObjects();
 
     ROS_INFO("Done move to neutral.");
@@ -569,19 +576,7 @@ public:
           this->interface.setStaticObjects();
 
 
-          geometry_msgs::Point placePoint;
-          placePoint.x = 0.6;
-          placePoint.y = 0.5;
-          placePoint.z = -0.06;
-          geometry_msgs::Quaternion orientation;
-          orientation.x = 0.0;
-          orientation.y = 1.0;
-          orientation.z = 0.0;
-          orientation.w = 0.0;
-          geometry_msgs::PoseStamped placePose;
-          placePose.header.frame_id = "base";
-          placePose.pose.position = placePoint;
-          placePose.pose.orientation = orientation;
+
 
 
           JointMap placeJoints;
@@ -601,6 +596,10 @@ public:
             ROS_ERROR("Couldn't move to place.");
           }
 
+          geometry_msgs::PoseStamped placePose  = placePoses[placeIdx];
+          placeIdx = (placeIdx + 1) % placePoses.size();
+          ROS_INFO_STREAM("placeIdx: " << placeIdx);
+
 
           this->moveGroup->setStartStateToCurrentState();
           result = moveGroup->setPoseTarget(placePose);
@@ -611,6 +610,18 @@ public:
 
           moveGroup->clearPathConstraints();
           this->openGripper();
+
+          geometry_msgs::PoseStamped uppose = placePose;
+          uppose.pose.position.z += 0.3;
+          moveGroup->setStartStateToCurrentState();
+          result = moveGroup->setPoseTarget(uppose);
+          if (! result) {
+            ROS_ERROR("Couldn't set pose to up.");
+          }
+          result = moveGroup->move();
+          if (! result) {
+            ROS_ERROR("Couldn't move.");
+          }
           
           ROS_INFO("Allowing scene to repopulate");
           this->interface.clearFrozenObjects();
@@ -671,6 +682,7 @@ public:
     }
     poseMutex.lock();
     std::string objectName = command;
+    command = "";
     if ( objectPoses.find(objectName) == objectPoses.end() ) {
       ROS_WARN_STREAM("Could not find object " << objectName);
       ROS_WARN("Objects: " );
@@ -685,6 +697,7 @@ public:
              objectPose.pose.orientation.z != 0 && objectPose.pose.orientation.w != 0);
       poseMutex.unlock();
       deliver(objectName, objectPose);
+
     }
 
   }
@@ -900,6 +913,28 @@ public:
         marker.id = i;
         markersPub.publish(marker);
       }
+  }
+
+  std::vector<geometry_msgs::PoseStamped> getPlacePoses() {
+    std::vector<geometry_msgs::PoseStamped> result; 
+
+    for (int i = 0; i < 4; i++) {
+      geometry_msgs::Point placePoint;
+      placePoint.x = 0.77;
+      placePoint.y = 0.08 + i * 0.3;
+      placePoint.z = -0.06;
+      geometry_msgs::Quaternion orientation;
+      orientation.x = 0.0;
+      orientation.y = 1.0;
+      orientation.z = 0.0;
+      orientation.w = 0.0;
+      geometry_msgs::PoseStamped placePose;
+      placePose.header.frame_id = "base";
+      placePose.pose.position = placePoint;
+      placePose.pose.orientation = orientation;
+      result.push_back(placePose);
+    }
+    return result;
   }
 };
 

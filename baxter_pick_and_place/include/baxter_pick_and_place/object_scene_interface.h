@@ -72,14 +72,14 @@ private:
 
 		//ROS_INFO("tripod");
 		
-		geometry_msgs::PoseStamped tripodPose;
-		tripodPose.header.frame_id = "/world";
-		tripodPose.pose.position.x = 0.95;
-		tripodPose.pose.position.y = 0.0;
-		tripodPose.pose.position.z = 0.0;
-		tripodPose.pose.orientation.w = 1.0;
-		moveit_msgs::CollisionObject tripod = this->createCollisionObject(tripodPose.pose, "tripod", tripodPose.header, 0.15, 2.0, 1.0);
-		collisionObjects.push_back(tripod);
+		//geometry_msgs::PoseStamped tripodPose;
+		//tripodPose.header.frame_id = "/world";
+		//tripodPose.pose.position.x = 0.95;
+		//tripodPose.pose.position.y = 0.0;
+		//tripodPose.pose.position.z = 0.0;
+		//tripodPose.pose.orientation.w = 1.0;
+		//moveit_msgs::CollisionObject tripod = this->createCollisionObject(tripodPose.pose, "tripod", tripodPose.header, 0.15, 2.0, 1.0);
+		//collisionObjects.push_back(tripod);
 
 		//ROS_INFO("sink");
 		/*
