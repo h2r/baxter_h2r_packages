@@ -542,6 +542,7 @@ public:
             ROS_ERROR("Couldn't move to grasp");
             return false;
           }
+          ros::Duration(sleep_time).sleep();
           ROS_INFO("Closing gripper");
           this->closeGripper();
           
@@ -921,7 +922,7 @@ public:
     for (int i = 0; i < 4; i++) {
       geometry_msgs::Point placePoint;
       placePoint.x = 0.77;
-      placePoint.y = 0.08 + i * 0.3;
+      placePoint.y = 0.08 + i * 0.15;
       placePoint.z = -0.06;
       geometry_msgs::Quaternion orientation;
       orientation.x = 0.0;
@@ -943,7 +944,7 @@ int main(int argc, char**argv)
 {
   ros::init(argc, argv, "baxter_action_server");
   WarehousePickPlace pickPlace;
-  pickPlace.initializeGripper();
+  //pickPlace.initializeGripper();
   ros::spin();
   return 0;	
 }
