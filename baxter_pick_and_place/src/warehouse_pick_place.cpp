@@ -162,6 +162,7 @@ public:
           command.sequence = gripperSeq++;
           leftGripperPub.publish(command);
           ros::Duration(sleep_time).sleep();
+          ros::Duration(sleep_time).sleep();
           
           ROS_INFO("Done opening");
           return true;
