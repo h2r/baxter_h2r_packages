@@ -69,7 +69,6 @@ public:
   
   PoseMap objectPoses;
   JointMap jointLookup;
-  std::string currentPickObject;
   bool isMovingToNeutral;
   bool isPicking;
   bool isPlacing;
@@ -118,7 +117,7 @@ public:
     ROS_INFO("Planning Frame: %s", moveGroup->getPlanningFrame().c_str());
     ROS_INFO("End Effector Link: %s", moveGroup->getEndEffectorLink().c_str());
     ROS_INFO("End Effector: %s", moveGroup->getEndEffector().c_str());
-    moveGroup->setGoalJointTolerance(0.01);
+    moveGroup->setGoalJointTolerance(0.1);
     ROS_INFO_STREAM("Joint tolerance: " << moveGroup->getGoalJointTolerance());
     
     markersPub = nh.advertise<visualization_msgs::Marker>("/grasp_markers", 1000);
@@ -151,57 +150,21 @@ public:
     
   }
   
-  bool openGripper()
-	{
-          ROS_INFO("Opening left arm gripper");
-
-          baxter_core_msgs::EndEffectorCommand command;
-          command.command = baxter_core_msgs::EndEffectorCommand::CMD_GO;
-          command.args = "{\"position\": 100.0}";
-          command.id = 65538;
-          command.sequence = gripperSeq++;
-          leftGripperPub.publish(command);
-          ros::Duration(sleep_time).sleep();
-          ros::Duration(sleep_time).sleep();
-          
-          ROS_INFO("Done opening");
-          return true;
-	}
-  bool initializeGripper()
-  {
-    ROS_INFO("Initializing gripper");
-    
+  bool openGripper() {
+    ROS_INFO("Opening left arm gripper");
     baxter_core_msgs::EndEffectorCommand command;
-    command.command = baxter_core_msgs::EndEffectorCommand::CMD_CONFIGURE;
-    command.args = "{\"holding_force\": 30.0, \"velocity\": 50.0, \"dead_zone\": 5.0, \"moving_force\": 40.0}";
+    command.command = baxter_core_msgs::EndEffectorCommand::CMD_GO;
+    command.args = "{\"position\": 100.0}";
     command.id = 65538;
-    command.sender = "marker_pick_place";
     command.sequence = gripperSeq++;
     leftGripperPub.publish(command);
-    ROS_INFO("Done initializing gripper.");
+    leftGripperPub.publish(command);
+    ros::Duration(0.75).sleep();
     
-    command.args = "";
-    command.command = baxter_core_msgs::EndEffectorCommand::CMD_CALIBRATE;
-    command.id = 65538;
-    command.sender = "warehouse_pick_place";
-    command.sequence = gripperSeq++;    
-    for (int i = 0; i < 50; i++) {
-      leftGripperPub.publish(command);
-      ros::spinOnce();
-    }
-    
-// id: 65538
-// command: calibrate
-// args: ''
-// sender: /rsdk_gripper_keyboard_calibrate
-// sequence: 2
-
-
-          return true;
-
+    ROS_INFO("Done opening");
+    return true;
   }
 
-  
   bool closeGripper()
   {
     ROS_INFO("Closing left arm gripper");
@@ -592,7 +555,7 @@ public:
           if (! result) {
             ROS_ERROR_STREAM("Couldn't set pose to place.");
           }
-          ROS_INFO("Moving to place.");
+          ROS_INFO("Moving to place with joints.");
           result = this->moveGroup->move();
           if (! result) {
             ROS_ERROR("Couldn't move to place.");
@@ -605,12 +568,14 @@ public:
 
           this->moveGroup->setStartStateToCurrentState();
           result = moveGroup->setPoseTarget(placePose);
+          ROS_INFO("Moving to place.");
           result = this->moveGroup->move();
           if (! result) {
             ROS_ERROR("Couldn't move to place.");
           }
 
           moveGroup->clearPathConstraints();
+          ROS_INFO("Place opening gripper.");
           this->openGripper();
 
           geometry_msgs::PoseStamped uppose = placePose;
@@ -768,43 +733,9 @@ public:
 
 	void executeAction()
 	{
-          std::string objectName = this->currentPickObject;
-          poseMutex.lock();
-          geometry_msgs::PoseStamped objectPose = this->objectPoses[objectName];            
-          poseMutex.unlock();
+
           this->pickingAndPlacingThread = 
             new boost::thread(boost::bind(&WarehousePickPlace::pickAndPlace, this));
-	}
-
-	bool checkScene()
-	{
-		std::string objectName = this->currentPickObject;
-                poseMutex.lock();
-                checkObjectPoses();
-		PoseMap::iterator findIt = objectPoses.find(objectName);
-		if (findIt == objectPoses.end() && ros::Time::now() - this->clearSceneStart < WAIT_FOR_OBJECT_TO_APPEAR)
-		{
-                  poseMutex.unlock();
-                  return false;
-		}
-		if (findIt != objectPoses.end()) 
-		{
-                  ROS_INFO("Found object, stopping execution");
-                  this->moveGroup->stop();
-                  this->clearingScene = false;
-                  poseMutex.unlock();
-                  return true;
-		}
-                checkObjectPoses();
-                poseMutex.unlock();
-		if (ros::Time::now() - this->clearSceneStart < WAIT_FOR_OBJECT_TO_APPEAR)
-		{
-			ROS_INFO("Object not found. Abandoning hope");
-			this->moveGroup->stop();
-			this->clearingScene = false;
-			return false;
-		}
-
 	}
 
 	void markersCB(const object_recognition_msgs::RecognizedObjectArray::ConstPtr &msg)
@@ -812,6 +743,7 @@ public:
           if (first) {
             ROS_INFO("Calling moveToNeutral for the first time.");
             moveToNeutral(true);
+            openGripper();
             first = false;
           }
           //ROS_INFO_STREAM("Detected " << msg->objects.size() << " objects.");
@@ -832,21 +764,14 @@ public:
           
           //ROS_INFO_STREAM("markers cb: " << this->isMovingToNeutral);
           
-          if (msg->objects.size() == 0) 
-            {
-              if (!this->isPickingOrPlacing()) {
-                ROS_INFO("No objects detected");
-              }
-              moveToNeutral(true);
-              return;
-            } 
+          if (msg->objects.size() == 0 && !this->isPickingOrPlacing()) {
+            ROS_INFO("No objects detected");
+            moveToNeutral(true);
+          }
+          
           if (this->pickingAndPlacingThread == NULL || this->pickingAndPlacingThread->timed_join(boost::posix_time::milliseconds(1.0)))
             {
               ROS_INFO("Beginning new pick place thread");
-              int rand_index = rand() % msg->objects.size();
-              
-              std::string objectName = msg->objects[rand_index].type.key;
-              this->currentPickObject = objectName;
               this->executeAction();	
             }
 	}
@@ -945,7 +870,6 @@ int main(int argc, char**argv)
 {
   ros::init(argc, argv, "baxter_action_server");
   WarehousePickPlace pickPlace;
-  //pickPlace.initializeGripper();
   ros::spin();
   return 0;	
 }
