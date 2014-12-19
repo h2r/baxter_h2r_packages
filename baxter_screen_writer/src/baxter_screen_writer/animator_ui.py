@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'animator.ui'
 #
-# Created: Fri Dec 19 14:53:01 2014
+# Created: Fri Dec 19 15:08:24 2014
 #      by: PyQt4 UI code generator 4.10.4
 #
 # WARNING! All changes made in this file will be lost!
@@ -29,10 +29,18 @@ class Ui_MainWindow(object):
         MainWindow.resize(614, 600)
         self.centralwidget = QtGui.QWidget(MainWindow)
         self.centralwidget.setObjectName(_fromUtf8("centralwidget"))
+        self.gridLayout = QtGui.QGridLayout(self.centralwidget)
+        self.gridLayout.setObjectName(_fromUtf8("gridLayout"))
+        self.label = QtGui.QLabel(self.centralwidget)
+        self.label.setObjectName(_fromUtf8("label"))
+        self.gridLayout.addWidget(self.label, 0, 0, 1, 1)
         self.pictureSlider = QtGui.QSlider(self.centralwidget)
-        self.pictureSlider.setGeometry(QtCore.QRect(120, 290, 160, 29))
         self.pictureSlider.setOrientation(QtCore.Qt.Horizontal)
         self.pictureSlider.setObjectName(_fromUtf8("pictureSlider"))
+        self.gridLayout.addWidget(self.pictureSlider, 0, 1, 1, 1)
+        self.label_2 = QtGui.QLabel(self.centralwidget)
+        self.label_2.setObjectName(_fromUtf8("label_2"))
+        self.gridLayout.addWidget(self.label_2, 0, 2, 1, 1)
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtGui.QMenuBar(MainWindow)
         self.menubar.setGeometry(QtCore.QRect(0, 0, 614, 25))
@@ -46,5 +54,7 @@ class Ui_MainWindow(object):
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     def retranslateUi(self, MainWindow):
-        MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow", None))
+        MainWindow.setWindowTitle(_translate("MainWindow", "Face Animation", None))
+        self.label.setText(_translate("MainWindow", "Less Confused", None))
+        self.label_2.setText(_translate("MainWindow", "More Confused", None))
 

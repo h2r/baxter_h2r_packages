@@ -8,6 +8,7 @@ import glob
 import cv2
 import cv_bridge
 import rospy
+import rospkg
 from sensor_msgs.msg import Image
 
 class Animation:
@@ -17,7 +18,7 @@ class Animation:
         self.images = [cv2.imread(path) for path in self.fnames]
 
     def get_image(self, value):
-        idx = int(value / 100.0 * len(self.images))
+        idx = int((value / 100.0) * len(self.images))
         return self.images[idx]
 
 
@@ -28,8 +29,9 @@ class MainWindow(QMainWindow, animator_ui.Ui_MainWindow):
         self.connect(self.pictureSlider,
                      SIGNAL("valueChanged(int)"),
                      self.valueChanged) 
-
-        self.animation = Animation("data/avery_v1")
+        rospack = rospkg.RosPack()
+        path = rospack.get_path('baxter_screen_writer') + "/data/avery_v1"
+        self.animation = Animation(path)
 
         self.image_publisher = rospy.Publisher("/robot/xdisplay", Image)
         
