@@ -159,6 +159,9 @@ public:
     command.sequence = gripperSeq++;
     leftGripperPub.publish(command);
     leftGripperPub.publish(command);
+    ros::Duration(0.25).sleep();
+    leftGripperPub.publish(command);
+    leftGripperPub.publish(command);
     ros::Duration(0.75).sleep();
     
     ROS_INFO("Done opening");
@@ -644,6 +647,13 @@ public:
 
   void pickAndPlace() 
   {
+
+    if (first) {
+      ROS_INFO("Calling moveToNeutral for the first time.");
+      moveToNeutral(true);
+      openGripper();
+      first = false;
+    }
     if (command == "") {
       return;
     }
@@ -740,12 +750,7 @@ public:
 
 	void markersCB(const object_recognition_msgs::RecognizedObjectArray::ConstPtr &msg)
 	{
-          if (first) {
-            ROS_INFO("Calling moveToNeutral for the first time.");
-            moveToNeutral(true);
-            openGripper();
-            first = false;
-          }
+
           //ROS_INFO_STREAM("Detected " << msg->objects.size() << " objects.");
           poseMutex.lock();
           objectPoses.clear();	
