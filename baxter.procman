@@ -1,44 +1,48 @@
-group "Baxter SDK" {
-    cmd "1 - Enable Robot" {
-        exec = "rosrun baxter_tools  enable_robot.py  -e";
-        host = "localhost";
-    }
-    cmd "2 - Calibrate Grippers" {
-        exec = "bash -c \"echo -e 'cC\\003' | rosrun baxter_examples gripper_keyboard.py\"";
-        host = "localhost";
-    }
-    cmd "Robot Status" {
-        exec = "rosrun baxter_tools  enable_robot.py  -s";
-        host = "localhost";
-    }
-    cmd "Make Your Computer's Time the Same as Baxter with NTP" {
-        exec = "sudo ntpdate iorek";
-        host = "localhost";
-    }
-}
-
 group "Node" {
-    cmd "Node Publish" {
-        exec = "bash -c 'rosrun node publish_detections _data_directory:=\"$(rospack find node)/bowls_data\" _vocab_file:=\"vocab.yml\" _knn_file:=\"knn.yml\" _label_file:=\"labels.yml\" _left_or_right_arm:=\"center\" _gray_box_right:=\"70\" _gray_box_left:=\"50\" _gray_box_top:=\"30\" _gray_box_bot:='20'  center '";
+    cmd "ein" {
+        exec = "bash -c 'rosrun node ein _data_directory:=\"$(rospack find node)/ein_data\" _vocab_file:=\"vocab.yml\" _knn_file:=\"knn.yml\" _label_file:=\"labels.yml\" _left_or_right_arm:=\"right\"  center'";
         host = "localhost";
     }
     cmd "Train Bowls" {
         exec = "rosrun node train_classifier _data_directory:=\"$(rospack find node)/data\" _vocab_file:=\"vocab.yml\" _knn_file:=\"knn.yml\" _label_file:=\"labels.yml\" _class_labels:=\"green_bowl light_green_bowl pink_bowl yellow_bowl\" _class_pose_models:=\"B B B B\" _left_or_right_arm:=\"center\" center";
         host = "localhost";
     }
+    cmd "Node Publish" {
+        exec = "bash -c 'rosrun node publish_detections _data_directory:=\"$(rospack find node)/bowls_data\" _vocab_file:=\"vocab.yml\" _knn_file:=\"knn.yml\" _label_file:=\"labels.yml\" _left_or_right_arm:=\"center\" _gray_box_right:=\"70\" _gray_box_left:=\"50\" _gray_box_top:=\"30\" _gray_box_bot:='20'  center '";
+        host = "localhost";
+    }
+}
+
+group "Baxter SDK" {
+    cmd "2 - Calibrate Grippers" {
+        exec = "bash -c \"echo -e 'cC\\003' | rosrun baxter_examples gripper_keyboard.py\"";
+        host = "localhost";
+    }
+    cmd "Make Your Computer's Time the Same as Baxter with NTP" {
+        exec = "sudo ntpdate iorek";
+        host = "localhost";
+    }
+    cmd "Robot Status" {
+        exec = "rosrun baxter_tools  enable_robot.py  -s";
+        host = "localhost";
+    }
+    cmd "1 - Enable Robot" {
+        exec = "rosrun baxter_tools  enable_robot.py  -e";
+        host = "localhost";
+    }
 }
 
 group "Visualize" {
-    cmd "RViz with MoveIt" {
-        exec = "roslaunch baxter_moveit_config  moveit_rviz.launch  config:=true";
-        host = "localhost";
-    }
     cmd "TF Monitor" {
         exec = "rosrun tf tf_monitor";
         host = "localhost";
     }
     cmd "rviz" {
         exec = "rosrun rviz rviz";
+        host = "localhost";
+    }
+    cmd "RViz with MoveIt" {
+        exec = "roslaunch baxter_moveit_config  moveit_rviz.launch  config:=true";
         host = "localhost";
     }
 }
@@ -48,20 +52,8 @@ group "Kinect Calibration" {
         exec = " rosrun tf tf_echo /base /openni_link";
         host = "localhost";
     }
-    cmd "2c - Publish Transform (edit me)" {
-        exec = "rosrun tf static_transform_publisher 0.057, 0.979, 0.412 0.420, 0.442, -0.610, 0.506  /base /camera_link 10 ";
-        host = "localhost";
-    }
     cmd "2a - Calibrate Table Kinect" {
         exec = "roslaunch baxter_kinect_calibration table_kinect_calibrate.launch launch_kinect:=false";
-        host = "localhost";
-    }
-    cmd "1 - Set Up Left Arm" {
-        exec = "rosrun baxter_kinect_calibration setup_robot_left.sh";
-        host = "localhost";
-    }
-    cmd "2b - Show Transform" {
-        exec = " rosrun tf tf_echo /base /camera_link";
         host = "localhost";
     }
     cmd "3a - Calibrate Head Kinect" {
@@ -72,23 +64,35 @@ group "Kinect Calibration" {
         exec = "rosrun tf static_transform_publisher -0.016, 0.062, 0.801 0.004, 0.025, -0.013, 1.000  /base /openni_link 10 ";
         host = "localhost";
     }
+    cmd "1 - Set Up Left Arm" {
+        exec = "rosrun baxter_kinect_calibration setup_robot_left.sh";
+        host = "localhost";
+    }
+    cmd "2b - Show Transform" {
+        exec = " rosrun tf tf_echo /base /camera_link";
+        host = "localhost";
+    }
+    cmd "2c - Publish Transform (edit me)" {
+        exec = "rosrun tf static_transform_publisher 0.057, 0.979, 0.412 0.420, 0.442, -0.610, 0.506  /base /camera_link 10 ";
+        host = "localhost";
+    }
 }
 
 group "MoveIt!" {
-    cmd "Show Action Service that Moveit is Using" {
-        exec = "rostopic echo /robot/left_velocity_trajectory_controller/follow_joint_trajectory/goal";
+    cmd "1 - Joint Controllers (rethink)" {
+        exec = "rosrun baxter_interface joint_trajectory_action_server.py -m velocity";
         host = "localhost";
     }
     cmd "2 - move_group node" {
         exec = "roslaunch baxter_moveit_config demo.launch";
         host = "localhost";
     }
-    cmd "Show Low-level Joint Commands" {
-        exec = "rostopic echo /robot/limb/left/joint_command";
+    cmd "Show Action Service that Moveit is Using" {
+        exec = "rostopic echo /robot/left_velocity_trajectory_controller/follow_joint_trajectory/goal";
         host = "localhost";
     }
-    cmd "1 - Joint Controllers (rethink)" {
-        exec = "rosrun baxter_interface joint_trajectory_action_server.py -m velocity";
+    cmd "Show Low-level Joint Commands" {
+        exec = "rostopic echo /robot/limb/left/joint_command";
         host = "localhost";
     }
 }
@@ -105,12 +109,12 @@ group "Kinect" {
 }
 
 group "Grasping" {
-    cmd "Pick and Place Test" {
-        exec = "rosrun baxter_pick_and_place  marker_pick_place debug:=true";
-        host = "localhost";
-    }
     cmd "Object Identifier" {
         exec = "rosrun object_identifier  object_identifier.py";
+        host = "localhost";
+    }
+    cmd "Pick and Place Test" {
+        exec = "rosrun baxter_pick_and_place  marker_pick_place debug:=true";
         host = "localhost";
     }
     cmd "Annotator" {
