@@ -1,8 +1,4 @@
 group "Baxter SDK" {
-    cmd "2 - Calibrate Grippers" {
-        exec = "bash -c \"echo -e 'cC\\003' | rosrun baxter_examples gripper_keyboard.py\"";
-        host = "localhost";
-    }
     cmd "Make Your Computer's Time the Same as Baxter with NTP" {
         exec = "sudo ntpdate iorek";
         host = "localhost";
@@ -13,6 +9,10 @@ group "Baxter SDK" {
     }
     cmd "Robot Status" {
         exec = "rosrun baxter_tools  enable_robot.py  -s";
+        host = "localhost";
+    }
+    cmd "2 - Calibrate Grippers" {
+        exec = "bash -c \"echo -e 'cC\\003' | rosrun baxter_examples gripper_keyboard.py\"";
         host = "localhost";
     }
 }
@@ -52,20 +52,8 @@ group "Kinect Calibration" {
         exec = " rosrun tf tf_echo /base /openni_link";
         host = "localhost";
     }
-    cmd "3c - Publish Transform (edit me)" {
-        exec = "rosrun tf static_transform_publisher -0.016, 0.062, 0.801 0.004, 0.025, -0.013, 1.000  /base /openni_link 10 ";
-        host = "localhost";
-    }
-    cmd "1 - Set Up Left Arm" {
-        exec = "rosrun baxter_kinect_calibration setup_robot_left.sh";
-        host = "localhost";
-    }
     cmd "3a - Calibrate Head Kinect" {
         exec = " roslaunch baxter_kinect_calibration head_kinect_calibrate.launch ";
-        host = "localhost";
-    }
-    cmd "2c - Publish Transform (edit me)" {
-        exec = "rosrun tf static_transform_publisher 0.057, 0.979, 0.412 0.420, 0.442, -0.610, 0.506  /base /camera_link 10 ";
         host = "localhost";
     }
     cmd "2a - Calibrate Table Kinect" {
@@ -76,16 +64,28 @@ group "Kinect Calibration" {
         exec = " rosrun tf tf_echo /base /head_mount_kinect2_link";
         host = "localhost";
     }
+    cmd "4a - Calibrate Table Kinect2" {
+        exec = " roslaunch baxter_kinect_calibration table_kinect2_calibrate.launch ";
+        host = "localhost";
+    }
+    cmd "1 - Set Up Left Arm" {
+        exec = "rosrun baxter_kinect_calibration setup_robot_left.sh";
+        host = "localhost";
+    }
+    cmd "3c - Publish Transform (edit me)" {
+        exec = "rosrun tf static_transform_publisher -0.016, 0.062, 0.801 0.004, 0.025, -0.013, 1.000  /base /openni_link 10 ";
+        host = "localhost";
+    }
     cmd "4c - Publish Transform (edit me)" {
         exec = "rosrun tf static_transform_publisher -0.016, 0.062, 0.801 0.004, 0.025, -0.013, 1.000  /base /head_mount_kinect2_link 10 ";
         host = "localhost";
     }
-    cmd "2b - Show Transform" {
-        exec = " rosrun tf tf_echo /base /camera_link";
+    cmd "2c - Publish Transform (edit me)" {
+        exec = "rosrun tf static_transform_publisher 0.057, 0.979, 0.412 0.420, 0.442, -0.610, 0.506  /base /camera_link 10 ";
         host = "localhost";
     }
-    cmd "4a - Calibrate Table Kinect2" {
-        exec = " roslaunch baxter_kinect_calibration table_kinect2_calibrate.launch ";
+    cmd "2b - Show Transform" {
+        exec = " rosrun tf tf_echo /base /camera_link";
         host = "localhost";
     }
 }
@@ -110,35 +110,46 @@ group "MoveIt!" {
 }
 
 group "Kinect" {
-    cmd "openni" {
-        exec = "roslaunch openni_launch openni.launch depth_registration:=true";
-        host = "localhost";
-    }
     cmd "freenect" {
         exec = "roslaunch freenect_launch  freenect-registered-xyzrgb.launch";
+        host = "localhost";
+    }
+    cmd "openni" {
+        exec = "roslaunch openni_launch openni.launch depth_registration:=true";
         host = "localhost";
     }
 }
 
 group "Grasping" {
-    cmd "Pick and Place Test" {
-        exec = "rosrun baxter_pick_and_place  marker_pick_place debug:=true";
+    cmd "Annotator" {
+        exec = "rosrun baxter_grasps_server marker_grasp_annotator.py ";
         host = "localhost";
     }
-    cmd "Object Identifier" {
-        exec = "rosrun object_identifier  object_identifier.py";
+    cmd "Pick and Place Test" {
+        exec = "rosrun baxter_pick_and_place  marker_pick_place debug:=true";
         host = "localhost";
     }
     cmd "AR Tag Detector" {
         exec = " roslaunch baxter_kinect_calibration baxter_indiv.launch";
         host = "localhost";
     }
+    cmd "Object Identifier" {
+        exec = "rosrun object_identifier  object_identifier.py";
+        host = "localhost";
+    }
     cmd "Grasp Server" {
         exec = "roslaunch baxter_grasps_server server.launch ";
         host = "localhost";
     }
-    cmd "Annotator" {
-        exec = "rosrun baxter_grasps_server marker_grasp_annotator.py ";
+}
+
+group "Kinect2" {
+    cmd "Point Cloud" {
+        exec = "roslaunch kinect2_bridge point_cloud.launch";
+        host = "localhost";
+    }
+    cmd "Kinect2 Bridge" {
+        exec = "./kinect2.sh roslaunch kinect2_bridge kinect2_frames.launch  publish_frame:=true";
         host = "localhost";
     }
 }
