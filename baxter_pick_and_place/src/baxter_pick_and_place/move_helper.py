@@ -153,7 +153,7 @@ class MoveHelper:
 
 	@staticmethod
 	def set_grasps_at_pose(pose, grasps, transformer, object_frame_id = None):
-		when = transformer.getLatestCommonTime("world", "camera_link")
+		when = transformer.getLatestCommonTime("world", "head_mount_kinect2_link")
 		correctedGrasps = []
 		index = 0
 		pose.header.stamp = rospy.Time.now()

@@ -81,6 +81,7 @@ public:
   boost::thread *pickingAndPlacingThread;
   boost::mutex poseMutex;
   bool first;
+  std::string cameraLink;
   
   move_group_interface::MoveGroup *moveGroup;
 
@@ -110,7 +111,12 @@ public:
     
     
     
-    ros::NodeHandle nh;
+    
+    ros::NodeHandle nh("~");
+    cameraLink = "camera_link";
+    nh.getParam("camera_link", cameraLink);
+    ROS_INFO_STREAM("Camera link:" << cameraLink);
+    interface.setCameraLink(cameraLink);
     moveGroup = new move_group_interface::MoveGroup("left_arm");
     //moveGroup->setEndEffectorLink("left_gripper");
     //moveGroup->setEndEffector("left_gripper");
@@ -412,7 +418,7 @@ public:
 	{
 		ros::Time when;
 		std::string *error;
-		transformer.getLatestCommonTime("base", "camera_link", when, error);
+		transformer.getLatestCommonTime("base", cameraLink, when, error);
 		std::vector<moveit_msgs::Grasp> newGrasps;
 		for (int i = 0; i < grasps.size(); i++)
 		{

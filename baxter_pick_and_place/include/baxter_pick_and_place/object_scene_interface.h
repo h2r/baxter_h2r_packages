@@ -49,6 +49,7 @@ private:
 	std::map<std::string, geometry_msgs::PoseStamped> objectPoses;
 	std::map<std::string, ros::Time> lastTimeSeen;
 	tf::TransformListener transformer;
+        std::string cameraLink;
 	
 	geometry_msgs::PoseStamped getPoseStampedFromPoseWithCovariance(geometry_msgs::PoseWithCovarianceStamped pose)
 	{
@@ -63,7 +64,7 @@ private:
 	{
 		//ROS_INFO("Kinect");
 		geometry_msgs::PoseStamped kinectPose;
-		kinectPose.header.frame_id = "/camera_link";
+		kinectPose.header.frame_id = cameraLink;
 		kinectPose.pose.orientation.w = 1.0;
 		//ROS_INFO("Kinect");
 		moveit_msgs::CollisionObject kinect = this->createCollisionObject( kinectPose.pose, "kinect", kinectPose.header, 0.1, 0.3, 0.05);
@@ -466,6 +467,10 @@ public:
           std::vector<moveit_msgs::CollisionObject> collisionObjects;
           addStaticObjects(collisionObjects);
           scene.addCollisionObjects(collisionObjects);
+        }
+        void setCameraLink(std::string iCameraLink) 
+        {
+          cameraLink = iCameraLink;
         }
 
 };
