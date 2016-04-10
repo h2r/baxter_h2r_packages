@@ -10,6 +10,7 @@
 #include "ar_track_alvar/Shared.h"
 #include <cv_bridge/cv_bridge.h>
 #include <tf/transform_listener.h>
+#include <tf/transform_broadcaster.h>
 #include <tf/transform_datatypes.h>
 
 #include <sensor_msgs/PointCloud2.h>

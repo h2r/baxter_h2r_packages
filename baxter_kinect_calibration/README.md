@@ -14,12 +14,21 @@ catkin_make
 
 Usage
 ------------------------
-Setup the robot and arm camera
+First, verify that the left hand camera is open. 
+Check by running 
 ```
-$ cd ~/baxter_ws/
-$ ./baxter.sh
-$ rosrun baxter_kinect_calibration setup_robot_left.sh
+rosrun baxter_tools camera_control.py -l 
 ```
+If it is not on the list, you must close another camera so the left one shows through 
+
+```
+rosrun baxter_tools camera_control.py -c <camera name> 
+```
+And open the left one 
+```
+rosrun baxter_tools camera_control.py -o left_hand_camera -r 640x400
+```
+
 
 Print a copy of table8_9_10.png and place it on a table where the kinect can view it as well as the left arm camera. The markers in the printout should be approximately 44-45 mm wide.
 https://github.com/sniekum/ar_track_alvar/blob/groovy-devel/markers/table_8_9_10.png
