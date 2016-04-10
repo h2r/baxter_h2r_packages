@@ -33,25 +33,29 @@ rosrun baxter_tools camera_control.py -o left_hand_camera -r 640x400
 Print a copy of table8_9_10.png and place it on a table where the kinect can view it as well as the left arm camera. The markers in the printout should be approximately 44-45 mm wide.
 https://github.com/sniekum/ar_track_alvar/blob/groovy-devel/markers/table_8_9_10.png
 
+(there is a scaled version to work on the sunlab computers in the marker directory)
+
+Run the following command from the same computer that is running the openni stuff. 
+
 ```
 $ roslaunch baxter_kinect_calibration baxter_bundle_calibrate.launch
 ```
 
-While this is running, view the transform so you can make use of it.
+While this is running, view the transform so you can make use of it. 
 
 ```
-rosrun tf tf_echo /world /camera
+rosrun tf tf_echo /reference/base /openni_link
 ```
 
 You can now publish a static transform with the following command
 ```
-rosrun tf static_transform_publisher x y z qx qy qz qw /world /camera_link 10
+rosrun tf static_transform_publisher x y z qx qy qz qw /reference/base /openni_link 10
 ```
 
 You can now write a launch file with the following syntax
 ```
 <launch>
-    <node pkg="tf" type="static_transform_publisher" name="kinectTransformer" args="x y z qx qy qz qw /world /camera_link 10" />
+    <node pkg="tf" type="static_transform_publisher" name="kinectTransformer" args="x y z qx qy qz qw /reference/base /openni_link 10" />
 </launch>
 ```
 
