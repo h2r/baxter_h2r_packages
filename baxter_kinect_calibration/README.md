@@ -24,9 +24,9 @@ If it is not on the list, you must close another camera so the left one shows th
 ```
 rosrun baxter_tools camera_control.py -c <camera name> 
 ```
-And open the left one 
+And open the left one at max resolution
 ```
-rosrun baxter_tools camera_control.py -o left_hand_camera -r 640x400
+rosrun baxter_tools camera_control.py -o left_hand_camera -r 1280x800
 ```
 
 
