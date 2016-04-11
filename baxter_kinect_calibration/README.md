@@ -35,7 +35,7 @@ https://github.com/sniekum/ar_track_alvar/blob/groovy-devel/markers/table_8_9_10
 
 (there is a scaled version to work on the sunlab computers in the marker directory)
 
-Run the following command from the same computer that is running the openni stuff. 
+Run the following command. 
 
 ```
 $ roslaunch baxter_kinect_calibration baxter_bundle_calibrate.launch
@@ -49,13 +49,13 @@ rosrun tf tf_echo /reference/base /openni_link
 
 You can now publish a static transform with the following command
 ```
-rosrun tf static_transform_publisher x y z qx qy qz qw /reference/base /openni_link 10
+rosrun tf static_transform_publisher x y z qx qy qz qw /world /openni_link 10
 ```
 
 You can now write a launch file with the following syntax
 ```
 <launch>
-    <node pkg="tf" type="static_transform_publisher" name="kinectTransformer" args="x y z qx qy qz qw /reference/base /openni_link 10" />
+    <node pkg="tf" type="static_transform_publisher" name="kinectTransformer" args="x y z qx qy qz qw /world /openni_link 10" />
 </launch>
 ```
 
