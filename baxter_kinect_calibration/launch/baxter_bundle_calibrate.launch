@@ -1,12 +1,12 @@
 <launch>
         <arg name="output_file" default="kinectPublisher.launch" />
-	<arg name="marker_size" default="4.8" />
+	<arg name="marker_size" default="4.5" />
 	<arg name="max_new_marker_error" default="0.08" />
 	<arg name="max_track_error" default="0.2" />
 
-	<arg name="kinect_image_topic" default="/camera/depth_registered/points" />
-	<arg name="kinect_info_topic" default="/camera/depth_registered/camera_info" />		
-	<arg name="kinect_base_frame" default="/camera_link" />
+	<arg name="kinect_image_topic" default="/openni/depth_registered/points" />
+	<arg name="kinect_info_topic" default="/openni/depth_registered/camera_info" />		
+	<arg name="kinect_base_frame" default="/openni_link" />
 
 	<arg name="calibrated_image_topic" default="/cameras/left_hand_camera/image" />
 	<arg name="calibrated_info_topic" default="/cameras/left_hand_camera/camera_info" />		

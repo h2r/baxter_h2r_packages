@@ -11,6 +11,7 @@
 #include <cv_bridge/cv_bridge.h>
 #include <tf/transform_listener.h>
 #include <tf/transform_datatypes.h>
+#include <tf/transform_broadcaster.h>
 
 #include <sensor_msgs/PointCloud2.h>
 #include <pcl_conversions/pcl_conversions.h>
@@ -416,9 +417,15 @@ void getCapCallback (const sensor_msgs::ImageConstPtr & image_msg)
     ROS_ERROR ("Could not convert from '%s' to 'rgb8'.", image_msg->encoding.c_str ());
   }
 
+
   //Get the estimated pose of the main markers by using all the markers in each bundle
   IplImage ipl_image = cv_ptr_->image;
   GetMultiMarkerPoses(&ipl_image);
+
+  if(ipl_image.height != 800 || ipl_image.width != 1280) {
+    ROS_ERROR("Wrist camera image is incorrect size! Should be 1280x800. Shutting down.");
+    exit(1);
+  }
 
   //Draw the observed markers that are visible and note which bundles have at least 1 marker seen
   for(int i=0; i<n_bundles; i++)
